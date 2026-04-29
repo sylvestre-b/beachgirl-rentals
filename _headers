@@ -1,0 +1,13 @@
+# Security headers for all pages
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-XSS-Protection: 1; mode=block
+
+# Admin panel — extra headers
+/manage-listings-apm/*
+  X-Frame-Options: DENY
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store, no-cache, must-revalidate

@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Summer rental properties from Beach Girl Property Rentals. No booking fees — inquire directly at beachgirlpropertyrentals.com." />
+<title>Beach Girl Property Rentals — Summer Rentals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+<style>
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root {
+  --cream:       #f8f4ee;
+  --cream-dark:  #ede6d6;
+  --stone:       #c9bfa8;
+  --navy:        #19293d;
+  --navy-mid:    #213348;
+  --navy-light:  #2c4460;
+  --rust:        #b85c38;
+  --rust-light:  #d4724f;
+  --text:        #1e1e1e;
+  --text-mid:    #54504a;
+  --text-muted:  #8c8478;
+  --white:       #fffdf9;
+  --r:           3px;
+  --shadow-sm:   0 2px 8px rgba(25,41,61,0.07);
+  --shadow-md:   0 6px 24px rgba(25,41,61,0.12);
+  --shadow-lg:   0 16px 48px rgba(25,41,61,0.18);
+}
+
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+header {
+  background: var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--rust);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.logo-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.logo-tagline {
+  font-size: 0.62rem;
+  font-weight: 400;
+  color: var(--stone);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+nav a {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--stone);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--rust-light); }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero {
+  background: var(--navy-mid);
+  padding: 5rem 2rem 4.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle wave texture */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: var(--cream);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rust-light);
+  border: 1px solid rgba(180,92,56,0.5);
+  padding: 5px 16px;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+
+.hero-pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rust-light);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--rust-light);
+}
+
+.hero-sub {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--stone);
+  max-width: 420px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.hero-badges {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.55);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.badge::before {
+  content: '✓';
+  color: var(--rust-light);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════
+   LISTINGS SECTION
+═══════════════════════════════════════ */
+.listings-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 5rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--cream-dark);
+  padding-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.section-count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════
+   PROPERTY GRID
+═══════════════════════════════════════ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+/* Loading / empty states */
+.state-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.state-msg .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+/* ═══════════════════════════════════════
+   PROPERTY CARD
+═══════════════════════════════════════ */
+.card {
+  background: var(--white);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--cream-dark);
+  transition: box-shadow 0.3s, transform 0.3s;
+  animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+/* Photo */
+.card-photo {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  background: var(--navy-light);
+}
+
+.card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .card-photo img {
+  transform: scale(1.04);
+}
+
+.card-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+  font-size: 3.5rem;
+}
+
+.photo-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--rust);
+  color: var(--white);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+/* Body */
+.card-body {
+  padding: 1.4rem 1.5rem 1.25rem;
+}
+
+.card-type {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.3rem;
+}
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+
+.card-location {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-specs {
+  display: flex;
+  gap: 1.1rem;
+  margin-bottom: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.spec {
+  font-size: 0.78rem;
+  color: var(--text-mid);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-price {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 1rem;
+}
+
+.card-price span {
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: var(--text-muted);
+}
+
+/* Availability toggle */
+.toggle-btn {
+  width: 100%;
+  background: none;
+  border: 1.5px solid var(--cream-dark);
+  border-radius: var(--r);
+  padding: 0.55rem 1rem;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--navy-mid);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.03em;
+}
+
+.toggle-btn:hover {
+  background: var(--cream);
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+.toggle-btn.open {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+
+.chevron {
+  font-size: 0.6rem;
+  transition: transform 0.25s;
+}
+.toggle-btn.open .chevron { transform: rotate(180deg); }
+
+/* Availability panel */
+.avail-panel {
+  display: none;
+  background: var(--cream);
+  border: 1px solid var(--cream-dark);
+  border-radius: var(--r);
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.avail-panel.open { display: block; }
+
+.avail-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.65rem;
+}
+
+.weeks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+
+.week-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: var(--r);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  border: 1.5px solid transparent;
+  transition: all 0.15s;
+  cursor: default;
+  user-select: none;
+}
+
+.week-chip.available {
+  background: #eaf4ea;
+  color: #2d6a2d;
+  border-color: #c5e1c5;
+  cursor: pointer;
+}
+.week-chip.available:hover {
+  background: #d6ecd6;
+}
+.week-chip.booked {
+  background: #fdf0ee;
+  color: #a03a1e;
+  border-color: #f4cfc6;
+  opacity: 0.75;
+}
+.week-chip.selected {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+  cursor: pointer;
+}
+
+.chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.available .chip-dot  { background: #4caf50; }
+.booked .chip-dot    { background: #e57373; }
+.selected .chip-dot  { background: var(--rust-light); }
+
+.avail-hint {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 0.65rem;
+  font-style: italic;
+}
+
+/* Inquire button */
+.inquire-btn {
+  width: 100%;
+  background: var(--rust);
+  color: var(--white);
+  border: none;
+  border-radius: var(--r);
+  padding: 0.75rem;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.inquire-btn:hover { background: var(--rust-light); }
+.inquire-btn:active { transform: scale(0.99); }
+.inquire-btn:disabled {
+  background: var(--cream-dark);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(25,41,61,0.7);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(3px);
+}
+.overlay.open { display: flex; }
+
+.modal {
+  background: var(--white);
+  border-radius: var(--r);
+  max-width: 500px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalSlide 0.25s ease;
+  box-shadow: var(--shadow-lg);
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  background: var(--navy);
+  padding: 1.5rem 2rem 1.25rem;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: var(--white);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.2); }
+
+.modal-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rust-light);
+  margin-bottom: 0.3rem;
+}
+
+.modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.modal-body { padding: 1.75rem 2rem; }
+
+.inquiry-summary {
+  background: var(--cream);
+  border-left: 3px solid var(--rust);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.inquiry-summary strong { color: var(--navy); }
+
+/* Form */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.85rem;
+}
+.field.no-mb { margin-bottom: 0; }
+
+label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+input, textarea, select {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  padding: 0.6rem 0.8rem;
+  border: 1.5px solid var(--cream-dark);
+  border-radius: var(--r);
+  background: var(--white);
+  color: var(--text);
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--rust);
+  box-shadow: 0 0 0 3px rgba(184,92,56,0.1);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 85px;
+  line-height: 1.6;
+}
+
+.submit-btn {
+  width: 100%;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: var(--r);
+  padding: 0.85rem;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  transition: background 0.2s;
+}
+.submit-btn:hover { background: var(--navy-light); }
+
+.form-disclaimer {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 0.85rem;
+  line-height: 1.5;
+}
+
+/* Success */
+.success-view {
+  display: none;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+.success-view.show { display: block; }
+
+.success-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.success-view h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+}
+
+.success-view p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.45);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.8;
+}
+
+footer strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+
+.footer-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--rust);
+  margin: 1rem auto;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 640px) {
+  .header-inner { padding: 0 1.25rem; }
+  nav { display: none; }
+  .hero { padding: 3.5rem 1.25rem 3.5rem; }
+  .listings-section { padding: 2.5rem 1.25rem 3.5rem; }
+  .grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .modal-header { padding: 1.25rem 1.5rem 1rem; }
+  .modal-body { padding: 1.25rem 1.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .weeks-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     HEADER
+════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-name">Beach Girl Property Rentals</span>
+      <span class="logo-tagline">Summer Rentals · New England</span>
+    </div>
+    <nav>
+      <a href="#listings">Listings</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════════════════════
+     HERO
+════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-pill">Summer 2025 Now Open</div>
+  <h1>Your Summer Rental,<br /><em>Without the Fees</em></h1>
+  <p class="hero-sub">Handpicked properties, direct inquiry, no Airbnb markup. Browse what's available and reach out today.</p>
+  <div class="hero-badges">
+    <span class="badge">No booking fees</span>
+    <span class="badge">Direct with the owner</span>
+    <span class="badge">Weekly rentals</span>
+    <span class="badge">Vetted properties</span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     LISTINGS
+════════════════════════════════ -->
+<section class="listings-section" id="listings">
+  <div class="section-header">
+    <h2 class="section-title">Available Properties</h2>
+    <span class="section-count" id="listing-count">Loading…</span>
+  </div>
+  <div class="grid" id="grid">
+    <div class="state-msg">
+      <div class="icon">🏡</div>
+      <p>Loading listings…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     INQUIRY MODAL
+════════════════════════════════ -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-eyebrow">Send an Inquiry</div>
+      <div class="modal-title" id="modal-title">Property Name</div>
+    </div>
+
+    <div class="modal-body">
+      <!-- Form view -->
+      <div id="form-view">
+        <div class="inquiry-summary" id="inquiry-summary"></div>
+
+        <div class="form-row">
+          <div class="field no-mb">
+            <label for="f-first">First Name *</label>
+            <input type="text" id="f-first" placeholder="Jane" required />
+          </div>
+          <div class="field no-mb">
+            <label for="f-last">Last Name *</label>
+            <input type="text" id="f-last" placeholder="Smith" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-email">Email Address *</label>
+          <input type="email" id="f-email" placeholder="jane@example.com" required />
+        </div>
+
+        <div class="field">
+          <label for="f-phone">Phone Number</label>
+          <input type="tel" id="f-phone" placeholder="(555) 000-0000" />
+        </div>
+
+        <div class="field">
+          <label for="f-guests">Number of Guests</label>
+          <select id="f-guests">
+            <option value="">Select…</option>
+            <option>1–2</option>
+            <option>3–4</option>
+            <option>5–6</option>
+            <option>7–8</option>
+            <option>9+</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="f-message">Message / Questions</label>
+          <textarea id="f-message" placeholder="Tell us about your group or any questions you have…"></textarea>
+        </div>
+
+        <!-- Formspree action — replace YOUR_FORM_ID below -->
+        <button class="submit-btn" onclick="submitInquiry()">Send Inquiry →</button>
+        <p class="form-disclaimer">We'll respond within 24 hours. No fees, no commitments.</p>
+      </div>
+
+      <!-- Success view -->
+      <div class="success-view" id="success-view">
+        <div class="success-icon">🏡</div>
+        <h3>Inquiry Sent!</h3>
+        <p>Thank you — we'll be in touch within 24 hours to discuss availability and next steps. We look forward to hosting you this summer.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+<footer id="contact">
+  <div>
+    <strong>Beach Girl Property Rentals</strong>
+  </div>
+  <div class="footer-divider"></div>
+  <div>
+    Questions? Email <strong>rentals@beachgirlpropertyrentals.com</strong><br />
+    or call <strong>(555) 000-0000</strong>
+  </div>
+  <div style="margin-top:1.25rem; font-size:0.68rem;">
+    © 2025 Beach Girl Property Rentals · All rights reserved
+  </div>
+</footer>
+
+<!-- ════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════ -->
+<script>
+// ─── Netlify Identity redirect (for admin) ───────────────
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on('init', user => {
+    if (!user) {
+      window.netlifyIdentity.on('login', () => {
+        document.location.href = '/manage-listings-apm/';
+      });
+    }
+  });
+}
+
+// ─── STATE ───────────────────────────────────────────────
+let activeCard = null;       // currently open card index
+let selectedWeeks = {};      // { cardIndex: [week label, ...] }
+let modalProperty = null;    // property object for open modal
+
+// ─── LOAD LISTINGS ───────────────────────────────────────
+// Listings are markdown files created by Decap CMS in /_listings/
+// We fetch the listing index generated at build time.
+// For local dev / demo, falls back to DEMO_LISTINGS.
+async function loadListings() {
+  let properties = [];
+
+  try {
+    // Try to load the generated listing index
+    const res = await fetch('/listings-index.json');
+    if (res.ok) {
+      properties = await res.json();
+    } else {
+      throw new Error('No index found');
+    }
+  } catch {
+    // Fall back to demo data so the site looks great out of the box
+    properties = DEMO_LISTINGS;
+  }
+
+  renderGrid(properties.filter(p => p.active !== false));
+}
+
+// ─── DEMO DATA (shown until real listings are added) ─────
+const DEMO_LISTINGS = [
+  {
+    title: "The Harborview Cottage",
+    location: "Rockport, MA",
+    type: "Cottage",
+    bedrooms: 3,
+    bathrooms: 2,
+    guests: 6,
+    price: "$2,400",
+    photo: "",
+    description: "A charming shingled cottage steps from the harbor. Wrap-around porch, fully equipped kitchen, and a short walk to galleries and seafood on Bearskin Neck.",
+    weeks: [
+      { dates: "Jun 28 – Jul 5",  status: "Available" },
+      { dates: "Jul 5 – Jul 12",  status: "Booked" },
+      { dates: "Jul 12 – Jul 19", status: "Available" },
+      { dates: "Jul 19 – Jul 26", status: "Available" },
+      { dates: "Jul 26 – Aug 2",  status: "Booked" },
+      { dates: "Aug 2 – Aug 9",   status: "Available" },
+    ]
+  },
+  {
+    title: "Pinecrest Cape",
+    location: "Chatham, MA",
+    type: "Cape",
+    bedrooms: 4,
+    bathrooms: 2,
+    guests: 8,
+    price: "$3,100",
+    photo: "",
+    description: "Classic Cape Cod home with a large backyard, outdoor shower, and bikes included. One mile to the beach, five minutes to town center.",
+    weeks: [
+      { dates: "Jun 28 – Jul 5",  status: "Booked" },
+      { dates: "Jul 5 – Jul 12",  status: "Available" },
+      { dates: "Jul 12 – Jul 19", status: "Available" },
+      { dates: "Jul 19 – Jul 26", status: "Booked" },
+      { dates: "Jul 26 – Aug 2",  status: "Available" },
+      { dates: "Aug 2 – Aug 9",   status: "Available" },
+    ]
+  },
+  {
+    title: "Maple Street Ranch",
+    location: "Wells, ME",
+    type: "Ranch",
+    bedrooms: 2,
+    bathrooms: 1,
+    guests: 4,
+    price: "$1,650",
+    photo: "",
+    description: "A cozy, low-key ranch perfect for a couple or small family. Quiet neighborhood, screened porch, and a ten-minute drive to Wells Beach.",
+    weeks: [
+      { dates: "Jul 5 – Jul 12",  status: "Available" },
+      { dates: "Jul 12 – Jul 19", status: "Available" },
+      { dates: "Jul 19 – Jul 26", status: "Available" },
+      { dates: "Jul 26 – Aug 2",  status: "Available" },
+    ]
+  }
+];
+
+// ─── RENDER GRID ─────────────────────────────────────────
+function renderGrid(properties) {
+  const grid = document.getElementById('grid');
+  const count = document.getElementById('listing-count');
+
+  if (!properties.length) {
+    grid.innerHTML = `<div class="state-msg"><div class="icon">🔍</div><p>No listings available right now.<br/>Check back soon or contact us directly.</p></div>`;
+    count.textContent = '0 properties';
+    return;
+  }
+
+  count.textContent = `${properties.length} propert${properties.length === 1 ? 'y' : 'ies'}`;
+  grid.innerHTML = properties.map((p, i) => cardHTML(p, i)).join('');
+
+  // Stagger animation
+  grid.querySelectorAll('.card').forEach((card, i) => {
+    card.style.animationDelay = `${i * 0.07}s`;
+  });
+}
+
+// ─── CARD HTML ───────────────────────────────────────────
+function cardHTML(p, i) {
+  const photo = p.photo
+    ? `<img src="${p.photo}" alt="${p.title}" loading="lazy" />`
+    : `<div class="card-photo-placeholder">🏡</div>`;
+
+  const availCount = (p.weeks || []).filter(w => w.status === 'Available').length;
+  const badge = availCount > 0
+    ? `<div class="photo-badge">${availCount} week${availCount > 1 ? 's' : ''} open</div>`
+    : `<div class="photo-badge" style="background:#c0392b">Fully booked</div>`;
+
+  const weeksHTML = (p.weeks || []).map((w, wi) => {
+    const status = w.status === 'Booked' ? 'booked' : 'available';
+    const label  = w.status === 'Booked' ? 'Booked' : w.dates;
+    return `
+      <div class="week-chip ${status}" data-card="${i}" data-week="${wi}" data-dates="${w.dates}"
+           ${status === 'available' ? `onclick="toggleWeek(${i},${wi},this)"` : ''}>
+        <span class="chip-dot"></span>
+        <span>${label}</span>
+      </div>`;
+  }).join('');
+
+  return `
+  <div class="card" id="card-${i}">
+    <div class="card-photo">
+      ${photo}
+      ${badge}
+    </div>
+    <div class="card-body">
+      <div class="card-type">${p.type || 'Property'}</div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-location">📍 ${p.location}</div>
+      <div class="card-specs">
+        <span class="spec">🛏 ${p.bedrooms} bed</span>
+        <span class="spec">🚿 ${p.bathrooms} bath</span>
+        <span class="spec">👥 Up to ${p.guests} guests</span>
+      </div>
+      <div class="card-desc">${p.description}</div>
+      <div class="card-price">${p.price} <span>/ week</span></div>
+
+      <button class="toggle-btn" id="toggle-${i}" onclick="toggleAvail(${i})">
+        <span>View Availability</span>
+        <span class="chevron">▼</span>
+      </button>
+
+      <div class="avail-panel" id="avail-${i}">
+        <div class="avail-label">Select a week to inquire</div>
+        <div class="weeks-grid">${weeksHTML}</div>
+        <div class="avail-hint">Tap an available week to select it, then send an inquiry.</div>
+      </div>
+
+      <button class="inquire-btn" id="inquire-${i}"
+              onclick="openModal(${i})"
+              ${availCount === 0 ? 'disabled' : ''}>
+        ${availCount === 0 ? 'Fully Booked' : 'Send Inquiry'}
+      </button>
+    </div>
+  </div>`;
+}
+
+// ─── TOGGLE AVAILABILITY PANEL ───────────────────────────
+function toggleAvail(i) {
+  const panel  = document.getElementById(`avail-${i}`);
+  const toggle = document.getElementById(`toggle-${i}`);
+  const isOpen = panel.classList.contains('open');
+
+  // Close any other open panel
+  document.querySelectorAll('.avail-panel.open').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.toggle-btn.open').forEach(b => {
+    b.classList.remove('open');
+    b.querySelector('span').textContent = 'View Availability';
+  });
+
+  if (!isOpen) {
+    panel.classList.add('open');
+    toggle.classList.add('open');
+    toggle.querySelector('span').textContent = 'Hide Availability';
+  }
+}
+
+// ─── SELECT / DESELECT WEEKS ─────────────────────────────
+function toggleWeek(cardIdx, weekIdx, el) {
+  if (!selectedWeeks[cardIdx]) selectedWeeks[cardIdx] = [];
+
+  const dates = el.dataset.dates;
+  const sel   = selectedWeeks[cardIdx];
+  const pos   = sel.indexOf(dates);
+
+  if (pos === -1) {
+    sel.push(dates);
+    el.classList.remove('available');
+    el.classList.add('selected');
+  } else {
+    sel.splice(pos, 1);
+    el.classList.remove('selected');
+    el.classList.add('available');
+  }
+}
+
+// ─── OPEN MODAL ──────────────────────────────────────────
+// Find property by scanning rendered cards (works with demo + real data)
+let _allProperties = [];
+
+function openModal(i) {
+  const card = document.getElementById(`card-${i}`);
+  const title = card.querySelector('.card-title').textContent;
+  const location = card.querySelector('.card-location').textContent.replace('📍 ','');
+  const price = card.querySelector('.card-price').textContent.trim();
+  const sel = selectedWeeks[i] || [];
+
+  document.getElementById('modal-title').textContent = title;
+
+  const weekText = sel.length
+    ? `<strong>Selected weeks:</strong> ${sel.join(', ')}`
+    : '<em>No specific week selected yet — mention your preferred dates in the message below.</em>';
+
+  document.getElementById('inquiry-summary').innerHTML =
+    `<strong>${title}</strong> · ${location}<br />${price} / week<br />${weekText}`;
+
+  // Store for form submission
+  modalProperty = { title, location, price, weeks: sel };
+
+  document.getElementById('form-view').style.display = 'block';
+  document.getElementById('success-view').classList.remove('show');
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Clear form
+  ['f-first','f-last','f-email','f-phone','f-message'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('f-guests').value = '';
+}
+
+// ─── CLOSE MODAL ─────────────────────────────────────────
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('overlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ─── SUBMIT INQUIRY ──────────────────────────────────────
+// Wired to Formspree. Replace YOUR_FORM_ID with your actual Formspree form ID.
+const FORMSPREE_ID = 'YOUR_FORM_ID';
+
+async function submitInquiry() {
+  const first   = document.getElementById('f-first').value.trim();
+  const last    = document.getElementById('f-last').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const phone   = document.getElementById('f-phone').value.trim();
+  const guests  = document.getElementById('f-guests').value;
+  const message = document.getElementById('f-message').value.trim();
+
+  if (!first || !last || !email) {
+    alert('Please fill in your name and email address.');
+    return;
+  }
+
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  const body = {
+    name: `${first} ${last}`,
+    email,
+    phone,
+    guests,
+    property: modalProperty?.title,
+    location: modalProperty?.location,
+    weeks: modalProperty?.weeks?.join(', ') || 'Not specified',
+    message,
+    _subject: `Rental Inquiry: ${modalProperty?.title}`
+  };
+
+  try {
+    // If Formspree ID not set, just show success (demo mode)
+    if (FORMSPREE_ID === 'YOUR_FORM_ID') {
+      await new Promise(r => setTimeout(r, 900)); // simulate
+      showSuccess();
+      return;
+    }
+
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (res.ok) {
+      showSuccess();
+    } else {
+      throw new Error('Submission failed');
+    }
+  } catch {
+    alert('Something went wrong. Please try again or email us directly.');
+    btn.textContent = 'Send Inquiry →';
+    btn.disabled = false;
+  }
+}
+
+function showSuccess() {
+  document.getElementById('form-view').style.display = 'none';
+  document.getElementById('success-view').classList.add('show');
+}
+
+// ─── INIT ────────────────────────────────────────────────
+loadListings();
+</script>
+
+</body>
+</html>
