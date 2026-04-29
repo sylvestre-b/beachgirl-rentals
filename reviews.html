@@ -9,57 +9,103 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 <style>
-:root{--terracotta:#c8753a;--terra-light:#e09060;--terra-pale:#fdf0e6;--teal:#2e7d72;--teal-light:#4aaa9b;--teal-pale:#e0f5f2;--sand:#f5ead5;--sand-mid:#e8d5b0;--sand-dark:#c9b07a;--cream:#fdfaf4;--ink:#1c2528;--text:#2d3a3e;--text-mid:#4a5c62;--text-muted:#7a8e94;--white:#ffffff;--serif:'Playfair Display',Georgia,serif;--sans:'Lato',system-ui,sans-serif;--xs:.8125rem;--sm:.9375rem;--base:1.0625rem;--lg:1.1875rem;--xl:1.375rem;--2xl:1.75rem;--r:8px;--r-lg:16px;--sh-sm:0 2px 8px rgba(44,60,38,.08);--sh-md:0 6px 24px rgba(44,60,38,.13);--sh-lg:0 16px 56px rgba(44,60,38,.2);--ease:.24s cubic-bezier(.4,0,.2,1)}
+:root {
+  /* ── 60/30/10 palette — Beach Girl Property Rentals ── */
+  /* 10% ACCENT — all CTAs, buttons, active states, stars, badges */
+  --accent:        #c46a6a;
+  --accent-light:  #d98888;
+  --accent-pale:   #f7eaea;
+  /* 30% SECONDARY — cards, section backgrounds, filter bar surfaces */
+  --blush:         #ebc7c3;
+  --blush-mid:     #ddb0aa;
+  --blush-dark:    #c9938c;
+  /* Supporting coral — hover states, dividers, secondary accents */
+  --coral:         #e7a39a;
+  --coral-light:   #f0bdb8;
+  /* 60% DOMINANT — page backgrounds, large surfaces, hero card */
+  --sand:          #e9d8b4;
+  --sand-light:    #f4ece0;
+  --sand-pale:     #faf6ef;
+  /* Anchor — header, footer, structural dark elements */
+  --teal:          #6fa7ad;
+  --teal-dark:     #4d8a91;
+  --teal-pale:     #e8f4f5;
+  /* Text — dark teal family for cohesion */
+  --ink:           #1e3035;
+  --text:          #2a3f45;
+  --text-mid:      #4a6268;
+  --text-muted:    #7a9298;
+  --white:         #ffffff;
+  /* Type */
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'Lato', system-ui, sans-serif;
+  /* Type scale */
+  --xs:   0.8125rem;
+  --sm:   0.9375rem;
+  --base: 1.0625rem;
+  --lg:   1.1875rem;
+  --xl:   1.375rem;
+  --2xl:  1.75rem;
+  --3xl:  2.5rem;
+  --4xl:  3.5rem;
+  /* UI */
+  --r:    8px;
+  --r-lg: 16px;
+  --sh-sm: 0 2px 8px rgba(31,48,53,.07);
+  --sh-md: 0 6px 24px rgba(31,48,53,.12);
+  --sh-lg: 0 16px 56px rgba(31,48,53,.18);
+  --ease: .24s cubic-bezier(.4,0,.2,1);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:17px}
-body{font-family:var(--sans);font-size:var(--base);background:var(--cream);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);font-size:var(--base);background:var(--sand-pale);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer;font-family:inherit}
 
-.site-header{background:var(--ink);border-bottom:3px solid var(--terracotta);position:sticky;top:0;z-index:100}
+.site-header{background:var(--ink);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:100}
 .header-inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between}
 .logo-link{text-decoration:none}
 .logo-name{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--white)}
 .back-link{font-size:var(--sm);font-weight:700;color:rgba(255,255,255,.6);transition:color var(--ease)}
-.back-link:hover{color:var(--terra-light)}
+.back-link:hover{color:var(--accent-light)}
 
-.page-hero{background:var(--sand);padding:3.5rem 2rem;border-bottom:1px solid var(--sand-mid)}
+.page-hero{background:var(--blush);padding:3.5rem 2rem;border-bottom:1px solid var(--blush)}
 .page-hero-inner{max-width:1200px;margin:0 auto}
-.page-eyebrow{font-size:var(--xs);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--terracotta);margin-bottom:.5rem}
+.page-eyebrow{font-size:var(--xs);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
 .page-title{font-family:var(--serif);font-size:clamp(var(--2xl),4vw,3rem);font-weight:700;color:var(--ink);margin-bottom:.75rem}
-.page-title em{font-style:italic;color:var(--terracotta)}
+.page-title em{font-style:italic;color:var(--accent)}
 .page-desc{font-size:var(--base);color:var(--text-mid);max-width:560px;line-height:1.75}
 
 .reviews-page-body{max-width:1200px;margin:0 auto;padding:3rem 2rem 5rem;display:grid;grid-template-columns:1fr 360px;gap:3rem;align-items:start}
 
 /* Reviews grid */
 .reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
-.review-card{background:var(--white);border-radius:var(--r-lg);padding:1.6rem;border:1px solid var(--sand-mid);box-shadow:var(--sh-sm)}
+.review-card{background:var(--white);border-radius:var(--r-lg);padding:1.6rem;border:1px solid var(--blush);box-shadow:var(--sh-sm)}
 .review-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem}
-.review-stars{color:var(--terracotta);font-size:var(--lg);letter-spacing:1px}
+.review-stars{color:var(--accent);font-size:var(--lg);letter-spacing:1px}
 .review-date{font-size:var(--xs);color:var(--text-muted);font-weight:700;white-space:nowrap}
 .review-text{font-size:var(--sm);line-height:1.8;color:var(--text-mid);font-style:italic;margin-bottom:1rem}
 .review-author{font-size:var(--sm);font-weight:700;color:var(--ink)}
 .review-property{font-size:var(--xs);color:var(--text-muted);margin-top:2px}
 
 /* Submit sidebar */
-.submit-card{background:var(--white);border-radius:var(--r-lg);padding:1.75rem;border:1px solid var(--sand-mid);box-shadow:var(--sh-sm);position:sticky;top:80px}
+.submit-card{background:var(--white);border-radius:var(--r-lg);padding:1.75rem;border:1px solid var(--blush);box-shadow:var(--sh-sm);position:sticky;top:80px}
 .submit-card h2{font-family:var(--serif);font-size:var(--xl);font-weight:700;color:var(--ink);margin-bottom:.5rem}
 .submit-card p{font-size:var(--sm);color:var(--text-muted);margin-bottom:1.25rem;line-height:1.65}
 
 .field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.85rem}
 label{font-size:var(--xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid)}
-input,textarea,select{font-family:var(--sans);font-size:var(--sm);padding:.65rem .9rem;border:1.5px solid var(--sand-mid);border-radius:var(--r);background:var(--white);color:var(--text);outline:none;width:100%;transition:border-color var(--ease),box-shadow var(--ease)}
-input:focus,textarea:focus,select:focus{border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(200,117,58,.12)}
+input,textarea,select{font-family:var(--sans);font-size:var(--sm);padding:.65rem .9rem;border:1.5px solid var(--blush);border-radius:var(--r);background:var(--white);color:var(--text);outline:none;width:100%;transition:border-color var(--ease),box-shadow var(--ease)}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,117,58,.12)}
 textarea{resize:vertical;min-height:90px;line-height:1.6}
 .star-picker{display:flex;gap:4px;margin-top:4px}
-.star-btn{background:none;border:2px solid transparent;font-size:1.6rem;color:var(--sand-dark);cursor:pointer;padding:2px;transition:color .15s;border-radius:4px;line-height:1}
-.star-btn:hover,.star-btn.active{color:var(--terracotta)}
+.star-btn{background:none;border:2px solid transparent;font-size:1.6rem;color:var(--blush-mid);cursor:pointer;padding:2px;transition:color .15s;border-radius:4px;line-height:1}
+.star-btn:hover,.star-btn.active{color:var(--accent)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 .hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
-.btn-primary{width:100%;background:var(--terracotta);color:var(--white);border:none;border-radius:var(--r);padding:.85rem;font-family:var(--sans);font-size:var(--sm);font-weight:700;letter-spacing:.05em;transition:background var(--ease);cursor:pointer}
-.btn-primary:hover{background:var(--terra-light)}
+.btn-primary{width:100%;background:var(--accent);color:var(--white);border:none;border-radius:var(--r);padding:.85rem;font-family:var(--sans);font-size:var(--sm);font-weight:700;letter-spacing:.05em;transition:background var(--ease);cursor:pointer}
+.btn-primary:hover{background:var(--accent-light)}
 .form-note{font-size:var(--xs);color:var(--text-muted);text-align:center;margin-top:.75rem;line-height:1.5}
 
 .success-msg{display:none;text-align:center;padding:2rem 0}
@@ -69,7 +115,7 @@ textarea{resize:vertical;min-height:90px;line-height:1.6}
 
 .site-footer{background:var(--ink);padding:2rem;text-align:center;font-size:var(--xs);color:rgba(255,255,255,.4)}
 .site-footer a{color:rgba(255,255,255,.6);transition:color var(--ease)}
-.site-footer a:hover{color:var(--terra-light)}
+.site-footer a:hover{color:var(--accent-light)}
 
 @media(max-width:900px){.reviews-page-body{grid-template-columns:1fr;padding:2rem 1.25rem 4rem}.submit-card{position:static}}
 @media(max-width:640px){.header-inner{padding:0 1rem}.page-hero{padding:2.5rem 1.25rem}.reviews-grid{grid-template-columns:1fr}}

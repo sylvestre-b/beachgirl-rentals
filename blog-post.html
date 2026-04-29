@@ -8,7 +8,53 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
-:root{--teal:#0a6e7c;--teal-mid:#0d8a9e;--teal-light:#4eb8c8;--teal-pale:#d4f0f5;--sand:#f2e8d5;--sand-mid:#e8d9be;--shell:#d4826a;--ink:#1a2332;--text:#2c3e50;--text-mid:#5a6a7a;--text-muted:#8a9aaa;--white:#fffef9;--offwhite:#faf7f0;--r:4px;--r-lg:12px;--shadow-sm:0 1px 4px rgba(10,110,124,0.08);--transition:0.25s cubic-bezier(0.4,0,0.2,1);}
+:root {
+  /* ── 60/30/10 palette — Beach Girl Property Rentals ── */
+  /* 10% ACCENT — all CTAs, buttons, active states, stars, badges */
+  --accent:        #c46a6a;
+  --accent-light:  #d98888;
+  --accent-pale:   #f7eaea;
+  /* 30% SECONDARY — cards, section backgrounds, filter bar surfaces */
+  --blush:         #ebc7c3;
+  --blush-mid:     #ddb0aa;
+  --blush-dark:    #c9938c;
+  /* Supporting coral — hover states, dividers, secondary accents */
+  --coral:         #e7a39a;
+  --coral-light:   #f0bdb8;
+  /* 60% DOMINANT — page backgrounds, large surfaces, hero card */
+  --sand:          #e9d8b4;
+  --sand-light:    #f4ece0;
+  --sand-pale:     #faf6ef;
+  /* Anchor — header, footer, structural dark elements */
+  --teal:          #6fa7ad;
+  --teal-dark:     #4d8a91;
+  --teal-pale:     #e8f4f5;
+  /* Text — dark teal family for cohesion */
+  --ink:           #1e3035;
+  --text:          #2a3f45;
+  --text-mid:      #4a6268;
+  --text-muted:    #7a9298;
+  --white:         #ffffff;
+  /* Type */
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'Lato', system-ui, sans-serif;
+  /* Type scale */
+  --xs:   0.8125rem;
+  --sm:   0.9375rem;
+  --base: 1.0625rem;
+  --lg:   1.1875rem;
+  --xl:   1.375rem;
+  --2xl:  1.75rem;
+  --3xl:  2.5rem;
+  --4xl:  3.5rem;
+  /* UI */
+  --r:    8px;
+  --r-lg: 16px;
+  --sh-sm: 0 2px 8px rgba(31,48,53,.07);
+  --sh-md: 0 6px 24px rgba(31,48,53,.12);
+  --sh-lg: 0 16px 56px rgba(31,48,53,.18);
+  --ease: .24s cubic-bezier(.4,0,.2,1);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--offwhite);color:var(--text);-webkit-font-smoothing:antialiased;}
@@ -18,14 +64,14 @@ a{color:inherit;text-decoration:none;}
 .site-header{background:var(--ink);position:sticky;top:0;z-index:500;border-bottom:3px solid var(--teal-mid);}
 .header-inner{max-width:1400px;margin:0 auto;padding:0 1.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
 .logo-main{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:500;color:var(--white);}
-.logo-sub{font-size:0.58rem;color:var(--teal-light);letter-spacing:0.2em;text-transform:uppercase;}
+.logo-sub{font-size:0.58rem;color:var(--teal);letter-spacing:0.2em;text-transform:uppercase;}
 .back-link{font-size:0.78rem;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:6px;transition:color var(--transition);}
-.back-link:hover{color:var(--teal-light);}
+.back-link:hover{color:var(--teal);}
 
 .post-hero{background:var(--teal);min-height:280px;display:flex;align-items:flex-end;padding:2.5rem 1.5rem;position:relative;overflow:hidden;}
 .post-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--ink) 0%,var(--teal) 100%);opacity:0.9;}
 .post-hero-content{position:relative;z-index:1;max-width:760px;}
-.post-eyebrow{font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal-light);margin-bottom:0.5rem;}
+.post-eyebrow{font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.5rem;}
 .post-title{font-family:'Fraunces',serif;font-size:clamp(1.75rem,4vw,2.8rem);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:0.5rem;}
 .post-meta{font-size:0.78rem;color:rgba(255,255,255,0.55);}
 
@@ -39,7 +85,7 @@ a{color:inherit;text-decoration:none;}
 .post-body a{color:var(--teal);text-decoration:underline;}
 
 .post-sidebar{position:sticky;top:90px;}
-.sidebar-card{background:var(--white);border-radius:var(--r-lg);border:1px solid var(--sand-mid);padding:1.25rem;margin-bottom:1rem;}
+.sidebar-card{background:var(--white);border-radius:var(--r-lg);border:1px solid var(--blush);padding:1.25rem;margin-bottom:1rem;}
 .sidebar-title{font-size:0.68rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.85rem;}
 .sidebar-card a{display:block;font-size:0.82rem;color:var(--teal);margin-bottom:0.4rem;transition:opacity var(--transition);}
 .sidebar-card a:hover{opacity:0.7;}
