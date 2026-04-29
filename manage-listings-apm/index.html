@@ -10,19 +10,16 @@
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-    // Point CMS to the config file in this same folder
     window.CMS_MANUAL_INIT = true;
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       CMS.init({
         config: {
           load_config_file: false,
-          backend: {
-            name: 'git-gateway',
-            branch: 'main'
-          },
+          backend: { name: 'git-gateway', branch: 'main' },
           media_folder: 'photos',
           public_folder: '/photos',
           collections: [
+            // ── PROPERTIES ────────────────────────────────────
             {
               name: 'properties',
               label: 'Properties',
@@ -32,26 +29,79 @@
               delete: true,
               slug: '{{slug}}',
               fields: [
-                { label: 'Property Name', name: 'title', widget: 'string', hint: 'e.g. The Harborview Cottage' },
-                { label: 'Location', name: 'location', widget: 'string', hint: 'e.g. Rockport, MA' },
-                { label: 'Property Type', name: 'type', widget: 'select', options: ['Cottage', 'Cape', 'Ranch', 'Colonial', 'Condo', 'Apartment', 'Studio'], default: 'Cottage' },
+                { label: 'Property Name', name: 'title', widget: 'string', hint: 'e.g. Harborview Cottage' },
+                { label: 'Location', name: 'location', widget: 'string', hint: 'e.g. Old Orchard Beach, ME' },
+                { label: 'Property Type', name: 'type', widget: 'select', options: ['Cottage','Cape','Ranch','Colonial','Condo','Apartment','Studio'], default: 'Cottage' },
                 { label: 'Bedrooms', name: 'bedrooms', widget: 'number', min: 0, max: 10, default: 2 },
                 { label: 'Bathrooms', name: 'bathrooms', widget: 'number', min: 1, max: 8, value_type: 'float', step: 0.5, default: 1 },
                 { label: 'Max Guests', name: 'guests', widget: 'number', min: 1, max: 20, default: 4 },
                 { label: 'Price Per Week', name: 'price', widget: 'string', hint: 'e.g. $2,400' },
-                { label: 'Cover Photo', name: 'photo', widget: 'image' },
-                { label: 'Description', name: 'description', widget: 'text', hint: 'A short description renters will see on the listing tile.' },
+                { label: 'Cover Photo', name: 'photo', widget: 'image', required: false, hint: 'Upload a JPG or PNG. Landscape works best.' },
+                { label: 'Description', name: 'description', widget: 'text', hint: 'A few sentences guests will see on the listing.' },
+                {
+                  label: 'Tags',
+                  name: 'tags',
+                  widget: 'select',
+                  multiple: true,
+                  required: false,
+                  options: [
+                    { label: '🐾 Pet-Friendly', value: 'pet-friendly' },
+                    { label: '🌊 Waterfront', value: 'waterfront' },
+                    { label: '📅 Year-Round', value: 'year-round' },
+                  ],
+                  hint: 'Select all that apply.'
+                },
+                { label: 'Latitude', name: 'lat', widget: 'number', value_type: 'float', required: false, hint: 'e.g. 43.5176 — find at maps.google.com, right-click your property' },
+                { label: 'Longitude', name: 'lng', widget: 'number', value_type: 'float', required: false, hint: 'e.g. -70.3743' },
                 {
                   label: 'Weekly Availability',
                   name: 'weeks',
                   widget: 'list',
                   summary: '{{fields.dates}} — {{fields.status}}',
                   fields: [
-                    { label: 'Week Dates', name: 'dates', widget: 'string', hint: 'e.g. Jun 28 – Jul 5' },
-                    { label: 'Status', name: 'status', widget: 'select', options: ['Available', 'Booked'], default: 'Available' }
+                    { label: 'Week Dates', name: 'dates', widget: 'string', hint: 'e.g. Jul 4 – Jul 11' },
+                    { label: 'Status', name: 'status', widget: 'select', options: ['Available','Booked'], default: 'Available' }
                   ]
                 },
-                { label: 'Active Listing', name: 'active', widget: 'boolean', default: true, hint: 'Uncheck to hide this property without deleting it.' }
+                { label: 'Active (show on site)', name: 'active', widget: 'boolean', default: true, hint: 'Uncheck to hide without deleting.' }
+              ]
+            },
+
+            // ── REVIEWS (approved only show on site) ──────────
+            {
+              name: 'reviews',
+              label: 'Guest Reviews',
+              label_singular: 'Review',
+              folder: '_reviews',
+              create: true,
+              delete: true,
+              slug: '{{year}}-{{month}}-{{slug}}',
+              fields: [
+                { label: 'Property', name: 'property', widget: 'string', hint: 'Must match a property name exactly.' },
+                { label: 'Guest Name', name: 'author', widget: 'string', hint: 'e.g. Jane S.' },
+                { label: 'Rating (1–5)', name: 'rating', widget: 'number', min: 1, max: 5, default: 5 },
+                { label: 'Review Text', name: 'text', widget: 'text' },
+                { label: 'Stay Dates', name: 'date', widget: 'string', hint: 'e.g. July 2026' },
+                { label: 'Approved (show on site)', name: 'approved', widget: 'boolean', default: false, hint: 'Only check this after verifying the stay.' }
+              ]
+            },
+
+            // ── BLOG POSTS ─────────────────────────────────────
+            {
+              name: 'posts',
+              label: 'Blog / Local Guide',
+              label_singular: 'Post',
+              folder: '_posts',
+              create: true,
+              delete: true,
+              slug: '{{slug}}',
+              fields: [
+                { label: 'Title', name: 'title', widget: 'string' },
+                { label: 'Date', name: 'date', widget: 'string', hint: 'e.g. April 2026' },
+                { label: 'Cover Photo', name: 'photo', widget: 'image', required: false },
+                { label: 'Emoji (if no photo)', name: 'emoji', widget: 'string', required: false, default: '🏖️' },
+                { label: 'Excerpt', name: 'excerpt', widget: 'text', hint: 'Short teaser shown on the homepage.' },
+                { label: 'Body', name: 'body', widget: 'markdown', hint: 'Write your full post here. Use ## for headings.' }
               ]
             }
           ]
