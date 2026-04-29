@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Old Orchard Beach local guides — best beaches, where to eat, things to do, and more from Beach Girl Property Rentals." />
+<title>Local Guide — Beach Girl Property Rentals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<style>
+:root{--terracotta:#c8753a;--terra-light:#e09060;--terra-pale:#fdf0e6;--teal:#2e7d72;--teal-light:#4aaa9b;--teal-pale:#e0f5f2;--sand:#f5ead5;--sand-mid:#e8d5b0;--cream:#fdfaf4;--ink:#1c2528;--text:#2d3a3e;--text-mid:#4a5c62;--text-muted:#7a8e94;--white:#ffffff;--serif:'Playfair Display',Georgia,serif;--sans:'Lato',system-ui,sans-serif;--xs:.8125rem;--sm:.9375rem;--base:1.0625rem;--lg:1.1875rem;--xl:1.375rem;--2xl:1.75rem;--r:8px;--r-lg:16px;--sh-sm:0 2px 8px rgba(44,60,38,.08);--sh-md:0 6px 24px rgba(44,60,38,.13);--ease:.24s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:var(--sans);font-size:var(--base);background:var(--cream);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+
+.site-header{background:var(--ink);border-bottom:3px solid var(--terracotta);position:sticky;top:0;z-index:100}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between}
+.logo-name{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--white)}
+.back-link{font-size:var(--sm);font-weight:700;color:rgba(255,255,255,.6);transition:color var(--ease)}
+.back-link:hover{color:var(--terra-light)}
+
+.page-hero{background:var(--sand);padding:3.5rem 2rem;border-bottom:1px solid var(--sand-mid)}
+.page-hero-inner{max-width:1200px;margin:0 auto}
+.page-eyebrow{font-size:var(--xs);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--terracotta);margin-bottom:.5rem}
+.page-title{font-family:var(--serif);font-size:clamp(var(--2xl),4vw,3rem);font-weight:700;color:var(--ink);margin-bottom:.75rem}
+.page-title em{font-style:italic;color:var(--terracotta)}
+.page-desc{font-size:var(--base);color:var(--text-mid);max-width:560px;line-height:1.75}
+
+.blog-body{max-width:1200px;margin:0 auto;padding:3rem 2rem 5rem}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.75rem}
+
+.blog-card{background:var(--white);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--sand-mid);box-shadow:var(--sh-sm);transition:box-shadow var(--ease),transform var(--ease);cursor:pointer;display:flex;flex-direction:column}
+.blog-card:hover{box-shadow:var(--sh-md);transform:translateY(-3px)}
+.blog-card-img{height:200px;background:linear-gradient(135deg,var(--teal-pale),var(--sand));display:flex;align-items:center;justify-content:center;font-size:3rem;overflow:hidden;flex-shrink:0}
+.blog-card-img img{width:100%;height:100%;object-fit:cover}
+.blog-card-body{padding:1.4rem 1.5rem;flex:1;display:flex;flex-direction:column}
+.blog-card-date{font-size:var(--xs);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.4rem}
+.blog-card-title{font-family:var(--serif);font-size:var(--xl);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:.6rem}
+.blog-card-excerpt{font-size:var(--sm);color:var(--text-muted);line-height:1.7;flex:1}
+.blog-card-read{font-size:var(--sm);font-weight:700;color:var(--teal);margin-top:1rem}
+
+.site-footer{background:var(--ink);padding:2rem;text-align:center;font-size:var(--xs);color:rgba(255,255,255,.4)}
+.site-footer a{color:rgba(255,255,255,.6);transition:color var(--ease)}
+.site-footer a:hover{color:var(--terra-light)}
+
+@media(max-width:640px){.header-inner{padding:0 1rem}.page-hero{padding:2.5rem 1.25rem}.blog-body{padding:2rem 1.25rem 4rem}.blog-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/"><span class="logo-name">Beach Girl Property Rentals</span></a>
+    <a href="/" class="back-link">← Back to Rentals</a>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <p class="page-eyebrow">From the owner's perspective</p>
+    <h1 class="page-title">Your <em>Old Orchard Beach</em> insider guide</h1>
+    <p class="page-desc">We've spent summers here for years. These are the spots, the tips, and the hidden gems we actually tell our guests about.</p>
+  </div>
+</div>
+
+<div class="blog-body">
+  <div class="blog-grid" id="blog-grid">
+    <p style="color:var(--text-muted)">Loading guides…</p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <a href="/">← Back to Beach Girl Property Rentals</a>
+  &nbsp;·&nbsp; <a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a>
+  &nbsp;·&nbsp; <a href="tel:+12074507347">(207) 450-7347</a>
+</footer>
+
+<script>
+function esc(s){if(typeof s!=='string')return'';const d=document.createElement('div');d.appendChild(document.createTextNode(s));return d.innerHTML}
+
+const DEMO=[
+  {_slug:'best-beaches-oob',title:'The Best Beaches Around Old Orchard Beach',date:'March 2026',excerpt:"From the iconic main beach to quieter stretches in Scarborough — here's where locals actually go.",emoji:'🏖️'},
+  {_slug:'restaurants-oob',title:'Where to Eat in Old Orchard Beach',date:'February 2026',excerpt:'Lobster rolls, chowder, and a few hidden gems. Our favorite spots after years of summers here.',emoji:'🦞'},
+  {_slug:'things-to-do',title:'A Week in OOB: The Full Itinerary',date:'January 2026',excerpt:'Palace Playland, the Pier, day trips to Portland — everything you need for a packed and perfect week.',emoji:'🎡'},
+];
+
+async function init(){
+  const res=await fetch('/posts-index.json').catch(()=>null);
+  const posts=res&&res.ok?await res.json().catch(()=>[]):[];
+  const all=posts.length?posts:DEMO;
+  const grid=document.getElementById('blog-grid');
+  grid.innerHTML=all.map(p=>`
+    <article class="blog-card" tabindex="0" onclick="window.location.href='/blog/${esc(p._slug)}'" onkeydown="if(event.key==='Enter')window.location.href='/blog/${esc(p._slug)}'">
+      <div class="blog-card-img" aria-hidden="true">
+        ${p.photo?`<img src="${esc(p.photo)}" alt="" loading="lazy" />`:(p.emoji||'📝')}
+      </div>
+      <div class="blog-card-body">
+        <time class="blog-card-date">${esc(p.date||'')}</time>
+        <h2 class="blog-card-title">${esc(p.title)}</h2>
+        <p class="blog-card-excerpt">${esc(p.excerpt||'')}</p>
+        <span class="blog-card-read">Read guide →</span>
+      </div>
+    </article>`).join('');
+}
+init();
+</script>
+</body>
+</html>
