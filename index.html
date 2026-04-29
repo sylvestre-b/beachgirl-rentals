@@ -105,6 +105,7 @@ ul{list-style:none}
 /* ── FILTER BAR ─────────────────────────────── */
 .filter-bar{background:var(--sand-pale);border-bottom:1px solid var(--blush);padding:.8rem 2rem;position:sticky;top:62px;z-index:400;box-shadow:0 1px 8px rgba(44,60,38,.06);transition:opacity .3s,visibility .3s,transform .3s}
 .filter-bar.hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px)}
+.filter-bar.hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px)}
 .filter-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
 .filter-label{font-size:var(--xs);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-right:.3rem}
 .filter-btn{font-family:var(--sans);font-size:var(--sm);font-weight:700;padding:6px 18px;border-radius:100px;border:2px solid var(--blush);background:transparent;color:var(--text-mid);transition:all var(--ease);white-space:nowrap;cursor:pointer}
@@ -283,7 +284,7 @@ textarea{resize:vertical;min-height:85px;line-height:1.6}
 /* ── RESPONSIVE ─────────────────────────────── */
 @media(max-width:1024px){.listings-layout{grid-template-columns:1fr}.map-panel{display:none}.map-toggle-btn{display:flex}}
 @media(max-width:900px){.hero{height:auto;min-height:520px;align-items:flex-end;padding-bottom:2.5rem}.hero-card{margin:0 1.5rem 0;max-width:none}.header-nav a:not(.btn-inquire-header){display:none}}
-@media(max-width:640px){html{font-size:16px}.header-inner{padding:0 1rem}.hero{min-height:100svh;align-items:flex-end;padding-bottom:2rem}.hero-overlay{background:rgba(28,37,40,.6)}.hero-card{margin:0 1rem 0;max-width:none;padding:1.5rem 1.25rem;text-align:left;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.hero-h1{font-size:clamp(1.55rem,7vw,2.2rem);word-break:normal;hyphens:auto}.hero-sub{font-size:var(--lg);word-break:normal}.hero-desc{max-width:none;font-size:var(--sm)}.hero-props{justify-content:flex-start;font-size:.68rem}.hero-cta{padding:11px 22px;font-size:var(--sm)}.filter-bar{padding:.65rem 1rem}.listings-panel{padding:1rem}.listings-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr;gap:1.5rem}.footer-bottom{flex-direction:column;text-align:center}.modal-header{padding:1.25rem 1.5rem}.modal-body{padding:1.25rem 1.5rem}.review-card{flex:0 0 280px}}
+@media(max-width:640px){html{font-size:16px}.header-inner{padding:0 1rem}.hero{min-height:100svh;align-items:flex-end;padding-bottom:2rem}.hero-overlay{background:rgba(28,37,40,.6)}.hero-card{margin:0;width:calc(100% - 2rem);max-width:none;padding:1.5rem 1.25rem;text-align:left;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.hero-h1{font-size:clamp(1.35rem,6vw,2rem);word-break:break-word;overflow-wrap:break-word;hyphens:auto}.hero-sub{font-size:var(--lg);word-break:normal}.hero-desc{max-width:none;font-size:var(--sm)}.hero-props{justify-content:flex-start;font-size:.65rem;flex-wrap:wrap;white-space:normal;gap:.3rem}.hero-cta{padding:11px 22px;font-size:var(--sm)}.filter-bar{padding:.65rem 1rem}.listings-panel{padding:1rem}.listings-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr;gap:1.5rem}.footer-bottom{flex-direction:column;text-align:center}.modal-header{padding:1.25rem 1.5rem}.modal-body{padding:1.25rem 1.5rem}.review-card{flex:0 0 280px}}
 @media(max-width:1024px){.map-panel.mobile-open{display:block;position:fixed;inset:62px 0 0 0;z-index:450;height:calc(100vh - 62px)}}
 </style>
 </head>
@@ -557,7 +558,7 @@ const DEMO_REVIEWS=[
 ];
 const DEMO_POSTS=[
   {_slug:'best-beaches-oob',title:'The Best Beaches Around Old Orchard Beach',date:'March 2026',excerpt:"From the iconic main beach to quieter stretches in Scarborough — here's where locals actually go.",emoji:'🏖️'},
-  {_slug:'oob-lobster-rolls-ranked',title:'The Lobster Roll Situation in OOB',date:'April 2026',excerpt:'My completely honest rankings — what's worth your money and what to skip.',emoji:'🦞'},
+  {_slug:'oob-lobster-rolls-ranked',title:'The Lobster Roll Situation in OOB',date:'April 2026',excerpt:"My completely honest rankings — what's worth your money and what to skip.",emoji:'🦞'},
   {_slug:'shoulder-season-oob',title:'Why September at OOB Is Better Than July',date:'November 2025',excerpt:'I said what I said. The water is warmer, the crowds are gone, and the prices are lower.',emoji:'🍂'},
 ];
 
@@ -701,38 +702,6 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeModal('inquiry-overlay'); closeModal('review-overlay'); }
 });
 
-// Track which calendars have been initialized
-const calInstances = {};
-
-function toggleAvail(tog){
-  const id=tog.getAttribute('aria-controls');
-  const panel=document.getElementById(id);
-  const open=panel.classList.contains('open');
-  document.querySelectorAll('.avail-panel.open').forEach(p=>p.classList.remove('open'));
-  document.querySelectorAll('.avail-toggle[aria-expanded="true"]').forEach(t=>{t.setAttribute('aria-expanded','false');t.querySelector('span').textContent='Check availability'});
-  if(!open){
-    panel.classList.add('open');
-    tog.setAttribute('aria-expanded','true');
-    tog.querySelector('span').textContent='Hide availability';
-    // Initialize calendar if not yet done
-    const slug=id.replace('ap-','');
-    if(!calInstances[slug]){
-      const prop=allProperties.find(p=>p._slug===slug);
-      const calEl=document.getElementById('cal-'+slug);
-      if(prop&&calEl){
-        calInstances[slug]=BeachGirlCalendar.create({
-          container:calEl,
-          availability:prop.availability||[],
-          onSelect:(ci,co)=>{
-            selectedWeeks[slug]={checkIn:ci,checkOut:co};
-          }
-        });
-        calInstances[slug].render();
-      }
-    }
-  }
-}
-
 // Week selection handled by calendar widget
 
 
@@ -744,7 +713,7 @@ function initMap(){
   const mkIcon=color=>L.divIcon({className:'',html:`<div style="width:28px;height:28px;border-radius:50% 50% 50% 0;background:${color};border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,.28);transform:rotate(-45deg)"></div>`,iconSize:[28,28],iconAnchor:[14,28],popupAnchor:[0,-28]});
   allProperties.forEach(p=>{
     if(!p.lat||!p.lng)return;
-    const avail=(p.weeks||[]).some(w=>w.status==='Available');
+    const today=new Date();today.setHours(0,0,0,0);const avail=(p.availability||[]).some(d=>d.status==='available'&&new Date(d.date+'T00:00:00')>=today);
     const el=document.createElement('div');el.className='map-popup';
     el.innerHTML=`<div class="map-popup-title">${esc(p.title)}</div><div class="map-popup-loc">📍 ${esc(p.location)}</div><div class="map-popup-price">${esc(p.price)}/week</div><button class="map-popup-btn">View property →</button>`;
     el.querySelector('.map-popup-btn').addEventListener('click',()=>window.location.href=`/property/${encodeURIComponent(p._slug)}`);
