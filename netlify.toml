@@ -1,0 +1,119 @@
+#!/usr/bin/env node
+// build.js — runs automatically on Netlify before deploying
+// Reads all markdown files in /_listings/ and outputs /listings-index.json
+// so the website can load them without a backend.
+
+const fs   = require('fs');
+const path = require('path');
+
+const LISTINGS_DIR = path.join(__dirname, '_listings');
+const OUTPUT_FILE  = path.join(__dirname, 'listings-index.json');
+
+// Simple front-matter parser (no dependencies needed)
+function parseFrontMatter(content) {
+  const match = content.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return {};
+
+  const yaml = match[1];
+  const result = {};
+
+  // Parse key: value pairs
+  const lines = yaml.split('\n');
+  let currentKey = null;
+  let listBuffer = null;
+  let listItemBuffer = null;
+
+  for (const line of lines) {
+    // List item object field (e.g. "  - dates: Jun 28")
+    const nestedField = line.match(/^    - (\w+): (.+)/);
+    if (nestedField && listBuffer !== null) {
+      if (!listItemBuffer) listItemBuffer = {};
+      listItemBuffer[nestedField[1]] = nestedField[2].trim();
+      continue;
+    }
+
+    // New list item (e.g. "  - dates: ...")  already handled above
+    // but simple "  - value" items
+    const listItem = line.match(/^  - (.+)/);
+    if (listItem && currentKey && !nestedField) {
+      // Flush any pending nested object
+      if (listItemBuffer) {
+        listBuffer.push(listItemBuffer);
+        listItemBuffer = null;
+      }
+      // Check if it's the start of an object item
+      const kv = listItem[1].match(/^(\w+): (.+)/);
+      if (kv) {
+        listItemBuffer = { [kv[1]]: kv[2].trim() };
+      } else {
+        if (listBuffer === null) listBuffer = [];
+        listBuffer.push(listItem[1].trim().replace(/^["']|["']$/g, ''));
+      }
+      continue;
+    }
+
+    // Flush pending list item buffer on new top-level key
+    if (listBuffer !== null && listItemBuffer) {
+      listBuffer.push(listItemBuffer);
+      listItemBuffer = null;
+    }
+
+    // Top-level key: value
+    const kv = line.match(/^(\w+): (.+)/);
+    if (kv) {
+      // Flush previous list
+      if (currentKey && listBuffer !== null) {
+        result[currentKey] = listBuffer;
+        listBuffer = null;
+      }
+      currentKey = kv[1];
+      const val = kv[2].trim().replace(/^["']|["']$/g, '');
+      // Coerce booleans and numbers
+      if (val === 'true')  { result[currentKey] = true;  currentKey = null; continue; }
+      if (val === 'false') { result[currentKey] = false; currentKey = null; continue; }
+      if (!isNaN(val) && val !== '') { result[currentKey] = Number(val); currentKey = null; continue; }
+      result[currentKey] = val;
+      currentKey = null;
+      continue;
+    }
+
+    // Key with no inline value (list follows)
+    const listKey = line.match(/^(\w+):$/);
+    if (listKey) {
+      if (currentKey && listBuffer !== null) {
+        result[currentKey] = listBuffer;
+        listBuffer = null;
+      }
+      currentKey = listKey[1];
+      listBuffer = [];
+    }
+  }
+
+  // Flush final list
+  if (currentKey && listBuffer !== null) {
+    if (listItemBuffer) listBuffer.push(listItemBuffer);
+    result[currentKey] = listBuffer;
+  }
+
+  return result;
+}
+
+// ── Main ──────────────────────────────────────────────────
+if (!fs.existsSync(LISTINGS_DIR)) {
+  console.log('No _listings directory found — writing empty index.');
+  fs.writeFileSync(OUTPUT_FILE, '[]');
+  process.exit(0);
+}
+
+const files = fs.readdirSync(LISTINGS_DIR).filter(f => f.endsWith('.md'));
+
+const listings = files.map(file => {
+  const content = fs.readFileSync(path.join(LISTINGS_DIR, file), 'utf8');
+  return parseFrontMatter(content);
+}).filter(p => p.title); // skip malformed files
+
+// Sort by title
+listings.sort((a, b) => a.title.localeCompare(b.title));
+
+fs.writeFileSync(OUTPUT_FILE, JSON.stringify(listings, null, 2));
+console.log(`✓ Built listings-index.json with ${listings.length} propert${listings.length === 1 ? 'y' : 'ies'}.`);
