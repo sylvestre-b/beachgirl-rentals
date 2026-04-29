@@ -2,7 +2,7 @@
 title: "OOB's Best-Kept Secret: Why It's Been a French-Canadian Summer Destination for Over a Century"
 date: "September 2025"
 excerpt: "Old Orchard Beach has a French-Canadian connection that goes back generations — and it shapes the food, the vibe, and the whole feel of the place in ways most visitors don't realize."
-emoji: "🇨🇦"
+emoji: "🌊"
 seo_keywords: ["Old Orchard Beach French Canadian", "OOB Quebec families", "Old Orchard Beach history", "Maine beach vacation French Canadian"]
 ---
 

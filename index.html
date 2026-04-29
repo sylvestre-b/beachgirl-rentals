@@ -88,7 +88,7 @@ ul{list-style:none}
 
 /* ── HERO ───────────────────────────────────── */
 .hero{position:relative;height:580px;overflow:hidden;display:flex;align-items:center}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 55%}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 70%}
 /* warm gradient overlay — left side darkens for card legibility, right stays vivid */
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(28,37,40,.72) 0%,rgba(28,37,40,.38) 48%,rgba(28,37,40,.05) 100%)}
 .hero-card{position:relative;z-index:2;margin-left:clamp(1.5rem,7vw,9rem);background:linear-gradient(160deg,rgba(253,248,238,.97) 0%,rgba(235,199,195,.92) 100%);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:var(--r-lg);padding:2.75rem 3rem;max-width:520px;box-shadow:0 12px 48px rgba(28,37,40,.35),0 0 0 1px rgba(255,255,255,.5)}
@@ -103,7 +103,8 @@ ul{list-style:none}
 .hero-cta:hover{background:var(--accent-light);transform:translateY(-2px)}
 
 /* ── FILTER BAR ─────────────────────────────── */
-.filter-bar{background:var(--sand-pale);border-bottom:1px solid var(--blush);padding:.8rem 2rem;position:sticky;top:62px;z-index:400;box-shadow:0 1px 8px rgba(44,60,38,.06)}
+.filter-bar{background:var(--sand-pale);border-bottom:1px solid var(--blush);padding:.8rem 2rem;position:sticky;top:62px;z-index:400;box-shadow:0 1px 8px rgba(44,60,38,.06);transition:opacity .3s,visibility .3s,transform .3s}
+.filter-bar.hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px)}
 .filter-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
 .filter-label{font-size:var(--xs);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-right:.3rem}
 .filter-btn{font-family:var(--sans);font-size:var(--sm);font-weight:700;padding:6px 18px;border-radius:100px;border:2px solid var(--blush);background:transparent;color:var(--text-mid);transition:all var(--ease);white-space:nowrap;cursor:pointer}
@@ -313,7 +314,7 @@ textarea{resize:vertical;min-height:85px;line-height:1.6}
     <p class="hero-season">2026 Season · Now Open</p>
     <h1 class="hero-h1">Your summer,<br /><em>no fees attached.</em></h1>
     <p class="hero-desc">Owner-managed rentals right near the beach in Old Orchard Beach. No Airbnb markups, no Vrbo fees — just a quick message to the owner and you're one step closer to your toes in the sand.</p>
-    <div class="hero-props" aria-label="Key benefits" style="flex-wrap:nowrap;overflow:hidden">
+    <div class="hero-props" aria-label="Key benefits" style="flex-wrap:nowrap;overflow:hidden;max-width:100%">
       <span class="hero-prop">No booking fees</span>
       <span class="hero-prop">Direct with owner</span>
       <span class="hero-prop">Summer &amp; year-round</span>
@@ -540,9 +541,12 @@ async function loadAll(){
 
 // ── DEMO DATA ─────────────────────────────────
 const DEMO_PROPS=[
-  {_slug:'harborview-cottage',title:'Harborview Cottage',location:'Old Orchard Beach, ME',type:'Cottage',bedrooms:3,bathrooms:2,guests:6,price:'$2,400',photo:'',description:'A charming shingled cottage steps from the beach. Wrap-around porch, fully equipped kitchen, and ocean breezes all week.',tags:['pet-friendly','waterfront'],lat:43.5176,lng:-70.3743,active:true,weeks:[{dates:'Jun 27 – Jul 4',status:'Booked'},{dates:'Jul 4 – Jul 11',status:'Available'},{dates:'Jul 11 – Jul 18',status:'Available'},{dates:'Jul 18 – Jul 25',status:'Booked'},{dates:'Aug 1 – Aug 8',status:'Available'}]},
-  {_slug:'pine-haven-cape',title:'Pine Haven Cape',location:'Saco, ME',type:'Cape',bedrooms:4,bathrooms:2,guests:8,price:'$3,100',photo:'',description:'Classic New England Cape on a quiet street. Big backyard, outdoor shower, bikes included, five minutes to the beach.',tags:['year-round'],lat:43.5009,lng:-70.4428,active:true,weeks:[{dates:'Jun 27 – Jul 4',status:'Available'},{dates:'Jul 4 – Jul 11',status:'Available'},{dates:'Jul 11 – Jul 18',status:'Booked'},{dates:'Jul 18 – Jul 25',status:'Available'}]},
-  {_slug:'dune-cottage',title:'The Dune Cottage',location:'Old Orchard Beach, ME',type:'Cottage',bedrooms:2,bathrooms:1,guests:4,price:'$1,750',photo:'',description:'Cozy cottage tucked in the dunes. Steps to the sand, screened porch, fully stocked. Perfect for a couple or small family.',tags:['waterfront','pet-friendly'],lat:43.5220,lng:-70.3800,active:true,weeks:[{dates:'Jul 4 – Jul 11',status:'Available'},{dates:'Jul 11 – Jul 18',status:'Available'},{dates:'Jul 18 – Jul 25',status:'Available'},{dates:'Jul 25 – Aug 1',status:'Booked'}]},
+  {_slug:'harborview-cottage',title:'Harborview Cottage',location:'Old Orchard Beach, ME',type:'Cottage',bedrooms:3,bathrooms:2,guests:6,price:'$2,400',photo:'',description:'A charming shingled cottage steps from the beach. Wrap-around porch, fully equipped kitchen, and ocean breezes all week.',tags:['pet-friendly','waterfront'],lat:43.5176,lng:-70.3743,active:true,
+   availability:[{date:'2026-07-04',status:'available'},{date:'2026-07-05',status:'available'},{date:'2026-07-06',status:'available'},{date:'2026-07-07',status:'available'},{date:'2026-07-08',status:'available'},{date:'2026-07-09',status:'available'},{date:'2026-07-10',status:'available'},{date:'2026-07-11',status:'available'},{date:'2026-07-12',status:'available'},{date:'2026-07-18',status:'unavailable'},{date:'2026-07-19',status:'unavailable'},{date:'2026-07-20',status:'unavailable'},{date:'2026-07-21',status:'unavailable'},{date:'2026-07-22',status:'unavailable'},{date:'2026-07-23',status:'unavailable'},{date:'2026-07-24',status:'unavailable'},{date:'2026-07-25',status:'unavailable'},{date:'2026-08-01',status:'available'},{date:'2026-08-02',status:'available'},{date:'2026-08-03',status:'available'},{date:'2026-08-04',status:'available'},{date:'2026-08-05',status:'available'},{date:'2026-08-06',status:'available'},{date:'2026-08-07',status:'available'},{date:'2026-08-08',status:'available'}]},
+  {_slug:'pine-haven-cape',title:'Pine Haven Cape',location:'Saco, ME',type:'Cape',bedrooms:4,bathrooms:2,guests:8,price:'$3,100',photo:'',description:'Classic New England Cape on a quiet street. Big backyard, outdoor shower, bikes included, five minutes to the beach.',tags:['year-round'],lat:43.5009,lng:-70.4428,active:true,
+   availability:[{date:'2026-06-27',status:'available'},{date:'2026-06-28',status:'available'},{date:'2026-06-29',status:'available'},{date:'2026-06-30',status:'available'},{date:'2026-07-01',status:'available'},{date:'2026-07-02',status:'available'},{date:'2026-07-03',status:'available'},{date:'2026-07-04',status:'available'},{date:'2026-07-05',status:'available'},{date:'2026-07-11',status:'unavailable'},{date:'2026-07-12',status:'unavailable'},{date:'2026-07-13',status:'unavailable'},{date:'2026-07-14',status:'unavailable'},{date:'2026-07-15',status:'unavailable'},{date:'2026-07-16',status:'unavailable'},{date:'2026-07-17',status:'unavailable'},{date:'2026-07-18',status:'unavailable'},{date:'2026-07-18',status:'available'},{date:'2026-07-19',status:'available'},{date:'2026-07-20',status:'available'},{date:'2026-07-21',status:'available'},{date:'2026-07-22',status:'available'},{date:'2026-07-23',status:'available'},{date:'2026-07-24',status:'available'},{date:'2026-07-25',status:'available'}]},
+  {_slug:'dune-cottage',title:'The Dune Cottage',location:'Old Orchard Beach, ME',type:'Cottage',bedrooms:2,bathrooms:1,guests:4,price:'$1,750',photo:'',description:'Cozy cottage tucked in the dunes. Steps to the sand, screened porch, fully stocked. Perfect for a couple or small family.',tags:['waterfront','pet-friendly'],lat:43.5220,lng:-70.3800,active:true,
+   availability:[{date:'2026-07-04',status:'available'},{date:'2026-07-05',status:'available'},{date:'2026-07-06',status:'available'},{date:'2026-07-07',status:'available'},{date:'2026-07-08',status:'available'},{date:'2026-07-09',status:'available'},{date:'2026-07-10',status:'available'},{date:'2026-07-11',status:'available'},{date:'2026-07-12',status:'available'},{date:'2026-07-13',status:'available'},{date:'2026-07-14',status:'available'},{date:'2026-07-15',status:'available'},{date:'2026-07-16',status:'available'},{date:'2026-07-17',status:'available'},{date:'2026-07-18',status:'available'},{date:'2026-07-25',status:'unavailable'},{date:'2026-07-26',status:'unavailable'},{date:'2026-07-27',status:'unavailable'},{date:'2026-07-28',status:'unavailable'},{date:'2026-07-29',status:'unavailable'},{date:'2026-07-30',status:'unavailable'},{date:'2026-07-31',status:'unavailable'},{date:'2026-08-01',status:'unavailable'}]},
 ];
 const DEMO_REVIEWS=[
   {property:'Harborview Cottage',author:'Michelle T.',rating:5,text:'Absolutely perfect week. The cottage was spotless, the porch was our favorite spot every evening. Felt like a home, not a rental.',date:'August 2025',approved:true},
@@ -553,8 +557,8 @@ const DEMO_REVIEWS=[
 ];
 const DEMO_POSTS=[
   {_slug:'best-beaches-oob',title:'The Best Beaches Around Old Orchard Beach',date:'March 2026',excerpt:"From the iconic main beach to quieter stretches in Scarborough — here's where locals actually go.",emoji:'🏖️'},
-  {_slug:'restaurants-oob',title:'Where to Eat in Old Orchard Beach',date:'February 2026',excerpt:'Lobster rolls, chowder, and a few hidden gems. Our favorite spots after years of summers here.',emoji:'🦞'},
-  {_slug:'things-to-do',title:'A Week in OOB: The Full Itinerary',date:'January 2026',excerpt:'Palace Playland, the Pier, day trips to Portland — everything you need for a packed and perfect week.',emoji:'🎡'},
+  {_slug:'oob-lobster-rolls-ranked',title:'The Lobster Roll Situation in OOB',date:'April 2026',excerpt:'My completely honest rankings — what's worth your money and what to skip.',emoji:'🦞'},
+  {_slug:'shoulder-season-oob',title:'Why September at OOB Is Better Than July',date:'November 2025',excerpt:'I said what I said. The water is warmer, the crowds are gone, and the prices are lower.',emoji:'🍂'},
 ];
 
 // ── FILTER ────────────────────────────────────
@@ -565,7 +569,7 @@ function applyFilter(btn){
   const icon=btn.dataset.icon||'';
   const label=btn.dataset.label||'properties';
   const filtered=f==='all'?allProperties:allProperties.filter(p=>{
-    if(f==='available')return(p.weeks||[]).some(w=>w.status==='Available');
+    if(f==='available'){const today=new Date();today.setHours(0,0,0,0);return(p.availability||[]).some(d=>d.status==='available'&&new Date(d.date+'T00:00:00')>=today);}
     return(p.tags||[]).includes(f);
   });
   renderGrid(filtered,icon,label);
@@ -587,38 +591,114 @@ function renderGrid(props,icon='',label='properties'){
 }
 
 function cardHTML(p){
-  const avail=(p.weeks||[]).filter(w=>w.status==='Available').length;
+  const av=p.availability||[];
+  const today=new Date(); today.setHours(0,0,0,0);
+  const hasAvail=av.some(d=>d.status==='available'&&new Date(d.date+'T00:00:00')>=today);
   const tagLabels={'pet-friendly':'🐾 Pet-Friendly','waterfront':'🌊 Waterfront','year-round':'📅 Year-Round'};
   const tagsHTML=(p.tags||[]).map(t=>`<span class="card-tag">${esc(tagLabels[t]||t)}</span>`).join('');
   const photoHTML=p.photo?`<img src="${esc(p.photo)}" alt="${esc(p.title)}" loading="lazy" data-fallback="true" />`:`<div class="card-photo-placeholder" aria-hidden="true">🏡</div>`;
   const propRevs=allReviews.filter(r=>r.property===p.title);
   const avg=propRevs.length?propRevs.reduce((s,r)=>s+(r.rating||5),0)/propRevs.length:0;
   const ratingHTML=propRevs.length?`<div class="card-rating"><span class="stars" aria-label="${avg.toFixed(1)} out of 5">${renderStars(avg)}</span><span class="rating-count">${avg.toFixed(1)} (${propRevs.length})</span></div>`:'';
-  const weeksHTML=(p.weeks||[]).map(w=>{
-    const booked=w.status==='Booked';
-    return`<div class="week-row ${booked?'booked':'available'}" ${booked?'':'tabindex="0"'} role="${booked?'presentation':'button'}" aria-label="${booked?'':'Select week '}${esc(w.dates)}" data-slug="${esc(p._slug)}" data-dates="${esc(w.dates)}" data-booked="${booked}"><span class="week-dates">${esc(w.dates)}</span><span class="week-pill">${booked?'Booked':'Available'}</span></div>`;
-  }).join('');
-  return`<article class="card" id="card-${esc(p._slug)}" tabindex="0" data-slug="${esc(p._slug)}" aria-label="${esc(p.title)}"><div class="card-photo">${photoHTML}<div class="card-badge ${avail>0?'open':'full'}">${avail>0?`${avail} week${avail>1?'s':''} open`:'Fully booked'}</div><div class="card-tags">${tagsHTML}</div></div><div class="card-body"><div class="card-type">${esc(p.type||'Property')}</div><h3 class="card-title">${esc(p.title)}</h3><p class="card-location">📍 ${esc(p.location)}</p><ul class="card-specs"><li class="spec">🛏 ${esc(String(p.bedrooms))} bed</li><li class="spec">🚿 ${esc(String(p.bathrooms))} bath</li><li class="spec">👥 Up to ${esc(String(p.guests))}</li></ul>${ratingHTML}<div class="avail-section"><button class="avail-toggle" aria-expanded="false" aria-controls="ap-${esc(p._slug)}"><span>View availability</span><span class="chev" aria-hidden="true">▼</span></button><div class="avail-panel" id="ap-${esc(p._slug)}"><p class="avail-hint">Tap a green week to select it, then message us — your selection carries over.</p><div class="week-grid">${weeksHTML}</div><button class="card-inquire-btn" onclick="event.stopPropagation();openInquiryModal('${esc(p._slug)}')">Send Inquiry →</button></div></div><div class="card-price-row"><div class="card-price">${esc(p.price)} <span>/ week</span></div><span class="card-cta" aria-hidden="true">Inquire →</span></div></div></article>`;
+  return `<article class="card" id="card-${esc(p._slug)}" tabindex="0" data-slug="${esc(p._slug)}" aria-label="${esc(p.title)}">
+    <div class="card-photo">${photoHTML}
+      <div class="card-badge ${hasAvail?'open':'full'}">${hasAvail?'Dates available':'Fully booked'}</div>
+      <div class="card-tags">${tagsHTML}</div>
+    </div>
+    <div class="card-body">
+      <div class="card-type">${esc(p.type||'Property')}</div>
+      <h3 class="card-title">${esc(p.title)}</h3>
+      <p class="card-location">📍 ${esc(p.location)}</p>
+      <ul class="card-specs">
+        <li class="spec">🛏 ${esc(String(p.bedrooms))} bed</li>
+        <li class="spec">🚿 ${esc(String(p.bathrooms))} bath</li>
+        <li class="spec">👥 Up to ${esc(String(p.guests))}</li>
+      </ul>
+      ${ratingHTML}
+      <div class="avail-section">
+        <button class="avail-toggle" aria-expanded="false" aria-controls="ap-${esc(p._slug)}" id="at-${esc(p._slug)}">
+          <span>Check availability</span><span class="chev" aria-hidden="true">▼</span>
+        </button>
+        <div class="avail-panel" id="ap-${esc(p._slug)}">
+          <div id="cal-${esc(p._slug)}" class="cal-wrap"></div>
+          <button class="card-inquire-btn" onclick="event.stopPropagation();openInquiryModal('${esc(p._slug)}')">Send Inquiry →</button>
+        </div>
+      </div>
+      <div class="card-price-row">
+        <div class="card-price">${esc(p.price)} <span>/ week</span></div>
+        <span class="card-cta" aria-hidden="true">View &amp; Book →</span>
+      </div>
+    </div>
+  </article>`;
 }
 
 // ── IMAGE FALLBACK ─────────────────────────────
 document.addEventListener('error',e=>{if(e.target.tagName==='IMG'&&e.target.dataset.fallback){const ph=e.target.closest('.card-photo');if(ph){const d=document.createElement('div');d.className='card-photo-placeholder';d.setAttribute('aria-hidden','true');d.textContent='🏡';e.target.replaceWith(d)}}},true);
 
+// ── CALENDAR INSTANCES ────────────────────────
+const calInstances = {};
+
+function initCardCalendar(slug) {
+  if (calInstances[slug]) return; // already initialized
+  const prop = allProperties.find(p => p._slug === slug);
+  const el   = document.getElementById('cal-' + slug);
+  if (!prop || !el || typeof BeachGirlCalendar === 'undefined') return;
+  calInstances[slug] = BeachGirlCalendar.create({
+    container: el,
+    availability: prop.availability || [],
+    onSelect: (ci, co) => {
+      if (!selectedWeeks) selectedWeeks = {};
+      selectedWeeks[slug] = { checkIn: ci, checkOut: co };
+    }
+  });
+  calInstances[slug].render();
+}
+
+function toggleAvail(togBtn) {
+  const panelId = togBtn.getAttribute('aria-controls');
+  const panel   = document.getElementById(panelId);
+  if (!panel) return;
+  const isOpen  = panel.classList.contains('open');
+  // Close all open panels
+  document.querySelectorAll('.avail-panel.open').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.avail-toggle[aria-expanded="true"]').forEach(t => {
+    t.setAttribute('aria-expanded', 'false');
+    t.querySelector('span').textContent = 'Check availability';
+  });
+  if (!isOpen) {
+    panel.classList.add('open');
+    togBtn.setAttribute('aria-expanded', 'true');
+    togBtn.querySelector('span').textContent = 'Hide availability';
+    // Init calendar on first open
+    const slug = panelId.replace('ap-', '');
+    initCardCalendar(slug);
+  }
+}
+
 // ── EVENT DELEGATION ──────────────────────────
-document.addEventListener('click',e=>{
-  const card=e.target.closest('.card');
-  if(card&&!e.target.closest('.avail-section')&&!e.target.closest('.card-inquire-btn')){
-    const s=card.dataset.slug;if(s)window.location.href=`/property/${encodeURIComponent(s)}`;return;
+document.addEventListener('click', e => {
+  // Availability toggle
+  const tog = e.target.closest('.avail-toggle');
+  if (tog) { e.stopPropagation(); toggleAvail(tog); return; }
+  // Inquiry button inside card — don't navigate
+  if (e.target.closest('.card-inquire-btn')) return;
+  // Card click — navigate to property page
+  const card = e.target.closest('.card');
+  if (card && !e.target.closest('.avail-section')) {
+    const s = card.dataset.slug;
+    if (s) window.location.href = '/property/' + encodeURIComponent(s);
   }
-  const tog=e.target.closest('.avail-toggle');
-  if(tog){e.stopPropagation();toggleAvail(tog);return}
 });
-document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'||e.key===' '){
-    const card=e.target.closest('.card');
-    if(card&&e.target===card){e.preventDefault();const s=card.dataset.slug;if(s)window.location.href=`/property/${encodeURIComponent(s)}`}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const card = e.target.closest('.card');
+    if (card && e.target === card) {
+      e.preventDefault();
+      const s = card.dataset.slug;
+      if (s) window.location.href = '/property/' + encodeURIComponent(s);
+    }
   }
-  if(e.key==='Escape'){closeModal('inquiry-overlay');closeModal('review-overlay')}
+  if (e.key === 'Escape') { closeModal('inquiry-overlay'); closeModal('review-overlay'); }
 });
 
 // Track which calendars have been initialized
@@ -769,7 +849,7 @@ async function submitInquiry(){
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showErr('inquiry','Please enter a valid email address.');return}
   const btn=document.querySelector('#inquiry-form-view .btn-primary');
   btn.textContent='Sending…';btn.disabled=true;
-  const payload={name:`${first} ${last}`,email,phone:document.getElementById('i-phone').value.trim(),guests:document.getElementById('i-guests').value,property:modalProperty?.title||'General inquiry',weeks:(selectedWeeks[modalProperty?._slug]||[]).join(', ')||'Not specified',message:document.getElementById('i-message').value.trim(),_subject:`Rental Inquiry: ${modalProperty?.title||'General'}`};
+  const payload={name:`${first} ${last}`,email,phone:document.getElementById('i-phone').value.trim(),guests:document.getElementById('i-guests').value,property:modalProperty?.title||'General inquiry',checkIn:(selectedWeeks[modalProperty?._slug]||{}).checkIn||'Not specified',checkOut:(selectedWeeks[modalProperty?._slug]||{}).checkOut||'Not specified',message:document.getElementById('i-message').value.trim(),_subject:`Rental Inquiry: ${modalProperty?.title||'General'}`};
   try{
     if(INQUIRY_FORM_ID==='YOUR_ID'){await new Promise(r=>setTimeout(r,800));showSuccess('inquiry');return}
     const res=await fetch(`https://formspree.io/f/${INQUIRY_FORM_ID}`,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
