@@ -1,27 +1,1916 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Page Not Found — Beach Girl Property Rentals</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300&family=DM+Sans:wght@400&display=swap" rel="stylesheet" />
-  <style>
-    :root{--teal:#0a6e7c;--ink:#1a2332;--sand:#f2e8d5;}
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',sans-serif;background:var(--sand);display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:2rem;}
-    .icon{font-size:3rem;margin-bottom:1rem;}
-    h1{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:300;color:var(--ink);margin-bottom:0.5rem;}
-    p{font-size:0.9rem;color:#7a8a9a;line-height:1.7;margin-bottom:1.5rem;}
-    a{display:inline-block;background:var(--teal);color:#fff;padding:10px 24px;border-radius:4px;font-size:0.85rem;font-weight:500;text-decoration:none;transition:opacity 0.2s;}
-    a:hover{opacity:0.85;}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Beach Girl Property Rentals — Vacation rentals in Old Orchard Beach and coastal New England. No booking fees, direct with the owner. 2026 season now open." />
+<meta name="theme-color" content="#0a6e7c" />
+<title>Beach Girl Property Rentals — Coastal Vacation Rentals 2026</title>
+
+<!-- Schema.org structured data for Google vacation rental listings -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "name": "Beach Girl Property Rentals",
+  "description": "Vacation rental properties in Old Orchard Beach and coastal New England. No booking fees.",
+  "url": "https://beachgirlpropertyrentals.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Old Orchard Beach",
+    "addressRegion": "ME",
+    "addressCountry": "US"
+  },
+  "priceRange": "$$"
+}
+</script>
+
+<!-- FIX #19: preconnect to all third-party origins -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://unpkg.com" />
+
+<!-- FIX #18: font-display=swap added to URL -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@300;400;500&display=swap&font-display=swap" rel="stylesheet" />
+
+<!-- Leaflet CSS with SRI -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+
+<style>
+/* ═══════════════════════════════════════════════
+   SANIBEL PALETTE & TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --teal:         #0a6e7c;
+  --teal-mid:     #0d8a9e;
+  --teal-light:   #4eb8c8;
+  --teal-pale:    #d4f0f5;
+  --sand:         #f2e8d5;
+  --sand-mid:     #e8d9be;
+  --sand-dark:    #c9b896;
+  --sun:          #f0b429;
+  --sun-light:    #fcd97a;
+  --shell:        #d4826a;
+  --shell-light:  #ebb49e;
+  --shell-pale:   #faeae4;
+  --ink:          #1a2332;
+  --ink-mid:      #2d3f52;
+  --text:         #2c3e50;
+  --text-mid:     #4a5a6a; /* FIX #12: darkened for AA contrast */
+  --text-muted:   #6a7a8a; /* FIX #12: darkened from #8a9aaa for AA contrast on white */
+  --white:        #fffef9;
+  --offwhite:     #faf7f0;
+  --r:            4px;
+  --r-lg:         12px;
+  --shadow-sm:    0 1px 4px rgba(10,110,124,0.08);
+  --shadow-md:    0 4px 20px rgba(10,110,124,0.12);
+  --shadow-lg:    0 12px 48px rgba(10,110,124,0.18);
+  --transition:   0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* RESET & BASE */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--offwhite);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+
+/* FIX #13/#14: reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* HEADER */
+.site-header {
+  background: var(--ink);
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  border-bottom: 3px solid var(--teal-mid);
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.logo-wrap { display: flex; flex-direction: column; gap: 1px; }
+
+.logo-main {
+  font-family: 'Fraunces', serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--white);
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: var(--teal-light);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* FIX #14: aria-label added in HTML, nav styles unchanged */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header-nav a {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75); /* FIX #12: improved contrast */
+  transition: color var(--transition);
+}
+.header-nav a:hover { color: var(--teal-light); }
+
+.header-cta {
+  background: var(--shell);
+  color: var(--white) !important;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  transition: background var(--transition) !important;
+}
+.header-cta:hover { background: var(--shell-light) !important; color: var(--ink) !important; }
+
+/* HERO */
+.hero {
+  background: var(--ink-mid);
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 3rem 1.5rem;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(10,110,124,0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(212,130,106,0.2) 0%, transparent 60%),
+    linear-gradient(135deg, var(--ink) 0%, var(--ink-mid) 100%);
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -30deg,
+    transparent 0px,
+    transparent 38px,
+    rgba(78,184,200,0.04) 38px,
+    rgba(78,184,200,0.04) 40px
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal-light);
+  margin-bottom: 1.25rem;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--teal-light);
+}
+
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--sun-light);
+}
+
+.hero-desc {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.75); /* FIX #12: improved contrast */
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  max-width: 440px;
+}
+
+.hero-badges { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.85); /* FIX #12 */
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 5px 12px;
+  border-radius: 100px;
+}
+
+.hero-badge .glyph { font-size: 0.9rem; }
+
+/* FILTER BAR */
+.filter-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--sand-mid);
+  padding: 0.75rem 1.5rem;
+  position: sticky;
+  top: 64px;
+  z-index: 400;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-right: 0.25rem;
+}
+
+/* FIX #9: aria-pressed handled via JS; style active state clearly */
+.filter-btn {
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 100px;
+  border: 1.5px solid var(--sand-mid);
+  background: transparent;
+  color: var(--text-mid);
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: var(--teal-pale);
+}
+
+.filter-btn[aria-pressed="true"] {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--white);
+}
+
+.filter-count {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* MAIN LAYOUT */
+.listings-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  min-height: calc(100vh - 130px);
+  position: relative;
+}
+
+.listings-panel { padding: 1.5rem; overflow-y: auto; }
+
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.map-panel {
+  position: sticky;
+  top: 130px;
+  height: calc(100vh - 130px);
+  border-left: 1px solid var(--sand-mid);
+}
+
+#map { width: 100%; height: 100%; }
+
+/* PROPERTY CARD
+   FIX #10: cards are now <article> with role and tabindex in JS */
+.card {
+  background: var(--white);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--sand-mid);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+  cursor: pointer;
+  animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card:hover, .card:focus-within {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  border-color: var(--teal-light);
+  outline: none;
+}
+
+/* FIX #10: keyboard focus visible */
+.card:focus {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.card.highlighted {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px var(--teal), var(--shadow-md);
+}
+
+.card-photo {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-mid) 100%);
+}
+
+.card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .card-photo img,
+.card:focus .card-photo img { transform: scale(1.05); }
+
+.card-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-mid) 50%, var(--teal-light) 100%);
+}
+
+.card-avail-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+}
+
+.card-avail-badge.has-avail { background: rgba(10,110,124,0.85); color: var(--white); }
+.card-avail-badge.full { background: rgba(180,70,50,0.85); color: var(--white); } /* FIX #12: darker red for contrast */
+
+.card-tags {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.card-tag {
+  font-size: 0.6rem;
+  font-weight: 600; /* FIX #12: bolder for legibility */
+  padding: 3px 8px;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.92);
+  color: var(--ink);
+  backdrop-filter: blur(4px);
+}
+
+.card-body { padding: 1.1rem 1.2rem 1rem; }
+
+.card-type {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--shell);
+  margin-bottom: 0.25rem;
+}
+
+.card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 0.2rem;
+}
+
+.card-location {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.card-specs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.spec {
+  font-size: 0.75rem;
+  color: var(--text-mid);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.card-rating { display: flex; align-items: center; gap: 4px; margin-bottom: 0.75rem; }
+.stars { color: var(--sun); font-size: 0.8rem; letter-spacing: 1px; }
+.rating-count { font-size: 0.72rem; color: var(--text-muted); }
+
+.card-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--sand);
+}
+
+.card-price { font-size: 1.05rem; font-weight: 500; color: var(--ink); }
+.card-price span { font-size: 0.72rem; font-weight: 300; color: var(--text-muted); }
+
+.card-cta {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap var(--transition);
+}
+.card:hover .card-cta { gap: 8px; }
+
+.state-msg { grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+.state-msg .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+/* REVIEWS */
+.reviews-section {
+  background: var(--sand);
+  padding: 4rem 1.5rem;
+  border-top: 1px solid var(--sand-mid);
+}
+
+.reviews-inner { max-width: 1200px; margin: 0 auto; }
+
+.section-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: 2.5rem;
+}
+
+.reviews-track-wrap { overflow: hidden; position: relative; }
+
+.reviews-track-wrap::before,
+.reviews-track-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.reviews-track-wrap::before { left: 0; background: linear-gradient(to right, var(--sand), transparent); }
+.reviews-track-wrap::after  { right: 0; background: linear-gradient(to left, var(--sand), transparent); }
+
+.reviews-track {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  padding: 0.5rem 0 1.5rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* FIX #16: removed deprecated -webkit-overflow-scrolling */
+}
+
+.reviews-track::-webkit-scrollbar { display: none; }
+
+.review-card {
+  flex: 0 0 300px;
+  background: var(--white);
+  border-radius: var(--r-lg);
+  padding: 1.4rem;
+  border: 1px solid var(--sand-mid);
+  scroll-snap-align: start;
+  box-shadow: var(--shadow-sm);
+}
+
+.review-stars { color: var(--sun); font-size: 0.85rem; margin-bottom: 0.6rem; }
+
+.review-text {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-mid);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.review-meta { display: flex; align-items: center; justify-content: space-between; }
+.review-author { font-size: 0.78rem; font-weight: 500; color: var(--ink); }
+.review-property { font-size: 0.68rem; color: var(--text-muted); margin-top: 1px; }
+.review-date { font-size: 0.68rem; color: var(--text-muted); }
+.review-submit-wrap { margin-top: 2rem; text-align: center; }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--teal);
+  border: 1.5px solid var(--teal);
+  padding: 8px 20px;
+  border-radius: 100px;
+  transition: all var(--transition);
+  background: transparent;
+}
+.btn-outline:hover, .btn-outline:focus-visible {
+  background: var(--teal);
+  color: var(--white);
+  outline: none;
+}
+
+/* BLOG */
+.blog-section {
+  background: var(--offwhite);
+  padding: 4rem 1.5rem;
+  border-top: 1px solid var(--sand-mid);
+}
+
+.blog-inner { max-width: 1200px; margin: 0 auto; }
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.blog-card {
+  background: var(--white);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--sand-mid);
+  transition: box-shadow var(--transition), transform var(--transition);
+  cursor: pointer;
+  /* FIX #10: blog cards get tabindex+role in JS */
+}
+
+.blog-card:hover, .blog-card:focus {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.blog-card-img {
+  height: 160px;
+  background: linear-gradient(135deg, var(--teal-pale), var(--sand));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  overflow: hidden;
+}
+
+.blog-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.blog-card-body { padding: 1.1rem; }
+
+.blog-card-date {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.4rem;
+}
+
+.blog-card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 0.5rem;
+}
+
+.blog-card-excerpt {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  /* FIX #15: both prefixed and standard property */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* MODALS
+   FIX #7: role, aria-modal, aria-labelledby added in HTML */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,35,50,0.7);
+  z-index: 600;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(4px);
+}
+
+.overlay.open { display: flex; }
+
+.modal {
+  background: var(--white);
+  border-radius: var(--r-lg);
+  max-width: 520px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-mid) 100%);
+  padding: 1.5rem 2rem;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: var(--white);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+.modal-close:hover, .modal-close:focus-visible {
+  background: rgba(255,255,255,0.3);
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+.modal-eyebrow {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal-pale);
+  margin-bottom: 0.3rem;
+}
+
+.modal-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--white);
+}
+
+.modal-body { padding: 1.75rem 2rem; }
+
+.inquiry-summary {
+  background: var(--teal-pale);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.inquiry-summary strong { color: var(--teal); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem; }
+.field { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.85rem; }
+.field.no-mb { margin-bottom: 0; }
+
+label {
+  font-size: 0.72rem; /* FIX #12: slightly larger */
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mid); /* FIX #12: improved contrast */
+}
+
+input, textarea, select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  padding: 0.6rem 0.8rem;
+  border: 1.5px solid var(--sand-mid);
+  border-radius: var(--r);
+  background: var(--white);
+  color: var(--text);
+  outline: none;
+  width: 100%;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(10,110,124,0.12);
+}
+
+textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+/* FIX #8: star picker moved out of body, properly labeled */
+/* FIX #17: <style> removed from body, star styles now here */
+.star-picker { display: flex; gap: 4px; margin-top: 4px; }
+.star-btn {
+  background: none;
+  border: 2px solid transparent;
+  font-size: 1.5rem;
+  color: var(--sand-dark);
+  cursor: pointer;
+  padding: 2px;
+  transition: color 0.15s;
+  border-radius: 4px;
+  line-height: 1;
+}
+.star-btn:hover, .star-btn:focus-visible { color: var(--sun); outline: none; border-color: var(--sun); }
+.star-btn.active { color: var(--sun); }
+/* FIX #8: screen reader text for stars */
+.star-btn .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
+
+/* Honeypot - hidden from humans, but NOT via display:none (some spam bots skip those) */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.btn-primary {
+  width: 100%;
+  background: var(--teal);
+  color: var(--white);
+  border: none;
+  border-radius: var(--r);
+  padding: 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  transition: background var(--transition);
+}
+.btn-primary:hover, .btn-primary:focus-visible {
+  background: var(--teal-mid);
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.form-note {
+  font-size: 0.75rem; /* FIX #12: slightly larger */
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+
+.success-view { display: none; text-align: center; padding: 3rem 2rem; }
+.success-view.show { display: block; }
+.success-icon { font-size: 3rem; margin-bottom: 1rem; }
+.success-view h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.success-view p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+
+.review-modal { max-width: 480px; }
+
+/* AVAILABILITY */
+.avail-section { margin: 0.75rem 0; }
+
+.avail-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--offwhite);
+  border: 1.5px solid var(--sand-mid);
+  border-radius: var(--r);
+  padding: 0.55rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-mid);
+  transition: all var(--transition);
+  margin-bottom: 0.5rem;
+}
+
+.avail-toggle:hover, .avail-toggle:focus-visible { border-color: var(--teal); color: var(--teal); outline: none; }
+.avail-toggle[aria-expanded="true"] { background: var(--teal); color: var(--white); border-color: var(--teal); }
+.avail-toggle .chevron { font-size: 0.6rem; transition: transform 0.2s; }
+.avail-toggle[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+.avail-panel { display: none; background: var(--offwhite); border: 1px solid var(--sand-mid); border-radius: var(--r); padding: 0.85rem; margin-bottom: 0.5rem; }
+.avail-panel.open { display: block; }
+
+.avail-hint { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.65rem; font-style: italic; }
+
+.week-grid { display: flex; flex-direction: column; gap: 4px; }
+
+.week-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--r);
+  border: 1.5px solid transparent;
+  font-size: 0.78rem;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.week-row.available { background: rgba(10,110,124,0.06); border-color: rgba(10,110,124,0.15); cursor: pointer; color: var(--teal); }
+.week-row.available:hover, .week-row.available:focus { background: rgba(10,110,124,0.12); border-color: var(--teal); outline: none; }
+.week-row.booked { background: rgba(212,130,106,0.06); border-color: rgba(212,130,106,0.2); color: var(--text-muted); cursor: not-allowed; opacity: 0.75; }
+.week-row.selected { background: var(--teal); border-color: var(--teal); color: var(--white); cursor: pointer; }
+
+.week-dates { font-weight: 500; }
+
+.week-status-pill { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 100px; }
+.available .week-status-pill { background: rgba(10,110,124,0.15); color: var(--teal); }
+.booked .week-status-pill { background: rgba(212,130,106,0.15); color: var(--shell); }
+.selected .week-status-pill { background: rgba(255,255,255,0.2); color: var(--white); }
+
+/* FOOTER */
+.site-footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 3rem 1.5rem 2rem; }
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-brand .logo-main { color: var(--white); margin-bottom: 0.5rem; }
+.footer-brand .logo-sub { color: var(--teal-light); }
+.footer-brand p { font-size: 0.8rem; line-height: 1.7; margin-top: 0.75rem; color: rgba(255,255,255,0.45); }
+
+.footer-col h4 { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.85rem; }
+.footer-col a { display: block; font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-bottom: 0.4rem; transition: color var(--transition); }
+.footer-col a:hover, .footer-col a:focus-visible { color: var(--teal-light); outline: none; }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-legal { color: rgba(255,255,255,0.3); }
+
+/* MAP POPUP */
+.leaflet-popup-content-wrapper { border-radius: var(--r-lg) !important; box-shadow: var(--shadow-md) !important; padding: 0 !important; overflow: hidden; }
+.leaflet-popup-content { margin: 0 !important; width: 220px !important; }
+.map-popup { padding: 1rem; }
+.map-popup-title { font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 500; color: var(--ink); margin-bottom: 0.2rem; }
+.map-popup-loc { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.map-popup-price { font-size: 0.85rem; font-weight: 500; color: var(--teal); margin-bottom: 0.65rem; }
+.map-popup-btn { width: 100%; background: var(--teal); color: var(--white); border: none; border-radius: var(--r); padding: 6px; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: background var(--transition); }
+.map-popup-btn:hover { background: var(--teal-mid); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .listings-layout { grid-template-columns: 1fr; }
+  .map-panel { display: none; }
+  .header-nav .header-nav-link { display: none; }
+}
+
+@media (max-width: 640px) {
+  .header-inner { padding: 0 1rem; }
+  .hero { padding: 2.5rem 1rem 3rem; }
+  .filter-bar { padding: 0.6rem 1rem; }
+  .listings-panel { padding: 1rem; }
+  .listings-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .modal-header { padding: 1.25rem 1.5rem; }
+  .modal-body { padding: 1.25rem 1.5rem; }
+  .review-card { flex: 0 0 260px; }
+}
+
+.map-toggle-btn {
+  display: none;
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 450;
+  background: var(--ink);
+  color: var(--white);
+  border: none;
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  gap: 6px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .map-toggle-btn { display: flex; }
+  .map-panel.mobile-open {
+    display: block;
+    position: fixed;
+    inset: 64px 0 0 0;
+    z-index: 450;
+    height: calc(100vh - 64px);
+  }
+}
+</style>
 </head>
 <body>
-  <div>
-    <div class="icon">🌊</div>
-    <h1>Page Not Found</h1>
-    <p>Looks like this page drifted out to sea.<br/>Head back to the rentals.</p>
-    <a href="/">Back to Listings →</a>
+
+<!-- FIX #6: semantic <header> element (was already correct) -->
+<!-- FIX #14: aria-label on nav -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo-wrap" aria-label="Beach Girl Property Rentals — Home">
+      <span class="logo-main">Beach Girl Property Rentals</span>
+      <span class="logo-sub">Affordable Property Management, LLC · 2026 Season</span>
+    </a>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="#listings" class="header-nav-link">Rentals</a>
+      <a href="#reviews" class="header-nav-link">Reviews</a>
+      <a href="#blog" class="header-nav-link">Local Guide</a>
+      <button class="header-cta" onclick="openInquiryModal(null)">Inquire</button>
+    </nav>
   </div>
+</header>
+
+<main id="main-content">
+
+<!-- HERO -->
+<section class="hero" aria-label="Welcome">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">2026 Season Now Open</p>
+    <h1>Coastal Rentals,<br /><em>No Middlemen</em></h1>
+    <p class="hero-desc">Hand-selected properties along the New England coast. Reach out directly — no Airbnb markups, no booking fees. Just a great summer.</p>
+    <ul class="hero-badges" aria-label="Key benefits">
+      <li class="hero-badge"><span class="glyph" aria-hidden="true">🐚</span> No booking fees</li>
+      <li class="hero-badge"><span class="glyph" aria-hidden="true">🌊</span> Direct with owner</li>
+      <li class="hero-badge"><span class="glyph" aria-hidden="true">☀️</span> Weekly &amp; year-round rentals</li>
+      <li class="hero-badge"><span class="glyph" aria-hidden="true">🐾</span> Pet-friendly options</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FIX #9: aria-pressed on filter buttons -->
+<div class="filter-bar" id="listings">
+  <div class="filter-inner" role="group" aria-label="Filter properties">
+    <span class="filter-label" id="filter-label">Filter</span>
+    <button class="filter-btn" aria-pressed="true"  data-filter="all"          onclick="applyFilter(this)">All</button>
+    <button class="filter-btn" aria-pressed="false" data-filter="pet-friendly" onclick="applyFilter(this)">🐾 Pet-Friendly</button>
+    <button class="filter-btn" aria-pressed="false" data-filter="waterfront"   onclick="applyFilter(this)">🌊 Waterfront</button>
+    <button class="filter-btn" aria-pressed="false" data-filter="available"    onclick="applyFilter(this)">✓ Available Now</button>
+    <button class="filter-btn" aria-pressed="false" data-filter="year-round"   onclick="applyFilter(this)">📅 Year-Round</button>
+    <span class="filter-count" id="filter-count" aria-live="polite" aria-atomic="true"></span>
+  </div>
+</div>
+
+<div class="listings-layout">
+  <section class="listings-panel" aria-label="Property listings">
+    <div class="listings-grid" id="listings-grid">
+      <div class="state-msg" role="status">
+        <div class="icon" aria-hidden="true">🌊</div>
+        <p>Loading properties…</p>
+      </div>
+    </div>
+  </section>
+
+  <aside class="map-panel" id="map-panel" aria-label="Property locations map">
+    <div id="map"></div>
+  </aside>
+</div>
+
+<button class="map-toggle-btn" id="map-toggle" onclick="toggleMobileMap()" aria-expanded="false" aria-controls="map-panel">
+  <span aria-hidden="true">🗺</span> Show Map
+</button>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews" aria-labelledby="reviews-heading">
+  <div class="reviews-inner">
+    <p class="section-eyebrow" aria-hidden="true">Guest Reviews</p>
+    <h2 class="section-title" id="reviews-heading">What Our Guests Say</h2>
+    <div class="reviews-track-wrap">
+      <div class="reviews-track" id="reviews-track" role="list" aria-label="Guest reviews"></div>
+    </div>
+    <div class="review-submit-wrap">
+      <button class="btn-outline" onclick="openReviewModal()">
+        <span aria-hidden="true">🐚</span> Share Your Experience
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="blog-section" id="blog" aria-labelledby="blog-heading">
+  <div class="blog-inner">
+    <p class="section-eyebrow" aria-hidden="true">Local Guide</p>
+    <h2 class="section-title" id="blog-heading">Old Orchard Beach &amp; Beyond</h2>
+    <div class="blog-grid" id="blog-grid" role="list"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-wrap">
+        <span class="logo-main">Beach Girl Property Rentals</span>
+        <span class="logo-sub">Affordable Property Management, LLC</span>
+      </div>
+      <p>Handpicked coastal rentals along the New England shore. Direct with the owner since 2010.</p>
+    </div>
+    <nav class="footer-col" aria-label="Site links">
+      <h4>Navigate</h4>
+      <a href="#listings">All Rentals</a>
+      <a href="#reviews">Guest Reviews</a>
+      <a href="#blog">Local Guide</a>
+      <a href="#" onclick="openInquiryModal(null); return false;">Contact Us</a>
+    </nav>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:rentals@beachgirlpropertyrentals.com">rentals@beachgirlpropertyrentals.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom footer-inner" style="margin-bottom:0">
+    <small class="footer-legal">© 2026 Affordable Property Management, LLC · All rights reserved</small>
+    <small class="footer-legal">beachgirlpropertyrentals.com</small>
+  </div>
+</footer>
+
+<!-- FIX #7: role="dialog", aria-modal, aria-labelledby on both modals -->
+<div class="overlay" id="inquiry-overlay" role="dialog" aria-modal="true" aria-labelledby="inquiry-modal-title" onclick="handleOverlayClick(event,'inquiry-overlay')">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal('inquiry-overlay')" aria-label="Close inquiry form">✕</button>
+      <p class="modal-eyebrow">Send an Inquiry</p>
+      <h2 class="modal-title" id="inquiry-modal-title">Rental Inquiry</h2>
+    </div>
+    <div class="modal-body">
+      <div id="inquiry-form-view">
+        <div class="inquiry-summary" id="inquiry-summary" aria-live="polite">Select a property and dates to get started.</div>
+        <div class="form-row">
+          <div class="field no-mb">
+            <label for="i-first">First Name <span aria-label="required">*</span></label>
+            <input type="text" id="i-first" name="first" placeholder="Jane" autocomplete="given-name" required aria-required="true" />
+          </div>
+          <div class="field no-mb">
+            <label for="i-last">Last Name <span aria-label="required">*</span></label>
+            <input type="text" id="i-last" name="last" placeholder="Smith" autocomplete="family-name" required aria-required="true" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="i-email">Email <span aria-label="required">*</span></label>
+          <input type="email" id="i-email" name="email" placeholder="jane@example.com" autocomplete="email" required aria-required="true" />
+        </div>
+        <div class="field">
+          <label for="i-phone">Phone</label>
+          <input type="tel" id="i-phone" name="phone" placeholder="(555) 000-0000" autocomplete="tel" />
+        </div>
+        <div class="field">
+          <label for="i-guests">Number of Guests</label>
+          <select id="i-guests" name="guests">
+            <option value="">Select…</option>
+            <option>1–2</option><option>3–4</option>
+            <option>5–6</option><option>7–8</option><option>9+</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="i-message">Message</label>
+          <textarea id="i-message" name="message" placeholder="Tell us about your group or any questions…"></textarea>
+        </div>
+        <!-- FIX #4 honeypot: positioned off-screen, not display:none (more effective) -->
+        <div class="hp-field" aria-hidden="true" tabindex="-1">
+          <input type="text" id="i-hp" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <button class="btn-primary" onclick="submitInquiry()" aria-describedby="inquiry-note">Send Inquiry →</button>
+        <p class="form-note" id="inquiry-note">We'll respond within 24 hours. No fees, no commitments.</p>
+      </div>
+      <div class="success-view" id="inquiry-success" role="alert">
+        <div class="success-icon" aria-hidden="true">🏖️</div>
+        <h3>Inquiry Sent!</h3>
+        <p>Thank you — we'll be in touch within 24 hours to discuss availability and next steps.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="review-overlay" role="dialog" aria-modal="true" aria-labelledby="review-modal-title" onclick="handleOverlayClick(event,'review-overlay')">
+  <div class="modal review-modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal('review-overlay')" aria-label="Close review form">✕</button>
+      <p class="modal-eyebrow">Share Your Experience</p>
+      <h2 class="modal-title" id="review-modal-title">Leave a Review</h2>
+    </div>
+    <div class="modal-body">
+      <div id="review-form-view">
+        <div class="field">
+          <label for="r-property">Property You Stayed At <span aria-label="required">*</span></label>
+          <select id="r-property" name="property" required aria-required="true">
+            <option value="">Select property…</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="r-dates">Dates of Your Stay <span aria-label="required">*</span></label>
+          <input type="text" id="r-dates" name="dates" placeholder="e.g. Jul 12 – Jul 19, 2026" required aria-required="true" />
+        </div>
+        <!-- FIX #8 & #11: fieldset+legend for star group, aria-labels on buttons -->
+        <fieldset class="field" style="border:none;padding:0">
+          <legend style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-mid);margin-bottom:0.3rem">
+            Your Rating <span aria-label="required">*</span>
+          </legend>
+          <div class="star-picker" id="star-picker" role="group" aria-label="Select a star rating">
+            <button type="button" class="star-btn" data-val="1" onclick="setRating(1)" aria-label="1 star — Poor">★<span class="sr-only">1 star</span></button>
+            <button type="button" class="star-btn" data-val="2" onclick="setRating(2)" aria-label="2 stars — Fair">★<span class="sr-only">2 stars</span></button>
+            <button type="button" class="star-btn" data-val="3" onclick="setRating(3)" aria-label="3 stars — Good">★<span class="sr-only">3 stars</span></button>
+            <button type="button" class="star-btn" data-val="4" onclick="setRating(4)" aria-label="4 stars — Very Good">★<span class="sr-only">4 stars</span></button>
+            <button type="button" class="star-btn" data-val="5" onclick="setRating(5)" aria-label="5 stars — Excellent">★<span class="sr-only">5 stars</span></button>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="r-name">Your Name <span aria-label="required">*</span></label>
+          <input type="text" id="r-name" name="author" placeholder="Jane S." required aria-required="true" />
+        </div>
+        <div class="field">
+          <label for="r-review">Your Review <span aria-label="required">*</span></label>
+          <textarea id="r-review" name="review" placeholder="Tell future guests about your stay…" style="min-height:100px" required aria-required="true"></textarea>
+        </div>
+        <div class="hp-field" aria-hidden="true" tabindex="-1">
+          <input type="text" id="r-hp" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <button type="button" class="btn-primary" onclick="submitReview()">Submit Review →</button>
+        <p class="form-note">Reviews are verified before publishing. We'll confirm your stay dates before posting.</p>
+      </div>
+      <div class="success-view" id="review-success" role="alert">
+        <div class="success-icon" aria-hidden="true">🐚</div>
+        <h3>Review Received!</h3>
+        <p>Thank you! We'll verify your stay and publish your review shortly.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FIX #21: defer added to both scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLM=" crossorigin="anonymous" defer></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
+
+<script>
+// ─── FORMSPREE CONFIG ─────────────────────────────────────────────────────
+// FIX #3: store only the ID, not the full URL (URL is built in fetch call)
+const INQUIRY_FORM_ID = 'xbdwrlgl';
+const REVIEW_FORM_ID  = 'xjglbglj';
+
+// ─── STATE ────────────────────────────────────────────────────────────────
+let allProperties = [];
+let allReviews    = [];
+let allPosts      = [];
+let activeFilter  = 'all';
+let selectedWeeks = {};
+let currentRating = 0;
+let mapInstance   = null;
+let mapMarkers    = {};
+let modalProperty = null;
+let mapMobileOpen = false;
+let lastFocusedEl = null; // FIX #7: restore focus on modal close
+
+// ─── XSS PREVENTION: escape ALL dynamic content ───────────────────────────
+function esc(str) {
+  if (typeof str !== 'string') return '';
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(str));
+  return d.innerHTML; // Browser-native escaping — more robust than regex
+}
+
+function renderStars(n) {
+  const full = Math.round(Math.min(5, Math.max(0, n || 0)));
+  return '★'.repeat(full) + '☆'.repeat(5 - full);
+}
+
+// ─── FIX #22: fetch with timeout ──────────────────────────────────────────
+function fetchWithTimeout(url, ms = 8000) {
+  const ctrl = new AbortController();
+  const id = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { signal: ctrl.signal })
+    .then(r => { clearTimeout(id); return r; })
+    .catch(e => { clearTimeout(id); return null; });
+}
+
+// ─── LOAD DATA ─────────────────────────────────────────────────────────────
+async function loadAll() {
+  const [propsRes, revsRes, postsRes] = await Promise.all([
+    fetchWithTimeout('/listings-index.json'),
+    fetchWithTimeout('/reviews-index.json'),
+    fetchWithTimeout('/posts-index.json'),
+  ]);
+
+  const props = (propsRes && propsRes.ok) ? await propsRes.json().catch(() => []) : [];
+  const revs  = (revsRes  && revsRes.ok)  ? await revsRes.json().catch(()  => []) : [];
+  const posts = (postsRes && postsRes.ok) ? await postsRes.json().catch(() => []) : [];
+
+  allProperties = props.length ? props.filter(p => p.active !== false) : DEMO_PROPERTIES;
+  allReviews    = revs.length  ? revs.filter(r => r.approved === true) : DEMO_REVIEWS;
+  allPosts      = posts.length ? posts : DEMO_POSTS;
+
+  renderGrid(allProperties);
+  // FIX #21: map init waits for Leaflet to be available after defer
+  if (typeof L !== 'undefined') initMap();
+  else window.addEventListener('load', initMap);
+  renderReviews();
+  renderBlog();
+  populateReviewPropertySelect();
+}
+
+// ─── DEMO DATA ─────────────────────────────────────────────────────────────
+const DEMO_PROPERTIES = [
+  { _slug:'harborview-cottage', title:'Harborview Cottage', location:'Old Orchard Beach, ME', type:'Cottage', bedrooms:3, bathrooms:2, guests:6, price:'$2,400', photo:'', description:'A charming shingled cottage steps from the beach. Wrap-around porch, fully equipped kitchen, and ocean breezes all week long.', tags:['pet-friendly','waterfront'], lat:43.5176, lng:-70.3743, active:true, weeks:[{dates:'Jun 27 – Jul 4',status:'Booked'},{dates:'Jul 4 – Jul 11',status:'Available'},{dates:'Jul 11 – Jul 18',status:'Available'},{dates:'Jul 18 – Jul 25',status:'Booked'},{dates:'Aug 1 – Aug 8',status:'Available'}] },
+  { _slug:'pine-haven-cape', title:'Pine Haven Cape', location:'Saco, ME', type:'Cape', bedrooms:4, bathrooms:2, guests:8, price:'$3,100', photo:'', description:'Classic New England Cape on a quiet street. Huge backyard, outdoor shower, bikes included, five minutes to the beach.', tags:['year-round'], lat:43.5009, lng:-70.4428, active:true, weeks:[{dates:'Jun 27 – Jul 4',status:'Available'},{dates:'Jul 4 – Jul 11',status:'Available'},{dates:'Jul 11 – Jul 18',status:'Booked'},{dates:'Jul 18 – Jul 25',status:'Available'}] },
+  { _slug:'dune-cottage', title:'The Dune Cottage', location:'Old Orchard Beach, ME', type:'Cottage', bedrooms:2, bathrooms:1, guests:4, price:'$1,750', photo:'', description:'Cozy cottage nestled in the dunes. Steps to the sand, screened porch, fully stocked. Perfect for couples or small families.', tags:['waterfront','pet-friendly'], lat:43.5220, lng:-70.3800, active:true, weeks:[{dates:'Jul 4 – Jul 11',status:'Available'},{dates:'Jul 11 – Jul 18',status:'Available'},{dates:'Jul 18 – Jul 25',status:'Available'},{dates:'Jul 25 – Aug 1',status:'Booked'}] },
+];
+
+const DEMO_REVIEWS = [
+  { property:'Harborview Cottage', author:'Michelle T.', rating:5, text:'Absolutely perfect week. The cottage was spotless, the porch was our favorite spot every evening. Felt like a home, not a rental.', date:'August 2025', approved:true },
+  { property:'Pine Haven Cape', author:'David & Sarah R.', rating:5, text:'Best vacation rental we\'ve ever stayed in. Incredibly well-maintained, great neighborhood. We\'re already booking next summer.', date:'July 2025', approved:true },
+  { property:'Harborview Cottage', author:'James P.', rating:4, text:'Beautiful property, great location. The owner was super responsive and helpful. Would highly recommend to any family.', date:'July 2025', approved:true },
+  { property:'The Dune Cottage', author:'Karen L.', rating:5, text:'Woke up to the sound of waves every morning. The cottage was charming and had everything we needed for a perfect week.', date:'August 2025', approved:true },
+  { property:'Pine Haven Cape', author:'Tom B.', rating:5, text:'Brought the whole extended family. The Cape had enough space for everyone and the backyard was perfect for the kids.', date:'August 2025', approved:true },
+];
+
+const DEMO_POSTS = [
+  { _slug:'best-beaches-oob', title:'The Best Beaches Around Old Orchard Beach', date:'March 2026', excerpt:'From the iconic main beach to quieter stretches in Scarborough, here\'s where locals actually go.', emoji:'🏖️' },
+  { _slug:'restaurants-oob', title:'Where to Eat in Old Orchard Beach', date:'February 2026', excerpt:'Lobster rolls, fresh chowder, and a few hidden gems. Our favorite spots after years of summers here.', emoji:'🦞' },
+  { _slug:'things-to-do', title:'A Week in OOB: The Full Itinerary', date:'January 2026', excerpt:'Palace Playland, the Pier, day trips to Portland — everything you need for a packed and perfect week.', emoji:'🎡' },
+];
+
+// ─── FILTER ────────────────────────────────────────────────────────────────
+function applyFilter(btn) {
+  // FIX #9: update aria-pressed
+  document.querySelectorAll('.filter-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+  btn.setAttribute('aria-pressed', 'true');
+  activeFilter = btn.dataset.filter;
+
+  const filtered = activeFilter === 'all'
+    ? allProperties
+    : allProperties.filter(p => {
+        if (activeFilter === 'available') return (p.weeks||[]).some(w => w.status === 'Available');
+        return (p.tags||[]).includes(activeFilter);
+      });
+
+  renderGrid(filtered);
+  updateMapHighlights(filtered);
+}
+
+// ─── RENDER GRID ───────────────────────────────────────────────────────────
+function renderGrid(props) {
+  const grid  = document.getElementById('listings-grid');
+  const count = document.getElementById('filter-count');
+
+  if (!props.length) {
+    grid.innerHTML = '<div class="state-msg" role="status"><div class="icon" aria-hidden="true">🌊</div><p>No properties match that filter.</p></div>';
+    count.textContent = '';
+    return;
+  }
+
+  count.textContent = `${props.length} propert${props.length === 1 ? 'y' : 'ies'}`;
+  grid.innerHTML = props.map((p, i) => cardHTML(p, i)).join('');
+  grid.querySelectorAll('.card').forEach((c, i) => { c.style.animationDelay = `${i * 0.06}s`; });
+}
+
+function cardHTML(p) {
+  const avail     = (p.weeks||[]).filter(w => w.status === 'Available').length;
+  // FIX #20: removed unused totalWeeks variable
+  const badgeClass = avail > 0 ? 'has-avail' : 'full';
+  const badgeText  = avail > 0 ? `${avail} week${avail > 1 ? 's' : ''} open` : 'Fully booked';
+
+  const tagLabels = { 'pet-friendly':'🐾 Pet-Friendly', 'waterfront':'🌊 Waterfront', 'year-round':'📅 Year-Round' };
+  const tagsHTML  = (p.tags||[]).map(t => `<span class="card-tag">${esc(tagLabels[t] || t)}</span>`).join('');
+
+  // FIX #1: onerror replaced — image wraps in a container div; JS handles fallback safely
+  const photoHTML = p.photo
+    ? `<img src="${esc(p.photo)}" alt="${esc(p.title)}" loading="lazy" class="card-img" data-fallback="true" />`
+    : `<div class="card-photo-placeholder" aria-hidden="true">🏡</div>`;
+
+  const propRevs  = allReviews.filter(r => r.property === p.title);
+  const avgRating = propRevs.length ? propRevs.reduce((s, r) => s + (r.rating || 5), 0) / propRevs.length : 0;
+  const ratingHTML = propRevs.length
+    ? `<div class="card-rating"><span class="stars" aria-label="${avgRating.toFixed(1)} out of 5 stars">${renderStars(avgRating)}</span><span class="rating-count">${avgRating.toFixed(1)} (${propRevs.length} review${propRevs.length > 1 ? 's' : ''})</span></div>`
+    : '';
+
+  const weeksHTML = (p.weeks||[]).map((w, wi) => {
+    const booked = w.status === 'Booked';
+    const cls    = booked ? 'booked' : 'available';
+    // FIX #2: no inline onclick with data in attribute — use data-* + event delegation
+    return `<div class="week-row ${cls}" role="${booked ? 'presentation' : 'button'}" ${booked ? '' : `tabindex="0" aria-label="Select week ${esc(w.dates)}"`} data-slug="${esc(p._slug)}" data-wi="${wi}" data-dates="${esc(w.dates)}" data-booked="${booked}">
+      <span class="week-dates">${esc(w.dates)}</span>
+      <span class="week-status-pill">${booked ? 'Booked' : 'Available'}</span>
+    </div>`;
+  }).join('');
+
+  // FIX #10: article with tabindex for keyboard nav
+  return `
+  <article class="card" id="card-${esc(p._slug)}" tabindex="0"
+    role="article" aria-label="${esc(p.title)} — ${esc(p.location)}"
+    data-slug="${esc(p._slug)}">
+    <div class="card-photo">
+      ${photoHTML}
+      <div class="card-avail-badge ${badgeClass}" aria-label="${esc(badgeText)}">${esc(badgeText)}</div>
+      <div class="card-tags" aria-label="Property tags">${tagsHTML}</div>
+    </div>
+    <div class="card-body">
+      <div class="card-type">${esc(p.type || 'Property')}</div>
+      <h3 class="card-title">${esc(p.title)}</h3>
+      <p class="card-location"><span aria-hidden="true">📍</span> ${esc(p.location)}</p>
+      <ul class="card-specs" aria-label="Property details">
+        <li class="spec"><span aria-hidden="true">🛏</span> ${esc(String(p.bedrooms))} bed</li>
+        <li class="spec"><span aria-hidden="true">🚿</span> ${esc(String(p.bathrooms))} bath</li>
+        <li class="spec"><span aria-hidden="true">👥</span> Up to ${esc(String(p.guests))}</li>
+      </ul>
+      ${ratingHTML}
+      <div class="avail-section">
+        <button class="avail-toggle" id="avail-toggle-${esc(p._slug)}"
+          aria-expanded="false" aria-controls="avail-panel-${esc(p._slug)}">
+          <span>View Availability</span>
+          <span class="chevron" aria-hidden="true">▼</span>
+        </button>
+        <div class="avail-panel" id="avail-panel-${esc(p._slug)}" role="region" aria-label="Availability for ${esc(p.title)}">
+          <p class="avail-hint">Tap an available week to select it for your inquiry.</p>
+          <div class="week-grid">${weeksHTML}</div>
+        </div>
+      </div>
+      <div class="card-price-row">
+        <div class="card-price">${esc(p.price)} <span>/ week</span></div>
+        <span class="card-cta" aria-hidden="true">Inquire →</span>
+      </div>
+    </div>
+  </article>`;
+}
+
+// ─── FIX #1: image error fallback via event delegation ────────────────────
+document.addEventListener('error', function(e) {
+  if (e.target.tagName === 'IMG' && e.target.dataset.fallback) {
+    const photo = e.target.closest('.card-photo');
+    if (photo) {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'card-photo-placeholder';
+      placeholder.setAttribute('aria-hidden', 'true');
+      placeholder.textContent = '🏡';
+      e.target.replaceWith(placeholder);
+    }
+  }
+}, true);
+
+// ─── FIX #2: event delegation for cards and week rows ─────────────────────
+document.addEventListener('click', function(e) {
+  // Card navigation
+  const card = e.target.closest('.card');
+  if (card && !e.target.closest('.avail-section')) {
+    const slug = card.dataset.slug;
+    if (slug) window.location.href = `/property/${encodeURIComponent(slug)}`;
+    return;
+  }
+
+  // Availability toggle
+  const toggle = e.target.closest('.avail-toggle');
+  if (toggle) {
+    e.stopPropagation();
+    const slug  = toggle.id.replace('avail-toggle-', '');
+    toggleAvail(slug, toggle);
+    return;
+  }
+
+  // Week row selection
+  const weekRow = e.target.closest('.week-row:not(.booked)');
+  if (weekRow) {
+    e.stopPropagation();
+    toggleWeek(weekRow.dataset.slug, weekRow.dataset.dates, weekRow);
+  }
+});
+
+// Keyboard support for cards and week rows
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const card = e.target.closest('.card');
+    if (card && e.target === card) {
+      e.preventDefault();
+      const slug = card.dataset.slug;
+      if (slug) window.location.href = `/property/${encodeURIComponent(slug)}`;
+    }
+    const weekRow = e.target.closest('.week-row:not(.booked)');
+    if (weekRow) {
+      e.preventDefault();
+      toggleWeek(weekRow.dataset.slug, weekRow.dataset.dates, weekRow);
+    }
+  }
+  if (e.key === 'Escape') {
+    closeModal('inquiry-overlay');
+    closeModal('review-overlay');
+  }
+});
+
+function toggleAvail(slug, toggleEl) {
+  const panel  = document.getElementById(`avail-panel-${slug}`);
+  const toggle = toggleEl || document.getElementById(`avail-toggle-${slug}`);
+  const isOpen = panel.classList.contains('open');
+
+  document.querySelectorAll('.avail-panel.open').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.avail-toggle[aria-expanded="true"]').forEach(t => {
+    t.setAttribute('aria-expanded', 'false');
+    t.querySelector('span').textContent = 'View Availability';
+  });
+
+  if (!isOpen) {
+    panel.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.querySelector('span').textContent = 'Hide Availability';
+  }
+}
+
+function toggleWeek(slug, dates, el) {
+  if (el.dataset.booked === 'true') return;
+  if (!selectedWeeks[slug]) selectedWeeks[slug] = [];
+  const sel = selectedWeeks[slug];
+  const pos = sel.indexOf(dates);
+  if (pos === -1) {
+    sel.push(dates);
+    el.classList.remove('available');
+    el.classList.add('selected');
+    el.setAttribute('aria-label', `Deselect week ${esc(dates)}`);
+    el.querySelector('.week-status-pill').textContent = 'Selected ✓';
+  } else {
+    sel.splice(pos, 1);
+    el.classList.remove('selected');
+    el.classList.add('available');
+    el.setAttribute('aria-label', `Select week ${esc(dates)}`);
+    el.querySelector('.week-status-pill').textContent = 'Available';
+  }
+}
+
+// ─── MAP ──────────────────────────────────────────────────────────────────
+function initMap() {
+  if (mapInstance || typeof L === 'undefined') return;
+
+  mapInstance = L.map('map', { zoomControl: true, scrollWheelZoom: false })
+    .setView([43.51, -70.38], 11);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 18
+  }).addTo(mapInstance);
+
+  function makeIcon(color) {
+    return L.divIcon({
+      className: '',
+      html: `<div style="width:32px;height:32px;border-radius:50% 50% 50% 0;background:${color};border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);transform:rotate(-45deg)"></div>`,
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    });
+  }
+
+  allProperties.forEach(p => {
+    if (!p.lat || !p.lng) return;
+    const avail  = (p.weeks||[]).some(w => w.status === 'Available');
+    // FIX #2: map popup button uses data-slug, handled by delegation
+    const popupEl = document.createElement('div');
+    popupEl.className = 'map-popup';
+    popupEl.innerHTML =
+      `<div class="map-popup-title">${esc(p.title)}</div>` +
+      `<div class="map-popup-loc">📍 ${esc(p.location)}</div>` +
+      `<div class="map-popup-price">${esc(p.price)}/week</div>` +
+      `<button class="map-popup-btn" data-goto="${esc(p._slug)}">View Property →</button>`;
+
+    popupEl.querySelector('.map-popup-btn').addEventListener('click', () => {
+      window.location.href = `/property/${encodeURIComponent(p._slug)}`;
+    });
+
+    const marker = L.marker([p.lat, p.lng], { icon: makeIcon(avail ? '#0a6e7c' : '#d4826a'), title: p.title })
+      .addTo(mapInstance)
+      .bindPopup(popupEl);
+
+    marker.on('click', () => highlightCard(p._slug));
+    mapMarkers[p._slug] = marker;
+  });
+}
+
+function highlightCard(slug) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('highlighted'));
+  const card = document.getElementById(`card-${slug}`);
+  if (card) {
+    card.classList.add('highlighted');
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+function updateMapHighlights(filtered) {
+  if (!mapInstance) return;
+  const slugSet = new Set(filtered.map(p => p._slug));
+  Object.entries(mapMarkers).forEach(([slug, marker]) => {
+    if (mapInstance.hasLayer(marker) && !slugSet.has(slug)) mapInstance.removeLayer(marker);
+    else if (!mapInstance.hasLayer(marker) && slugSet.has(slug)) marker.addTo(mapInstance);
+  });
+}
+
+function toggleMobileMap() {
+  const panel = document.getElementById('map-panel');
+  const btn   = document.getElementById('map-toggle');
+  mapMobileOpen = !mapMobileOpen;
+  panel.classList.toggle('mobile-open', mapMobileOpen);
+  btn.setAttribute('aria-expanded', String(mapMobileOpen));
+  btn.innerHTML = mapMobileOpen
+    ? '<span aria-hidden="true">✕</span> Close Map'
+    : '<span aria-hidden="true">🗺</span> Show Map';
+  if (mapMobileOpen && mapInstance) setTimeout(() => mapInstance.invalidateSize(), 300);
+}
+
+// ─── REVIEWS ──────────────────────────────────────────────────────────────
+function renderReviews() {
+  const track = document.getElementById('reviews-track');
+  if (!allReviews.length) {
+    track.innerHTML = '<div class="state-msg"><p>Be the first to leave a review!</p></div>';
+    return;
+  }
+  // FIX #10: review cards get role="listitem"
+  track.innerHTML = allReviews.map(r => `
+    <div class="review-card" role="listitem">
+      <div class="review-stars" aria-label="${r.rating || 5} out of 5 stars">${renderStars(r.rating || 5)}</div>
+      <blockquote class="review-text">${esc(r.text)}</blockquote>
+      <div class="review-meta">
+        <div>
+          <div class="review-author">${esc(r.author)}</div>
+          <div class="review-property">${esc(r.property)}</div>
+        </div>
+        <time class="review-date">${esc(r.date || '')}</time>
+      </div>
+    </div>
+  `).join('');
+}
+
+function populateReviewPropertySelect() {
+  const sel = document.getElementById('r-property');
+  allProperties.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = esc(p.title);
+    opt.textContent = p.title;
+    sel.appendChild(opt);
+  });
+}
+
+function setRating(val) {
+  currentRating = val;
+  document.querySelectorAll('.star-btn').forEach((b, i) => {
+    b.classList.toggle('active', i < val);
+    b.setAttribute('aria-pressed', i < val ? 'true' : 'false');
+  });
+}
+
+// ─── BLOG ─────────────────────────────────────────────────────────────────
+function renderBlog() {
+  const grid = document.getElementById('blog-grid');
+  if (!allPosts.length) { grid.style.display = 'none'; return; }
+  // FIX #10: blog cards get role/tabindex for keyboard nav
+  grid.innerHTML = allPosts.map(p => `
+    <article class="blog-card" role="listitem" tabindex="0" data-href="/blog/${esc(p._slug)}"
+      aria-label="${esc(p.title)}, published ${esc(p.date || '')}">
+      <div class="blog-card-img" aria-hidden="true">
+        ${p.photo ? `<img src="${esc(p.photo)}" alt="" loading="lazy" />` : (p.emoji || '📝')}
+      </div>
+      <div class="blog-card-body">
+        <time class="blog-card-date">${esc(p.date || '')}</time>
+        <h3 class="blog-card-title">${esc(p.title)}</h3>
+        <p class="blog-card-excerpt">${esc(p.excerpt || '')}</p>
+      </div>
+    </article>
+  `).join('');
+
+  grid.querySelectorAll('.blog-card').forEach(card => {
+    card.addEventListener('click', () => { window.location.href = card.dataset.href; });
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = card.dataset.href; }
+    });
+  });
+}
+
+// ─── MODALS ───────────────────────────────────────────────────────────────
+function openInquiryModal(propSlug) {
+  lastFocusedEl = document.activeElement; // FIX #7: save focus
+  const p   = propSlug ? allProperties.find(x => x._slug === propSlug) : null;
+  const sel = selectedWeeks[propSlug] || [];
+  modalProperty = p;
+
+  document.getElementById('inquiry-modal-title').textContent = p ? p.title : 'General Inquiry';
+
+  // Build summary safely — use textContent not innerHTML for user data
+  const summary = document.getElementById('inquiry-summary');
+  if (p) {
+    summary.innerHTML = '';
+    const strong = document.createElement('strong');
+    strong.textContent = p.title;
+    summary.appendChild(strong);
+    summary.appendChild(document.createTextNode(` · ${p.location}`));
+    summary.appendChild(document.createElement('br'));
+    summary.appendChild(document.createTextNode(`${p.price}/week`));
+    if (sel.length) {
+      summary.appendChild(document.createElement('br'));
+      const sw = document.createElement('strong');
+      sw.textContent = 'Selected weeks: ';
+      summary.appendChild(sw);
+      summary.appendChild(document.createTextNode(sel.join(', ')));
+    }
+  } else {
+    summary.textContent = "Fill in your details and we'll get back to you within 24 hours.";
+  }
+
+  document.getElementById('inquiry-form-view').style.display = 'block';
+  document.getElementById('inquiry-success').classList.remove('show');
+  ['i-first','i-last','i-email','i-phone','i-message'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('i-hp').value = '';
+  document.getElementById('i-guests').value = '';
+
+  const overlay = document.getElementById('inquiry-overlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // FIX #7: move focus into modal
+  overlay.querySelector('.modal-close').focus();
+}
+
+function openReviewModal() {
+  lastFocusedEl = document.activeElement;
+  document.getElementById('review-form-view').style.display = 'block';
+  document.getElementById('review-success').classList.remove('show');
+  const overlay = document.getElementById('review-overlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  overlay.querySelector('.modal-close').focus();
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+  // FIX #7: restore focus to element that triggered modal
+  if (lastFocusedEl) { lastFocusedEl.focus(); lastFocusedEl = null; }
+}
+
+function handleOverlayClick(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+
+// ─── SUBMIT INQUIRY ───────────────────────────────────────────────────────
+async function submitInquiry() {
+  if (document.getElementById('i-hp').value) return; // Honeypot
+
+  const first = document.getElementById('i-first').value.trim();
+  const last  = document.getElementById('i-last').value.trim();
+  const email = document.getElementById('i-email').value.trim();
+
+  if (!first || !last || !email) { showFormError('inquiry', 'Please fill in your name and email.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFormError('inquiry', 'Please enter a valid email address.'); return; }
+
+  const btn = document.querySelector('#inquiry-form-view .btn-primary');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  // FIX #3: ID only, not full URL
+  const payload = {
+    name:     `${first} ${last}`,
+    email,
+    phone:    document.getElementById('i-phone').value.trim(),
+    guests:   document.getElementById('i-guests').value,
+    property: modalProperty?.title || 'General inquiry',
+    weeks:    (selectedWeeks[modalProperty?._slug] || []).join(', ') || 'Not specified',
+    message:  document.getElementById('i-message').value.trim(),
+    _subject: `Rental Inquiry: ${modalProperty?.title || 'General'}`,
+  };
+
+  try {
+    if (INQUIRY_FORM_ID === 'YOUR_INQUIRY_FORM_ID') { await new Promise(r => setTimeout(r, 800)); showSuccess('inquiry'); return; }
+    const res = await fetch(`https://formspree.io/f/${INQUIRY_FORM_ID}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) showSuccess('inquiry');
+    else throw new Error(`HTTP ${res.status}`);
+  } catch(err) {
+    console.error('Inquiry submit error:', err.message);
+    showFormError('inquiry', 'Something went wrong. Please email rentals@beachgirlpropertyrentals.com directly.');
+    btn.textContent = 'Send Inquiry →';
+    btn.disabled = false;
+  }
+}
+
+// ─── SUBMIT REVIEW ────────────────────────────────────────────────────────
+async function submitReview() {
+  if (document.getElementById('r-hp').value) return;
+
+  const property = document.getElementById('r-property').value;
+  const dates    = document.getElementById('r-dates').value.trim();
+  const name     = document.getElementById('r-name').value.trim();
+  const review   = document.getElementById('r-review').value.trim();
+
+  if (!property || !dates || !name || !review || !currentRating) {
+    showFormError('review', 'Please fill in all fields and select a rating.');
+    return;
+  }
+  if (review.length > 2000) { showFormError('review', 'Review must be under 2000 characters.'); return; }
+
+  const btn = document.querySelector('#review-form-view .btn-primary');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  const payload = {
+    property, dates,
+    author: name,
+    rating: currentRating,
+    review,
+    _subject: `Review Submission: ${property}`,
+  };
+
+  try {
+    if (REVIEW_FORM_ID === 'YOUR_REVIEW_FORM_ID') { await new Promise(r => setTimeout(r, 800)); showSuccess('review'); return; }
+    const res = await fetch(`https://formspree.io/f/${REVIEW_FORM_ID}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) showSuccess('review');
+    else throw new Error(`HTTP ${res.status}`);
+  } catch(err) {
+    console.error('Review submit error:', err.message);
+    showFormError('review', 'Something went wrong. Please try again.');
+    btn.textContent = 'Submit Review →';
+    btn.disabled = false;
+  }
+}
+
+function showFormError(type, msg) {
+  // Use non-blocking status message rather than alert() for accessibility
+  const view  = document.getElementById(`${type}-form-view`);
+  let errEl   = view.querySelector('.form-error');
+  if (!errEl) {
+    errEl = document.createElement('p');
+    errEl.className = 'form-error';
+    errEl.setAttribute('role', 'alert');
+    errEl.style.cssText = 'color:#b94040;font-size:0.82rem;margin-bottom:0.75rem;padding:0.5rem 0.75rem;background:#fdf0f0;border-radius:4px;border-left:3px solid #b94040;';
+    view.querySelector('.btn-primary').before(errEl);
+  }
+  errEl.textContent = msg;
+}
+
+function showSuccess(type) {
+  if (type === 'inquiry') {
+    document.getElementById('inquiry-form-view').style.display = 'none';
+    document.getElementById('inquiry-success').classList.add('show');
+  } else {
+    document.getElementById('review-form-view').style.display = 'none';
+    document.getElementById('review-success').classList.add('show');
+  }
+}
+
+// ─── NETLIFY IDENTITY ─────────────────────────────────────────────────────
+window.addEventListener('load', function() {
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', user => {
+      if (!user) {
+        window.netlifyIdentity.on('login', () => {
+          document.location.href = '/manage-listings-apm/';
+        });
+      }
+    });
+  }
+});
+
+loadAll();
+</script>
 </body>
 </html>

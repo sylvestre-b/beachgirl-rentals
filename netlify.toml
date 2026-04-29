@@ -1,133 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Blog — Beach Girl Property Rentals</title>
-<meta name="description" content="Local guides, travel tips, and stories from Old Orchard Beach and coastal Maine." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-<style>
-:root{--teal:#0a6e7c;--teal-mid:#0d8a9e;--teal-light:#4eb8c8;--teal-pale:#d4f0f5;--sand:#f2e8d5;--sand-mid:#e8d9be;--shell:#d4826a;--ink:#1a2332;--text:#2c3e50;--text-mid:#5a6a7a;--text-muted:#8a9aaa;--white:#fffef9;--offwhite:#faf7f0;--r:4px;--r-lg:12px;--shadow-sm:0 1px 4px rgba(10,110,124,0.08);--transition:0.25s cubic-bezier(0.4,0,0.2,1);}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--offwhite);color:var(--text);-webkit-font-smoothing:antialiased;}
-img{display:block;max-width:100%;}
-a{color:inherit;text-decoration:none;}
+[build]
+  publish = "."
+  command = "npm install && node build.js"
 
-.site-header{background:var(--ink);position:sticky;top:0;z-index:500;border-bottom:3px solid var(--teal-mid);}
-.header-inner{max-width:1400px;margin:0 auto;padding:0 1.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
-.logo-main{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:500;color:var(--white);}
-.logo-sub{font-size:0.58rem;color:var(--teal-light);letter-spacing:0.2em;text-transform:uppercase;}
-.back-link{font-size:0.78rem;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:6px;transition:color var(--transition);}
-.back-link:hover{color:var(--teal-light);}
+[build.environment]
+  NODE_VERSION = "20"
 
-.post-hero{background:var(--teal);min-height:280px;display:flex;align-items:flex-end;padding:2.5rem 1.5rem;position:relative;overflow:hidden;}
-.post-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--ink) 0%,var(--teal) 100%);opacity:0.9;}
-.post-hero-content{position:relative;z-index:1;max-width:760px;}
-.post-eyebrow{font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal-light);margin-bottom:0.5rem;}
-.post-title{font-family:'Fraunces',serif;font-size:clamp(1.75rem,4vw,2.8rem);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:0.5rem;}
-.post-meta{font-size:0.78rem;color:rgba(255,255,255,0.55);}
+# Block default /admin path
+[[redirects]]
+  from = "/admin"
+  to = "/404.html"
+  status = 404
 
-.post-layout{max-width:1100px;margin:0 auto;padding:3rem 1.5rem;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start;}
+[[redirects]]
+  from = "/admin/*"
+  to = "/404.html"
+  status = 404
 
-.post-body{font-size:0.95rem;line-height:1.85;color:var(--text-mid);}
-.post-body h2{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:300;color:var(--ink);margin:2rem 0 0.75rem;}
-.post-body h3{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:500;color:var(--ink);margin:1.5rem 0 0.5rem;}
-.post-body p{margin-bottom:1.25rem;}
-.post-body img{width:100%;border-radius:var(--r-lg);margin:1.5rem 0;box-shadow:var(--shadow-sm);}
-.post-body a{color:var(--teal);text-decoration:underline;}
+# SPA-style routing for property detail pages
+[[redirects]]
+  from = "/property/*"
+  to = "/property.html"
+  status = 200
 
-.post-sidebar{position:sticky;top:90px;}
-.sidebar-card{background:var(--white);border-radius:var(--r-lg);border:1px solid var(--sand-mid);padding:1.25rem;margin-bottom:1rem;}
-.sidebar-title{font-size:0.68rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.85rem;}
-.sidebar-card a{display:block;font-size:0.82rem;color:var(--teal);margin-bottom:0.4rem;transition:opacity var(--transition);}
-.sidebar-card a:hover{opacity:0.7;}
-.cta-card{background:linear-gradient(135deg,var(--teal),var(--teal-mid));border-radius:var(--r-lg);padding:1.25rem;color:var(--white);}
-.cta-card h4{font-family:'Fraunces',serif;font-size:1rem;font-weight:300;margin-bottom:0.5rem;}
-.cta-card p{font-size:0.78rem;opacity:0.8;line-height:1.6;margin-bottom:1rem;}
-.cta-card a{display:block;background:var(--white);color:var(--teal);text-align:center;padding:8px;border-radius:var(--r);font-size:0.78rem;font-weight:500;transition:opacity var(--transition);}
-.cta-card a:hover{opacity:0.85;}
-
-@media(max-width:768px){.post-layout{grid-template-columns:1fr;}.post-sidebar{position:static;}}
-@media(max-width:640px){.post-hero{padding:2rem 1rem;}.post-layout{padding:1.5rem 1rem;}}
-</style>
-</head>
-<body>
-
-<header class="site-header">
-  <div class="header-inner">
-    <div><div class="logo-main">Beach Girl Property Rentals</div><div class="logo-sub">Affordable Property Management, LLC</div></div>
-    <a href="/" class="back-link">← Back to Rentals</a>
-  </div>
-</header>
-
-<div class="post-hero" id="post-hero">
-  <div class="post-hero-bg"></div>
-  <div class="post-hero-content">
-    <div class="post-eyebrow" id="post-eyebrow">Local Guide</div>
-    <h1 class="post-title" id="post-title">Loading…</h1>
-    <div class="post-meta" id="post-meta"></div>
-  </div>
-</div>
-
-<div class="post-layout">
-  <article class="post-body" id="post-body">Loading…</article>
-  <aside class="post-sidebar">
-    <div class="cta-card">
-      <h4>Ready to Book?</h4>
-      <p>Browse available properties for the 2026 season — no fees, direct with the owner.</p>
-      <a href="/#listings">View All Rentals →</a>
-    </div>
-    <div class="sidebar-card" id="related-posts" style="display:none">
-      <div class="sidebar-title">More Guides</div>
-    </div>
-  </aside>
-</div>
-
-<script>
-function esc(s){if(typeof s!=='string')return'';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-
-const slug = location.pathname.replace(/\/?blog\/?/,'').replace(/\//g,'').trim();
-
-const DEMO_POSTS = [
-  {_slug:'best-beaches-oob',title:'The Best Beaches Around Old Orchard Beach',date:'March 2026',emoji:'🏖️',excerpt:'From the iconic main beach to quieter stretches in Scarborough, here\'s where locals actually go.',body:`<h2>Old Orchard Beach Main Beach</h2><p>Seven miles of white sand make this one of the premier beaches in New England. Come early in July and August — by 10am the parking fills up and the beach gets lively. The pier is iconic, and the amusement park next door makes it a full family day.</p><h2>Scarborough Beach State Park</h2><p>Just a short drive south, Scarborough Beach offers a more relaxed atmosphere. The waves are better for boogie boarding and the parking situation is far more manageable. Locals consider this the go-to when OOB feels too crowded.</p><h2>Ferry Beach State Park</h2><p>Tucked between Saco and OOB, Ferry Beach is a quieter, wooded stretch with calmer water — perfect for younger kids or anyone who wants a peaceful morning swim.</p><h2>Pro Tips</h2><p>Arrive before 9am in peak season. Bring cash for parking. The best seafood shacks are a 10-minute walk from the OOB pier — skip the tourist traps and find the local lobster rolls.</p>`},
-  {_slug:'restaurants-oob',title:'Where to Eat in Old Orchard Beach',date:'February 2026',emoji:'🦞',excerpt:'Lobster rolls, fresh chowder, and a few hidden gems.',body:`<h2>The Seafood Scene</h2><p>Old Orchard Beach runs on lobster. The best rolls are the simple ones — cold lobster, a little mayo, a toasted split-top bun. Ask a local where they go and you'll get a different answer every time, which tells you everything about how good the competition is.</p><h2>Beyond the Pier</h2><p>Walk two blocks from the beachfront and prices drop, quality stays high. The local pizza spots have been feeding summer families for generations. Don't overlook the fried dough stands — it's a rite of passage.</p><h2>Day Trips Worth It</h2><p>Portland is 20 minutes away and has become one of the best food cities in the country. Fore Street, Eventide Oyster Co., and the Old Port neighborhood are all worth the drive for a special dinner.</p>`},
-  {_slug:'things-to-do',title:'A Week in OOB: The Full Itinerary',date:'January 2026',emoji:'🎡',excerpt:'Palace Playland, the Pier, day trips to Portland — a packed and perfect week.',body:`<h2>Day 1: Beach Day</h2><p>Arrive, drop your bags, walk straight to the beach. That's the whole plan for day one. Orient yourself, find your favorite stretch of sand, watch the sunset from the pier.</p><h2>Day 2: Palace Playland</h2><p>New England's only remaining beachside amusement park. The roller coasters are fun, the carousel is historic, and the views from the top of the Ferris wheel are worth every minute of the line.</p><h2>Day 3: Day Trip to Portland</h2><p>Drive up in the morning, explore the Old Port, grab lunch at the Public Market House, walk the Eastern Promenade. Back in OOB for sunset.</p><h2>Days 4–7: Unplug</h2><p>This is the point. Kayak rentals, mini golf, ice cream, afternoon naps, and long walks at low tide. The best weeks here are the ones with no plan at all.</p>`},
-];
-
-async function init(){
-  const posts = await fetch('/posts-index.json').then(r=>r.ok?r.json():[]).catch(()=>[]);
-  const all = posts.length ? posts : DEMO_POSTS;
-  const post = all.find(p=>p._slug===slug);
-  if(!post){document.getElementById('post-title').textContent='Post not found';return;}
-
-  document.title = `${post.title} — Beach Girl Property Rentals`;
-  document.querySelector('meta[name="description"]').content = post.excerpt||post.title;
-
-  // Schema
-  const schema = {"@context":"https://schema.org","@type":"BlogPosting","headline":post.title,"datePublished":post.date,"publisher":{"@type":"Organization","name":"Beach Girl Property Rentals","url":"https://beachgirlpropertyrentals.com"},"description":post.excerpt};
-  const s=document.createElement('script');s.type='application/ld+json';s.textContent=JSON.stringify(schema);document.head.appendChild(s);
-
-  document.getElementById('post-title').textContent = post.title;
-  document.getElementById('post-meta').textContent = post.date;
-  document.getElementById('post-body').innerHTML = post.body || `<p>${esc(post.excerpt||'')}</p>`;
-
-  // Related posts
-  const related = all.filter(p=>p._slug!==slug).slice(0,3);
-  if(related.length){
-    const sidebar = document.getElementById('related-posts');
-    sidebar.style.display='block';
-    related.forEach(p=>{
-      const a = document.createElement('a');
-      a.href = `/blog/${p._slug}`;
-      a.textContent = p.title;
-      sidebar.appendChild(a);
-    });
-  }
-}
-
-init();
-</script>
-</body>
-</html>
+# Blog post routing
+[[redirects]]
+  from = "/blog/*"
+  to = "/blog-post.html"
+  status = 200

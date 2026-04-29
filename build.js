@@ -1,25 +1,35 @@
-# ── Global security headers ──────────────────────────────────────────────────
-/*
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  X-XSS-Protection: 1; mode=block
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
-  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://identity.netlify.com https://cdn.jsdelivr.net https://formspree.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://formspree.io https://api.netlify.com https://*.netlify.com https://nominatim.openstreetmap.org; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;
+// build.js — Netlify build script
+// Generates JSON indexes from markdown content files
 
-# ── Admin panel ───────────────────────────────────────────────────────────────
-/manage-listings-apm/*
-  X-Robots-Tag: noindex, nofollow
-  Cache-Control: no-store, no-cache, must-revalidate
-  Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://identity.netlify.com https://api.netlify.com https://*.netlify.com https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.netlify.com https://*.netlify.com https://formspree.io;
+const fs     = require('fs');
+const path   = require('path');
+const matter = require('gray-matter');
 
-# ── Static assets - cache aggressively ───────────────────────────────────────
-/photos/*
-  Cache-Control: public, max-age=31536000, immutable
+function readDir(dir, outFile, requiredField) {
+  if (!fs.existsSync(dir)) {
+    fs.writeFileSync(outFile, JSON.stringify([], null, 2));
+    console.log(`  No ${path.basename(dir)}/ directory — wrote empty index.`);
+    return;
+  }
+  const files = fs.readdirSync(dir).filter(f => f.endsWith('.md')).sort();
+  const items = files.map(file => {
+    try {
+      const raw = fs.readFileSync(path.join(dir, file), 'utf8');
+      const { data } = matter(raw);
+      data._slug = path.basename(file, '.md');
+      return data;
+    } catch (err) {
+      console.warn(`  Warning: could not parse ${file} — skipping. (${err.message})`);
+      return null;
+    }
+  }).filter(p => p && p[requiredField]);
 
-/*.css
-  Cache-Control: public, max-age=31536000, immutable
+  fs.writeFileSync(outFile, JSON.stringify(items, null, 2));
+  console.log(`  Built ${path.basename(outFile)} with ${items.length} item(s).`);
+}
 
-/*.js
-  Cache-Control: public, max-age=86400
+console.log('Building site indexes...');
+readDir(path.join(__dirname, '_listings'), path.join(__dirname, 'listings-index.json'), 'title');
+readDir(path.join(__dirname, '_reviews'),  path.join(__dirname, 'reviews-index.json'),  'property');
+readDir(path.join(__dirname, '_posts'),    path.join(__dirname, 'posts-index.json'),    'title');
+console.log('Done.');
