@@ -66,7 +66,7 @@
 /* ── RESET ──────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:17px}
-body{font-family:var(--sans);font-size:var(--base);background:var(--sand-pale);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:var(--sans);font-size:var(--base);background:linear-gradient(180deg,var(--sand-pale) 0%,#fff 40%);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer;font-family:inherit}
@@ -74,7 +74,7 @@ ul{list-style:none}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 /* ── HEADER ─────────────────────────────────── */
-.site-header{background:var(--ink);position:sticky;top:0;z-index:500;border-bottom:3px solid var(--accent)}
+.site-header{background:linear-gradient(135deg,#1e3035 0%,#2a4050 100%);position:sticky;top:0;z-index:500;border-bottom:3px solid var(--accent)}
 .header-inner{max-width:1400px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between}
 .logo-link{display:flex;flex-direction:column;line-height:1;text-decoration:none}
 .logo-name{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--white);letter-spacing:.01em}
@@ -90,13 +90,13 @@ ul{list-style:none}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%}
 /* warm gradient overlay — left side darkens for card legibility, right stays vivid */
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(28,37,40,.72) 0%,rgba(28,37,40,.38) 48%,rgba(28,37,40,.05) 100%)}
-.hero-card{position:relative;z-index:2;margin-left:clamp(1.5rem,7vw,9rem);background:rgba(233,216,180,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:var(--r-lg);padding:2.75rem 3rem;max-width:520px;box-shadow:0 12px 48px rgba(28,37,40,.35),0 0 0 1px rgba(255,255,255,.5)}
+.hero-card{position:relative;z-index:2;margin-left:clamp(1.5rem,7vw,9rem);background:linear-gradient(160deg,rgba(253,248,238,.97) 0%,rgba(235,199,195,.92) 100%);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:var(--r-lg);padding:2.75rem 3rem;max-width:520px;box-shadow:0 12px 48px rgba(28,37,40,.35),0 0 0 1px rgba(255,255,255,.5)}
 .hero-season{font-size:var(--xs);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.65rem}
 .hero-h1{font-family:var(--serif);font-size:clamp(var(--2xl),4.5vw,var(--4xl));font-weight:700;color:var(--ink);line-height:1.05;margin-bottom:.5rem}
 .hero-h1 em{font-style:italic;color:var(--accent)}
 .hero-desc{font-size:var(--sm);color:var(--text-mid);line-height:1.8;margin-bottom:1.5rem;max-width:390px}
 /* Piped props — warm, casual, no bubbles */
-.hero-props{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem;font-size:var(--xs);font-weight:700;color:var(--text-mid)}
+.hero-props{display:flex;flex-wrap:nowrap;align-items:center;gap:.15rem;font-size:.72rem;font-weight:700;color:var(--text-mid);white-space:nowrap;overflow:hidden}
 .hero-prop+.hero-prop::before{content:'·';color:var(--blush-mid);padding:0 .4rem;font-weight:400}
 .hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--white);border:none;border-radius:100px;padding:13px 30px;font-size:var(--sm);font-weight:700;margin-top:1.75rem;transition:background var(--ease),transform var(--ease)}
 .hero-cta:hover{background:var(--accent-light);transform:translateY(-2px)}
@@ -118,7 +118,7 @@ ul{list-style:none}
 #map{width:100%;height:100%}
 
 /* ── PROPERTY CARD ──────────────────────────── */
-.card{background:var(--white);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--blush);box-shadow:var(--sh-sm);transition:box-shadow var(--ease),transform var(--ease),border-color var(--ease);cursor:pointer;animation:fadeUp .35s ease both}
+.card{background:linear-gradient(170deg,#ffffff 0%,#fdf9f6 100%);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--blush);box-shadow:var(--sh-sm);transition:box-shadow var(--ease),transform var(--ease),border-color var(--ease);cursor:pointer;animation:fadeUp .35s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .card:hover,.card:focus-within{box-shadow:var(--sh-md);transform:translateY(-4px);border-color:var(--teal-dark)}
 .card:focus{outline:3px solid var(--teal-dark);outline-offset:2px}
@@ -159,12 +159,14 @@ ul{list-style:none}
 .avail-hint{font-size:var(--xs);color:var(--text-muted);margin-bottom:.6rem;font-style:italic}
 .week-grid{display:flex;flex-direction:column;gap:5px}
 .week-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:.5rem;padding:.55rem .75rem;border-radius:var(--r);border:1.5px solid transparent;font-size:var(--sm);transition:all .15s;user-select:none}
-.week-row.available{background:rgba(111,167,173,.07);border-color:rgba(111,167,173,.2);cursor:pointer;color:var(--teal)}
+.week-row.available{background:linear-gradient(to right,rgba(235,199,195,.18),rgba(235,199,195,.08));border-color:rgba(196,106,106,.25);cursor:pointer;color:var(--accent)}
 .week-row.available:hover,.week-row.available:focus{background:rgba(111,167,173,.13);border-color:var(--teal);outline:none}
 .week-row.booked{background:rgba(200,117,58,.06);border-color:rgba(200,117,58,.2);color:var(--text-muted);cursor:not-allowed;opacity:.7}
-.week-row.selected{background:var(--teal-dark);border-color:var(--teal-dark);color:var(--white);cursor:pointer}
+.week-row.selected{background:linear-gradient(135deg,var(--accent),var(--accent-light));border-color:var(--accent);color:var(--white);cursor:pointer}
 .week-dates{font-weight:700}
 .week-pill{font-size:var(--xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:100px}
+.card-inquire-btn{width:100%;background:var(--accent);color:var(--white);border:none;border-radius:var(--r);padding:.6rem;font-family:var(--sans);font-size:var(--sm);font-weight:700;margin-top:.75rem;cursor:pointer;transition:background var(--ease)}
+.card-inquire-btn:hover{background:var(--accent-light)}
 .available .week-pill{background:rgba(111,167,173,.12);color:var(--teal)}
 .booked .week-pill{background:rgba(200,117,58,.12);color:var(--accent)}
 .selected .week-pill{background:rgba(255,255,255,.2);color:var(--white)}
@@ -177,7 +179,7 @@ ul{list-style:none}
 
 /* ── HOMEPAGE TEASERS (reviews + blog) ──────── */
 .teaser-section{padding:4rem 2rem;border-top:1px solid var(--blush)}
-.teaser-section.sand-bg{background:var(--blush)}
+.teaser-section.sand-bg{background:linear-gradient(160deg,var(--sand-pale) 0%,var(--blush) 60%,var(--coral-light) 100%)}
 .teaser-section.cream-bg{background:var(--sand-pale)}
 .teaser-inner{max-width:1200px;margin:0 auto}
 .teaser-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2rem;gap:1rem;flex-wrap:wrap}
@@ -216,7 +218,7 @@ ul{list-style:none}
 .blog-card-excerpt{font-size:var(--sm);color:var(--text-muted);line-height:1.65;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-clamp:2;overflow:hidden}
 
 /* ── FOOTER ─────────────────────────────────── */
-.site-footer{background:var(--ink);color:rgba(255,255,255,.5);padding:3.5rem 2rem 2rem}
+.site-footer{background:linear-gradient(135deg,#1e3035 0%,#162028 100%);color:rgba(255,255,255,.5);padding:3.5rem 2rem 2rem}
 .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5rem;margin-bottom:2rem}
 .footer-logo .logo-name{color:var(--white);font-size:1.2rem;margin-bottom:.2rem}
 .footer-logo .logo-sub{color:var(--accent-light)}
@@ -304,13 +306,13 @@ textarea{resize:vertical;min-height:85px;line-height:1.6}
 
 <!-- HERO -->
 <section class="hero" aria-label="Welcome">
-  <img class="hero-img" src="/photos/oob-pier.jpg" alt="Old Orchard Beach pier on a sunny summer day" loading="eager" />
+  <img class="hero-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=85&auto=format&fit=crop" alt="Bright sunny beach with blue sky and golden sand" loading="eager" />
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-card">
     <p class="hero-season">2026 Season · Now Open</p>
     <h1 class="hero-h1">Your summer,<br /><em>no fees attached.</em></h1>
-    <p class="hero-desc">Owner-managed rentals right near the beach in Old Orchard Beach. No Airbnb markups, no Vrbo fees — just a quick message to the owner and you're on your way.</p>
-    <div class="hero-props" aria-label="Key benefits">
+    <p class="hero-desc">Owner-managed rentals right near the beach in Old Orchard Beach. No Airbnb markups, no Vrbo fees — just a quick message to the owner and you're one step closer to your toes in the sand.</p>
+    <div class="hero-props" aria-label="Key benefits" style="flex-wrap:nowrap;overflow:hidden">
       <span class="hero-prop">No booking fees</span>
       <span class="hero-prop">Direct with owner</span>
       <span class="hero-prop">Summer &amp; year-round</span>
@@ -441,7 +443,7 @@ textarea{resize:vertical;min-height:85px;line-height:1.6}
           <label for="i-guests">Number of Guests</label>
           <select id="i-guests" name="guests"><option value="">Select…</option><option>1–2</option><option>3–4</option><option>5–6</option><option>7–8</option><option>9+</option></select>
         </div>
-        <div class="field"><label for="i-message">Message</label><textarea id="i-message" name="message" placeholder="Tell us about your group, when you're thinking, any questions…"></textarea></div>
+        <div class="field"><label>Type of Inquiry</label><div style="display:flex;gap:1.25rem;margin-top:.25rem"><label style="display:flex;align-items:center;gap:.4rem;font-size:var(--sm);font-weight:400;text-transform:none;letter-spacing:0;cursor:pointer"><input type="radio" name="inquiry_type" value="Booking Request" checked style="width:auto;accent-color:var(--accent)"> Booking Request</label><label style="display:flex;align-items:center;gap:.4rem;font-size:var(--sm);font-weight:400;text-transform:none;letter-spacing:0;cursor:pointer"><input type="radio" name="inquiry_type" value="General Question" style="width:auto;accent-color:var(--accent)"> General Question</label></div></div><div class="field"><label for="i-message">Message</label><textarea id="i-message" name="message" placeholder="Tell us about your group, when you're thinking, any questions…"></textarea></div>
         <!-- Formspree native honeypot field — _gotcha is auto-hidden by Formspree -->
         <div class="hp-field" aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></div>
         <button class="btn-primary" onclick="submitInquiry()">Send Message →</button>
@@ -594,7 +596,7 @@ function cardHTML(p){
     const booked=w.status==='Booked';
     return`<div class="week-row ${booked?'booked':'available'}" ${booked?'':'tabindex="0"'} role="${booked?'presentation':'button'}" aria-label="${booked?'':'Select week '}${esc(w.dates)}" data-slug="${esc(p._slug)}" data-dates="${esc(w.dates)}" data-booked="${booked}"><span class="week-dates">${esc(w.dates)}</span><span class="week-pill">${booked?'Booked':'Available'}</span></div>`;
   }).join('');
-  return`<article class="card" id="card-${esc(p._slug)}" tabindex="0" data-slug="${esc(p._slug)}" aria-label="${esc(p.title)}"><div class="card-photo">${photoHTML}<div class="card-badge ${avail>0?'open':'full'}">${avail>0?`${avail} week${avail>1?'s':''} open`:'Fully booked'}</div><div class="card-tags">${tagsHTML}</div></div><div class="card-body"><div class="card-type">${esc(p.type||'Property')}</div><h3 class="card-title">${esc(p.title)}</h3><p class="card-location">📍 ${esc(p.location)}</p><ul class="card-specs"><li class="spec">🛏 ${esc(String(p.bedrooms))} bed</li><li class="spec">🚿 ${esc(String(p.bathrooms))} bath</li><li class="spec">👥 Up to ${esc(String(p.guests))}</li></ul>${ratingHTML}<div class="avail-section"><button class="avail-toggle" aria-expanded="false" aria-controls="ap-${esc(p._slug)}"><span>View availability</span><span class="chev" aria-hidden="true">▼</span></button><div class="avail-panel" id="ap-${esc(p._slug)}"><p class="avail-hint">Tap a green week to select it, then send us a message.</p><div class="week-grid">${weeksHTML}</div></div></div><div class="card-price-row"><div class="card-price">${esc(p.price)} <span>/ week</span></div><span class="card-cta" aria-hidden="true">Inquire →</span></div></div></article>`;
+  return`<article class="card" id="card-${esc(p._slug)}" tabindex="0" data-slug="${esc(p._slug)}" aria-label="${esc(p.title)}"><div class="card-photo">${photoHTML}<div class="card-badge ${avail>0?'open':'full'}">${avail>0?`${avail} week${avail>1?'s':''} open`:'Fully booked'}</div><div class="card-tags">${tagsHTML}</div></div><div class="card-body"><div class="card-type">${esc(p.type||'Property')}</div><h3 class="card-title">${esc(p.title)}</h3><p class="card-location">📍 ${esc(p.location)}</p><ul class="card-specs"><li class="spec">🛏 ${esc(String(p.bedrooms))} bed</li><li class="spec">🚿 ${esc(String(p.bathrooms))} bath</li><li class="spec">👥 Up to ${esc(String(p.guests))}</li></ul>${ratingHTML}<div class="avail-section"><button class="avail-toggle" aria-expanded="false" aria-controls="ap-${esc(p._slug)}"><span>View availability</span><span class="chev" aria-hidden="true">▼</span></button><div class="avail-panel" id="ap-${esc(p._slug)}"><p class="avail-hint">Tap a green week to select it, then message us — your selection carries over.</p><div class="week-grid">${weeksHTML}</div><button class="card-inquire-btn" onclick="event.stopPropagation();openInquiryModal('${esc(p._slug)}')">Send Inquiry →</button></div></div><div class="card-price-row"><div class="card-price">${esc(p.price)} <span>/ week</span></div><span class="card-cta" aria-hidden="true">Inquire →</span></div></div></article>`;
 }
 
 // ── IMAGE FALLBACK ─────────────────────────────

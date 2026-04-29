@@ -64,7 +64,7 @@ a{color:inherit;text-decoration:none;}
 button{cursor:pointer;font-family:inherit;}
 
 /* HEADER */
-.site-header{background:var(--ink);position:sticky;top:0;z-index:500;border-bottom:3px solid var(--teal-mid);}
+.site-header{background:linear-gradient(135deg,#1e3035 0%,#2a4050 100%);position:sticky;top:0;z-index:500;border-bottom:3px solid var(--teal-mid);}
 .header-inner{max-width:1400px;margin:0 auto;padding:0 1.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
 .logo-main{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:500;color:var(--white);}
 .logo-sub{font-size:0.58rem;color:var(--teal);letter-spacing:0.2em;text-transform:uppercase;}
@@ -258,9 +258,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
       <div class="booking-price" id="book-price">—</div>
       <div class="booking-avail" id="book-avail"></div>
       <div class="selected-weeks-preview" id="selected-preview"></div>
-      <button class="btn-inquire" onclick="openModal()">Request to Book</button>
-      <button class="btn-inquire-outline" onclick="openModal()">Ask a Question</button>
-      <p class="booking-note">🐚 No booking fees · Direct with owner<br/>We'll respond within 24 hours</p>
+      <button class="btn-inquire" onclick="openModal()">Send an Inquiry →</button>
+      <p class="booking-note">No booking fees · Direct with owner<br/>We'll respond within 24 hours</p>
     </div>
   </div>
 
@@ -287,7 +286,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
           <label for="i-guests">Number of Guests</label>
           <select id="i-guests"><option value="">Select…</option><option>1–2</option><option>3–4</option><option>5–6</option><option>7–8</option><option>9+</option></select>
         </div>
-        <div class="field"><label for="i-message">Message</label><textarea id="i-message" placeholder="Tell us about your group or any questions…"></textarea></div>
+        <div class="field"><label>Type of Inquiry</label><div style="display:flex;gap:1.25rem;margin-top:.25rem"><label style="display:flex;align-items:center;gap:.4rem;font-size:var(--sm);font-weight:400;text-transform:none;letter-spacing:0;cursor:pointer"><input type="radio" name="inquiry_type" value="Booking Request" checked style="width:auto;accent-color:var(--accent)"> Booking Request</label><label style="display:flex;align-items:center;gap:.4rem;font-size:var(--sm);font-weight:400;text-transform:none;letter-spacing:0;cursor:pointer"><input type="radio" name="inquiry_type" value="General Question" style="width:auto;accent-color:var(--accent)"> General Question</label></div></div><div class="field"><label for="i-message">Message</label><textarea id="i-message" placeholder="Tell us about your group or any questions…"></textarea></div>
         <div class="hp-field" aria-hidden="true"><input type="text" id="i-hp" tabindex="-1" autocomplete="off" /></div>
         <button class="btn-primary" onclick="submitInquiry()">Send Inquiry →</button>
         <p class="form-note">We'll respond within 24 hours. No fees, no commitments.</p>
