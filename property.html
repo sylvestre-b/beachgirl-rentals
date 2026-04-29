@@ -7,6 +7,7 @@
 <meta name="description" content="Vacation rental property details — Beach Girl Property Rentals." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/calendar.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
 <style>
 :root {
@@ -238,7 +239,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
 
     <div class="prop-avail">
       <h3 class="section-h3">Availability — 2026</h3>
-      <div class="week-list" id="week-list"></div>
+      <div class="cal-wrap" id="prop-calendar"></div>
     </div>
 
     <div class="prop-map">
@@ -300,6 +301,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6;}
   </div>
 </div>
 
+<script src="/calendar.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLM=" crossorigin="anonymous"></script>
 <script>
 const INQUIRY_FORM_ID = 'YOUR_INQUIRY_FORM_ID';
@@ -313,7 +315,7 @@ function renderStars(n){const f=Math.round(n||0);return'★'.repeat(f)+'☆'.rep
 // Get slug from URL
 const slug = location.pathname.replace(/\/?property\/?/,'').replace(/\//g,'').trim();
 let property = null;
-let selectedWeeks = [];
+let selectedWeeks = {};
 let allReviews = [];
 
 async function init(){
@@ -500,7 +502,8 @@ async function submitInquiry(){
     phone:document.getElementById('i-phone').value.trim(),
     guests:document.getElementById('i-guests').value,
     property:property?.title,
-    weeks:selectedWeeks.join(', ')||'Not specified',
+    checkIn:selectedWeeks.checkIn||'Not specified',
+    checkOut:selectedWeeks.checkOut||'Not specified',
     message:document.getElementById('i-message').value.trim(),
     _subject:`Rental Inquiry: ${property?.title}`,
   };
