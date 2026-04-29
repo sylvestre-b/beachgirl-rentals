@@ -1,158 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Old Orchard Beach local guides — best beaches, where to eat, things to do, and more from Beach Girl Property Rentals." />
-<title>Local Guide — Beach Girl Property Rentals</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-<style>
-:root {
-  /* ── 60/30/10 palette — Beach Girl Property Rentals ── */
-  /* 10% ACCENT — all CTAs, buttons, active states, stars, badges */
-  --accent:        #c46a6a;
-  --accent-light:  #d98888;
-  --accent-pale:   #f7eaea;
-  /* 30% SECONDARY — cards, section backgrounds, filter bar surfaces */
-  --blush:         #ebc7c3;
-  --blush-mid:     #ddb0aa;
-  --blush-dark:    #c9938c;
-  /* Supporting coral — hover states, dividers, secondary accents */
-  --coral:         #e7a39a;
-  --coral-light:   #f0bdb8;
-  /* 60% DOMINANT — page backgrounds, large surfaces, hero card */
-  --sand:          #e9d8b4;
-  --sand-light:    #f4ece0;
-  --sand-pale:     #faf6ef;
-  /* Anchor — header, footer, structural dark elements */
-  --teal:          #6fa7ad;
-  --teal-dark:     #4d8a91;
-  --teal-pale:     #e8f4f5;
-  /* Text — dark teal family for cohesion */
-  --ink:           #1e3035;
-  --text:          #2a3f45;
-  --text-mid:      #4a6268;
-  --text-muted:    #7a9298;
-  --white:         #ffffff;
-  /* Type */
-  --serif: 'Playfair Display', Georgia, serif;
-  --sans:  'Lato', system-ui, sans-serif;
-  /* Type scale */
-  --xs:   0.8125rem;
-  --sm:   0.9375rem;
-  --base: 1.0625rem;
-  --lg:   1.1875rem;
-  --xl:   1.375rem;
-  --2xl:  1.75rem;
-  --3xl:  2.5rem;
-  --4xl:  3.5rem;
-  /* UI */
-  --r:    8px;
-  --r-lg: 16px;
-  --sh-sm: 0 2px 8px rgba(31,48,53,.07);
-  --sh-md: 0 6px 24px rgba(31,48,53,.12);
-  --sh-lg: 0 16px 56px rgba(31,48,53,.18);
-  --ease: .24s cubic-bezier(.4,0,.2,1);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:17px}
-body{font-family:var(--sans);font-size:var(--base);background:linear-gradient(180deg,var(--sand-pale) 0%,#fff 30%);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
-img{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-button{cursor:pointer;font-family:inherit}
-
-.site-header{background:var(--ink);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:100}
-.header-inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between}
-.logo-name{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--white)}
-.back-link{font-size:var(--sm);font-weight:700;color:rgba(255,255,255,.6);transition:color var(--ease)}
-.back-link:hover{color:var(--accent-light)}
-
-.page-hero{background:linear-gradient(160deg,var(--sand-pale) 0%,var(--blush) 70%);padding:3.5rem 2rem;border-bottom:1px solid var(--blush)}
-.page-hero-inner{max-width:1200px;margin:0 auto}
-.page-eyebrow{font-size:var(--xs);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
-.page-title{font-family:var(--serif);font-size:clamp(var(--2xl),4vw,3rem);font-weight:700;color:var(--ink);margin-bottom:.75rem}
-.page-title em{font-style:italic;color:var(--accent)}
-.page-desc{font-size:var(--base);color:var(--text-mid);max-width:560px;line-height:1.75}
-
-.blog-body{max-width:1200px;margin:0 auto;padding:3rem 2rem 5rem}
-.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.75rem}
-
-.blog-card{background:var(--white);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--blush);box-shadow:var(--sh-sm);transition:box-shadow var(--ease),transform var(--ease);cursor:pointer;display:flex;flex-direction:column}
-.blog-card:hover{box-shadow:var(--sh-md);transform:translateY(-3px)}
-.blog-card-img{height:200px;background:linear-gradient(135deg,var(--teal-pale),var(--sand));display:flex;align-items:center;justify-content:center;font-size:3rem;overflow:hidden;flex-shrink:0}
-.blog-card-img img{width:100%;height:100%;object-fit:cover}
-.blog-card-body{padding:1.4rem 1.5rem;flex:1;display:flex;flex-direction:column}
-.blog-card-date{font-size:var(--xs);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:.4rem}
-.blog-card-title{font-family:var(--serif);font-size:var(--xl);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:.6rem}
-.blog-card-excerpt{font-size:var(--sm);color:var(--text-muted);line-height:1.7;flex:1}
-.blog-card-read{font-size:var(--sm);font-weight:700;color:var(--teal);margin-top:1rem}
-
-.site-footer{background:var(--ink);padding:2rem;text-align:center;font-size:var(--xs);color:rgba(255,255,255,.4)}
-.site-footer a{color:rgba(255,255,255,.6);transition:color var(--ease)}
-.site-footer a:hover{color:var(--accent-light)}
-
-@media(max-width:640px){.header-inner{padding:0 1rem}.page-hero{padding:2.5rem 1.25rem}.blog-body{padding:2rem 1.25rem 4rem}.blog-grid{grid-template-columns:1fr}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Beach Girl Rentals · Admin</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
+  <script src="https://unpkg.com/decap-cms@3.0.2/dist/decap-cms.js"></script>
+  <script>
+    window.CMS_MANUAL_INIT = true;
+    window.addEventListener('load', function () {
+      CMS.init({
+        config: {
+          load_config_file: false,
+          backend: { name: 'git-gateway', branch: 'main' },
+          media_folder: 'photos',
+          public_folder: '/photos',
+          collections: [
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/"><span class="logo-name">Beach Girl Property Rentals</span></a>
-    <a href="/" class="back-link">← Back to Rentals</a>
-  </div>
-</header>
+            // ── PROPERTIES ──────────────────────────────────────────────
+            {
+              name: 'properties',
+              label: 'Properties',
+              label_singular: 'Property',
+              folder: '_listings',
+              create: true,
+              delete: true,
+              slug: '{{slug}}',
+              fields: [
+                { label: 'Property Name',       name: 'title',       widget: 'string',  hint: 'e.g. Harborview Cottage' },
+                { label: 'Location',            name: 'location',    widget: 'string',  hint: 'e.g. Old Orchard Beach, ME' },
+                { label: 'Property Type',       name: 'type',        widget: 'select',  options: ['Cottage','Cape','Ranch','Colonial','Condo','Apartment','Studio'], default: 'Cottage' },
+                { label: 'Bedrooms',            name: 'bedrooms',    widget: 'number',  min: 0, max: 10, default: 2 },
+                { label: 'Bathrooms',           name: 'bathrooms',   widget: 'number',  min: 1, max: 8, value_type: 'float', step: 0.5, default: 1 },
+                { label: 'Max Guests',          name: 'guests',      widget: 'number',  min: 1, max: 20, default: 4 },
+                { label: 'Price Per Night',     name: 'price_night', widget: 'string',  hint: 'e.g. $295 (shown per night)', required: false },
+                { label: 'Price Per Week',      name: 'price',       widget: 'string',  hint: 'e.g. $1,750 (shown per week)' },
+                { label: 'Cover Photo',         name: 'photo',       widget: 'image',   required: false, hint: 'Upload a JPG or PNG. Landscape works best.' },
+                { label: 'Description',         name: 'description', widget: 'text',    hint: 'A few sentences guests will see on the listing.' },
+                {
+                  label: 'Tags', name: 'tags', widget: 'select', multiple: true, required: false,
+                  options: [
+                    { label: '🐾 Pet-Friendly', value: 'pet-friendly' },
+                    { label: '🌊 Waterfront',   value: 'waterfront'   },
+                    { label: '📅 Year-Round',   value: 'year-round'   },
+                  ]
+                },
+                { label: 'Latitude',  name: 'lat', widget: 'number', value_type: 'float', required: false, hint: 'e.g. 43.5176 — right-click in Google Maps' },
+                { label: 'Longitude', name: 'lng', widget: 'number', value_type: 'float', required: false, hint: 'e.g. -70.3743' },
 
-<div class="page-hero">
-  <div class="page-hero-inner">
-    <p class="page-eyebrow">From the owner's perspective</p>
-    <h1 class="page-title">Your <em>Old Orchard Beach</em> insider guide</h1>
-    <p class="page-desc">We've spent summers here for years. These are the spots, the tips, and the hidden gems we actually tell our guests about.</p>
-  </div>
-</div>
+                // ── AVAILABILITY — date-based (replaces week strings) ────
+                {
+                  label: 'Availability',
+                  name: 'availability',
+                  widget: 'list',
+                  hint: 'Add date ranges. Mark entire date spans as Available or Unavailable.',
+                  summary: '{{fields.start}} → {{fields.end}} ({{fields.status}})',
+                  fields: [
+                    { label: 'Start Date', name: 'start',  widget: 'datetime', format: 'YYYY-MM-DD', date_format: 'MMMM D, YYYY', time_format: false, hint: 'First day of this period' },
+                    { label: 'End Date',   name: 'end',    widget: 'datetime', format: 'YYYY-MM-DD', date_format: 'MMMM D, YYYY', time_format: false, hint: 'Last day of this period' },
+                    { label: 'Status',     name: 'status', widget: 'select',   options: ['available', 'unavailable'], default: 'available' },
+                  ]
+                },
 
-<div class="blog-body">
-  <div class="blog-grid" id="blog-grid">
-    <p style="color:var(--text-muted)">Loading guides…</p>
-  </div>
-</div>
+                { label: 'Active (show on site)', name: 'active', widget: 'boolean', default: true, hint: 'Uncheck to hide without deleting.' }
+              ]
+            },
 
-<footer class="site-footer">
-  <a href="/">← Back to Beach Girl Property Rentals</a>
-  &nbsp;·&nbsp; <a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a>
-  &nbsp;·&nbsp; <a href="tel:+12074507347">(207) 450-7347</a>
-</footer>
+            // ── REVIEWS ─────────────────────────────────────────────────
+            {
+              name: 'reviews',
+              label: 'Guest Reviews',
+              label_singular: 'Review',
+              folder: '_reviews',
+              create: true,
+              delete: true,
+              slug: '{{year}}-{{month}}-{{slug}}',
+              fields: [
+                { label: 'Property',    name: 'property', widget: 'string' },
+                { label: 'Guest Name', name: 'author',   widget: 'string',  hint: 'e.g. Jane S.' },
+                { label: 'Rating',     name: 'rating',   widget: 'number',  min: 1, max: 5, default: 5 },
+                { label: 'Review',     name: 'text',     widget: 'text' },
+                { label: 'Stay Dates', name: 'date',     widget: 'string',  hint: 'e.g. July 2026' },
+                { label: 'Approved',   name: 'approved', widget: 'boolean', default: false, hint: 'Only check after verifying the stay.' }
+              ]
+            },
 
-<script>
-function esc(s){if(typeof s!=='string')return'';const d=document.createElement('div');d.appendChild(document.createTextNode(s));return d.innerHTML}
-
-const DEMO=[
-  {_slug:'best-beaches-oob',title:'The Best Beaches Around Old Orchard Beach',date:'March 2026',excerpt:"From the iconic main beach to quieter stretches in Scarborough — here's where locals actually go.",emoji:'🏖️'},
-  {_slug:'restaurants-oob',title:'Where to Eat in Old Orchard Beach',date:'February 2026',excerpt:'Lobster rolls, chowder, and a few hidden gems. Our favorite spots after years of summers here.',emoji:'🦞'},
-  {_slug:'things-to-do',title:'A Week in OOB: The Full Itinerary',date:'January 2026',excerpt:'Palace Playland, the Pier, day trips to Portland — everything you need for a packed and perfect week.',emoji:'🎡'},
-];
-
-async function init(){
-  const res=await fetch('/posts-index.json').catch(()=>null);
-  const posts=res&&res.ok?await res.json().catch(()=>[]):[];
-  const all=posts.length?posts:DEMO;
-  const grid=document.getElementById('blog-grid');
-  grid.innerHTML=all.map(p=>`
-    <article class="blog-card" tabindex="0" onclick="window.location.href='/blog/${esc(p._slug)}'" onkeydown="if(event.key==='Enter')window.location.href='/blog/${esc(p._slug)}'">
-      <div class="blog-card-img" aria-hidden="true">
-        ${p.photo?`<img src="${esc(p.photo)}" alt="" loading="lazy" />`:(p.emoji||'📝')}
-      </div>
-      <div class="blog-card-body">
-        <time class="blog-card-date">${esc(p.date||'')}</time>
-        <h2 class="blog-card-title">${esc(p.title)}</h2>
-        <p class="blog-card-excerpt">${esc(p.excerpt||'')}</p>
-        <span class="blog-card-read" style="color:var(--teal-dark)">Read guide →</span>
-      </div>
-    </article>`).join('');
-}
-init();
-</script>
+            // ── BLOG POSTS ───────────────────────────────────────────────
+            {
+              name: 'posts',
+              label: 'Blog / Local Guide',
+              label_singular: 'Post',
+              folder: '_posts',
+              create: true,
+              delete: true,
+              slug: '{{slug}}',
+              fields: [
+                { label: 'Title',   name: 'title',   widget: 'string' },
+                { label: 'Date',    name: 'date',    widget: 'string', hint: 'e.g. April 2026' },
+                { label: 'Photo',   name: 'photo',   widget: 'image',  required: false },
+                { label: 'Emoji',   name: 'emoji',   widget: 'string', required: false, default: '🏖️' },
+                { label: 'Excerpt', name: 'excerpt', widget: 'text',   hint: 'Short teaser shown on blog list.' },
+                { label: 'Body',    name: 'body',    widget: 'markdown', hint: 'Full post content. Use ## for headings.' }
+              ]
+            }
+          ]
+        }
+      });
+    });
+  </script>
 </body>
 </html>

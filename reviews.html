@@ -1,260 +1,310 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Guest reviews for Beach Girl Property Rentals in Old Orchard Beach, ME. Read what our guests say and share your own experience." />
-<title>Guest Reviews — Beach Girl Property Rentals</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-<style>
-:root {
-  /* ── 60/30/10 palette — Beach Girl Property Rentals ── */
-  /* 10% ACCENT — all CTAs, buttons, active states, stars, badges */
-  --accent:        #c46a6a;
-  --accent-light:  #d98888;
-  --accent-pale:   #f7eaea;
-  /* 30% SECONDARY — cards, section backgrounds, filter bar surfaces */
-  --blush:         #ebc7c3;
-  --blush-mid:     #ddb0aa;
-  --blush-dark:    #c9938c;
-  /* Supporting coral — hover states, dividers, secondary accents */
-  --coral:         #e7a39a;
-  --coral-light:   #f0bdb8;
-  /* 60% DOMINANT — page backgrounds, large surfaces, hero card */
-  --sand:          #e9d8b4;
-  --sand-light:    #f4ece0;
-  --sand-pale:     #faf6ef;
-  /* Anchor — header, footer, structural dark elements */
-  --teal:          #6fa7ad;
-  --teal-dark:     #4d8a91;
-  --teal-pale:     #e8f4f5;
-  /* Text — dark teal family for cohesion */
-  --ink:           #1e3035;
-  --text:          #2a3f45;
-  --text-mid:      #4a6268;
-  --text-muted:    #7a9298;
-  --white:         #ffffff;
-  /* Type */
-  --serif: 'Playfair Display', Georgia, serif;
-  --sans:  'Lato', system-ui, sans-serif;
-  /* Type scale */
-  --xs:   0.8125rem;
-  --sm:   0.9375rem;
-  --base: 1.0625rem;
-  --lg:   1.1875rem;
-  --xl:   1.375rem;
-  --2xl:  1.75rem;
-  --3xl:  2.5rem;
-  --4xl:  3.5rem;
-  /* UI */
-  --r:    8px;
-  --r-lg: 16px;
-  --sh-sm: 0 2px 8px rgba(31,48,53,.07);
-  --sh-md: 0 6px 24px rgba(31,48,53,.12);
-  --sh-lg: 0 16px 56px rgba(31,48,53,.18);
-  --ease: .24s cubic-bezier(.4,0,.2,1);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:17px}
-body{font-family:var(--sans);font-size:var(--base);background:linear-gradient(180deg,var(--sand-pale) 0%,#fff 30%);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
-img{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-button{cursor:pointer;font-family:inherit}
+/**
+ * BeachGirl Calendar — availability date-range picker
+ * 
+ * Features:
+ * - Shows a 2-month calendar grid (current + next)
+ * - Dates marked available/unavailable by admin
+ * - Click to select check-in, click again for check-out
+ * - Visual range highlight between selected dates
+ * - Passes selected range into inquiry form
+ * - Mobile-friendly: stacks to 1 month on small screens
+ */
 
-.site-header{background:var(--ink);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:100}
-.header-inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between}
-.logo-link{text-decoration:none}
-.logo-name{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--white)}
-.back-link{font-size:var(--sm);font-weight:700;color:rgba(255,255,255,.6);transition:color var(--ease)}
-.back-link:hover{color:var(--accent-light)}
+window.BeachGirlCalendar = (function() {
 
-.page-hero{background:linear-gradient(160deg,var(--sand-pale) 0%,var(--blush) 70%);padding:3.5rem 2rem;border-bottom:1px solid var(--blush)}
-.page-hero-inner{max-width:1200px;margin:0 auto}
-.page-eyebrow{font-size:var(--xs);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
-.page-title{font-family:var(--serif);font-size:clamp(var(--2xl),4vw,3rem);font-weight:700;color:var(--ink);margin-bottom:.75rem}
-.page-title em{font-style:italic;color:var(--accent)}
-.page-desc{font-size:var(--base);color:var(--text-mid);max-width:560px;line-height:1.75}
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function isoDate(d) {
+    return d.toISOString().slice(0, 10);
+  }
 
-.reviews-page-body{max-width:1200px;margin:0 auto;padding:3rem 2rem 5rem;display:grid;grid-template-columns:1fr 360px;gap:3rem;align-items:start}
+  function parseDate(str) {
+    // Accepts "YYYY-MM-DD"
+    const [y, m, d] = str.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  }
 
-/* Reviews grid */
-.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
-.review-card{background:var(--white);border-radius:var(--r-lg);padding:1.6rem;border:1px solid var(--blush);box-shadow:var(--sh-sm)}
-.review-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem}
-.review-stars{color:var(--accent);font-size:var(--lg);letter-spacing:1px}
-.review-date{font-size:var(--xs);color:var(--text-muted);font-weight:700;white-space:nowrap}
-.review-text{font-size:var(--sm);line-height:1.8;color:var(--text-mid);font-style:italic;margin-bottom:1rem}
-.review-author{font-size:var(--sm);font-weight:700;color:var(--ink)}
-.review-property{font-size:var(--xs);color:var(--text-muted);margin-top:2px}
+  function addDays(d, n) {
+    const r = new Date(d);
+    r.setDate(r.getDate() + n);
+    return r;
+  }
 
-/* Submit sidebar */
-.submit-card{background:var(--white);border-radius:var(--r-lg);padding:1.75rem;border:1px solid var(--blush);box-shadow:var(--sh-sm);position:sticky;top:80px}
-.submit-card h2{font-family:var(--serif);font-size:var(--xl);font-weight:700;color:var(--ink);margin-bottom:.5rem}
-.submit-card p{font-size:var(--sm);color:var(--text-muted);margin-bottom:1.25rem;line-height:1.65}
+  function sameDay(a, b) {
+    return a.getFullYear() === b.getFullYear() &&
+           a.getMonth() === b.getMonth() &&
+           a.getDate() === b.getDate();
+  }
 
-.field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.85rem}
-label{font-size:var(--xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid)}
-input,textarea,select{font-family:var(--sans);font-size:var(--sm);padding:.65rem .9rem;border:1.5px solid var(--blush);border-radius:var(--r);background:var(--white);color:var(--text);outline:none;width:100%;transition:border-color var(--ease),box-shadow var(--ease)}
-input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,117,58,.12)}
-textarea{resize:vertical;min-height:90px;line-height:1.6}
-.star-picker{display:flex;gap:4px;margin-top:4px}
-.star-btn{background:none;border:2px solid transparent;font-size:1.6rem;color:var(--blush-mid);cursor:pointer;padding:2px;transition:color .15s;border-radius:4px;line-height:1}
-.star-btn:hover,.star-btn.active{color:var(--accent)}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
-.hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
-.btn-primary{width:100%;background:var(--accent);color:var(--white);border:none;border-radius:var(--r);padding:.85rem;font-family:var(--sans);font-size:var(--sm);font-weight:700;letter-spacing:.05em;transition:background var(--ease);cursor:pointer}
-.btn-primary:hover{background:var(--accent-light)}
-.form-note{font-size:var(--xs);color:var(--text-muted);text-align:center;margin-top:.75rem;line-height:1.5}
+  function inRange(d, start, end) {
+    return d > start && d < end;
+  }
 
-.success-msg{display:none;text-align:center;padding:2rem 0}
-.success-msg.show{display:block}
-.success-msg h3{font-family:var(--serif);font-size:var(--xl);font-style:italic;color:var(--ink);margin-bottom:.4rem}
-.success-msg p{font-size:var(--sm);color:var(--text-muted)}
+  const MONTH_NAMES = ['January','February','March','April','May','June',
+                       'July','August','September','October','November','December'];
+  const DAY_NAMES   = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 
-.site-footer{background:var(--ink);padding:2rem;text-align:center;font-size:var(--xs);color:rgba(255,255,255,.4)}
-.site-footer a{color:rgba(255,255,255,.6);transition:color var(--ease)}
-.site-footer a:hover{color:var(--accent-light)}
+  // ── Main factory ─────────────────────────────────────────────────────────
+  /**
+   * @param {Object} opts
+   *   container    {HTMLElement}  where to render
+   *   availability {Array}        [{date:'YYYY-MM-DD', status:'available'|'unavailable'}]
+   *   onSelect     {Function}     called with (checkIn, checkOut) ISO strings or (null, null) on clear
+   *   minNights    {number}       default 1 (allow any range, including partial weeks)
+   */
+  function create(opts) {
+    const { container, availability = [], onSelect, minNights = 1 } = opts;
 
-@media(max-width:900px){.reviews-page-body{grid-template-columns:1fr;padding:2rem 1.25rem 4rem}.submit-card{position:static}}
-@media(max-width:640px){.header-inner{padding:0 1rem}.page-hero{padding:2.5rem 1.25rem}.reviews-grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
+    // Build a fast lookup: date string → 'available' | 'unavailable'
+    const avMap = {};
+    availability.forEach(a => { avMap[a.date] = a.status; });
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/" class="logo-link"><span class="logo-name">Beach Girl Property Rentals</span></a>
-    <a href="/" class="back-link">← Back to Rentals</a>
-  </div>
-</header>
+    let viewYear  = new Date().getFullYear();
+    let viewMonth = new Date().getMonth(); // 0-indexed
+    let checkIn   = null;
+    let checkOut  = null;
+    let hoverDate = null;
 
-<div class="page-hero">
-  <div class="page-hero-inner">
-    <p class="page-eyebrow">Verified Guest Reviews</p>
-    <h1 class="page-title">What our guests <em>love</em></h1>
-    <p class="page-desc">Every review is verified — we confirm your stay dates before anything goes live. Real people, real summers, real feedback.</p>
-  </div>
-</div>
+    function isAvailable(d) {
+      const key = isoDate(d);
+      const today = isoDate(new Date());
+      if (key < today) return false;
+      // If admin has marked it, respect that
+      if (avMap[key]) return avMap[key] === 'available';
+      // Default: available (only blocked if explicitly marked unavailable)
+      return true;
+    }
 
-<div class="reviews-page-body">
-  <!-- Reviews grid (left) -->
-  <div>
-    <div class="reviews-grid" id="reviews-grid">
-      <p style="color:var(--text-muted);font-size:var(--sm)">Loading reviews…</p>
-    </div>
-  </div>
+    function rangeAllAvailable(start, end) {
+      // Check every day in range is available
+      let d = addDays(start, 1);
+      while (d < end) {
+        if (!isAvailable(d)) return false;
+        d = addDays(d, 1);
+      }
+      return true;
+    }
 
-  <!-- Submit form (right, sticky) -->
-  <aside class="submit-card">
-    <h2>Stayed with us?</h2>
-    <p>We'd love to hear about your experience. Your review helps future guests find their perfect summer spot.</p>
-    <div id="review-form">
-      <div class="field">
-        <label for="r-property">Property *</label>
-        <select id="r-property" required><option value="">Select property…</option></select>
-      </div>
-      <div class="field">
-        <label for="r-dates">Dates of stay *</label>
-        <input type="text" id="r-dates" placeholder="e.g. Jul 12 – Jul 19, 2026" required />
-      </div>
-      <fieldset class="field" style="border:none;padding:0">
-        <legend style="font-size:var(--xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid);margin-bottom:.35rem">Your rating *</legend>
-        <div class="star-picker" role="group">
-          <button type="button" class="star-btn" onclick="setRating(1)" aria-label="1 star">★<span class="sr-only">1</span></button>
-          <button type="button" class="star-btn" onclick="setRating(2)" aria-label="2 stars">★<span class="sr-only">2</span></button>
-          <button type="button" class="star-btn" onclick="setRating(3)" aria-label="3 stars">★<span class="sr-only">3</span></button>
-          <button type="button" class="star-btn" onclick="setRating(4)" aria-label="4 stars">★<span class="sr-only">4</span></button>
-          <button type="button" class="star-btn" onclick="setRating(5)" aria-label="5 stars">★<span class="sr-only">5</span></button>
-        </div>
-      </fieldset>
-      <div class="field">
-        <label for="r-name">Your name *</label>
-        <input type="text" id="r-name" placeholder="Jane S." required />
-      </div>
-      <div class="field">
-        <label for="r-review">Your review *</label>
-        <textarea id="r-review" placeholder="What made your stay special?" required></textarea>
-      </div>
-      <div class="hp-field" aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></div>
-      <button type="button" class="btn-primary" onclick="submitReview()">Submit Review →</button>
-      <p class="form-note">Reviews are verified before publishing.</p>
-    </div>
-    <div class="success-msg" id="review-success">
-      <div style="font-size:2.5rem;margin-bottom:.75rem">🌟</div>
-      <h3>Thank you!</h3>
-      <p>We'll verify your stay and get your review posted shortly.</p>
-    </div>
-  </aside>
-</div>
+    function render() {
+      container.innerHTML = '';
 
-<footer class="site-footer">
-  <a href="/">← Back to Beach Girl Property Rentals</a>
-  &nbsp;·&nbsp; <a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a>
-  &nbsp;·&nbsp; <a href="tel:+12074507347">(207) 450-7347</a>
-</footer>
+      // Navigation row
+      const nav = document.createElement('div');
+      nav.className = 'cal-nav';
+      nav.innerHTML = `
+        <button class="cal-nav-btn" id="cal-prev" aria-label="Previous month">‹</button>
+        <span class="cal-nav-label"></span>
+        <button class="cal-nav-btn" id="cal-next" aria-label="Next month">›</button>
+      `;
+      container.appendChild(nav);
 
-<script>
-const REVIEW_FORM_ID = 'xjglbglj';
-let currentRating = 0;
+      const label = nav.querySelector('.cal-nav-label');
 
-function esc(s){if(typeof s!=='string')return'';const d=document.createElement('div');d.appendChild(document.createTextNode(s));return d.innerHTML}
-function renderStars(n){const f=Math.round(Math.min(5,Math.max(0,n||0)));return'★'.repeat(f)+'☆'.repeat(5-f)}
+      // Render 2 months side by side (1 on mobile)
+      const months = document.createElement('div');
+      months.className = 'cal-months';
 
-const DEMO_REVIEWS=[
-  {property:'Harborview Cottage',author:'Michelle T.',rating:5,text:'Absolutely perfect week. The cottage was spotless, the porch was our favorite spot every evening. Felt like a home, not a rental.',date:'August 2025',approved:true},
-  {property:'Pine Haven Cape',author:'David & Sarah R.',rating:5,text:"Best vacation rental we've ever stayed in. Incredibly well-maintained, great neighborhood. Already booked next summer.",date:'July 2025',approved:true},
-  {property:'Harborview Cottage',author:'James P.',rating:4,text:'Beautiful property, great location. The owner was super responsive and helpful. Would highly recommend.',date:'July 2025',approved:true},
-  {property:'The Dune Cottage',author:'Karen L.',rating:5,text:'Woke up to the sound of waves every morning. Charming and had everything we needed for a perfect week.',date:'August 2025',approved:true},
-  {property:'Pine Haven Cape',author:'Tom B.',rating:5,text:'Brought the whole extended family. Plenty of space and the backyard was perfect for the kids.',date:'August 2025',approved:true},
-];
+      const monthCount = window.innerWidth < 640 ? 1 : 2;
+      label.textContent = monthCount === 1
+        ? `${MONTH_NAMES[viewMonth]} ${viewYear}`
+        : `${MONTH_NAMES[viewMonth]} ${viewYear} – ${MONTH_NAMES[(viewMonth+1)%12]} ${viewMonth === 11 ? viewYear+1 : viewYear}`;
 
-const DEMO_PROPS=['Harborview Cottage','Pine Haven Cape','The Dune Cottage'];
+      for (let mi = 0; mi < monthCount; mi++) {
+        let m = viewMonth + mi;
+        let y = viewYear;
+        if (m > 11) { m -= 12; y++; }
+        months.appendChild(renderMonth(y, m));
+      }
 
-async function init(){
-  // Load reviews
-  const res=await fetch('/reviews-index.json').catch(()=>null);
-  const revs=res&&res.ok?await res.json().catch(()=>[]):[];
-  const reviews=revs.length?revs.filter(r=>r.approved):DEMO_REVIEWS;
-  const grid=document.getElementById('reviews-grid');
-  grid.innerHTML=reviews.map(r=>`
-    <div class="review-card">
-      <div class="review-top">
-        <div class="review-stars" aria-label="${r.rating||5} stars">${renderStars(r.rating||5)}</div>
-        <time class="review-date">${esc(r.date||'')}</time>
-      </div>
-      <blockquote class="review-text">${esc(r.text)}</blockquote>
-      <div class="review-author">${esc(r.author)}</div>
-      <div class="review-property">${esc(r.property)}</div>
-    </div>`).join('');
+      container.appendChild(months);
 
-  // Load properties for select
-  const pRes=await fetch('/listings-index.json').catch(()=>null);
-  const props=pRes&&pRes.ok?await pRes.json().catch(()=>[]):[];
-  const names=props.length?props.map(p=>p.title):DEMO_PROPS;
-  const sel=document.getElementById('r-property');
-  names.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)});
-}
+      // Legend
+      const legend = document.createElement('div');
+      legend.className = 'cal-legend';
+      legend.innerHTML = `
+        <span class="cal-legend-item"><span class="cal-dot avail"></span> Available</span>
+        <span class="cal-legend-item"><span class="cal-dot unavail"></span> Unavailable</span>
+        <span class="cal-legend-item"><span class="cal-dot selected"></span> Selected</span>
+      `;
+      container.appendChild(legend);
 
-function setRating(val){currentRating=val;document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('active',i<val))}
+      // Selection summary
+      const summary = document.createElement('div');
+      summary.className = 'cal-summary';
+      summary.id = 'cal-summary';
+      updateSummary(summary);
+      container.appendChild(summary);
 
-async function submitReview(){
-  const prop=document.getElementById('r-property').value;
-  const dates=document.getElementById('r-dates').value.trim();
-  const name=document.getElementById('r-name').value.trim();
-  const review=document.getElementById('r-review').value.trim();
-  if(!prop||!dates||!name||!review||!currentRating){alert('Please fill in all fields and select a rating.');return}
-  const btn=document.querySelector('#review-form .btn-primary');
-  btn.textContent='Submitting…';btn.disabled=true;
-  try{
-    const res=await fetch(`https://formspree.io/f/${REVIEW_FORM_ID}`,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({property:prop,dates,author:name,rating:currentRating,review,_subject:`Review: ${prop}`})});
-    if(res.ok){document.getElementById('review-form').style.display='none';document.getElementById('review-success').classList.add('show')}
-    else throw new Error();
-  }catch{alert('Something went wrong. Email us at beachgirloob@gmail.com');btn.textContent='Submit Review →';btn.disabled=false}
-}
+      // Wire navigation
+      container.querySelector('#cal-prev').addEventListener('click', () => {
+        viewMonth--;
+        if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+        render();
+      });
+      container.querySelector('#cal-next').addEventListener('click', () => {
+        viewMonth++;
+        if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+        render();
+      });
+    }
 
-init();
-</script>
-</body>
-</html>
+    function renderMonth(year, month) {
+      const wrap = document.createElement('div');
+      wrap.className = 'cal-month';
+
+      // Month header
+      const h = document.createElement('div');
+      h.className = 'cal-month-title';
+      h.textContent = `${MONTH_NAMES[month]} ${year}`;
+      wrap.appendChild(h);
+
+      // Day-of-week headers
+      const dh = document.createElement('div');
+      dh.className = 'cal-dow-row';
+      DAY_NAMES.forEach(d => {
+        const s = document.createElement('span');
+        s.className = 'cal-dow';
+        s.textContent = d;
+        dh.appendChild(s);
+      });
+      wrap.appendChild(dh);
+
+      // Days grid
+      const grid = document.createElement('div');
+      grid.className = 'cal-grid';
+
+      const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      // Empty cells before first day
+      for (let i = 0; i < firstDay; i++) {
+        const e = document.createElement('div');
+        e.className = 'cal-day empty';
+        grid.appendChild(e);
+      }
+
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const date = new Date(year, month, d);
+        const key  = isoDate(date);
+        const avail = isAvailable(date);
+        const past  = date < today;
+
+        const cell = document.createElement('div');
+        cell.className = 'cal-day';
+        cell.setAttribute('data-date', key);
+
+        if (past) {
+          cell.classList.add('past');
+        } else if (!avail) {
+          cell.classList.add('unavail');
+          cell.setAttribute('aria-label', `${MONTH_NAMES[month]} ${d} — unavailable`);
+        } else {
+          cell.classList.add('avail');
+          cell.setAttribute('role', 'button');
+          cell.setAttribute('tabindex', '0');
+          cell.setAttribute('aria-label', `${MONTH_NAMES[month]} ${d} — available, select`);
+
+          cell.addEventListener('click', () => handleDayClick(date));
+          cell.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleDayClick(date); }
+          });
+          cell.addEventListener('mouseenter', () => {
+            hoverDate = date;
+            updateRangeHighlight();
+          });
+        }
+
+        // Apply check-in / check-out / range classes
+        if (checkIn && sameDay(date, checkIn)) cell.classList.add('check-in');
+        if (checkOut && sameDay(date, checkOut)) cell.classList.add('check-out');
+        if (checkIn && checkOut && inRange(date, checkIn, checkOut)) cell.classList.add('in-range');
+        if (checkIn && !checkOut && hoverDate && date > checkIn && date <= hoverDate) {
+          cell.classList.add('in-range-hover');
+        }
+        if (sameDay(date, today)) cell.classList.add('today');
+
+        const num = document.createElement('span');
+        num.textContent = d;
+        cell.appendChild(num);
+
+        grid.appendChild(cell);
+      }
+
+      wrap.appendChild(grid);
+      return wrap;
+    }
+
+    function handleDayClick(date) {
+      if (!isAvailable(date)) return;
+
+      if (!checkIn || (checkIn && checkOut)) {
+        // Start new selection
+        checkIn  = date;
+        checkOut = null;
+        hoverDate = null;
+      } else {
+        // Second click
+        if (date <= checkIn) {
+          checkIn = date;
+          checkOut = null;
+        } else {
+          // Validate range
+          const nights = Math.round((date - checkIn) / 86400000);
+          if (nights < minNights) {
+            checkIn  = date;
+            checkOut = null;
+          } else if (!rangeAllAvailable(checkIn, date)) {
+            // Range contains unavailable — reset
+            checkIn  = date;
+            checkOut = null;
+          } else {
+            checkOut = date;
+            if (onSelect) onSelect(isoDate(checkIn), isoDate(checkOut));
+          }
+        }
+      }
+      render();
+    }
+
+    function updateRangeHighlight() {
+      // Live range preview without full re-render — just add/remove classes
+      container.querySelectorAll('.cal-day').forEach(cell => {
+        const key = cell.getAttribute('data-date');
+        if (!key) return;
+        const d = parseDate(key);
+        cell.classList.remove('in-range-hover');
+        if (checkIn && !checkOut && hoverDate && d > checkIn && d <= hoverDate) {
+          cell.classList.add('in-range-hover');
+        }
+      });
+    }
+
+    function updateSummary(el) {
+      if (!checkIn) {
+        el.textContent = 'Select your check-in date';
+        el.className = 'cal-summary hint';
+        return;
+      }
+      if (!checkOut) {
+        el.textContent = `Check-in: ${checkIn.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} — now select your check-out date`;
+        el.className = 'cal-summary selecting';
+        return;
+      }
+      const nights = Math.round((checkOut - checkIn) / 86400000);
+      el.innerHTML = `<strong>Check-in:</strong> ${checkIn.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})} &nbsp;→&nbsp; <strong>Check-out:</strong> ${checkOut.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})} &nbsp;·&nbsp; ${nights} night${nights>1?'s':''}`;
+      el.className = 'cal-summary confirmed';
+    }
+
+    // Public API
+    return {
+      render,
+      getCheckIn:  () => checkIn  ? isoDate(checkIn)  : null,
+      getCheckOut: () => checkOut ? isoDate(checkOut) : null,
+      clear() { checkIn = null; checkOut = null; hoverDate = null; render(); if(onSelect) onSelect(null,null); },
+    };
+  }
+
+  return { create };
+})();
