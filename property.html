@@ -1,54 +1,589 @@
-/* ── BeachGirl Calendar Styles ─────────────────────────────────────────── */
-.cal-wrap{font-family:'Lato',system-ui,sans-serif}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Property — Beach Girl Property Rentals</title>
+<meta name="description" content="Vacation rental details — Beach Girl Property Rentals, Old Orchard Beach ME." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/calendar.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+<style>
+:root{
+  --accent:#c46a6a;--accent-light:#d98888;--accent-pale:#f7eaea;
+  --blush:#ebc7c3;--blush-mid:#ddb0aa;
+  --sand:#e9d8b4;--sand-light:#f4ece0;--sand-pale:#faf6ef;
+  --teal:#6fa7ad;--teal-dark:#4d8a91;--teal-pale:#e8f4f5;
+  --ink:#1e3035;--text:#2a3f45;--text-mid:#4a6268;--text-muted:#7a9298;
+  --white:#ffffff;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Lato',system-ui,sans-serif;
+  --xs:.8125rem;--sm:.9375rem;--base:1.0625rem;--lg:1.1875rem;--xl:1.375rem;--2xl:1.75rem;
+  --r:8px;--r-lg:16px;
+  --sh-sm:0 2px 8px rgba(31,48,53,.07);--sh-md:0 6px 24px rgba(31,48,53,.12);--sh-lg:0 16px 56px rgba(31,48,53,.18);
+  --ease:.24s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:var(--sans);background:var(--sand-pale);color:var(--text);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
 
-/* Navigation */
-.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.cal-nav-btn{background:none;border:1.5px solid var(--sand);border-radius:6px;width:32px;height:32px;font-size:1.1rem;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .22s;font-family:inherit}
-.cal-nav-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-pale)}
-.cal-nav-label{font-size:.85rem;font-weight:700;color:var(--ink);letter-spacing:.02em;text-align:center}
+/* ── HEADER ─────────────────────────────────── */
+.site-header{background:linear-gradient(135deg,#1e3035 0%,#2a4050 100%);position:sticky;top:0;z-index:500;border-bottom:3px solid var(--accent)}
+.header-inner{max-width:1400px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.logo-link{text-decoration:none;flex-shrink:0}
+.logo-name{font-family:var(--serif);font-size:clamp(.9rem,1.8vw,1.25rem);font-weight:700;color:var(--white);white-space:nowrap}
+.logo-sub{font-size:var(--xs);font-weight:300;color:var(--accent-light);letter-spacing:.14em;text-transform:uppercase;margin-top:1px}
+.back-link{font-size:var(--sm);font-weight:700;color:rgba(255,255,255,.65);transition:color var(--ease);white-space:nowrap}
+.back-link:hover{color:var(--accent-light)}
 
-/* Two-month grid */
-.cal-months{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-@media(max-width:640px){.cal-months{grid-template-columns:1fr}}
+/* ── GALLERY ─────────────────────────────────── */
+.gallery{position:relative;background:var(--ink);overflow:hidden;height:480px}
+.gallery-track{display:flex;height:100%;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.gallery-slide{flex:0 0 100%;height:100%;position:relative}
+.gallery-slide img{width:100%;height:100%;object-fit:cover}
+.gallery-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem;background:linear-gradient(135deg,var(--teal-dark),var(--teal))}
+/* Arrows */
+.gallery-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;background:rgba(30,48,53,.65);border:2px solid rgba(255,255,255,.3);color:var(--white);font-size:1.25rem;display:flex;align-items:center;justify-content:center;transition:background var(--ease);backdrop-filter:blur(4px)}
+.gallery-btn:hover{background:rgba(30,48,53,.9)}
+.gallery-btn.prev{left:1rem}
+.gallery-btn.next{right:1rem}
+/* Counter badge */
+.gallery-counter{position:absolute;bottom:1rem;right:1rem;background:rgba(30,48,53,.65);color:var(--white);font-size:var(--xs);font-weight:700;padding:4px 12px;border-radius:100px;backdrop-filter:blur(4px)}
+/* Thumbnail strip */
+.gallery-thumbs{display:flex;gap:6px;padding:.75rem 1.5rem;background:var(--ink);overflow-x:auto;scrollbar-width:none}
+.gallery-thumbs::-webkit-scrollbar{display:none}
+.gallery-thumb{flex:0 0 72px;height:52px;border-radius:var(--r);overflow:hidden;cursor:pointer;opacity:.55;transition:opacity var(--ease);border:2px solid transparent}
+.gallery-thumb.active,.gallery-thumb:hover{opacity:1;border-color:var(--accent)}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover}
+.gallery-thumb.placeholder{background:var(--teal-dark);display:flex;align-items:center;justify-content:center;font-size:1.5rem}
 
-.cal-month-title{font-size:.82rem;font-weight:700;color:var(--ink);text-align:center;margin-bottom:.6rem;letter-spacing:.04em}
+/* ── BREADCRUMB ─────────────────────────────── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--blush);padding:.55rem 2rem;font-size:var(--xs);color:var(--text-muted)}
+.breadcrumb-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.4rem}
+.breadcrumb a{color:var(--teal-dark)}
+.breadcrumb a:hover{text-decoration:underline}
 
-/* Day-of-week row */
-.cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:.25rem}
-.cal-dow{text-align:center;font-size:.68rem;font-weight:700;color:var(--text-muted);letter-spacing:.06em;padding:4px 0}
+/* ── LAYOUT ──────────────────────────────────── */
+.prop-layout{max-width:1200px;margin:0 auto;padding:2rem 2rem 5rem;display:grid;grid-template-columns:1fr 340px;gap:2.5rem;align-items:start}
 
-/* Day grid */
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+/* ── LEFT ────────────────────────────────────── */
+.prop-type{font-size:var(--xs);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.25rem}
+.prop-title{font-family:var(--serif);font-size:clamp(1.65rem,3.5vw,2.4rem);font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:.3rem}
+.prop-location{font-size:var(--sm);color:var(--text-muted);margin-bottom:.85rem}
+.prop-rating{display:flex;align-items:center;gap:6px;margin-bottom:1rem}
+.stars{color:var(--accent);font-size:var(--base);letter-spacing:1px}
+.rating-txt{font-size:var(--sm);color:var(--text-muted)}
+.prop-specs{display:flex;gap:1.5rem;flex-wrap:wrap;padding:1rem 0;border-top:1px solid var(--blush);border-bottom:1px solid var(--blush);margin-bottom:1.25rem}
+.spec-item{display:flex;flex-direction:column;gap:2px}
+.spec-label{font-size:var(--xs);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.spec-val{font-size:var(--sm);font-weight:700;color:var(--ink)}
+.prop-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.tag-pill{font-size:var(--xs);font-weight:700;padding:4px 12px;border-radius:100px;background:var(--teal-pale);color:var(--teal-dark)}
+.section-h3{font-family:var(--serif);font-size:var(--xl);font-weight:700;color:var(--ink);margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid var(--blush)}
+.prop-desc{font-size:var(--sm);line-height:1.8;color:var(--text-mid);margin-bottom:2rem}
+.prop-avail{margin-bottom:2rem}
+.prop-map-section{margin-bottom:2rem}
+#prop-mini-map{height:240px;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--blush)}
+.map-loading{height:240px;border-radius:var(--r-lg);border:1px solid var(--blush);background:var(--sand-pale);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:var(--sm)}
+.prop-reviews-section{margin-bottom:2rem}
+.review-item{padding:1.1rem;background:var(--white);border-radius:var(--r-lg);border:1px solid var(--blush);margin-bottom:.75rem}
+.review-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem}
+.review-author-name{font-size:var(--sm);font-weight:700;color:var(--ink)}
+.review-date{font-size:var(--xs);color:var(--text-muted)}
+.review-stars{color:var(--accent);font-size:var(--sm);margin-bottom:.35rem}
+.review-body{font-size:var(--sm);line-height:1.7;color:var(--text-mid);font-style:italic}
 
-.cal-day{position:relative;text-align:center;font-size:.78rem;font-weight:600;padding:7px 2px;border-radius:6px;cursor:default;transition:background .12s,color .12s;user-select:none;line-height:1.3}
-.cal-day.empty{background:transparent}
-.cal-day.past{color:var(--text-muted);opacity:.38}
-.cal-day.unavail{color:var(--text-muted);background:#f5f0f0;text-decoration:line-through;opacity:.55}
-.cal-day.avail{color:var(--ink);background:rgba(235,199,195,.2);cursor:pointer}
-.cal-day.avail:hover,.cal-day.avail:focus{background:rgba(196,106,106,.18);color:var(--accent);outline:none}
-.cal-day.today::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--accent)}
-.cal-day.check-in,.cal-day.check-out{background:var(--accent)!important;color:var(--white)!important;font-weight:700}
-.cal-day.check-in{border-radius:6px 0 0 6px}
-.cal-day.check-out{border-radius:0 6px 6px 0}
-.cal-day.check-in.check-out{border-radius:6px}
-.cal-day.in-range{background:rgba(196,106,106,.15);color:var(--accent);border-radius:0}
-.cal-day.in-range-hover{background:rgba(196,106,106,.09);color:var(--accent);border-radius:0}
+/* ── BOOKING CARD ────────────────────────────── */
+.booking-card{background:var(--white);border-radius:var(--r-lg);border:1px solid var(--blush);box-shadow:var(--sh-md);padding:1.5rem;position:sticky;top:78px}
+.booking-price{font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:.2rem}
+.booking-price span{font-size:var(--sm);font-weight:400;color:var(--text-muted)}
+.booking-avail{font-size:var(--sm);color:var(--text-mid);margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--blush)}
+.booking-avail strong{color:var(--teal-dark)}
+.selected-preview{background:var(--teal-pale);border-radius:var(--r);padding:.6rem .85rem;font-size:var(--sm);color:var(--teal-dark);margin-bottom:1rem;display:none}
+.selected-preview.show{display:block}
+.btn-book{width:100%;background:var(--accent);color:var(--white);border:none;border-radius:var(--r);padding:.9rem;font-family:var(--sans);font-size:var(--sm);font-weight:700;letter-spacing:.04em;transition:background var(--ease);margin-bottom:.75rem}
+.btn-book:hover{background:var(--accent-light)}
+.booking-note{font-size:var(--xs);color:var(--text-muted);text-align:center;line-height:1.55}
 
-/* Legend */
-.cal-legend{display:flex;gap:1rem;margin-top:.85rem;flex-wrap:wrap}
-.cal-legend-item{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--text-muted);font-weight:600}
-.cal-dot{width:10px;height:10px;border-radius:3px;display:inline-block}
-.cal-dot.avail{background:rgba(235,199,195,.6);border:1.5px solid rgba(196,106,106,.3)}
-.cal-dot.unavail{background:#f0eaea;border:1.5px solid #ddd}
-.cal-dot.selected{background:var(--accent)}
+/* ── MODAL ───────────────────────────────────── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(30,48,53,.72);z-index:600;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--r-lg) var(--r-lg) 0 0;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;box-shadow:var(--sh-lg);animation:modalUp .25s ease}
+@keyframes modalUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-header{background:linear-gradient(135deg,var(--accent),var(--accent-light));padding:1.4rem 1.75rem;position:relative}
+.modal-close{position:absolute;top:1rem;right:1rem;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:var(--white);font-size:.9rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.modal-close:hover{background:rgba(255,255,255,.25)}
+.modal-eyebrow{font-size:var(--xs);font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:.25rem}
+.modal-title{font-family:var(--serif);font-size:var(--xl);font-weight:700;color:var(--white);font-style:italic}
+.modal-body{padding:1.5rem 1.75rem}
+.inquiry-summary{background:var(--accent-pale);border-left:3px solid var(--accent);border-radius:0 var(--r) var(--r) 0;padding:.7rem .9rem;font-size:var(--sm);color:var(--text-mid);margin-bottom:1.25rem}
+.inquiry-summary strong{color:var(--accent)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem}
+.field{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.75rem}
+.field.no-mb{margin-bottom:0}
+label{font-size:var(--xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid)}
+input,textarea,select{font-family:var(--sans);font-size:var(--sm);padding:.6rem .8rem;border:1.5px solid var(--blush);border-radius:var(--r);background:var(--white);color:var(--text);outline:none;width:100%;transition:border-color var(--ease)}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+.btn-primary{width:100%;background:var(--accent);color:var(--white);border:none;border-radius:var(--r);padding:.85rem;font-family:var(--sans);font-size:var(--sm);font-weight:700;transition:background var(--ease);cursor:pointer}
+.btn-primary:hover{background:var(--accent-light)}
+.form-note{font-size:var(--xs);color:var(--text-muted);text-align:center;margin-top:.75rem}
+.success-view{display:none;text-align:center;padding:2.5rem 1.5rem}
+.success-view.show{display:block}
+.success-view h3{font-family:var(--serif);font-size:var(--xl);font-style:italic;color:var(--ink);margin-bottom:.4rem}
+.success-view p{font-size:var(--sm);color:var(--text-muted);line-height:1.7}
 
-/* Selection summary */
-.cal-summary{margin-top:.85rem;padding:.65rem .9rem;border-radius:8px;font-size:.82rem;line-height:1.55}
-.cal-summary.hint{background:rgba(233,216,180,.4);color:var(--text-muted);font-style:italic}
-.cal-summary.selecting{background:rgba(196,106,106,.08);color:var(--accent);font-weight:600}
-.cal-summary.confirmed{background:rgba(196,106,106,.1);color:var(--ink);border-left:3px solid var(--accent)}
-.cal-summary strong{color:var(--accent)}
+/* ── LEAFLET POPUP ───────────────────────────── */
+.leaflet-popup-content-wrapper{border-radius:var(--r-lg)!important;padding:0!important;overflow:hidden}
+.leaflet-popup-content{margin:0!important;width:200px!important}
+.map-popup-inner{padding:.9rem}
+.map-popup-title{font-family:var(--serif);font-size:var(--base);font-weight:700;color:var(--ink);margin-bottom:.15rem}
+.map-popup-loc{font-size:var(--xs);color:var(--text-muted)}
 
-/* Clear button */
-.cal-clear{margin-top:.6rem;background:none;border:none;font-size:.75rem;color:var(--text-muted);cursor:pointer;text-decoration:underline;font-family:inherit;padding:0}
-.cal-clear:hover{color:var(--accent)}
+/* ── FOOTER ──────────────────────────────────── */
+.site-footer{background:linear-gradient(135deg,#1e3035 0%,#162028 100%);padding:2rem;text-align:center;font-size:var(--xs);color:rgba(255,255,255,.4)}
+.site-footer a{color:rgba(255,255,255,.6)}
+.site-footer a:hover{color:var(--accent-light)}
+
+/* ── RESPONSIVE ─────────────────────────────── */
+@media(max-width:900px){
+  .prop-layout{grid-template-columns:1fr}
+  .booking-card{position:static}
+  .gallery{height:320px}
+}
+@media(max-width:640px){
+  html{font-size:16px}
+  .header-inner{padding:0 1rem}
+  .gallery{height:260px}
+  .gallery-btn{width:36px;height:36px;font-size:1rem}
+  .prop-layout{padding:1.25rem 1rem 4rem}
+  .form-row{grid-template-columns:1fr}
+  .modal-body{padding:1.25rem}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo-link" aria-label="Beach Girl Property Rentals — Home">
+      <div class="logo-name">Beach Girl Property Rentals</div>
+      <div class="logo-sub">Old Orchard Beach, ME</div>
+    </a>
+    <a href="/#listings" class="back-link">← All Rentals</a>
+  </div>
+</header>
+
+<!-- GALLERY -->
+<div class="gallery" id="gallery" aria-label="Property photos">
+  <div class="gallery-track" id="gallery-track">
+    <!-- Photos injected by JS -->
+  </div>
+  <button class="gallery-btn prev" id="gallery-prev" aria-label="Previous photo" onclick="galleryNav(-1)">‹</button>
+  <button class="gallery-btn next" id="gallery-next" aria-label="Next photo" onclick="galleryNav(1)">›</button>
+  <div class="gallery-counter" id="gallery-counter" aria-live="polite">1 / 1</div>
+</div>
+<div class="gallery-thumbs" id="gallery-thumbs" role="list" aria-label="Photo thumbnails"></div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="/">Home</a> › <a href="/#listings">Rentals</a> › <span id="bc-title">Loading…</span>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="prop-layout">
+
+  <!-- LEFT -->
+  <div>
+    <div class="prop-type" id="prop-type"></div>
+    <h1 class="prop-title" id="prop-title">Loading…</h1>
+    <p class="prop-location" id="prop-location"></p>
+    <div class="prop-rating" id="prop-rating"></div>
+    <div class="prop-specs" id="prop-specs"></div>
+    <div class="prop-tags" id="prop-tags"></div>
+
+    <h3 class="section-h3">About this property</h3>
+    <p class="prop-desc" id="prop-desc"></p>
+
+    <div class="prop-avail">
+      <h3 class="section-h3">Availability</h3>
+      <div id="prop-calendar" class="cal-wrap"></div>
+    </div>
+
+    <div class="prop-map-section">
+      <h3 class="section-h3">Location</h3>
+      <div id="map-container">
+        <div class="map-loading" id="map-loading">📍 Loading map…</div>
+        <div id="prop-mini-map" style="display:none"></div>
+      </div>
+    </div>
+
+    <div class="prop-reviews-section" id="prop-reviews-section">
+      <h3 class="section-h3">Guest Reviews</h3>
+      <div id="prop-reviews-list"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT — BOOKING CARD -->
+  <div>
+    <div class="booking-card">
+      <div class="booking-price" id="book-price">—</div>
+      <div class="booking-avail" id="book-avail"></div>
+      <div class="selected-preview" id="selected-preview"></div>
+      <button class="btn-book" onclick="openModal()">Send an Inquiry →</button>
+      <p class="booking-note">No booking fees · Direct with owner<br/>We respond within 24 hours</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <a href="/">← Beach Girl Property Rentals</a> &nbsp;·&nbsp;
+  <a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a> &nbsp;·&nbsp;
+  <a href="tel:+12074507347">(207) 450-7347</a>
+</footer>
+
+<!-- INQUIRY MODAL -->
+<div class="overlay" id="inquiry-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+      <div class="modal-eyebrow">Send an Inquiry</div>
+      <div class="modal-title" id="modal-prop-title">Property</div>
+    </div>
+    <div class="modal-body">
+      <div id="form-view">
+        <div class="inquiry-summary" id="modal-summary"></div>
+        <div class="form-row">
+          <div class="field no-mb"><label for="i-first">First Name *</label><input type="text" id="i-first" placeholder="Jane" autocomplete="given-name" /></div>
+          <div class="field no-mb"><label for="i-last">Last Name *</label><input type="text" id="i-last" placeholder="Smith" autocomplete="family-name" /></div>
+        </div>
+        <div class="field"><label for="i-email">Email *</label><input type="email" id="i-email" placeholder="jane@example.com" autocomplete="email" /></div>
+        <div class="field"><label for="i-phone">Phone</label><input type="tel" id="i-phone" placeholder="(207) 555-0000" autocomplete="tel" /></div>
+        <div class="field">
+          <label for="i-guests">Number of Guests</label>
+          <select id="i-guests"><option value="">Select…</option><option>1–2</option><option>3–4</option><option>5–6</option><option>7–8</option><option>9+</option></select>
+        </div>
+        <div class="field">
+          <label>Type of Inquiry</label>
+          <div style="display:flex;gap:1.25rem;margin-top:.25rem">
+            <label style="display:flex;align-items:center;gap:.4rem;font-size:var(--sm);font-weight:400;text-transform:none;letter-spacing:0;cursor:pointer"><input type="radio" name="inquiry_type" value="Booking Request" checked style="width:auto;accent-color:var(--accent)"> Booking Request</label>
+            <label style="display:flex;align-items:center;gap:.4rem;font-size:var(--sm);font-weight:400;text-transform:none;letter-spacing:0;cursor:pointer"><input type="radio" name="inquiry_type" value="General Question" style="width:auto;accent-color:var(--accent)"> Question</label>
+          </div>
+        </div>
+        <div class="field"><label for="i-message">Message</label><textarea id="i-message" placeholder="Tell us about your group, preferred dates, or any questions…"></textarea></div>
+        <div class="hp-field" aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></div>
+        <button class="btn-primary" onclick="submitInquiry()">Send Message →</button>
+        <p class="form-note">We typically reply within a few hours. No fees, no commitments.</p>
+      </div>
+      <div class="success-view" id="success-view">
+        <div style="font-size:2.5rem;margin-bottom:.75rem">🏖️</div>
+        <h3>Message sent!</h3>
+        <p>We'll be in touch soon. Can't wait to help plan your stay.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/calendar.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLM=" crossorigin="anonymous"></script>
+<script>
+const INQUIRY_FORM_ID = 'xbdwrlgl';
+
+function esc(s){if(typeof s!=='string')return'';const d=document.createElement('div');d.appendChild(document.createTextNode(s));return d.innerHTML}
+function renderStars(n){const f=Math.round(Math.min(5,Math.max(0,n||0)));return'★'.repeat(f)+'☆'.repeat(5-f)}
+
+const slug = location.pathname.replace(/.*\/property\/?/,'').replace(/\//g,'').trim();
+let property = null, selectedDates = {}, allReviews = [];
+let galleryIdx = 0, galleryPhotos = [];
+
+// ── GALLERY ────────────────────────────────────
+function initGallery(photos) {
+  galleryPhotos = photos;
+  const track  = document.getElementById('gallery-track');
+  const thumbs = document.getElementById('gallery-thumbs');
+  const counter = document.getElementById('gallery-counter');
+
+  if (!photos.length) {
+    track.innerHTML = '<div class="gallery-slide"><div class="gallery-placeholder">🏡</div></div>';
+    document.getElementById('gallery-prev').style.display = 'none';
+    document.getElementById('gallery-next').style.display = 'none';
+    counter.style.display = 'none';
+    return;
+  }
+
+  track.innerHTML = photos.map(src =>
+    `<div class="gallery-slide"><img src="${esc(src)}" alt="Property photo" loading="lazy" /></div>`
+  ).join('');
+
+  thumbs.innerHTML = photos.map((src, i) =>
+    `<div class="gallery-thumb${i===0?' active':''}" role="listitem" onclick="goToSlide(${i})">
+       <img src="${esc(src)}" alt="Photo ${i+1}" loading="lazy" />
+     </div>`
+  ).join('');
+
+  counter.textContent = `1 / ${photos.length}`;
+
+  // Touch/swipe support
+  let startX = 0;
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) galleryNav(diff > 0 ? 1 : -1);
+  }, { passive: true });
+
+  // Hide arrows if only 1 photo
+  if (photos.length === 1) {
+    document.getElementById('gallery-prev').style.display = 'none';
+    document.getElementById('gallery-next').style.display = 'none';
+  }
+}
+
+function galleryNav(dir) {
+  goToSlide(galleryIdx + dir);
+}
+
+function goToSlide(idx) {
+  if (!galleryPhotos.length) return;
+  galleryIdx = (idx + galleryPhotos.length) % galleryPhotos.length;
+  document.getElementById('gallery-track').style.transform = `translateX(-${galleryIdx * 100}%)`;
+  document.getElementById('gallery-counter').textContent = `${galleryIdx + 1} / ${galleryPhotos.length}`;
+  document.querySelectorAll('.gallery-thumb').forEach((t, i) => t.classList.toggle('active', i === galleryIdx));
+  // Scroll active thumb into view
+  const thumb = document.querySelectorAll('.gallery-thumb')[galleryIdx];
+  if (thumb) thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+// ── GEOCODING ──────────────────────────────────
+async function geocodeAddress(address) {
+  try {
+    const q = encodeURIComponent(address + ', Maine, USA');
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1`,
+      { headers: { 'Accept-Language': 'en', 'User-Agent': 'BeachGirlPropertyRentals/1.0' } }
+    );
+    const data = await res.json();
+    if (data && data[0]) return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+  } catch(e) {}
+  return null;
+}
+
+// ── MAP ────────────────────────────────────────
+async function initMiniMap(lat, lng, title) {
+  document.getElementById('map-loading').style.display = 'none';
+  const mapEl = document.getElementById('prop-mini-map');
+  mapEl.style.display = 'block';
+  const map = L.map('prop-mini-map', { zoomControl: true, scrollWheelZoom: false }).setView([lat, lng], 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>', maxZoom: 18
+  }).addTo(map);
+  L.marker([lat, lng]).addTo(map).bindPopup(esc(title)).openPopup();
+}
+
+// ── LOAD DATA ──────────────────────────────────
+async function init() {
+  const [propsRes, revsRes] = await Promise.all([
+    fetch('/listings-index.json').catch(() => null),
+    fetch('/reviews-index.json').catch(() => null),
+  ]);
+
+  const props = (propsRes && propsRes.ok) ? await propsRes.json().catch(() => []) : [];
+  const revs  = (revsRes  && revsRes.ok)  ? await revsRes.json().catch(() => [])  : [];
+
+  const allProps = props.length ? props : DEMO_PROPS;
+  allReviews = revs.length ? revs.filter(r => r.approved) : DEMO_REVIEWS;
+
+  property = allProps.find(p => p._slug === slug);
+  if (!property) {
+    document.getElementById('prop-title').textContent = 'Property not found';
+    return;
+  }
+
+  renderProperty(property);
+}
+
+function renderProperty(p) {
+  document.title = `${p.title} — Beach Girl Property Rentals`;
+
+  // Schema.org VacationRental
+  const schema = { "@context":"https://schema.org","@type":"VacationRental","name":p.title,"description":p.description,"url":`https://beachgirlpropertyrentals.com/property/${p._slug}`,"address":{"@type":"PostalAddress","streetAddress":p.address||''},"numberOfRooms":p.bedrooms,"occupancy":{"@type":"QuantitativeValue","maxValue":p.guests} };
+  const s = document.createElement('script'); s.type='application/ld+json'; s.textContent=JSON.stringify(schema); document.head.appendChild(s);
+
+  // Gallery — support multiple photos array or single photo
+  const photos = p.photosAll && p.photosAll.length ? p.photosAll : (p.photos && p.photos.length ? p.photos : (p.photo ? [p.photo] : []));
+  initGallery(photos);
+
+  document.getElementById('bc-title').textContent = p.title;
+  document.getElementById('prop-type').textContent = p.type || 'Property';
+  document.getElementById('prop-title').textContent = p.title;
+  document.getElementById('prop-location').textContent = '📍 ' + (p.location || '');
+  document.getElementById('prop-desc').textContent = p.description || '';
+
+  // Rating
+  const propRevs = allReviews.filter(r => r.property === p.title);
+  if (propRevs.length) {
+    const avg = propRevs.reduce((s, r) => s + (r.rating || 5), 0) / propRevs.length;
+    document.getElementById('prop-rating').innerHTML =
+      `<span class="stars" aria-label="${avg.toFixed(1)} stars">${renderStars(avg)}</span>
+       <span class="rating-txt">${avg.toFixed(1)} · ${propRevs.length} review${propRevs.length > 1 ? 's' : ''}</span>`;
+  }
+
+  // Specs
+  document.getElementById('prop-specs').innerHTML = [
+    ['Bedrooms', `🛏 ${p.bedrooms}`],
+    ['Bathrooms', `🚿 ${p.bathrooms}`],
+    ['Max Guests', `👥 ${p.guests}`],
+    ['Per Week', p.price],
+  ].map(([l, v]) => `<div class="spec-item"><div class="spec-label">${l}</div><div class="spec-val">${esc(String(v))}</div></div>`).join('');
+
+  // Tags
+  const tagLabels = { 'pet-friendly': '🐾 Pet-Friendly', 'waterfront': '🌊 Waterfront', 'year-round': '📅 Year-Round' };
+  document.getElementById('prop-tags').innerHTML = (p.tags || []).map(t =>
+    `<span class="tag-pill">${esc(tagLabels[t] || t)}</span>`
+  ).join('');
+
+  // Booking card
+  const today = new Date(); today.setHours(0,0,0,0);
+  const hasAvail = (p.availability || []).some(d => d.status === 'available' && new Date(d.date + 'T00:00:00') >= today);
+  document.getElementById('book-price').innerHTML = `${esc(p.price)} <span>/ week</span>`;
+  document.getElementById('book-avail').innerHTML = hasAvail
+    ? '<strong>Dates available</strong> — select from calendar below'
+    : 'Fully booked for the season';
+
+  // Calendar
+  const calEl = document.getElementById('prop-calendar');
+  if (typeof BeachGirlCalendar !== 'undefined') {
+    const cal = BeachGirlCalendar.create({
+      container: calEl,
+      availability: p.availability || [],
+      onSelect: (ci, co) => {
+        selectedDates = { checkIn: ci, checkOut: co };
+        const prev = document.getElementById('selected-preview');
+        if (ci && co) {
+          prev.classList.add('show');
+          prev.textContent = `✓ ${ci} → ${co}`;
+        } else {
+          prev.classList.remove('show');
+        }
+      }
+    });
+    cal.render();
+  }
+
+  // Reviews
+  const revList = document.getElementById('prop-reviews-list');
+  if (propRevs.length) {
+    revList.innerHTML = propRevs.map(r => `
+      <div class="review-item">
+        <div class="review-header">
+          <div class="review-author-name">${esc(r.author)}</div>
+          <div class="review-date">${esc(r.date || '')}</div>
+        </div>
+        <div class="review-stars">${renderStars(r.rating || 5)}</div>
+        <div class="review-body">"${esc(r.text)}"</div>
+      </div>`).join('');
+  } else {
+    document.getElementById('prop-reviews-section').style.display = 'none';
+  }
+
+  // Map — geocode if needed
+  (async () => {
+    let lat = p.lat, lng = p.lng;
+    if ((!lat || !lng) && (p.address || p.location)) {
+      const coords = await geocodeAddress(p.address || p.location);
+      if (coords) { lat = coords.lat; lng = coords.lng; }
+    }
+    if (lat && lng) {
+      await initMiniMap(lat, lng, p.title);
+    } else {
+      document.getElementById('map-loading').textContent = '📍 Map unavailable — no address on file';
+    }
+  })();
+}
+
+function openModal() {
+  const p = property;
+  document.getElementById('modal-prop-title').textContent = p?.title || '';
+  const sum = document.getElementById('modal-summary');
+  sum.innerHTML = '';
+  const strong = document.createElement('strong');
+  strong.textContent = p.title;
+  sum.appendChild(strong);
+  sum.appendChild(document.createTextNode(` · ${p.location} · ${p.price}/week`));
+  if (selectedDates.checkIn && selectedDates.checkOut) {
+    sum.appendChild(document.createElement('br'));
+    const sw = document.createElement('strong'); sw.textContent = 'Dates: '; sum.appendChild(sw);
+    sum.appendChild(document.createTextNode(`${selectedDates.checkIn} → ${selectedDates.checkOut}`));
+  }
+  document.getElementById('form-view').style.display = 'block';
+  document.getElementById('success-view').classList.remove('show');
+  ['i-first','i-last','i-email','i-phone','i-message'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('i-guests').value = '';
+  document.getElementById('inquiry-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('inquiry-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+async function submitInquiry() {
+  const first = document.getElementById('i-first').value.trim();
+  const last  = document.getElementById('i-last').value.trim();
+  const email = document.getElementById('i-email').value.trim();
+  if (!first || !last || !email) { alert('Please fill in your name and email.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email.'); return; }
+  const btn = document.querySelector('#form-view .btn-primary');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  const inquiryType = document.querySelector('input[name="inquiry_type"]:checked')?.value || 'Booking Request';
+  const payload = {
+    name: `${first} ${last}`, email,
+    phone: document.getElementById('i-phone').value.trim(),
+    guests: document.getElementById('i-guests').value,
+    inquiry_type: inquiryType,
+    property: property?.title,
+    checkIn: selectedDates.checkIn || 'Not specified',
+    checkOut: selectedDates.checkOut || 'Not specified',
+    message: document.getElementById('i-message').value.trim(),
+    _subject: `${inquiryType}: ${property?.title}`,
+  };
+  try {
+    const res = await fetch(`https://formspree.io/f/${INQUIRY_FORM_ID}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) { document.getElementById('form-view').style.display='none'; document.getElementById('success-view').classList.add('show'); }
+    else throw new Error();
+  } catch {
+    alert('Something went wrong. Email beachgirloob@gmail.com or call (207) 450-7347.');
+    btn.textContent = 'Send Message →'; btn.disabled = false;
+  }
+}
+
+// Demo data
+const DEMO_PROPS = [
+  {_slug:'harborview-cottage',title:'Harborview Cottage',location:'Old Orchard Beach, ME',address:'1 Temple Ave, Old Orchard Beach, ME',type:'Cottage',bedrooms:3,bathrooms:2,guests:6,price:'$2,400',photos:[],description:'A charming shingled cottage steps from the beach. Wrap-around porch, fully equipped kitchen, and ocean breezes all week long.',tags:['pet-friendly','waterfront'],active:true,availability:[{date:'2026-07-04',status:'available'},{date:'2026-07-05',status:'available'},{date:'2026-07-06',status:'available'},{date:'2026-07-07',status:'available'},{date:'2026-07-08',status:'available'},{date:'2026-07-18',status:'unavailable'},{date:'2026-07-19',status:'unavailable'},{date:'2026-08-01',status:'available'},{date:'2026-08-02',status:'available'},{date:'2026-08-03',status:'available'}]},
+  {_slug:'pine-haven-cape',title:'Pine Haven Cape',location:'Saco, ME',address:'Saco, ME',type:'Cape',bedrooms:4,bathrooms:2,guests:8,price:'$3,100',photos:[],description:'Classic New England Cape on a quiet street. Big backyard, outdoor shower, bikes included, five minutes to the beach.',tags:['year-round'],active:true,availability:[{date:'2026-06-27',status:'available'},{date:'2026-06-28',status:'available'},{date:'2026-07-11',status:'unavailable'},{date:'2026-07-12',status:'unavailable'},{date:'2026-07-18',status:'available'},{date:'2026-07-19',status:'available'}]},
+  {_slug:'dune-cottage',title:'The Dune Cottage',location:'Old Orchard Beach, ME',address:'Old Orchard Beach, ME',type:'Cottage',bedrooms:2,bathrooms:1,guests:4,price:'$1,750',photos:[],description:'Cozy cottage tucked in the dunes. Steps to the sand, screened porch, fully stocked.',tags:['waterfront','pet-friendly'],active:true,availability:[{date:'2026-07-04',status:'available'},{date:'2026-07-05',status:'available'},{date:'2026-07-25',status:'unavailable'},{date:'2026-08-01',status:'unavailable'}]},
+];
+const DEMO_REVIEWS=[
+  {property:'Harborview Cottage',author:'Michelle T.',rating:5,text:'Absolutely perfect week. The cottage was spotless, the porch was our favorite spot every evening.',date:'August 2025',approved:true},
+  {property:'Pine Haven Cape',author:'David & Sarah R.',rating:5,text:"Best vacation rental we've ever stayed in. Incredibly well-maintained, great neighborhood.",date:'July 2025',approved:true},
+  {property:'The Dune Cottage',author:'Karen L.',rating:5,text:'Woke up to the sound of waves every morning. Charming and had everything we needed.',date:'August 2025',approved:true},
+];
+
+init();
+</script>
+</body>
+</html>

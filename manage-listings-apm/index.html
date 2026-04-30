@@ -8,7 +8,8 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!-- Pinned to 3.0.2 — stable, avoids React reconciler removeChild bug in later versions -->
+  <script src="https://unpkg.com/decap-cms@3.0.2/dist/decap-cms.js"></script>
   <script>
     window.CMS_MANUAL_INIT = true;
     window.addEventListener('load', function () {
@@ -20,7 +21,7 @@
           public_folder: '/photos',
           collections: [
 
-            // ── PROPERTIES ──────────────────────────────────────────────
+            // ── PROPERTIES ───────────────────────────────────────────────
             {
               name: 'properties',
               label: 'Properties',
@@ -30,16 +31,24 @@
               delete: true,
               slug: '{{slug}}',
               fields: [
-                { label: 'Property Name',       name: 'title',       widget: 'string',  hint: 'e.g. Harborview Cottage' },
-                { label: 'Location',            name: 'location',    widget: 'string',  hint: 'e.g. Old Orchard Beach, ME' },
-                { label: 'Property Type',       name: 'type',        widget: 'select',  options: ['Cottage','Cape','Ranch','Colonial','Condo','Apartment','Studio'], default: 'Cottage' },
-                { label: 'Bedrooms',            name: 'bedrooms',    widget: 'number',  min: 0, max: 10, default: 2 },
-                { label: 'Bathrooms',           name: 'bathrooms',   widget: 'number',  min: 1, max: 8, value_type: 'float', step: 0.5, default: 1 },
-                { label: 'Max Guests',          name: 'guests',      widget: 'number',  min: 1, max: 20, default: 4 },
-                { label: 'Price Per Night',     name: 'price_night', widget: 'string',  hint: 'e.g. $295 (shown per night)', required: false },
-                { label: 'Price Per Week',      name: 'price',       widget: 'string',  hint: 'e.g. $1,750 (shown per week)' },
-                { label: 'Cover Photo',         name: 'photo',       widget: 'image',   required: false, hint: 'Upload a JPG or PNG. Landscape works best.' },
-                { label: 'Description',         name: 'description', widget: 'text',    hint: 'A few sentences guests will see on the listing.' },
+                { label: 'Property Name',  name: 'title',       widget: 'string',  hint: 'e.g. Harborview Cottage' },
+                { label: 'Location',       name: 'location',    widget: 'string',  hint: 'e.g. Old Orchard Beach, ME' },
+                { label: 'Street Address', name: 'address',     widget: 'string',  hint: 'Full address for map — e.g. 123 Main St, Old Orchard Beach, ME 04064', required: false },
+                { label: 'Property Type',  name: 'type',        widget: 'select',  options: ['Cottage','Cape','Ranch','Colonial','Condo','Apartment','Studio'], default: 'Cottage' },
+                { label: 'Bedrooms',       name: 'bedrooms',    widget: 'number',  min: 0, max: 10, default: 2 },
+                { label: 'Bathrooms',      name: 'bathrooms',   widget: 'number',  min: 1, max: 8, value_type: 'float', step: 0.5, default: 1 },
+                { label: 'Max Guests',     name: 'guests',      widget: 'number',  min: 1, max: 20, default: 4 },
+                { label: 'Price Per Week', name: 'price',       widget: 'string',  hint: 'e.g. $2,400' },
+                { label: 'Cover Photo (main)',  name: 'photo',  widget: 'image',   required: false, hint: 'Primary photo shown on listing card.' },
+                {
+                  label: 'Additional Photos',
+                  name: 'photos',
+                  widget: 'list',
+                  field: { label: 'Photo', name: 'photo', widget: 'image' },
+                  required: false,
+                  hint: 'Upload multiple photos for the gallery slideshow on the property page (8+ recommended).'
+                },
+                { label: 'Description',    name: 'description', widget: 'text',    hint: 'A few sentences guests will see on the listing.' },
                 {
                   label: 'Tags', name: 'tags', widget: 'select', multiple: true, required: false,
                   options: [
@@ -48,28 +57,23 @@
                     { label: '📅 Year-Round',   value: 'year-round'   },
                   ]
                 },
-                { label: 'Latitude',  name: 'lat', widget: 'number', value_type: 'float', required: false, hint: 'e.g. 43.5176 — right-click in Google Maps' },
-                { label: 'Longitude', name: 'lng', widget: 'number', value_type: 'float', required: false, hint: 'e.g. -70.3743' },
-
-                // ── AVAILABILITY — date-based (replaces week strings) ────
-                {
-                  label: 'Availability',
-                  name: 'availability',
-                  widget: 'list',
-                  hint: 'Add date ranges. Mark entire date spans as Available or Unavailable.',
+                { label: 'Availability', name: 'availability', widget: 'list',
+                  hint: 'Add date ranges — mark periods as available or unavailable. Later entries override earlier ones.',
                   summary: '{{fields.start}} → {{fields.end}} ({{fields.status}})',
                   fields: [
-                    { label: 'Start Date', name: 'start',  widget: 'datetime', format: 'YYYY-MM-DD', date_format: 'MMMM D, YYYY', time_format: false, hint: 'First day of this period' },
-                    { label: 'End Date',   name: 'end',    widget: 'datetime', format: 'YYYY-MM-DD', date_format: 'MMMM D, YYYY', time_format: false, hint: 'Last day of this period' },
-                    { label: 'Status',     name: 'status', widget: 'select',   options: ['available', 'unavailable'], default: 'available' },
+                    { label: 'Start Date', name: 'start',  widget: 'datetime', format: 'YYYY-MM-DD', date_format: 'MMMM D, YYYY', time_format: false },
+                    { label: 'End Date',   name: 'end',    widget: 'datetime', format: 'YYYY-MM-DD', date_format: 'MMMM D, YYYY', time_format: false },
+                    { label: 'Status',     name: 'status', widget: 'select',   options: ['available','unavailable'], default: 'available' },
+                    { label: 'Label (optional)', name: 'label', widget: 'string', required: false, hint: 'e.g. "July 4th week" or "Booked — Smith family"' },
                   ]
                 },
-
                 { label: 'Active (show on site)', name: 'active', widget: 'boolean', default: true, hint: 'Uncheck to hide without deleting.' }
               ]
             },
 
-            // ── REVIEWS ─────────────────────────────────────────────────
+            // ── REVIEWS ──────────────────────────────────────────────────
+            // Admin can edit, approve, and add reviews from this panel
+            // Guest-submitted reviews come in via Formspree and must be manually entered here
             {
               name: 'reviews',
               label: 'Guest Reviews',
@@ -77,14 +81,16 @@
               folder: '_reviews',
               create: true,
               delete: true,
-              slug: '{{year}}-{{month}}-{{slug}}',
+              slug: '{{year}}-{{month}}-{{fields.property}}-{{slug}}',
+              summary: '{{fields.property}} · {{fields.author}} · ★{{fields.rating}} · {{fields.approved}}',
               fields: [
-                { label: 'Property',    name: 'property', widget: 'string' },
-                { label: 'Guest Name', name: 'author',   widget: 'string',  hint: 'e.g. Jane S.' },
-                { label: 'Rating',     name: 'rating',   widget: 'number',  min: 1, max: 5, default: 5 },
-                { label: 'Review',     name: 'text',     widget: 'text' },
-                { label: 'Stay Dates', name: 'date',     widget: 'string',  hint: 'e.g. July 2026' },
-                { label: 'Approved',   name: 'approved', widget: 'boolean', default: false, hint: 'Only check after verifying the stay.' }
+                { label: 'Property',    name: 'property', widget: 'string', hint: 'Must match the property name exactly (e.g. "Harborview Cottage")' },
+                { label: 'Guest Name', name: 'author',   widget: 'string', hint: 'e.g. "Jane S." — first name and last initial only' },
+                { label: 'Rating (1–5)', name: 'rating', widget: 'number', min: 1, max: 5, default: 5 },
+                { label: 'Review Text', name: 'text',    widget: 'text' },
+                { label: 'Stay Dates',  name: 'date',    widget: 'string', hint: 'e.g. "July 2026"' },
+                { label: 'Approved — show on site', name: 'approved', widget: 'boolean', default: false,
+                  hint: '⚠️ Only check this after verifying the guest actually stayed. Uncheck to hide without deleting.' }
               ]
             },
 
@@ -100,10 +106,10 @@
               fields: [
                 { label: 'Title',   name: 'title',   widget: 'string' },
                 { label: 'Date',    name: 'date',    widget: 'string', hint: 'e.g. April 2026' },
-                { label: 'Photo',   name: 'photo',   widget: 'image',  required: false },
-                { label: 'Emoji',   name: 'emoji',   widget: 'string', required: false, default: '🏖️' },
-                { label: 'Excerpt', name: 'excerpt', widget: 'text',   hint: 'Short teaser shown on blog list.' },
-                { label: 'Body',    name: 'body',    widget: 'markdown', hint: 'Full post content. Use ## for headings.' }
+                { label: 'Cover Photo', name: 'photo', widget: 'image', required: false },
+                { label: 'Emoji (if no photo)', name: 'emoji', widget: 'string', required: false, default: '🏖️' },
+                { label: 'Excerpt', name: 'excerpt', widget: 'text',     hint: 'Short teaser shown on the blog page.' },
+                { label: 'Body',    name: 'body',    widget: 'markdown', hint: 'Full post. Use ## for headings.' }
               ]
             }
           ]

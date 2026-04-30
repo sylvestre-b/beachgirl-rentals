@@ -1,39 +1,904 @@
----
-title: "OOB + Portland in One Day: The Trip Most People Don't Think to Do"
-date: "December 2025"
-excerpt: "Portland is 15 miles away and has become one of the best food and culture cities in New England. Here's how to do both in a day — and why you absolutely should."
-emoji: "🚢"
-seo_keywords: ["Old Orchard Beach to Portland Maine", "day trip Portland Maine from OOB", "things to do near Old Orchard Beach", "Portland Maine food Old Port"]
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Beach Girl Property Rentals — vacation rentals right near the beach in Old Orchard Beach, ME. No Airbnb fees. Call or email the owner directly. 2026 season open." />
+<meta name="theme-color" content="#c46a6a" />
+<title>Beach Girl Property Rentals — Old Orchard Beach, ME</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LodgingBusiness","name":"Beach Girl Property Rentals","description":"Owner-managed vacation rentals near the beach in Old Orchard Beach, ME. No booking fees.","url":"https://beachgirlpropertyrentals.com","telephone":"+12074507347","email":"beachgirloob@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Old Orchard Beach","addressRegion":"ME","addressCountry":"US"},"priceRange":"$$"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://unpkg.com" />
+<!-- Playfair Display: warm editorial serif for headlines. Lato: clean, friendly body text. -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/calendar.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+<style>
+/* ── TOKENS ─────────────────────────────────── */
+:root {
+  /* ── 60/30/10 palette — Beach Girl Property Rentals ── */
+  /* 10% ACCENT — all CTAs, buttons, active states, stars, badges */
+  --accent:        #c46a6a;
+  --accent-light:  #d98888;
+  --accent-pale:   #f7eaea;
+  /* 30% SECONDARY — cards, section backgrounds, filter bar surfaces */
+  --blush:         #ebc7c3;
+  --blush-mid:     #ddb0aa;
+  --blush-dark:    #c9938c;
+  /* Supporting coral — hover states, dividers, secondary accents */
+  --coral:         #e7a39a;
+  --coral-light:   #f0bdb8;
+  /* 60% DOMINANT — page backgrounds, large surfaces, hero card */
+  --sand:          #e9d8b4;
+  --sand-light:    #f4ece0;
+  --sand-pale:     #faf6ef;
+  /* Anchor — header, footer, structural dark elements */
+  --teal:          #6fa7ad;
+  --teal-dark:     #4d8a91;
+  --teal-pale:     #e8f4f5;
+  /* Text — dark teal family for cohesion */
+  --ink:           #1e3035;
+  --text:          #2a3f45;
+  --text-mid:      #4a6268;
+  --text-muted:    #7a9298;
+  --white:         #ffffff;
+  /* Type */
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'Lato', system-ui, sans-serif;
+  /* Type scale */
+  --xs:   0.8125rem;
+  --sm:   0.9375rem;
+  --base: 1.0625rem;
+  --lg:   1.1875rem;
+  --xl:   1.375rem;
+  --2xl:  1.75rem;
+  --3xl:  2.5rem;
+  --4xl:  3.5rem;
+  /* UI */
+  --r:    8px;
+  --r-lg: 16px;
+  --sh-sm: 0 2px 8px rgba(31,48,53,.07);
+  --sh-md: 0 6px 24px rgba(31,48,53,.12);
+  --sh-lg: 0 16px 56px rgba(31,48,53,.18);
+  --ease: .24s cubic-bezier(.4,0,.2,1);
+}
 
-Here's a thing I notice about people who rent from us and stay for a full week: by Wednesday or Thursday, they've done the pier, they've done Palace Playland, they've found their favorite ice cream spot, and they're ready for something different. Portland is 15 miles away. It should be on the itinerary.
+/* ── RESET ──────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:var(--sans);font-size:var(--base);background:linear-gradient(180deg,var(--sand-pale) 0%,#fff 40%);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+ul{list-style:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
-## Why Portland
+/* ── HEADER ─────────────────────────────────── */
+.site-header{background:linear-gradient(135deg,#1e3035 0%,#2a4050 100%);position:sticky;top:0;z-index:500;border-bottom:3px solid var(--accent)}
+.header-inner{max-width:1400px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.logo-link{display:flex;flex-direction:column;line-height:1;text-decoration:none;flex-shrink:0}
+.logo-name{font-family:var(--serif);font-size:clamp(.9rem,1.8vw,1.25rem);font-weight:700;color:var(--white);letter-spacing:.01em;white-space:nowrap}
+.logo-sub{font-size:var(--xs);font-weight:300;color:var(--accent-light);letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
+.header-nav{display:flex;align-items:center;gap:1rem;flex-shrink:0}
+.header-nav a{font-size:var(--xs);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);transition:color var(--ease)}
+.header-nav a:hover{color:var(--accent-light)}
+.btn-inquire-header{background:var(--accent);color:var(--white);border:none;padding:7px 16px;border-radius:100px;font-size:var(--xs);font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:background var(--ease);white-space:nowrap}
+.btn-inquire-header:hover{background:var(--accent-light)}
 
-Portland has quietly become one of the best food cities in New England. I say this as someone who grew up here and spent years being mildly defensive about it — but now it's just objectively true. The Old Port, the waterfront, the restaurant scene on Congress Street. It punches way above its size.
+/* ── HERO ───────────────────────────────────── */
+.hero{position:relative;height:580px;overflow:hidden;display:flex;align-items:center}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 70%}
+/* warm gradient overlay — left side darkens for card legibility, right stays vivid */
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(28,37,40,.72) 0%,rgba(28,37,40,.38) 48%,rgba(28,37,40,.05) 100%)}
+.hero-card{position:relative;z-index:2;margin-left:clamp(1.5rem,7vw,9rem);background:linear-gradient(160deg,rgba(253,248,238,.97) 0%,rgba(235,199,195,.92) 100%);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:var(--r-lg);padding:2.75rem 3rem;max-width:520px;box-shadow:0 12px 48px rgba(28,37,40,.35),0 0 0 1px rgba(255,255,255,.5)}
+.hero-season{font-size:var(--xs);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.65rem}
+.hero-h1{font-family:var(--serif);font-size:clamp(1.65rem,4.5vw,var(--4xl));font-weight:700;color:var(--ink);line-height:1.05;margin-bottom:.5rem;word-break:break-word}
+.hero-h1 em{font-style:italic;color:var(--accent)}
+.hero-desc{font-size:var(--sm);color:var(--text-mid);line-height:1.8;margin-bottom:1.5rem;max-width:390px}
+/* Piped props — warm, casual, no bubbles */
+.hero-props{display:flex;flex-wrap:nowrap;align-items:center;gap:.15rem;font-size:.72rem;font-weight:700;color:var(--text-mid);white-space:nowrap;overflow:hidden}
+.hero-prop+.hero-prop::before{content:'·';color:var(--blush-mid);padding:0 .4rem;font-weight:400}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--white);border:none;border-radius:100px;padding:13px 30px;font-size:var(--sm);font-weight:700;margin-top:1.75rem;transition:background var(--ease),transform var(--ease)}
+.hero-cta:hover{background:var(--accent-light);transform:translateY(-2px)}
 
-It's also a genuine city with real character. Good bookstores, excellent coffee, independent shops that don't feel like airport gift shops. Breweries that are actually good. A ferry terminal where you can go out to the islands.
+/* ── FILTER BAR ─────────────────────────────── */
+.filter-bar{background:var(--sand-pale);border-bottom:1px solid var(--blush);padding:.8rem 2rem;position:sticky;top:62px;z-index:400;box-shadow:0 1px 8px rgba(44,60,38,.06);transition:opacity .3s,visibility .3s,transform .3s}
+.filter-bar.hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px)}
+.filter-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.filter-label{font-size:var(--xs);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-right:.3rem}
+.filter-btn{font-family:var(--sans);font-size:var(--sm);font-weight:700;padding:6px 18px;border-radius:100px;border:2px solid var(--blush);background:transparent;color:var(--text-mid);transition:all var(--ease);white-space:nowrap;cursor:pointer}
+.filter-btn:hover{border-color:var(--teal-dark);color:var(--teal-dark);background:var(--teal-pale)}
+.filter-btn[aria-pressed="true"]{background:var(--teal-dark);border-color:var(--teal-dark);color:var(--white)}
+.filter-count{margin-left:auto;font-size:var(--sm);font-weight:700;color:var(--text-muted);white-space:nowrap}
 
-## How to Do It
+/* ── LISTINGS LAYOUT ────────────────────────── */
+.listings-layout{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 400px;min-height:calc(100vh - 124px)}
+.listings-panel{padding:1.75rem;overflow-y:auto}
+.listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+.map-panel{position:sticky;top:124px;height:calc(100vh - 124px);border-left:1px solid var(--blush)}
+#map{width:100%;height:100%}
 
-The drive from OOB is about 20 minutes on a non-traffic day. On a weekend in July, give yourself 35 minutes. Head up Route 1 through Scarborough and you'll hit Portland's Old Port district.
+/* ── PROPERTY CARD ──────────────────────────── */
+.card{background:linear-gradient(170deg,#ffffff 0%,#fdf9f6 100%);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--blush);box-shadow:var(--sh-sm);transition:box-shadow var(--ease),transform var(--ease),border-color var(--ease);cursor:pointer;animation:fadeUp .35s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card:hover,.card:focus-within{box-shadow:var(--sh-md);transform:translateY(-4px);border-color:var(--teal-dark)}
+.card:focus{outline:3px solid var(--teal-dark);outline-offset:2px}
+.card.highlighted{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal),var(--sh-md)}
+.card-photo{position:relative;height:215px;overflow:hidden;background:linear-gradient(135deg,var(--teal),var(--teal))}
+.card-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.card:hover .card-photo img{transform:scale(1.04)}
+.card-photo-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:linear-gradient(135deg,var(--teal),var(--teal))}
+.card-badge{position:absolute;top:12px;left:12px;font-size:var(--xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:100px;backdrop-filter:blur(8px)}
+.card-badge.open{background:rgba(111,167,173,.88);color:var(--white)}
+.card-badge.full{background:rgba(180,55,35,.88);color:var(--white)}
+.card-tags{position:absolute;bottom:12px;left:12px;display:flex;gap:5px;flex-wrap:wrap}
+.card-tag{font-size:var(--xs);font-weight:700;padding:3px 10px;border-radius:100px;background:rgba(255,255,255,.92);color:var(--ink)}
+.card-body{padding:1.3rem 1.4rem 1.15rem}
+.card-type{font-size:var(--xs);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.25rem}
+.card-title{font-family:var(--serif);font-size:var(--xl);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:.25rem}
+.card-location{font-size:var(--sm);color:var(--text-muted);margin-bottom:.85rem}
+.card-specs{display:flex;gap:1.1rem;margin-bottom:.85rem;flex-wrap:wrap}
+.spec{font-size:var(--sm);font-weight:700;color:var(--text-mid)}
+.card-rating{display:flex;align-items:center;gap:5px;margin-bottom:.85rem}
+.stars{color:var(--accent);font-size:var(--base);letter-spacing:1px}
+.rating-count{font-size:var(--sm);color:var(--text-muted);font-weight:700}
+.card-price-row{display:flex;align-items:center;justify-content:space-between;padding-top:.9rem;border-top:1px solid var(--sand)}
+.card-price{font-size:var(--lg);font-weight:700;color:var(--ink)}
+.card-price span{font-size:var(--sm);font-weight:400;color:var(--text-muted)}
+.card-cta{font-size:var(--sm);font-weight:700;color:var(--teal-dark);display:flex;align-items:center;gap:4px;transition:gap var(--ease)}
+.card:hover .card-cta{gap:8px}
 
-**Morning:** Coffee at one of the independent spots on Commercial Street. Walk the Old Port. Browse the shops.
+/* ── AVAILABILITY ───────────────────────────── */
+.avail-section{margin:.85rem 0}
+.avail-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;background:var(--sand-pale);border:1.5px solid var(--blush);border-radius:var(--r);padding:.6rem 1rem;font-family:var(--sans);font-size:var(--sm);font-weight:700;color:var(--ink);transition:all var(--ease);margin-bottom:.5rem;cursor:pointer}
+.avail-toggle:hover{border-color:var(--teal);color:var(--teal)}
+.avail-toggle[aria-expanded="true"]{background:var(--teal-dark);color:var(--white);border-color:var(--teal-dark)}
+.avail-toggle .chev{font-size:.65rem;transition:transform .2s}
+.avail-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.avail-panel{display:none;background:var(--sand-pale);border:1px solid var(--blush);border-radius:var(--r);padding:.9rem;margin-bottom:.5rem}
+.avail-panel.open{display:block}
+.avail-hint{font-size:var(--xs);color:var(--text-muted);margin-bottom:.6rem;font-style:italic}
+.week-grid{display:flex;flex-direction:column;gap:5px}
+.week-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:.5rem;padding:.55rem .75rem;border-radius:var(--r);border:1.5px solid transparent;font-size:var(--sm);transition:all .15s;user-select:none}
+.week-row.available{background:linear-gradient(to right,rgba(235,199,195,.18),rgba(235,199,195,.08));border-color:rgba(196,106,106,.25);cursor:pointer;color:var(--accent)}
+.week-row.available:hover,.week-row.available:focus{background:rgba(111,167,173,.13);border-color:var(--teal);outline:none}
+.week-row.booked{background:rgba(200,117,58,.06);border-color:rgba(200,117,58,.2);color:var(--text-muted);cursor:not-allowed;opacity:.7}
+.week-row.selected{background:linear-gradient(135deg,var(--accent),var(--accent-light));border-color:var(--accent);color:var(--white);cursor:pointer}
+.week-dates{font-weight:700}
+.week-pill{font-size:var(--xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:100px}
+.card-inquire-btn{width:100%;background:var(--accent);color:var(--white);border:none;border-radius:var(--r);padding:.6rem;font-family:var(--sans);font-size:var(--sm);font-weight:700;margin-top:.75rem;cursor:pointer;transition:background var(--ease)}
+.card-inquire-btn:hover{background:var(--accent-light)}
+.available .week-pill{background:rgba(111,167,173,.12);color:var(--teal)}
+.booked .week-pill{background:rgba(200,117,58,.12);color:var(--accent)}
+.selected .week-pill{background:rgba(255,255,255,.2);color:var(--white)}
 
-**Lunch:** This is the mission. Eventide Oyster Co. on Middle Street is nationally famous for a reason — the oysters, the brown butter lobster rolls. The line can be real; go before noon if you can. If oysters aren't your thing, Duckfat on Middle Street has the best fries in Maine and I will argue about this with anyone.
+/* ── STATE MSG ──────────────────────────────── */
+.state-msg{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--text-muted)}
+.state-msg .icon{font-size:2.75rem;margin-bottom:.75rem}
+.state-msg p{font-size:var(--base)}
+.state-msg a{color:var(--teal);font-weight:700;text-decoration:underline}
 
-**Afternoon:** Walk the Eastern Promenade — it's a park that runs along the waterfront with views back toward Casco Bay and the islands. On a clear day it's genuinely spectacular. The kids can run around while you sit and eat your Eventide leftovers.
+/* ── HOMEPAGE TEASERS (reviews + blog) ──────── */
+.teaser-section{padding:4rem 2rem;border-top:1px solid var(--blush)}
+.teaser-section.sand-bg{background:linear-gradient(160deg,var(--sand-pale) 0%,var(--blush) 60%,var(--coral-light) 100%)}
+.teaser-section.cream-bg{background:var(--sand-pale)}
+.teaser-inner{max-width:1200px;margin:0 auto}
+.teaser-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2rem;gap:1rem;flex-wrap:wrap}
+.teaser-eyebrow{font-size:var(--xs);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.teaser-title{font-family:var(--serif);font-size:var(--2xl);font-weight:700;color:var(--ink)}
+.teaser-title em{font-style:italic;color:var(--accent)}
+.teaser-link{font-size:var(--sm);font-weight:700;color:var(--teal-dark);white-space:nowrap;transition:opacity var(--ease)}
+.teaser-link:hover{opacity:.7}
 
-**If you have extra time:** The Portland Head Light is about a 20-minute drive further. It's Maine's oldest lighthouse, it's perched on Cape Elizabeth, and the surrounding Fort Williams Park is free and stunning. The view is on every Maine postcard for a reason.
+/* Reviews carousel */
+.reviews-carousel{position:relative}
+.reviews-track-outer{overflow:hidden}
+.reviews-track{display:flex;gap:1.25rem;transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:.5rem}
+.review-card{flex:0 0 320px;scroll-snap-align:start;background:var(--white);border-radius:var(--r-lg);padding:1.5rem;border:1px solid var(--blush);box-shadow:var(--sh-sm)}
+.review-stars{color:var(--accent);font-size:var(--base);margin-bottom:.6rem}
+.review-text{font-size:var(--sm);line-height:1.75;color:var(--text-mid);margin-bottom:1rem;font-style:italic}
+.review-meta{display:flex;justify-content:space-between;align-items:flex-end}
+.review-author{font-size:var(--sm);font-weight:700;color:var(--ink)}
+.review-property{font-size:var(--xs);color:var(--text-muted);margin-top:1px}
+.review-date{font-size:var(--xs);color:var(--text-muted)}
+/* Carousel controls */
+.carousel-controls{display:flex;gap:.6rem;margin-top:1.25rem;justify-content:flex-end}
+.carousel-btn{width:40px;height:40px;border-radius:50%;border:2px solid var(--blush);background:var(--white);color:var(--text-mid);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all var(--ease);cursor:pointer}
+.carousel-btn:hover{border-color:var(--teal-dark);color:var(--teal-dark);background:var(--teal-pale)}
+.carousel-btn:disabled{opacity:.35;cursor:not-allowed}
 
-**Evening:** Back to OOB for the Thursday night fireworks if you time it right. Or stay in Portland for dinner — Fore Street is excellent if you want something special.
+/* Blog teaser grid */
+.blog-teaser-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.blog-card{background:var(--white);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--blush);transition:box-shadow var(--ease),transform var(--ease);cursor:pointer}
+.blog-card:hover,.blog-card:focus{box-shadow:var(--sh-md);transform:translateY(-2px);outline:3px solid var(--teal-dark);outline-offset:2px}
+.blog-card-img{height:160px;background:linear-gradient(135deg,var(--teal-pale),var(--sand));display:flex;align-items:center;justify-content:center;font-size:2.75rem;overflow:hidden}
+.blog-card-img img{width:100%;height:100%;object-fit:cover}
+.blog-card-body{padding:1.15rem 1.3rem}
+.blog-card-date{font-size:var(--xs);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:.35rem}
+.blog-card-title{font-family:var(--serif);font-size:var(--lg);font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:.45rem}
+.blog-card-excerpt{font-size:var(--sm);color:var(--text-muted);line-height:1.65;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-clamp:2;overflow:hidden}
 
-## The Train Option (Really, Consider It)
+/* ── FOOTER ─────────────────────────────────── */
+.site-footer{background:linear-gradient(135deg,#1e3035 0%,#162028 100%);color:rgba(255,255,255,.5);padding:3.5rem 2rem 2rem}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5rem;margin-bottom:2rem}
+.footer-logo .logo-name{color:var(--white);font-size:1.2rem;margin-bottom:.2rem}
+.footer-logo .logo-sub{color:var(--accent-light)}
+.footer-tagline{font-size:var(--sm);line-height:1.75;margin-top:.85rem;color:rgba(255,255,255,.4)}
+.footer-col h4{font-size:var(--xs);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:.9rem}
+.footer-col a{display:block;font-size:var(--sm);color:rgba(255,255,255,.45);margin-bottom:.45rem;transition:color var(--ease)}
+.footer-col a:hover{color:var(--accent-light)}
+.footer-col p{font-size:var(--sm);color:rgba(255,255,255,.45);line-height:1.6}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;font-size:var(--xs);flex-wrap:wrap;gap:.5rem}
+.footer-legal{color:rgba(255,255,255,.3)}
 
-If you don't want to deal with Portland parking, the Downeaster train runs from OOB to Portland in about 30 minutes in summer. Park your car at your rental, take the train in, walk around all day, come back relaxed. The Portland train station puts you right in the Old Port. This is civilized travel.
+/* ── MODALS ─────────────────────────────────── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(28,37,40,.72);z-index:600;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(4px)}
+.overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--r-lg);max-width:520px;width:100%;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;box-shadow:var(--sh-lg);animation:modalIn .22s ease}
+@keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-header{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-light) 100%);padding:1.5rem 2rem;position:relative}
+.modal-close{position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:var(--white);font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background var(--ease);cursor:pointer}
+.modal-close:hover{background:rgba(255,255,255,.28)}
+.modal-eyebrow{font-size:var(--xs);font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:.3rem}
+.modal-title{font-family:var(--serif);font-size:var(--2xl);font-weight:700;color:var(--white);font-style:italic}
+.modal-body{padding:1.75rem 2rem}
+.inquiry-summary{background:var(--accent-pale);border-left:3px solid var(--accent);border-radius:0 var(--r) var(--r) 0;padding:.75rem 1rem;font-size:var(--sm);color:var(--text-mid);line-height:1.6;margin-bottom:1.5rem}
+.inquiry-summary strong{color:var(--accent)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:.85rem}
+.field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.85rem}
+.field.no-mb{margin-bottom:0}
+label{font-size:var(--xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid)}
+input,textarea,select{font-family:var(--sans);font-size:var(--sm);padding:.65rem .9rem;border:1.5px solid var(--blush);border-radius:var(--r);background:var(--white);color:var(--text);outline:none;width:100%;transition:border-color var(--ease),box-shadow var(--ease)}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,117,58,.12)}
+textarea{resize:vertical;min-height:85px;line-height:1.6}
+.star-picker{display:flex;gap:4px;margin-top:4px}
+.star-btn{background:none;border:2px solid transparent;font-size:1.6rem;color:var(--blush-mid);cursor:pointer;padding:2px;transition:color .15s;border-radius:4px;line-height:1}
+.star-btn:hover,.star-btn.active,.star-btn:focus-visible{color:var(--accent);outline:none}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+.btn-primary{width:100%;background:var(--accent);color:var(--white);border:none;border-radius:var(--r);padding:.9rem;font-family:var(--sans);font-size:var(--sm);font-weight:700;letter-spacing:.05em;transition:background var(--ease);cursor:pointer}
+.btn-primary:hover{background:var(--accent-light)}
+.form-note{font-size:var(--sm);color:var(--text-muted);text-align:center;margin-top:.85rem;line-height:1.5}
+.success-view{display:none;text-align:center;padding:3rem 2rem}
+.success-view.show{display:block}
+.success-icon{font-size:3rem;margin-bottom:1rem}
+.success-view h3{font-family:var(--serif);font-size:var(--2xl);font-style:italic;color:var(--ink);margin-bottom:.5rem}
+.success-view p{font-size:var(--sm);color:var(--text-muted);line-height:1.7}
+.review-modal{max-width:480px}
 
-## Kennebunkport the Other Direction
+/* MAP POPUP */
+.leaflet-popup-content-wrapper{border-radius:var(--r-lg)!important;box-shadow:var(--sh-md)!important;padding:0!important;overflow:hidden}
+.leaflet-popup-content{margin:0!important;width:220px!important}
+.map-popup{padding:1rem}
+.map-popup-title{font-family:var(--serif);font-size:var(--lg);font-weight:700;color:var(--ink);margin-bottom:.2rem}
+.map-popup-loc{font-size:var(--xs);color:var(--text-muted);margin-bottom:.5rem}
+.map-popup-price{font-size:var(--sm);font-weight:700;color:var(--teal-dark);margin-bottom:.65rem}
+.map-popup-btn{width:100%;background:var(--accent);color:var(--white);border:none;border-radius:var(--r);padding:7px;font-family:var(--sans);font-size:var(--sm);font-weight:700;cursor:pointer;transition:background var(--ease)}
+.map-popup-btn:hover{background:var(--accent-light)}
 
-About 15 miles south of OOB is Kennebunkport, which is the upscale contrast to OOB's boardwalk energy. Preppy, beautiful, expensive seafood, cute shops, the Bush compound if you want to drive by it. If you have a rainy day and want somewhere pretty to browse and eat, Kennebunkport is an easy drive and a genuinely lovely afternoon.
+/* Mobile map toggle */
+.map-toggle-btn{display:none!important}
 
-The Maine coast is generous like that — everything is close together, and most of it is worth seeing.
+/* ── RESPONSIVE ─────────────────────────────── */
+@media(max-width:1024px){.listings-layout{grid-template-columns:1fr}.map-panel{display:none}}
+@media(max-width:900px){.hero{height:auto;min-height:520px;align-items:flex-end;padding-bottom:2.5rem}.hero-card{margin:0 1.5rem 0;max-width:none}.header-nav a:not(.btn-inquire-header){display:none}}
+@media(max-width:640px){html{font-size:16px}.header-inner{padding:0 1rem}.hero{min-height:100svh;align-items:center;padding:5rem 1rem 2rem}.hero-overlay{background:rgba(28,37,40,.55)}.hero-card{margin:0;width:100%;max-width:none;padding:1.5rem 1.25rem;text-align:left;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.hero-h1{font-size:clamp(1.35rem,6vw,2rem);word-break:break-word;overflow-wrap:break-word;hyphens:auto}.hero-sub{font-size:var(--lg);word-break:normal}.hero-desc{max-width:none;font-size:var(--sm)}.hero-props{justify-content:flex-start;font-size:.65rem;flex-wrap:wrap;white-space:normal;gap:.3rem}.hero-cta{padding:11px 22px;font-size:var(--sm)}.filter-bar{padding:.65rem 1rem}.listings-panel{padding:1rem}.listings-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr;gap:1.5rem}.footer-bottom{flex-direction:column;text-align:center}.modal-header{padding:1.25rem 1.5rem}.modal-body{padding:1.25rem 1.5rem}.review-card{flex:0 0 260px}.modal{max-height:85svh;border-radius:var(--r-lg) var(--r-lg) 0 0;margin-top:auto;width:100%}.overlay{align-items:flex-end;padding:0}}
+@media(max-width:1024px){.map-panel.mobile-open{display:block;position:fixed;inset:62px 0 0 0;z-index:450;height:calc(100vh - 62px)}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo-link" aria-label="Beach Girl Property Rentals — Home">
+      <span class="logo-name">Beach Girl Property Rentals</span>
+      <span class="logo-sub">Old Orchard Beach, ME</span>
+    </a>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="#listings" class="header-nav-link">Rentals</a>
+      <a href="/reviews" class="header-nav-link">Reviews</a>
+      <a href="/blog" class="header-nav-link">Local Guide</a>
+      <button class="btn-inquire-header" onclick="openInquiryModal(null)">Get in Touch</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" aria-label="Welcome">
+  <img class="hero-img" src="/photos/oob-pier.jpg" alt="Old Orchard Beach pier at sunset, Maine" loading="eager" />
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-card">
+    <p class="hero-season">2026 Season · Now Open</p>
+    <h1 class="hero-h1">Your summer,<br /><em>no fees attached.</em></h1>
+    <p class="hero-desc">Owner-managed rentals right near the beach in Old Orchard Beach. No Airbnb markups, no Vrbo fees — just a quick message to the owner and you're one step closer to your toes in the sand.</p>
+    <div class="hero-props" aria-label="Key benefits" style="flex-wrap:nowrap;overflow:hidden;max-width:100%">
+      <span class="hero-prop">No booking fees</span>
+      <span class="hero-prop">Direct with owner</span>
+      <span class="hero-prop">Summer &amp; year-round</span>
+      <span class="hero-prop">Pet-friendly options</span>
+    </div>
+    <button class="hero-cta" onclick="(function(){const el=document.getElementById('listings');if(!el)return;const y=el.getBoundingClientRect().top+window.scrollY-62;window.scrollTo({top:y,behavior:'smooth'})})()">
+      See what's available →
+    </button>
+  </div>
+</section>
+
+<!-- FILTER BAR + LISTINGS -->
+<div class="filter-bar" id="listings">
+  <div class="filter-inner" role="group" aria-label="Filter properties">
+    <span class="filter-label">Show</span>
+    <button class="filter-btn" aria-pressed="true"  data-filter="all"          data-label="properties" onclick="applyFilter(this)">All</button>
+    <button class="filter-btn" aria-pressed="false" data-filter="pet-friendly" data-label="pet-friendly" data-icon="🐾" onclick="applyFilter(this)">🐾 Pet-Friendly</button>
+    <button class="filter-btn" aria-pressed="false" data-filter="waterfront"   data-label="waterfront"  data-icon="🌊" onclick="applyFilter(this)">🌊 Waterfront</button>
+    <button class="filter-btn" aria-pressed="false" data-filter="available"    data-label="available"   data-icon="✓"  onclick="applyFilter(this)">✓ Available Now</button>
+    <button class="filter-btn" aria-pressed="false" data-filter="year-round"   data-label="year-round"  data-icon="📅" onclick="applyFilter(this)">📅 Year-Round</button>
+    <span class="filter-count" id="filter-count" aria-live="polite" aria-atomic="true"></span>
+  </div>
+</div>
+
+<div class="listings-layout">
+  <section class="listings-panel" aria-label="Property listings">
+    <div class="listings-grid" id="listings-grid">
+      <div class="state-msg" role="status"><div class="icon" aria-hidden="true">🌊</div><p>Loading properties…</p></div>
+    </div>
+  </section>
+  <aside class="map-panel" id="map-panel" aria-label="Property map">
+    <div id="map"></div>
+  </aside>
+</div>
+
+<!-- REVIEWS TEASER -->
+<section class="teaser-section sand-bg" id="reviews" aria-labelledby="reviews-heading">
+  <div class="teaser-inner">
+    <div class="teaser-header">
+      <div>
+        <p class="teaser-eyebrow" aria-hidden="true">Verified Guests</p>
+        <h2 class="teaser-title" id="reviews-heading">What people are saying</h2>
+      </div>
+      <a href="/reviews" class="teaser-link">All reviews →</a>
+    </div>
+    <div class="reviews-carousel" aria-label="Guest reviews">
+      <div class="reviews-track-outer">
+        <div class="reviews-track" id="reviews-track" role="list"></div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="carousel-prev" onclick="slideReviews(-1)" aria-label="Previous reviews" disabled>‹</button>
+        <button class="carousel-btn" id="carousel-next" onclick="slideReviews(1)"  aria-label="Next reviews">›</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <button class="btn-primary" style="width:auto;padding:.75rem 2rem;background:var(--accent)" onclick="window.location.href='/reviews'">Write a review</button>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG TEASER -->
+<section class="teaser-section cream-bg" id="blog" aria-labelledby="blog-heading">
+  <div class="teaser-inner">
+    <div class="teaser-header">
+      <div>
+        <p class="teaser-eyebrow" aria-hidden="true">Local Knowledge</p>
+        <h2 class="teaser-title" id="blog-heading"><em>Old Orchard Beach</em> insider tips</h2>
+      </div>
+      <a href="/blog" class="teaser-link">All guides →</a>
+    </div>
+    <div class="blog-teaser-grid" id="blog-grid" role="list"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="logo-link">
+        <span class="logo-name" style="font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--white)">Beach Girl Property Rentals</span>
+        <span class="logo-sub" style="font-size:var(--xs);color:var(--accent-light);letter-spacing:.16em;text-transform:uppercase;font-weight:300">Affordable Property Management, LLC</span>
+      </div>
+      <p class="footer-tagline">Family-run, beach-close, fee-free. Summer or year-round, just reach out.</p>
+    </div>
+    <nav class="footer-col" aria-label="Site links">
+      <h4>Explore</h4>
+      <a href="#listings">All Rentals</a>
+      <a href="/reviews">Guest Reviews</a>
+      <a href="/blog">Local Guide</a>
+      <a href="#" onclick="openInquiryModal(null);return false">Get in Touch</a>
+    </nav>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a>
+      <a href="tel:+12074507347">(207) 450-7347</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <small class="footer-legal">© 2026 Affordable Property Management, LLC · All rights reserved</small>
+    <small class="footer-legal">beachgirlpropertyrentals.com</small>
+  </div>
+</footer>
+
+<!-- INQUIRY MODAL -->
+<div class="overlay" id="inquiry-overlay" role="dialog" aria-modal="true" aria-labelledby="inquiry-title" onclick="handleOverlayClick(event,'inquiry-overlay')">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal('inquiry-overlay')" aria-label="Close">✕</button>
+      <p class="modal-eyebrow">Send a message</p>
+      <h2 class="modal-title" id="inquiry-title">Let's chat about your stay</h2>
+    </div>
+    <div class="modal-body">
+      <div id="inquiry-form-view">
+        <div class="inquiry-summary" id="inquiry-summary" aria-live="polite">Pick a property and dates, and we'll get back to you within 24 hours.</div>
+        <div class="form-row">
+          <div class="field no-mb"><label for="i-first">First Name *</label><input type="text" id="i-first" name="first" placeholder="Jane" autocomplete="given-name" required /></div>
+          <div class="field no-mb"><label for="i-last">Last Name *</label><input type="text" id="i-last" name="last" placeholder="Smith" autocomplete="family-name" required /></div>
+        </div>
+        <div class="field"><label for="i-email">Email *</label><input type="email" id="i-email" name="email" placeholder="jane@example.com" autocomplete="email" required /></div>
+        <div class="field"><label for="i-phone">Phone</label><input type="tel" id="i-phone" name="phone" placeholder="(207) 555-0000" autocomplete="tel" /></div>
+        <div class="field">
+          <label for="i-guests">Number of Guests</label>
+          <select id="i-guests" name="guests"><option value="">Select…</option><option>1–2</option><option>3–4</option><option>5–6</option><option>7–8</option><option>9+</option></select>
+        </div>
+        <div class="field"><label>Type of Inquiry</label><div style="display:flex;gap:1.25rem;margin-top:.25rem"><label style="display:flex;align-items:center;gap:.4rem;font-size:var(--sm);font-weight:400;text-transform:none;letter-spacing:0;cursor:pointer"><input type="radio" name="inquiry_type" value="Booking Request" checked style="width:auto;accent-color:var(--accent)"> Booking Request</label><label style="display:flex;align-items:center;gap:.4rem;font-size:var(--sm);font-weight:400;text-transform:none;letter-spacing:0;cursor:pointer"><input type="radio" name="inquiry_type" value="General Question" style="width:auto;accent-color:var(--accent)"> General Question</label></div></div><div class="field"><label for="i-message">Message</label><textarea id="i-message" name="message" placeholder="Tell us about your group, when you're thinking, any questions…"></textarea></div>
+        <!-- Formspree native honeypot field — _gotcha is auto-hidden by Formspree -->
+        <div class="hp-field" aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></div>
+        <button class="btn-primary" onclick="submitInquiry()">Send Message →</button>
+        <p class="form-note">We typically reply within a few hours. No fees, no commitments.</p>
+      </div>
+      <div class="success-view" id="inquiry-success" role="alert">
+        <div class="success-icon">🏖️</div>
+        <h3>Message sent!</h3>
+        <p>We'll be in touch soon. Can't wait to help you plan your stay.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="overlay" id="review-overlay" role="dialog" aria-modal="true" aria-labelledby="review-title" onclick="handleOverlayClick(event,'review-overlay')">
+  <div class="modal review-modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal('review-overlay')" aria-label="Close">✕</button>
+      <p class="modal-eyebrow">Share your experience</p>
+      <h2 class="modal-title" id="review-title">Leave a review</h2>
+    </div>
+    <div class="modal-body">
+      <div id="review-form-view">
+        <div class="field">
+          <label for="r-property">Property you stayed at *</label>
+          <select id="r-property" name="property" required><option value="">Select property…</option></select>
+        </div>
+        <div class="field"><label for="r-dates">Dates of your stay *</label><input type="text" id="r-dates" name="dates" placeholder="e.g. Jul 12 – Jul 19, 2026" required /></div>
+        <fieldset class="field" style="border:none;padding:0">
+          <legend style="font-size:var(--xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid);margin-bottom:.35rem">Your rating *</legend>
+          <div class="star-picker" role="group">
+            <button type="button" class="star-btn" onclick="setRating(1)" aria-label="1 star">★<span class="sr-only">1</span></button>
+            <button type="button" class="star-btn" onclick="setRating(2)" aria-label="2 stars">★<span class="sr-only">2</span></button>
+            <button type="button" class="star-btn" onclick="setRating(3)" aria-label="3 stars">★<span class="sr-only">3</span></button>
+            <button type="button" class="star-btn" onclick="setRating(4)" aria-label="4 stars">★<span class="sr-only">4</span></button>
+            <button type="button" class="star-btn" onclick="setRating(5)" aria-label="5 stars">★<span class="sr-only">5</span></button>
+          </div>
+        </fieldset>
+        <div class="field"><label for="r-name">Your name *</label><input type="text" id="r-name" name="author" placeholder="Jane S." required /></div>
+        <div class="field"><label for="r-review">Your review *</label><textarea id="r-review" name="review" placeholder="What made your stay special?" style="min-height:100px" required></textarea></div>
+        <div class="hp-field" aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></div>
+        <button type="button" class="btn-primary" onclick="submitReview()">Submit Review →</button>
+        <p class="form-note">Reviews are verified before publishing — we'll confirm your stay dates first.</p>
+      </div>
+      <div class="success-view" id="review-success" role="alert">
+        <div class="success-icon">🌟</div>
+        <h3>Thank you!</h3>
+        <p>We'll verify your stay and get your review up shortly.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/calendar.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLM=" crossorigin="anonymous" defer></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
+<script>
+// ── CONFIG ────────────────────────────────────
+const INQUIRY_FORM_ID = 'xbdwrlgl';
+const REVIEW_FORM_ID  = 'xjglbglj';
+
+// ── STATE ─────────────────────────────────────
+let allProperties = [], allReviews = [], allPosts = [];
+let selectedWeeks = {}, currentRating = 0;
+let mapInstance = null, mapMarkers = {}, mapMobileOpen = false;
+let modalProperty = null, lastFocused = null;
+let reviewOffset = 0;
+const CARDS_VISIBLE = () => window.innerWidth < 640 ? 1 : window.innerWidth < 900 ? 2 : 3;
+
+// ── XSS ───────────────────────────────────────
+function esc(s){if(typeof s!=='string')return'';const d=document.createElement('div');d.appendChild(document.createTextNode(s));return d.innerHTML}
+function renderStars(n){const f=Math.round(Math.min(5,Math.max(0,n||0)));return'★'.repeat(f)+'☆'.repeat(5-f)}
+
+// ── FETCH ─────────────────────────────────────
+function fetchSafe(url,ms=8000){const c=new AbortController();const id=setTimeout(()=>c.abort(),ms);return fetch(url,{signal:c.signal}).then(r=>{clearTimeout(id);return r}).catch(()=>{clearTimeout(id);return null})}
+
+// ── LOAD ──────────────────────────────────────
+async function loadAll(){
+  const [pR,rR,bR]=await Promise.all([fetchSafe('/listings-index.json'),fetchSafe('/reviews-index.json'),fetchSafe('/posts-index.json')]);
+  const props=pR&&pR.ok?await pR.json().catch(()=>[]):[];
+  const revs=rR&&rR.ok?await rR.json().catch(()=>[]):[];
+  const posts=bR&&bR.ok?await bR.json().catch(()=>[]):[];
+  allProperties=props.length?props.filter(p=>p.active!==false):DEMO_PROPS;
+  allReviews=revs.length?revs.filter(r=>r.approved===true):DEMO_REVIEWS;
+  allPosts=posts.length?posts:DEMO_POSTS;
+  renderGrid(allProperties);
+  if(typeof L!=='undefined')initMap();else window.addEventListener('load',initMap);
+  renderReviewsTeaser();
+  renderBlogTeaser();
+  populateReviewSelect();
+}
+
+// ── DEMO DATA ─────────────────────────────────
+const DEMO_PROPS=[
+  {_slug:'harborview-cottage',title:'Harborview Cottage',location:'Old Orchard Beach, ME',address:'Old Orchard Beach, Maine',type:'Cottage',bedrooms:3,bathrooms:2,guests:6,price:'$2,400',photo:'',description:'A charming shingled cottage steps from the beach. Wrap-around porch, fully equipped kitchen, and ocean breezes all week.',tags:['pet-friendly','waterfront'],lat:43.5176,lng:-70.3743,active:true,
+   availability:[{date:'2026-07-04',status:'available'},{date:'2026-07-05',status:'available'},{date:'2026-07-06',status:'available'},{date:'2026-07-07',status:'available'},{date:'2026-07-08',status:'available'},{date:'2026-07-09',status:'available'},{date:'2026-07-10',status:'available'},{date:'2026-07-11',status:'available'},{date:'2026-07-12',status:'available'},{date:'2026-07-18',status:'unavailable'},{date:'2026-07-19',status:'unavailable'},{date:'2026-07-20',status:'unavailable'},{date:'2026-07-21',status:'unavailable'},{date:'2026-07-22',status:'unavailable'},{date:'2026-07-23',status:'unavailable'},{date:'2026-07-24',status:'unavailable'},{date:'2026-07-25',status:'unavailable'},{date:'2026-08-01',status:'available'},{date:'2026-08-02',status:'available'},{date:'2026-08-03',status:'available'},{date:'2026-08-04',status:'available'},{date:'2026-08-05',status:'available'},{date:'2026-08-06',status:'available'},{date:'2026-08-07',status:'available'},{date:'2026-08-08',status:'available'}]},
+  {_slug:'pine-haven-cape',title:'Pine Haven Cape',location:'Saco, ME',type:'Cape',bedrooms:4,bathrooms:2,guests:8,price:'$3,100',photo:'',description:'Classic New England Cape on a quiet street. Big backyard, outdoor shower, bikes included, five minutes to the beach.',tags:['year-round'],lat:43.5009,lng:-70.4428,active:true,
+   availability:[{date:'2026-06-27',status:'available'},{date:'2026-06-28',status:'available'},{date:'2026-06-29',status:'available'},{date:'2026-06-30',status:'available'},{date:'2026-07-01',status:'available'},{date:'2026-07-02',status:'available'},{date:'2026-07-03',status:'available'},{date:'2026-07-04',status:'available'},{date:'2026-07-05',status:'available'},{date:'2026-07-11',status:'unavailable'},{date:'2026-07-12',status:'unavailable'},{date:'2026-07-13',status:'unavailable'},{date:'2026-07-14',status:'unavailable'},{date:'2026-07-15',status:'unavailable'},{date:'2026-07-16',status:'unavailable'},{date:'2026-07-17',status:'unavailable'},{date:'2026-07-18',status:'unavailable'},{date:'2026-07-18',status:'available'},{date:'2026-07-19',status:'available'},{date:'2026-07-20',status:'available'},{date:'2026-07-21',status:'available'},{date:'2026-07-22',status:'available'},{date:'2026-07-23',status:'available'},{date:'2026-07-24',status:'available'},{date:'2026-07-25',status:'available'}]},
+  {_slug:'dune-cottage',title:'The Dune Cottage',location:'Old Orchard Beach, ME',type:'Cottage',bedrooms:2,bathrooms:1,guests:4,price:'$1,750',photo:'',description:'Cozy cottage tucked in the dunes. Steps to the sand, screened porch, fully stocked. Perfect for a couple or small family.',tags:['waterfront','pet-friendly'],lat:43.5220,lng:-70.3800,active:true,
+   availability:[{date:'2026-07-04',status:'available'},{date:'2026-07-05',status:'available'},{date:'2026-07-06',status:'available'},{date:'2026-07-07',status:'available'},{date:'2026-07-08',status:'available'},{date:'2026-07-09',status:'available'},{date:'2026-07-10',status:'available'},{date:'2026-07-11',status:'available'},{date:'2026-07-12',status:'available'},{date:'2026-07-13',status:'available'},{date:'2026-07-14',status:'available'},{date:'2026-07-15',status:'available'},{date:'2026-07-16',status:'available'},{date:'2026-07-17',status:'available'},{date:'2026-07-18',status:'available'},{date:'2026-07-25',status:'unavailable'},{date:'2026-07-26',status:'unavailable'},{date:'2026-07-27',status:'unavailable'},{date:'2026-07-28',status:'unavailable'},{date:'2026-07-29',status:'unavailable'},{date:'2026-07-30',status:'unavailable'},{date:'2026-07-31',status:'unavailable'},{date:'2026-08-01',status:'unavailable'}]},
+];
+const DEMO_REVIEWS=[
+  {property:'Harborview Cottage',author:'Michelle T.',rating:5,text:'Absolutely perfect week. The cottage was spotless, the porch was our favorite spot every evening. Felt like a home, not a rental.',date:'August 2025',approved:true},
+  {property:'Pine Haven Cape',author:'David & Sarah R.',rating:5,text:"Best vacation rental we've ever stayed in. Incredibly well-maintained, great neighborhood. Already booked next summer.",date:'July 2025',approved:true},
+  {property:'Harborview Cottage',author:'James P.',rating:4,text:'Beautiful property, great location. The owner was super responsive and helpful. Would highly recommend.',date:'July 2025',approved:true},
+  {property:'The Dune Cottage',author:'Karen L.',rating:5,text:'Woke up to the sound of waves every morning. Charming and had everything we needed.',date:'August 2025',approved:true},
+  {property:'Pine Haven Cape',author:'Tom B.',rating:5,text:'Brought the whole extended family. Plenty of space and the backyard was perfect for the kids.',date:'August 2025',approved:true},
+];
+const DEMO_POSTS=[
+  {_slug:'best-beaches-oob',title:'The Best Beaches Around Old Orchard Beach',date:'March 2026',excerpt:"From the iconic main beach to quieter stretches in Scarborough — here's where locals actually go.",emoji:'🏖️'},
+  {_slug:'oob-lobster-rolls-ranked',title:'The Lobster Roll Situation in OOB',date:'April 2026',excerpt:"My completely honest rankings — what's worth your money and what to skip.",emoji:'🦞'},
+  {_slug:'shoulder-season-oob',title:'Why September at OOB Is Better Than July',date:'November 2025',excerpt:'I said what I said. The water is warmer, the crowds are gone, and the prices are lower.',emoji:'🍂'},
+];
+
+// ── FILTER ────────────────────────────────────
+function applyFilter(btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.setAttribute('aria-pressed','false'));
+  btn.setAttribute('aria-pressed','true');
+  const f=btn.dataset.filter;
+  const icon=btn.dataset.icon||'';
+  const label=btn.dataset.label||'properties';
+  const filtered=f==='all'?allProperties:allProperties.filter(p=>{
+    if(f==='available'){const today=new Date();today.setHours(0,0,0,0);return(p.availability||[]).some(d=>d.status==='available'&&new Date(d.date+'T00:00:00')>=today);}
+    return(p.tags||[]).includes(f);
+  });
+  renderGrid(filtered,icon,label);
+  updateMapHighlights(filtered);
+}
+
+// ── GRID ──────────────────────────────────────
+function renderGrid(props,icon='',label='properties'){
+  const grid=document.getElementById('listings-grid');
+  const count=document.getElementById('filter-count');
+  if(!props.length){
+    const ic=icon?`<div class="icon" aria-hidden="true">${icon}</div>`:'<div class="icon" aria-hidden="true">🌊</div>';
+    grid.innerHTML=`<div class="state-msg" role="status">${ic}<p>No ${label} right now. <a href="#" onclick="document.querySelector('[data-filter=all]').click();return false">See all listings →</a></p></div>`;
+    count.textContent='';return;
+  }
+  count.textContent=`${props.length} propert${props.length===1?'y':'ies'}`;
+  grid.innerHTML=props.map(cardHTML).join('');
+  grid.querySelectorAll('.card').forEach((c,i)=>{c.style.animationDelay=`${i*.06}s`});
+}
+
+function cardHTML(p){
+  const av=p.availability||[];
+  const today=new Date(); today.setHours(0,0,0,0);
+  const hasAvail=av.some(d=>d.status==='available'&&new Date(d.date+'T00:00:00')>=today);
+  const tagLabels={'pet-friendly':'🐾 Pet-Friendly','waterfront':'🌊 Waterfront','year-round':'📅 Year-Round'};
+  const tagsHTML=(p.tags||[]).map(t=>`<span class="card-tag">${esc(tagLabels[t]||t)}</span>`).join('');
+  const photoHTML=p.photo?`<img src="${esc(p.photo)}" alt="${esc(p.title)}" loading="lazy" data-fallback="true" />`:`<div class="card-photo-placeholder" aria-hidden="true">🏡</div>`;
+  const propRevs=allReviews.filter(r=>r.property===p.title);
+  const avg=propRevs.length?propRevs.reduce((s,r)=>s+(r.rating||5),0)/propRevs.length:0;
+  const ratingHTML=propRevs.length?`<div class="card-rating"><span class="stars" aria-label="${avg.toFixed(1)} out of 5">${renderStars(avg)}</span><span class="rating-count">${avg.toFixed(1)} (${propRevs.length})</span></div>`:'';
+  return `<article class="card" id="card-${esc(p._slug)}" tabindex="0" data-slug="${esc(p._slug)}" aria-label="${esc(p.title)}">
+    <div class="card-photo">${photoHTML}
+      <div class="card-badge ${hasAvail?'open':'full'}">${hasAvail?'Dates available':'Fully booked'}</div>
+      <div class="card-tags">${tagsHTML}</div>
+    </div>
+    <div class="card-body">
+      <div class="card-type">${esc(p.type||'Property')}</div>
+      <h3 class="card-title">${esc(p.title)}</h3>
+      <p class="card-location">📍 ${esc(p.location)}</p>
+      <ul class="card-specs">
+        <li class="spec">🛏 ${esc(String(p.bedrooms))} bed</li>
+        <li class="spec">🚿 ${esc(String(p.bathrooms))} bath</li>
+        <li class="spec">👥 Up to ${esc(String(p.guests))}</li>
+      </ul>
+      ${ratingHTML}
+      <div class="avail-section">
+        <button class="avail-toggle" aria-expanded="false" aria-controls="ap-${esc(p._slug)}" id="at-${esc(p._slug)}">
+          <span>Check availability</span><span class="chev" aria-hidden="true">▼</span>
+        </button>
+        <div class="avail-panel" id="ap-${esc(p._slug)}">
+          <div id="cal-${esc(p._slug)}" class="cal-wrap"></div>
+          <button class="card-inquire-btn" onclick="event.stopPropagation();openInquiryModal('${esc(p._slug)}')">Send Inquiry →</button>
+        </div>
+      </div>
+      <div class="card-price-row">
+        <div class="card-price">${esc(p.price)} <span>/ week</span></div>
+        <span class="card-cta" aria-hidden="true">View &amp; Book →</span>
+      </div>
+    </div>
+  </article>`;
+}
+
+// ── IMAGE FALLBACK ─────────────────────────────
+document.addEventListener('error',e=>{if(e.target.tagName==='IMG'&&e.target.dataset.fallback){const ph=e.target.closest('.card-photo');if(ph){const d=document.createElement('div');d.className='card-photo-placeholder';d.setAttribute('aria-hidden','true');d.textContent='🏡';e.target.replaceWith(d)}}},true);
+
+// ── CALENDAR INSTANCES ────────────────────────
+const calInstances = {};
+
+function initCardCalendar(slug) {
+  if (calInstances[slug]) return; // already initialized
+  const prop = allProperties.find(p => p._slug === slug);
+  const el   = document.getElementById('cal-' + slug);
+  if (!prop || !el || typeof BeachGirlCalendar === 'undefined') return;
+  calInstances[slug] = BeachGirlCalendar.create({
+    container: el,
+    availability: prop.availability || [],
+    onSelect: (ci, co) => {
+      if (!selectedWeeks) selectedWeeks = {};
+      selectedWeeks[slug] = { checkIn: ci, checkOut: co };
+    }
+  });
+  calInstances[slug].render();
+}
+
+function toggleAvail(togBtn) {
+  const panelId = togBtn.getAttribute('aria-controls');
+  const panel   = document.getElementById(panelId);
+  if (!panel) return;
+  const isOpen  = panel.classList.contains('open');
+  // Close all open panels
+  document.querySelectorAll('.avail-panel.open').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.avail-toggle[aria-expanded="true"]').forEach(t => {
+    t.setAttribute('aria-expanded', 'false');
+    t.querySelector('span').textContent = 'Check availability';
+  });
+  if (!isOpen) {
+    panel.classList.add('open');
+    togBtn.setAttribute('aria-expanded', 'true');
+    togBtn.querySelector('span').textContent = 'Hide availability';
+    // Init calendar on first open
+    const slug = panelId.replace('ap-', '');
+    initCardCalendar(slug);
+  }
+}
+
+// ── EVENT DELEGATION ──────────────────────────
+document.addEventListener('click', e => {
+  // Availability toggle
+  const tog = e.target.closest('.avail-toggle');
+  if (tog) { e.stopPropagation(); toggleAvail(tog); return; }
+  // Inquiry button inside card — don't navigate
+  if (e.target.closest('.card-inquire-btn')) return;
+  // Card click — navigate to property page
+  const card = e.target.closest('.card');
+  if (card && !e.target.closest('.avail-section')) {
+    const s = card.dataset.slug;
+    if (s) window.location.href = '/property/' + encodeURIComponent(s);
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const card = e.target.closest('.card');
+    if (card && e.target === card) {
+      e.preventDefault();
+      const s = card.dataset.slug;
+      if (s) window.location.href = '/property/' + encodeURIComponent(s);
+    }
+  }
+  if (e.key === 'Escape') { closeModal('inquiry-overlay'); closeModal('review-overlay'); }
+});
+
+// Week selection handled by calendar widget
+
+
+// ── MAP ───────────────────────────────────────
+// Geocode an address using Nominatim (free, no API key)
+async function geocodeAddress(address) {
+  try {
+    const q = encodeURIComponent(address + ', Maine, USA');
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1`, {
+      headers: { 'Accept-Language': 'en', 'User-Agent': 'BeachGirlPropertyRentals/1.0' }
+    });
+    const data = await res.json();
+    if (data && data[0]) return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+  } catch(e) {}
+  return null;
+}
+
+async function initMap(){
+  if(mapInstance||typeof L==='undefined')return;
+  mapInstance=L.map('map',{zoomControl:true,scrollWheelZoom:false}).setView([43.51,-70.38],11);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© <a href="https://openstreetmap.org">OpenStreetMap</a>',maxZoom:18}).addTo(mapInstance);
+  const mkIcon=color=>L.divIcon({className:'',html:`<div style="width:28px;height:28px;border-radius:50% 50% 50% 0;background:${color};border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,.28);transform:rotate(-45deg)"></div>`,iconSize:[28,28],iconAnchor:[14,28],popupAnchor:[0,-28]});
+
+  const bounds = [];
+  for (const p of allProperties) {
+    // Geocode if we have address but no coordinates
+    if ((!p.lat || !p.lng) && p.location) {
+      const coords = await geocodeAddress(p.location);
+      if (coords) { p.lat = coords.lat; p.lng = coords.lng; }
+    }
+    if(!p.lat||!p.lng) continue;
+    const today=new Date();today.setHours(0,0,0,0);
+    const avail=(p.availability||[]).some(d=>d.status==='available'&&new Date(d.date+'T00:00:00')>=today);
+    const el=document.createElement('div');el.className='map-popup';
+    el.innerHTML=`<div class="map-popup-title">${esc(p.title)}</div><div class="map-popup-loc">📍 ${esc(p.location)}</div><div class="map-popup-price">${esc(p.price)}/week</div><button class="map-popup-btn">View property →</button>`;
+    el.querySelector('.map-popup-btn').addEventListener('click',()=>window.location.href=`/property/${encodeURIComponent(p._slug)}`);
+    const marker=L.marker([p.lat,p.lng],{icon:mkIcon(avail?'#4d8a91':'#c46a6a'),title:p.title}).addTo(mapInstance).bindPopup(el);
+    marker.on('click',()=>highlightCard(p._slug));
+    mapMarkers[p._slug]=marker;
+    bounds.push([p.lat,p.lng]);
+  }
+  // Fit map to show all properties
+  if(bounds.length>1) mapInstance.fitBounds(bounds,{padding:[40,40]});
+  else if(bounds.length===1) mapInstance.setView(bounds[0],14);
+}
+function highlightCard(slug){document.querySelectorAll('.card').forEach(c=>c.classList.remove('highlighted'));const c=document.getElementById(`card-${slug}`);if(c){c.classList.add('highlighted');c.scrollIntoView({behavior:'smooth',block:'nearest'})}}
+function updateMapHighlights(filtered){if(!mapInstance)return;const s=new Set(filtered.map(p=>p._slug));Object.entries(mapMarkers).forEach(([k,m])=>{if(mapInstance.hasLayer(m)&&!s.has(k))mapInstance.removeLayer(m);else if(!mapInstance.hasLayer(m)&&s.has(k))m.addTo(mapInstance)})}
+function toggleMobileMap(){const p=document.getElementById('map-panel'),btn=document.getElementById('map-toggle');mapMobileOpen=!mapMobileOpen;p.classList.toggle('mobile-open',mapMobileOpen);btn.setAttribute('aria-expanded',String(mapMobileOpen));btn.innerHTML=mapMobileOpen?'✕ Close Map':'🗺 Show Map';if(mapMobileOpen&&mapInstance)setTimeout(()=>mapInstance.invalidateSize(),300)}
+
+// ── REVIEWS TEASER with arrow nav ────────────
+function renderReviewsTeaser(){
+  const track=document.getElementById('reviews-track');
+  if(!allReviews.length){track.innerHTML='<div style="padding:2rem;color:var(--text-muted)">No reviews yet — be the first!</div>';return}
+  track.innerHTML=allReviews.map(r=>`<div class="review-card" role="listitem"><div class="review-stars" aria-label="${r.rating||5} stars">${renderStars(r.rating||5)}</div><blockquote class="review-text">${esc(r.text)}</blockquote><div class="review-meta"><div><div class="review-author">${esc(r.author)}</div><div class="review-property">${esc(r.property)}</div></div><time class="review-date">${esc(r.date||'')}</time></div></div>`).join('');
+  updateCarouselButtons();
+}
+
+function slideReviews(dir){
+  const track=document.getElementById('reviews-track');
+  const cards=track.querySelectorAll('.review-card');
+  const visible=CARDS_VISIBLE();
+  const maxOffset=Math.max(0,cards.length-visible);
+  reviewOffset=Math.min(maxOffset,Math.max(0,reviewOffset+dir));
+  const cardW=cards[0]?.offsetWidth+20||340;
+  track.style.transform=`translateX(-${reviewOffset*cardW}px)`;
+  updateCarouselButtons();
+}
+
+function updateCarouselButtons(){
+  const track=document.getElementById('reviews-track');
+  const cards=track.querySelectorAll('.review-card');
+  const visible=CARDS_VISIBLE();
+  document.getElementById('carousel-prev').disabled=reviewOffset===0;
+  document.getElementById('carousel-next').disabled=reviewOffset>=cards.length-visible;
+}
+
+window.addEventListener('resize',updateCarouselButtons);
+
+// ── BLOG TEASER — show 2 most recent ─────────
+function renderBlogTeaser(){
+  const grid=document.getElementById('blog-grid');
+  if(!allPosts.length){grid.style.display='none';return}
+  const posts=allPosts.slice(0,2);
+  grid.innerHTML=posts.map(p=>`<article class="blog-card" role="listitem" tabindex="0" data-href="/blog/${esc(p._slug)}" aria-label="${esc(p.title)}"><div class="blog-card-img" aria-hidden="true">${p.photo?`<img src="${esc(p.photo)}" alt="" loading="lazy" />`:(p.emoji||'📝')}</div><div class="blog-card-body"><time class="blog-card-date">${esc(p.date||'')}</time><h3 class="blog-card-title">${esc(p.title)}</h3><p class="blog-card-excerpt">${esc(p.excerpt||'')}</p></div></article>`).join('');
+  grid.querySelectorAll('.blog-card').forEach(c=>{
+    c.addEventListener('click',()=>window.location.href=c.dataset.href);
+    c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.location.href=c.dataset.href}});
+  });
+}
+
+// ── MODALS ────────────────────────────────────
+function openInquiryModal(slug){
+  lastFocused=document.activeElement;
+  const p=slug?allProperties.find(x=>x._slug===slug):null;
+  const sel=selectedWeeks[slug]||[];
+  modalProperty=p;
+  document.getElementById('inquiry-title').textContent=p?`Let's chat about ${p.title}`:'Let\'s chat about your stay';
+  const sum=document.getElementById('inquiry-summary');
+  if(p){sum.innerHTML='';const s=document.createElement('strong');s.textContent=p.title;sum.appendChild(s);sum.appendChild(document.createTextNode(` · ${p.location} · ${p.price}/week`));if(sel.length){sum.appendChild(document.createElement('br'));const sw=document.createElement('strong');sw.textContent='Selected: ';sum.appendChild(sw);sum.appendChild(document.createTextNode(sel.join(', ')))}}
+  else{sum.textContent="Fill in your details and we'll get back to you quickly."}
+  document.getElementById('inquiry-form-view').style.display='block';
+  document.getElementById('inquiry-success').classList.remove('show');
+  ['i-first','i-last','i-email','i-phone','i-message'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('i-guests').value='';
+  const ov=document.getElementById('inquiry-overlay');ov.classList.add('open');document.body.style.overflow='hidden';
+  ov.querySelector('.modal-close').focus();
+}
+
+function openReviewModal(){
+  lastFocused=document.activeElement;
+  document.getElementById('review-form-view').style.display='block';
+  document.getElementById('review-success').classList.remove('show');
+  const ov=document.getElementById('review-overlay');ov.classList.add('open');document.body.style.overflow='hidden';
+  ov.querySelector('.modal-close').focus();
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow='';
+  if(lastFocused){lastFocused.focus();lastFocused=null}
+}
+
+function handleOverlayClick(e,id){if(e.target===document.getElementById(id))closeModal(id)}
+
+function populateReviewSelect(){
+  const sel=document.getElementById('r-property');
+  allProperties.forEach(p=>{const o=document.createElement('option');o.value=p.title;o.textContent=p.title;sel.appendChild(o)});
+}
+
+function setRating(val){currentRating=val;document.querySelectorAll('.star-btn').forEach((b,i)=>{b.classList.toggle('active',i<val);b.setAttribute('aria-pressed',i<val?'true':'false')})}
+
+// ── SUBMIT INQUIRY ────────────────────────────
+async function submitInquiry(){
+  // _gotcha is auto-checked by Formspree
+  const first=document.getElementById('i-first').value.trim();
+  const last=document.getElementById('i-last').value.trim();
+  const email=document.getElementById('i-email').value.trim();
+  if(!first||!last||!email){showErr('inquiry','Please fill in your name and email.');return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showErr('inquiry','Please enter a valid email address.');return}
+  const btn=document.querySelector('#inquiry-form-view .btn-primary');
+  btn.textContent='Sending…';btn.disabled=true;
+  const payload={name:`${first} ${last}`,email,phone:document.getElementById('i-phone').value.trim(),guests:document.getElementById('i-guests').value,property:modalProperty?.title||'General inquiry',checkIn:(selectedWeeks[modalProperty?._slug]||{}).checkIn||'Not specified',checkOut:(selectedWeeks[modalProperty?._slug]||{}).checkOut||'Not specified',message:document.getElementById('i-message').value.trim(),_subject:`Rental Inquiry: ${modalProperty?.title||'General'}`};
+  try{
+    if(INQUIRY_FORM_ID==='YOUR_ID'){await new Promise(r=>setTimeout(r,800));showSuccess('inquiry');return}
+    const res=await fetch(`https://formspree.io/f/${INQUIRY_FORM_ID}`,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
+    if(res.ok)showSuccess('inquiry');else throw new Error(res.status);
+  }catch(err){showErr('inquiry','Something went wrong. Email us at beachgirloob@gmail.com or call (207) 450-7347.');btn.textContent='Send Message →';btn.disabled=false}
+}
+
+// ── SUBMIT REVIEW ─────────────────────────────
+async function submitReview(){
+  const prop=document.getElementById('r-property').value;
+  const dates=document.getElementById('r-dates').value.trim();
+  const name=document.getElementById('r-name').value.trim();
+  const review=document.getElementById('r-review').value.trim();
+  if(!prop||!dates||!name||!review||!currentRating){showErr('review','Please fill in all fields and select a rating.');return}
+  if(review.length>2000){showErr('review','Review must be under 2000 characters.');return}
+  const btn=document.querySelector('#review-form-view .btn-primary');
+  btn.textContent='Submitting…';btn.disabled=true;
+  const payload={property:prop,dates,author:name,rating:currentRating,review,_subject:`Review Submission: ${prop}`};
+  try{
+    if(REVIEW_FORM_ID==='YOUR_ID'){await new Promise(r=>setTimeout(r,800));showSuccess('review');return}
+    const res=await fetch(`https://formspree.io/f/${REVIEW_FORM_ID}`,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
+    if(res.ok)showSuccess('review');else throw new Error(res.status);
+  }catch(err){showErr('review','Something went wrong. Please try again.');btn.textContent='Submit Review →';btn.disabled=false}
+}
+
+function showErr(type,msg){const v=document.getElementById(`${type}-form-view`);let e=v.querySelector('.form-err');if(!e){e=document.createElement('p');e.className='form-err';e.setAttribute('role','alert');Object.assign(e.style,{color:'#a83222',fontSize:'var(--sm)',marginBottom:'.75rem',padding:'.5rem .75rem',background:'#fdf0ee',borderRadius:'var(--r)',borderLeft:'3px solid #a83222'});v.querySelector('.btn-primary').before(e)}e.textContent=msg}
+function showSuccess(type){if(type==='inquiry'){document.getElementById('inquiry-form-view').style.display='none';document.getElementById('inquiry-success').classList.add('show')}else{document.getElementById('review-form-view').style.display='none';document.getElementById('review-success').classList.add('show')}}
+
+// ── NETLIFY IDENTITY ──────────────────────────
+window.addEventListener('load',()=>{if(window.netlifyIdentity){window.netlifyIdentity.on('init',u=>{if(!u)window.netlifyIdentity.on('login',()=>{document.location.href='/manage-listings-apm/'})})}});
+
+// ── FILTER BAR VISIBILITY — hide when past listings section ──────────────
+(function(){
+  const filterBar = document.querySelector('.filter-bar');
+  const listingsSection = document.getElementById('listings');
+  const reviewsSection = document.getElementById('reviews');
+  if (!filterBar || !reviewsSection) return;
+
+  // Use a single scroll listener — simpler and more reliable than IntersectionObserver
+  // for a sticky element that needs to show/hide based on scroll position
+  function updateFilterBar() {
+    if (!listingsSection || !reviewsSection) return;
+    const listingsRect = listingsSection.getBoundingClientRect();
+    const reviewsRect  = reviewsSection.getBoundingClientRect();
+    // Show filter bar only while we're in the listings panel area:
+    // listings top has scrolled onto screen AND reviews top hasn't yet
+    const inListings = listingsRect.top <= 130 && reviewsRect.top > 130;
+    if (inListings) {
+      filterBar.classList.remove('hidden');
+    } else {
+      filterBar.classList.add('hidden');
+    }
+  }
+
+  window.addEventListener('scroll', updateFilterBar, { passive: true });
+  // Initial check
+  updateFilterBar();
+})();
+
+loadAll();
+</script>
+</body>
+</html>
