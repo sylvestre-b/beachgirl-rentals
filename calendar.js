@@ -1,81 +1,69 @@
 /**
  * BeachGirl Calendar — availability date-range picker
- * 
+ *
+ * SAFETY DEFAULT: dates that are NOT explicitly marked are treated as
+ * UNAVAILABLE. This prevents a forgotten admin update from silently
+ * advertising a booked week as available. Listings must declare every
+ * available window explicitly via the availability array.
+ *
  * Features:
- * - Shows a 2-month calendar grid (current + next)
- * - Dates marked available/unavailable by admin
- * - Click to select check-in, click again for check-out
- * - Visual range highlight between selected dates
- * - Passes selected range into inquiry form
- * - Mobile-friendly: stacks to 1 month on small screens
+ * - Two-month grid (current + next), stacks to one on mobile
+ * - Click to set check-in, click again for check-out
+ * - Range highlight, hover preview
+ * - Calls onSelect(checkInISO, checkOutISO) when a valid range is chosen
  */
+window.BeachGirlCalendar = (function () {
 
-window.BeachGirlCalendar = (function() {
-
-  // ── Helpers ──────────────────────────────────────────────────────────────
-  function isoDate(d) {
-    return d.toISOString().slice(0, 10);
-  }
-
+  // ── Helpers ────────────────────────────────────────────────────────
+  function isoDate(d) { return d.toISOString().slice(0, 10); }
   function parseDate(str) {
-    // Accepts "YYYY-MM-DD"
     const [y, m, d] = str.split('-').map(Number);
     return new Date(y, m - 1, d);
   }
-
   function addDays(d, n) {
     const r = new Date(d);
     r.setDate(r.getDate() + n);
     return r;
   }
-
   function sameDay(a, b) {
-    return a.getFullYear() === b.getFullYear() &&
-           a.getMonth() === b.getMonth() &&
-           a.getDate() === b.getDate();
+    return a.getFullYear() === b.getFullYear()
+        && a.getMonth() === b.getMonth()
+        && a.getDate() === b.getDate();
   }
+  function inRange(d, start, end) { return d > start && d < end; }
 
-  function inRange(d, start, end) {
-    return d > start && d < end;
-  }
+  const MONTH_NAMES = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  const DAY_NAMES = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 
-  const MONTH_NAMES = ['January','February','March','April','May','June',
-                       'July','August','September','October','November','December'];
-  const DAY_NAMES   = ['Su','Mo','Tu','We','Th','Fr','Sa'];
-
-  // ── Main factory ─────────────────────────────────────────────────────────
-  /**
-   * @param {Object} opts
-   *   container    {HTMLElement}  where to render
-   *   availability {Array}        [{date:'YYYY-MM-DD', status:'available'|'unavailable'}]
-   *   onSelect     {Function}     called with (checkIn, checkOut) ISO strings or (null, null) on clear
-   *   minNights    {number}       default 1 (allow any range, including partial weeks)
-   */
   function create(opts) {
     const { container, availability = [], onSelect, minNights = 1 } = opts;
 
-    // Build a fast lookup: date string → 'available' | 'unavailable'
+    // Fast lookup: 'YYYY-MM-DD' → 'available' | 'unavailable'
     const avMap = {};
     availability.forEach(a => { avMap[a.date] = a.status; });
 
     let viewYear  = new Date().getFullYear();
-    let viewMonth = new Date().getMonth(); // 0-indexed
+    let viewMonth = new Date().getMonth();
     let checkIn   = null;
     let checkOut  = null;
     let hoverDate = null;
 
+    /**
+     * SAFETY: default is UNAVAILABLE. A date is available only when:
+     *  - it is in the future (or today), AND
+     *  - it is explicitly marked 'available' in the availability array.
+     */
     function isAvailable(d) {
       const key = isoDate(d);
       const today = isoDate(new Date());
       if (key < today) return false;
-      // If admin has marked it, respect that
-      if (avMap[key]) return avMap[key] === 'available';
-      // Default: available (only blocked if explicitly marked unavailable)
-      return true;
+      return avMap[key] === 'available';
     }
 
     function rangeAllAvailable(start, end) {
-      // Check every day in range is available
       let d = addDays(start, 1);
       while (d < end) {
         if (!isAvailable(d)) return false;
@@ -87,19 +75,17 @@ window.BeachGirlCalendar = (function() {
     function render() {
       container.innerHTML = '';
 
-      // Navigation row
       const nav = document.createElement('div');
       nav.className = 'cal-nav';
       nav.innerHTML = `
-        <button class="cal-nav-btn" id="cal-prev" aria-label="Previous month">‹</button>
+        <button class="cal-nav-btn" data-cal-nav="prev" aria-label="Previous month">‹</button>
         <span class="cal-nav-label"></span>
-        <button class="cal-nav-btn" id="cal-next" aria-label="Next month">›</button>
+        <button class="cal-nav-btn" data-cal-nav="next" aria-label="Next month">›</button>
       `;
       container.appendChild(nav);
 
       const label = nav.querySelector('.cal-nav-label');
 
-      // Render 2 months side by side (1 on mobile)
       const months = document.createElement('div');
       months.className = 'cal-months';
 
@@ -114,10 +100,8 @@ window.BeachGirlCalendar = (function() {
         if (m > 11) { m -= 12; y++; }
         months.appendChild(renderMonth(y, m));
       }
-
       container.appendChild(months);
 
-      // Legend
       const legend = document.createElement('div');
       legend.className = 'cal-legend';
       legend.innerHTML = `
@@ -127,20 +111,19 @@ window.BeachGirlCalendar = (function() {
       `;
       container.appendChild(legend);
 
-      // Selection summary
       const summary = document.createElement('div');
       summary.className = 'cal-summary';
       summary.id = 'cal-summary';
       updateSummary(summary);
       container.appendChild(summary);
 
-      // Wire navigation
-      container.querySelector('#cal-prev').addEventListener('click', () => {
+      // Wire navigation (no inline handlers)
+      container.querySelector('[data-cal-nav="prev"]').addEventListener('click', () => {
         viewMonth--;
         if (viewMonth < 0) { viewMonth = 11; viewYear--; }
         render();
       });
-      container.querySelector('#cal-next').addEventListener('click', () => {
+      container.querySelector('[data-cal-nav="next"]').addEventListener('click', () => {
         viewMonth++;
         if (viewMonth > 11) { viewMonth = 0; viewYear++; }
         render();
@@ -151,13 +134,11 @@ window.BeachGirlCalendar = (function() {
       const wrap = document.createElement('div');
       wrap.className = 'cal-month';
 
-      // Month header
       const h = document.createElement('div');
       h.className = 'cal-month-title';
       h.textContent = `${MONTH_NAMES[month]} ${year}`;
       wrap.appendChild(h);
 
-      // Day-of-week headers
       const dh = document.createElement('div');
       dh.className = 'cal-dow-row';
       DAY_NAMES.forEach(d => {
@@ -168,14 +149,12 @@ window.BeachGirlCalendar = (function() {
       });
       wrap.appendChild(dh);
 
-      // Days grid
       const grid = document.createElement('div');
       grid.className = 'cal-grid';
 
-      const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+      const firstDay = new Date(year, month, 1).getDay();
       const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-      // Empty cells before first day
       for (let i = 0; i < firstDay; i++) {
         const e = document.createElement('div');
         e.className = 'cal-day empty';
@@ -197,6 +176,7 @@ window.BeachGirlCalendar = (function() {
 
         if (past) {
           cell.classList.add('past');
+          cell.setAttribute('aria-label', `${MONTH_NAMES[month]} ${d} — past`);
         } else if (!avail) {
           cell.classList.add('unavail');
           cell.setAttribute('aria-label', `${MONTH_NAMES[month]} ${d} — unavailable`);
@@ -216,8 +196,7 @@ window.BeachGirlCalendar = (function() {
           });
         }
 
-        // Apply check-in / check-out / range classes
-        if (checkIn && sameDay(date, checkIn)) cell.classList.add('check-in');
+        if (checkIn  && sameDay(date, checkIn))  cell.classList.add('check-in');
         if (checkOut && sameDay(date, checkOut)) cell.classList.add('check-out');
         if (checkIn && checkOut && inRange(date, checkIn, checkOut)) cell.classList.add('in-range');
         if (checkIn && !checkOut && hoverDate && date > checkIn && date <= hoverDate) {
@@ -240,23 +219,19 @@ window.BeachGirlCalendar = (function() {
       if (!isAvailable(date)) return;
 
       if (!checkIn || (checkIn && checkOut)) {
-        // Start new selection
         checkIn  = date;
         checkOut = null;
         hoverDate = null;
       } else {
-        // Second click
         if (date <= checkIn) {
           checkIn = date;
           checkOut = null;
         } else {
-          // Validate range
           const nights = Math.round((date - checkIn) / 86400000);
           if (nights < minNights) {
             checkIn  = date;
             checkOut = null;
           } else if (!rangeAllAvailable(checkIn, date)) {
-            // Range contains unavailable — reset
             checkIn  = date;
             checkOut = null;
           } else {
@@ -269,7 +244,6 @@ window.BeachGirlCalendar = (function() {
     }
 
     function updateRangeHighlight() {
-      // Live range preview without full re-render — just add/remove classes
       container.querySelectorAll('.cal-day').forEach(cell => {
         const key = cell.getAttribute('data-date');
         if (!key) return;
@@ -288,21 +262,24 @@ window.BeachGirlCalendar = (function() {
         return;
       }
       if (!checkOut) {
-        el.textContent = `Check-in: ${checkIn.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} — now select your check-out date`;
+        el.textContent = `Check-in: ${checkIn.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} — now select your check-out date`;
         el.className = 'cal-summary selecting';
         return;
       }
       const nights = Math.round((checkOut - checkIn) / 86400000);
-      el.innerHTML = `<strong>Check-in:</strong> ${checkIn.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})} &nbsp;→&nbsp; <strong>Check-out:</strong> ${checkOut.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})} &nbsp;·&nbsp; ${nights} night${nights>1?'s':''}`;
+      el.innerHTML = `<strong>Check-in:</strong> ${checkIn.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &nbsp;→&nbsp; <strong>Check-out:</strong> ${checkOut.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &nbsp;·&nbsp; ${nights} night${nights > 1 ? 's' : ''}`;
       el.className = 'cal-summary confirmed';
     }
 
-    // Public API
     return {
       render,
       getCheckIn:  () => checkIn  ? isoDate(checkIn)  : null,
       getCheckOut: () => checkOut ? isoDate(checkOut) : null,
-      clear() { checkIn = null; checkOut = null; hoverDate = null; render(); if(onSelect) onSelect(null,null); },
+      clear() {
+        checkIn = null; checkOut = null; hoverDate = null;
+        render();
+        if (onSelect) onSelect(null, null);
+      },
     };
   }
 

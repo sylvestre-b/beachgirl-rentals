@@ -1,0 +1,76 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   tokens.css — Beach Girl Property Rentals design tokens
+   Single source of truth. Every other stylesheet reads from these.
+   Color palette warmed slightly toward sun-coral + driftwood per redesign.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── ACCENT (10%): CTAs, ratings, highlights ─────────────────────────── */
+  --accent:        #c25e54;   /* warmer sun-coral, was #c46a6a */
+  --accent-light:  #d8867d;
+  --accent-pale:   #f6e7e3;
+  --accent-deep:   #9e453d;
+
+  /* ── BLUSH (30%): card edges, secondary surfaces ─────────────────────── */
+  --blush:         #ebc7c3;
+  --blush-mid:     #ddb0aa;
+  --blush-dark:    #c9938c;
+
+  /* ── DRIFTWOOD (NEW): aged wood, picture-rail tone, polaroid edge ────── */
+  --driftwood:        #8a6d5b;
+  --driftwood-mid:    #ae9580;
+  --driftwood-pale:   #d4c0ad;
+
+  /* ── SAND (60%): page backgrounds, hero card ─────────────────────────── */
+  --sand:          #e9d8b4;
+  --sand-light:    #f4ece0;
+  --sand-pale:     #faf6ef;
+
+  /* ── COOL ANCHOR (slightly greener than before) ──────────────────────── */
+  --teal:          #5a9aa0;   /* nudged greener, was #6fa7ad */
+  --teal-dark:     #3f7e84;
+  --teal-pale:     #e3eef0;
+
+  /* ── INK / TEXT ──────────────────────────────────────────────────────── */
+  --ink:           #1e3035;
+  --text:          #2a3f45;
+  --text-mid:      #4a6268;
+  --text-muted:    #7a9298;
+  --white:         #ffffff;
+
+  /* ── TYPE ────────────────────────────────────────────────────────────── */
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'DM Sans', system-ui, -apple-system, sans-serif;
+
+  --xs:   0.8125rem;
+  --sm:   0.9375rem;
+  --base: 1.0625rem;
+  --lg:   1.1875rem;
+  --xl:   1.375rem;
+  --2xl:  1.75rem;
+  --3xl:  2.5rem;
+  --4xl:  3.5rem;
+
+  /* ── SHAPE ───────────────────────────────────────────────────────────── */
+  --r:    8px;
+  --r-lg: 16px;
+  --r-pill: 100px;
+
+  /* ── SHADOW ──────────────────────────────────────────────────────────── */
+  --sh-sm: 0 2px 8px rgba(31,48,53,.07);
+  --sh-md: 0 6px 24px rgba(31,48,53,.12);
+  --sh-lg: 0 16px 56px rgba(31,48,53,.18);
+  --sh-card: 0 4px 14px rgba(138,109,91,.12);
+
+  /* ── MOTION ──────────────────────────────────────────────────────────── */
+  --ease:        .24s cubic-bezier(.4,0,.2,1);
+  --ease-out:    .35s cubic-bezier(.16,1,.3,1);
+  --ease-cinema: .6s  cubic-bezier(.16,1,.3,1);
+  --ease-spring: .45s cubic-bezier(.34,1.56,.64,1);
+
+  /* ── LAYOUT ──────────────────────────────────────────────────────────── */
+  --header-h: 62px;
+  --maxw:     1400px;
+  --maxw-narrow: 1200px;
+  --maxw-text:   720px;
+}

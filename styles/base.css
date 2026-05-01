@@ -1,0 +1,96 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   base.css — reset, typography defaults, utility helpers
+   ───────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 17px;
+  /* texture overlay applied via body::before to avoid affecting children */
+}
+
+body {
+  font-family: var(--sans);
+  font-size: var(--base);
+  background: linear-gradient(180deg, var(--sand-pale) 0%, #fff 40%);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Subtle SVG noise overlay for warmth — page-wide, behind content */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: .04;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .25  0 0 0 0 .2  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+img { display: block; max-width: 100%; }
+a   { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+ul  { list-style: none; }
+
+/* Typography defaults */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--serif);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+em { color: var(--accent); font-style: italic; }
+
+/* Eyebrow / label utility */
+.eyebrow {
+  font-size: var(--xs);
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Screen-reader-only */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
+
+/* Honeypot */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Reduced motion — kill all animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Container helpers */
+.container       { max-width: var(--maxw);        margin: 0 auto; padding: 0 2rem; }
+.container-narrow{ max-width: var(--maxw-narrow); margin: 0 auto; padding: 0 2rem; }
+.container-text  { max-width: var(--maxw-text);   margin: 0 auto; padding: 0 1.5rem; }
+
+@media (max-width: 640px) {
+  .container, .container-narrow, .container-text { padding-left: 1rem; padding-right: 1rem; }
+}

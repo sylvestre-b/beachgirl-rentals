@@ -1,0 +1,106 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   motion.css — keyframes, hero ken burns, reveal-on-scroll, micro-interactions
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── REVEAL ON SCROLL ────────────────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .55s var(--ease-cinema), transform .55s var(--ease-cinema);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children when parent has data-reveal-children */
+[data-reveal-children] > *      { --reveal-delay: 0ms; }
+[data-reveal-children] > *:nth-child(1).is-visible { --reveal-delay: 0ms; }
+[data-reveal-children] > *:nth-child(2).is-visible { --reveal-delay: 70ms; }
+[data-reveal-children] > *:nth-child(3).is-visible { --reveal-delay: 140ms; }
+[data-reveal-children] > *:nth-child(4).is-visible { --reveal-delay: 210ms; }
+[data-reveal-children] > *:nth-child(5).is-visible { --reveal-delay: 280ms; }
+[data-reveal-children] > *:nth-child(6).is-visible { --reveal-delay: 350ms; }
+
+/* ── HERO KEN BURNS + CROSS-FADE ─────────────────────────────────────── */
+@keyframes kenBurns {
+  0%   { transform: scale(1)    translate3d(0,0,0); }
+  100% { transform: scale(1.07) translate3d(-1.5%, -1%, 0); }
+}
+
+.hero-img-stack {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-img-stack .hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 65%;
+  opacity: 0;
+  animation: kenBurns 14s ease-out forwards;
+  transition: opacity 1.4s var(--ease-cinema);
+  will-change: transform, opacity;
+}
+.hero-img-stack .hero-img.is-active { opacity: 1; }
+
+/* ── HERO FOREGROUND PARALLAX (subtle) ───────────────────────────────── */
+.hero-fg {
+  position: absolute;
+  inset: auto 0 -1px 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  z-index: 2;
+  transform: translate3d(var(--fg-x, 0), 0, 0);
+  transition: transform 1.2s var(--ease-cinema);
+  will-change: transform;
+}
+
+/* Hero card subtle entry */
+@keyframes heroCardIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-card { animation: heroCardIn .9s var(--ease-cinema) .15s both; }
+.hero-season { animation: heroCardIn .8s var(--ease-cinema) .2s both; }
+.hero-h1     { animation: heroCardIn .8s var(--ease-cinema) .35s both; }
+.hero-desc   { animation: heroCardIn .8s var(--ease-cinema) .5s both; }
+.hero-props  { animation: heroCardIn .8s var(--ease-cinema) .65s both; }
+.hero-cta    { animation: heroCardIn .8s var(--ease-cinema) .8s both; }
+
+/* ── CARD HOVER (refined; respects existing card transitions) ────────── */
+.card {
+  transition:
+    box-shadow var(--ease),
+    transform .35s var(--ease-cinema),
+    border-color var(--ease);
+}
+.card:hover, .card:focus-within {
+  transform: translateY(-4px);
+}
+
+/* tilt effect on cards — opt-in via JS adding data-tilt */
+.card[data-tilt] { transition: transform .12s linear, box-shadow var(--ease); }
+
+/* Card image scale on hover (existing) */
+.card-photo img { transition: transform .7s var(--ease-cinema); }
+.card:hover .card-photo img { transform: scale(1.045); }
+
+/* ── MODAL ENTRY ────────────────────────────────────────────────────── */
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(16px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal { animation: modalIn .28s var(--ease-cinema); }
+
+/* ── FADE UP (for cards that aren't in reveal observer) ─────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

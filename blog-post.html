@@ -1,195 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Blog — Beach Girl Property Rentals</title>
-<meta name="description" content="Local guides from Beach Girl Property Rentals — Old Orchard Beach, ME." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-<style>
-:root{--accent:#c46a6a;--accent-light:#d98888;--accent-pale:#f7eaea;--blush:#ebc7c3;--sand:#e9d8b4;--sand-light:#f4ece0;--sand-pale:#faf6ef;--teal:#6fa7ad;--teal-dark:#4d8a91;--ink:#1e3035;--text:#2a3f45;--text-mid:#4a6268;--text-muted:#7a9298;--white:#ffffff;--serif:'Playfair Display',Georgia,serif;--sans:'Lato',system-ui,sans-serif;--xs:.8125rem;--sm:.9375rem;--base:1.0625rem;--lg:1.1875rem;--xl:1.375rem;--2xl:1.75rem;--r:8px;--r-lg:16px;--sh-sm:0 2px 8px rgba(31,48,53,.07);--sh-md:0 6px 24px rgba(31,48,53,.12);--ease:.24s cubic-bezier(.4,0,.2,1)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:17px}
-body{font-family:var(--sans);background:linear-gradient(180deg,var(--sand-pale) 0%,#fff 30%);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
-img{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-
-.site-header{background:linear-gradient(135deg,#1e3035 0%,#2a4050 100%);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:100}
-.header-inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;gap:1rem;min-width:0}
-.logo-name{font-family:var(--serif);font-size:clamp(.9rem,3vw,1.3rem);font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.logo-sub{font-size:var(--xs);font-weight:300;color:var(--accent-light);letter-spacing:.16em;text-transform:uppercase;margin-top:1px}
-.back-link{font-size:var(--sm);font-weight:700;color:rgba(255,255,255,.6);transition:color var(--ease)}
-.back-link:hover{color:var(--accent-light)}
-
-/* Hero */
-.post-hero{position:relative;overflow:hidden;height:320px}
-.post-hero-img{width:100%;height:100%;object-fit:cover;object-position:center 60%}
-.post-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(30,48,53,.85) 0%,rgba(30,48,53,.3) 60%,transparent 100%)}
-.post-hero-content{position:absolute;bottom:0;left:0;right:0;padding:2rem;max-width:820px;margin:0 auto}
-.post-eyebrow{font-size:var(--xs);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.5rem}
-.post-title{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.5rem);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:.4rem}
-.post-meta{font-size:var(--sm);color:rgba(255,255,255,.65)}
-
-/* Layout */
-.post-layout{max-width:1100px;margin:0 auto;padding:3rem 2rem 5rem;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start}
-
-/* Body */
-.post-body{font-size:var(--base);line-height:1.85;color:var(--text-mid)}
-.post-body h1,.post-body h2{font-family:var(--serif);font-size:var(--xl);font-weight:700;color:var(--ink);margin:2.25rem 0 .75rem;line-height:1.2}
-.post-body h3{font-family:var(--serif);font-size:var(--lg);font-weight:700;color:var(--ink);margin:1.75rem 0 .5rem}
-.post-body p{margin-bottom:1.35rem}
-.post-body ul{margin:0 0 1.25rem 1.5rem;list-style:disc}
-.post-body li{margin-bottom:.4rem;line-height:1.7}
-.post-body a{color:var(--accent);text-decoration:underline}
-.post-body strong{color:var(--ink);font-weight:700}
-.post-body hr{border:none;border-top:1px solid var(--sand);margin:2rem 0}
-
-/* Sidebar */
-.post-sidebar{position:sticky;top:80px}
-.sidebar-card{background:var(--white);border-radius:var(--r-lg);border:1px solid var(--sand);padding:1.4rem;margin-bottom:1rem;box-shadow:var(--sh-sm)}
-.sidebar-title{font-size:var(--xs);font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.85rem}
-.sidebar-link{display:block;font-size:var(--sm);color:var(--teal-dark);margin-bottom:.45rem;transition:opacity var(--ease);line-height:1.4}
-.sidebar-link:hover{opacity:.7}
-.cta-card{background:linear-gradient(135deg,var(--accent),var(--accent-light));border-radius:var(--r-lg);padding:1.4rem;color:var(--white)}
-.cta-card h4{font-family:var(--serif);font-size:var(--lg);font-weight:700;margin-bottom:.5rem;font-style:italic}
-.cta-card p{font-size:var(--sm);opacity:.88;line-height:1.65;margin-bottom:1rem}
-.cta-btn{display:block;background:var(--white);color:var(--accent);text-align:center;padding:9px;border-radius:var(--r);font-size:var(--sm);font-weight:700;transition:opacity var(--ease)}
-.cta-btn:hover{opacity:.85}
-
-.site-footer{background:linear-gradient(135deg,#1e3035 0%,#162028 100%);padding:2rem;text-align:center;font-size:var(--xs);color:rgba(255,255,255,.4)}
-.site-footer a{color:rgba(255,255,255,.6);transition:color var(--ease)}
-.site-footer a:hover{color:var(--accent-light)}
-
-@media(max-width:768px){.post-layout{grid-template-columns:1fr;gap:2rem}.post-sidebar{position:static}.post-hero{height:220px}}
-@media(max-width:640px){.header-inner{padding:0 1rem}.post-hero-content{padding:1.5rem}.post-layout{padding:2rem 1.25rem 4rem}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post — Beach Girl Property Rentals</title>
+  <meta name="description" content="A blog post from Beach Girl Property Rentals.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/tokens.css">
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/components.css">
+  <link rel="stylesheet" href="/styles/layout.css">
+  <style>
+    .post-wrap { max-width: var(--maxw-text); margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    .post-eyebrow { font-size: var(--xs); font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: .65rem; }
+    .post-title { font-family: var(--serif); font-size: clamp(1.75rem, 4vw, 2.75rem); line-height: 1.1; margin-bottom: 1rem; }
+    .post-meta { font-size: var(--sm); color: var(--text-muted); margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--driftwood-pale); }
+    .post-content { font-size: var(--lg); line-height: 1.8; color: var(--text); }
+    .post-content p { margin-bottom: 1.25rem; }
+    .post-content h2 { font-family: var(--serif); font-size: var(--2xl); margin: 2.5rem 0 1rem; color: var(--ink); }
+    .post-content h3 { font-family: var(--serif); font-size: var(--xl); margin: 2rem 0 .85rem; }
+    .post-content blockquote { font-family: var(--serif); font-style: italic; font-size: var(--xl); border-left: 4px solid var(--accent); padding: .5rem 0 .5rem 1.5rem; color: var(--text-mid); margin: 2rem 0; }
+    .post-content a { color: var(--teal-dark); text-decoration: underline; }
+    .post-back { display: inline-block; font-size: var(--sm); color: var(--teal-dark); margin-bottom: 2rem; font-weight: 700; }
+  </style>
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <a href="/" style="text-decoration:none;flex-shrink:1;min-width:0;overflow:hidden">
-      <div class="logo-name">Beach Girl Property Rentals</div>
-      <div class="logo-sub">Old Orchard Beach, ME</div>
+    <a href="/" class="logo-link">
+      <span class="logo-name">Beach Girl Property Rentals</span>
+      <span class="logo-sub">Old Orchard Beach, ME</span>
     </a>
-    <a href="/blog" class="back-link">← All Guides</a>
+    <a href="/blog" class="back-link">← Journal</a>
   </div>
 </header>
 
-<div class="post-hero" id="post-hero">
-  <img class="post-hero-img" src="/photos/oob-pier.jpg" alt="Old Orchard Beach pier at sunset" />
-  <div class="post-hero-overlay"></div>
-  <div class="post-hero-content">
-    <p class="post-eyebrow" id="post-eyebrow">Local Guide</p>
-    <h1 class="post-title" id="post-title">Loading…</h1>
-    <p class="post-meta" id="post-meta"></p>
-  </div>
-</div>
-
-<div class="post-layout">
-  <article class="post-body" id="post-body">
-    <p style="color:var(--text-muted)">Loading article…</p>
-  </article>
-  <aside class="post-sidebar">
-    <div class="cta-card">
-      <h4>Ready for your stay?</h4>
-      <p>Browse available properties — no booking fees, direct with the owner.</p>
-      <a href="/#listings" class="cta-btn">See What's Available →</a>
-    </div>
-    <div class="sidebar-card" id="related-posts" style="display:none">
-      <div class="sidebar-title">More Guides</div>
-    </div>
-  </aside>
-</div>
+<main class="post-wrap">
+  <a href="/blog" class="post-back">← Back to Journal</a>
+  <div class="post-eyebrow" id="post-category">Local Guide</div>
+  <h1 class="post-title" id="post-title">Loading…</h1>
+  <div class="post-meta" id="post-meta"></div>
+  <div class="post-content" id="post-content"></div>
+</main>
 
 <footer class="site-footer">
-  <a href="/">← Beach Girl Property Rentals</a> &nbsp;·&nbsp;
-  <a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a> &nbsp;·&nbsp;
-  <a href="tel:+12074507347">(207) 450-7347</a>
+  <div class="footer-inner">
+    <div class="footer-logo"><div class="logo-name">Beach Girl Property Rentals</div></div>
+    <div class="footer-col"><h4>Explore</h4><a href="/">Home</a><a href="/blog">Journal</a><a href="/reviews">Reviews</a></div>
+    <div class="footer-col"><h4>Contact</h4><p><a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a></p></div>
+  </div>
+  <div class="footer-bottom"><span>&copy; 2026 Affordable Property Management LLC.</span></div>
 </footer>
 
-<script>
-function esc(s){if(typeof s!=='string')return'';const d=document.createElement('div');d.appendChild(document.createTextNode(s));return d.innerHTML}
+<script type="module">
+import { loadAll, esc } from '/js/data.js';
 
-// Get slug from URL path e.g. /blog/oob-parking-secrets
-const slug = location.pathname.replace(/.*\/blog\/?/,'').replace(/\//g,'').trim();
+const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
 
-async function init() {
-  // Fetch the full posts index (includes body HTML from build.js)
-  let posts = [];
-  try {
-    const res = await fetch('/posts-index.json');
-    if (res.ok) posts = await res.json();
-  } catch(e) {}
-
-  const post = posts.find(p => p._slug === slug);
-  if (!post) {
-    document.getElementById('post-title').textContent = 'Guide not found';
-    document.getElementById('post-body').innerHTML = '<p>Sorry, this guide couldn\'t be loaded. <a href="/blog" style="color:var(--accent)">Back to all guides →</a></p>';
+(async () => {
+  const { posts } = await loadAll();
+  const p = posts.find(x => x._slug === slug);
+  if (!p) {
+    document.getElementById('post-title').textContent = 'Post not found';
     return;
   }
-
-  // Update page meta
-  document.title = `${post.title} — Beach Girl Property Rentals`;
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.content = post.excerpt || post.title;
-
-  // Schema.org BlogPosting structured data for SEO
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": post.title,
-    "datePublished": post.date,
-    "description": post.excerpt || '',
-    "keywords": (post.seo_keywords || []).join(', '),
-    "publisher": {
-      "@type": "Organization",
-      "name": "Beach Girl Property Rentals",
-      "url": "https://beachgirlpropertyrentals.com"
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Beach Girl Property Rentals"
-    }
-  };
-  const s = document.createElement('script');
-  s.type = 'application/ld+json';
-  s.textContent = JSON.stringify(schema);
-  document.head.appendChild(s);
-
-  // Render
-  document.getElementById('post-title').textContent = post.title;
-  document.getElementById('post-meta').textContent = post.date || '';
-  if (post.emoji) document.getElementById('post-eyebrow').textContent = `${post.emoji} Local Guide`;
-
-  const bodyEl = document.getElementById('post-body');
-  if (post.body) {
-    // body is already HTML from build.js
-    bodyEl.innerHTML = post.body;
-  } else if (post.excerpt) {
-    bodyEl.innerHTML = `<p>${esc(post.excerpt)}</p>`;
-  } else {
-    bodyEl.innerHTML = '<p>Content coming soon.</p>';
-  }
-
-  // Related posts sidebar
-  const related = posts.filter(p => p._slug !== slug).slice(0, 4);
-  if (related.length) {
-    const sidebar = document.getElementById('related-posts');
-    sidebar.style.display = 'block';
-    related.forEach(p => {
-      const a = document.createElement('a');
-      a.href = `/blog/${esc(p._slug)}`;
-      a.className = 'sidebar-link';
-      a.textContent = p.title;
-      sidebar.appendChild(a);
-    });
-  }
-}
-
-init();
+  document.title = `${p.title} — Beach Girl Property Rentals`;
+  document.getElementById('post-category').textContent = p.category || 'Journal';
+  document.getElementById('post-title').textContent = p.title;
+  document.getElementById('post-meta').textContent = p.date || '';
+  // Body comes pre-rendered as HTML from build.js (markdown → HTML)
+  document.getElementById('post-content').innerHTML = p.bodyHTML || `<p>${esc(p.excerpt || '')}</p>`;
+})();
 </script>
 </body>
 </html>
