@@ -1,69 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Journal — Beach Girl Property Rentals</title>
-  <meta name="description" content="Local guides, stories, and tips from Old Orchard Beach, Maine.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles/tokens.css">
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/motion.css">
-  <link rel="stylesheet" href="/styles/components.css">
-  <link rel="stylesheet" href="/styles/layout.css">
-  <link rel="stylesheet" href="/styles/sections.css">
-  <style>
-    .blog-page { max-width: var(--maxw-narrow); margin: 0 auto; padding: 3rem 2rem 5rem; }
-    .blog-page h1 { font-family: var(--serif); font-size: var(--3xl); margin-bottom: .5rem; }
-    .blog-page h1 em { font-style: italic; color: var(--accent); }
-    .blog-page .lede { font-size: var(--lg); color: var(--text-mid); margin-bottom: 2rem; max-width: 56ch; }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Journal — Beach Girl Property Rentals</title>
+    <meta
+      name="description"
+      content="Local guides, stories, and tips from Old Orchard Beach, Maine."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/motion.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/sections.css" />
+    <style>
+      .blog-page {
+        max-width: var(--maxw-narrow);
+        margin: 0 auto;
+        padding: 3rem 2rem 5rem;
+      }
+      .blog-page h1 {
+        font-family: var(--serif);
+        font-size: var(--3xl);
+        margin-bottom: 0.5rem;
+      }
+      .blog-page h1 em {
+        font-style: italic;
+        color: var(--accent);
+      }
+      .blog-page .lede {
+        font-size: var(--lg);
+        color: var(--text-mid);
+        margin-bottom: 2rem;
+        max-width: 56ch;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="logo-link">
+          <span class="logo-name">Beach Girl Property Rentals</span>
+          <span class="logo-sub">Old Orchard Beach, ME</span>
+        </a>
+        <nav class="header-nav">
+          <a href="/reviews">Reviews</a>
+          <button type="button" class="btn-inquire-header" data-action="open-inquiry">
+            Inquire
+          </button>
+        </nav>
+      </div>
+    </header>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/" class="logo-link">
-      <span class="logo-name">Beach Girl Property Rentals</span>
-      <span class="logo-sub">Old Orchard Beach, ME</span>
-    </a>
-    <nav class="header-nav">
-      <a href="/reviews">Reviews</a>
-      <button type="button" class="btn-inquire-header" data-action="open-inquiry">Inquire</button>
-    </nav>
-  </div>
-</header>
+    <main class="blog-page">
+      <div data-reveal>
+        <h1>From the <em>journal</em></h1>
+        <p class="lede">
+          Local guides, neighborhood notes, and the occasional ranking of where to find the best
+          lobster roll.
+        </p>
+      </div>
+      <div id="blog-list" class="blog-teaser-grid" data-reveal-children></div>
+    </main>
 
-<main class="blog-page">
-  <div data-reveal>
-    <h1>From the <em>journal</em></h1>
-    <p class="lede">Local guides, neighborhood notes, and the occasional ranking of where to find the best lobster roll.</p>
-  </div>
-  <div id="blog-list" class="blog-teaser-grid" data-reveal-children></div>
-</main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-logo"><div class="logo-name">Beach Girl Property Rentals</div></div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="/">Home</a><a href="/reviews">Reviews</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <p><a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom"><span>&copy; 2026 Affordable Property Management LLC.</span></div>
+    </footer>
 
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-logo"><div class="logo-name">Beach Girl Property Rentals</div></div>
-    <div class="footer-col"><h4>Explore</h4><a href="/">Home</a><a href="/reviews">Reviews</a></div>
-    <div class="footer-col"><h4>Contact</h4><p><a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a></p></div>
-  </div>
-  <div class="footer-bottom"><span>&copy; 2026 Affordable Property Management LLC.</span></div>
-</footer>
+    <script type="module">
+      import { loadAll, esc } from '/js/data.js';
+      import { initReveal } from '/js/reveal.js';
 
-<script type="module">
-import { loadAll, esc } from '/js/data.js';
-import { initReveal } from '/js/reveal.js';
-
-(async () => {
-  const { posts } = await loadAll();
-  const list = document.getElementById('blog-list');
-  if (!posts.length) {
-    list.innerHTML = '<p style="grid-column:1/-1;color:var(--text-muted);text-align:center;padding:3rem">Posts coming soon.</p>';
-  } else {
-    list.innerHTML = posts.map(p => `
+      (async () => {
+        const { posts } = await loadAll();
+        const list = document.getElementById('blog-list');
+        if (!posts.length) {
+          list.innerHTML =
+            '<p style="grid-column:1/-1;color:var(--text-muted);text-align:center;padding:3rem">Posts coming soon.</p>';
+        } else {
+          list.innerHTML = posts
+            .map(
+              p => `
       <article class="blog-card" tabindex="0" data-href="/blog/${esc(p._slug)}">
         <div class="blog-card-img">
           ${p.photo ? `<img src="${esc(p.photo)}" alt="" loading="lazy">` : `<span>${esc(p.emoji || '📝')}</span>`}
@@ -73,13 +108,17 @@ import { initReveal } from '/js/reveal.js';
           <h3 class="blog-card-title">${esc(p.title)}</h3>
           <p class="blog-card-excerpt">${esc(p.excerpt || '')}</p>
         </div>
-      </article>`).join('');
-    list.querySelectorAll('.blog-card').forEach(c =>
-      c.addEventListener('click', () => { window.location.href = c.dataset.href; })
-    );
-  }
-  initReveal();
-})();
-</script>
-</body>
+      </article>`
+            )
+            .join('');
+          list.querySelectorAll('.blog-card').forEach(c =>
+            c.addEventListener('click', () => {
+              window.location.href = c.dataset.href;
+            })
+          );
+        }
+        initReveal();
+      })();
+    </script>
+  </body>
 </html>

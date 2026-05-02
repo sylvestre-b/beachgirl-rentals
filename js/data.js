@@ -15,14 +15,24 @@ function fetchSafe(url, ms = 8000) {
   const c = new AbortController();
   const id = setTimeout(() => c.abort(), ms);
   return fetch(url, { signal: c.signal })
-    .then(r => { clearTimeout(id); return r; })
-    .catch(() => { clearTimeout(id); return null; });
+    .then(r => {
+      clearTimeout(id);
+      return r;
+    })
+    .catch(() => {
+      clearTimeout(id);
+      return null;
+    });
 }
 
 async function fetchJson(url) {
   const r = await fetchSafe(url);
   if (!r || !r.ok) return [];
-  try { return await r.json(); } catch { return []; }
+  try {
+    return await r.json();
+  } catch {
+    return [];
+  }
 }
 
 export async function loadAll() {
@@ -37,12 +47,9 @@ export async function loadAll() {
   const prod = isProd();
 
   return {
-    properties: props.length ? props.filter(p => p.active !== false)
-                             : (prod ? [] : DEMO_PROPS),
-    reviews:    revs.length  ? revs.filter(r => r.approved === true)
-                             : (prod ? [] : DEMO_REVIEWS),
-    posts:      posts.length ? posts
-                             : (prod ? [] : DEMO_POSTS),
+    properties: props.length ? props.filter(p => p.active !== false) : prod ? [] : DEMO_PROPS,
+    reviews: revs.length ? revs.filter(r => r.approved === true) : prod ? [] : DEMO_REVIEWS,
+    posts: posts.length ? posts : prod ? [] : DEMO_POSTS,
   };
 }
 

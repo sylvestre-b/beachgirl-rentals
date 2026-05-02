@@ -5,7 +5,7 @@
 import { esc } from './data.js';
 
 let _mapInstance = null;
-let _mapMarkers = {};
+const _mapMarkers = {};
 let _mapMobileOpen = false;
 
 export function initMap(properties) {
@@ -14,20 +14,23 @@ export function initMap(properties) {
   const mapEl = document.getElementById('map');
   if (!mapEl) return;
 
-  _mapInstance = L.map('map', { zoomControl: true, scrollWheelZoom: false })
-                  .setView([43.51, -70.38], 11);
+  _mapInstance = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView(
+    [43.51, -70.38],
+    11
+  );
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
     maxZoom: 18,
   }).addTo(_mapInstance);
 
-  const today = new Date(); today.setHours(0,0,0,0);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const bounds = [];
 
   properties.forEach(p => {
     if (!p.lat || !p.lng) return;
-    const avail = (p.availability || []).some(d =>
-      d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
+    const avail = (p.availability || []).some(
+      d => d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
     );
 
     const icon = L.divIcon({
@@ -50,24 +53,24 @@ export function initMap(properties) {
     });
 
     const marker = L.marker([p.lat, p.lng], { icon, title: p.title })
-                     .addTo(_mapInstance)
-                     .bindPopup(popupEl);
+      .addTo(_mapInstance)
+      .bindPopup(popupEl);
     marker.on('click', () => highlightCard(p._slug));
     _mapMarkers[p._slug] = marker;
     bounds.push([p.lat, p.lng]);
   });
 
-  if (bounds.length > 1)      _mapInstance.fitBounds(bounds, { padding: [40, 40] });
-  else if (bounds.length===1) _mapInstance.setView(bounds[0], 14);
+  if (bounds.length > 1) _mapInstance.fitBounds(bounds, { padding: [40, 40] });
+  else if (bounds.length === 1) _mapInstance.setView(bounds[0], 14);
 
   wireMobileToggle();
 }
 
 function pinHTML(p, avail) {
-  const photo = (p.photo && p.photo.length) ? p.photo : null;
+  const photo = p.photo && p.photo.length ? p.photo : null;
   // optimize-images.js produces -160.webp variants for thumbs
   const thumbBase = photo ? photo.replace(/\.(jpg|jpeg|png|webp)$/i, '') : null;
-  const thumbUrl  = thumbBase ? `${thumbBase}-160.webp` : null;
+  const thumbUrl = thumbBase ? `${thumbBase}-160.webp` : null;
 
   if (thumbUrl) {
     return `<div class="bg-pin ${avail ? '' : 'full'}"
@@ -92,7 +95,7 @@ export function updateMapHighlights(filtered) {
   if (!_mapInstance) return;
   const set = new Set(filtered.map(p => p._slug));
   Object.entries(_mapMarkers).forEach(([k, m]) => {
-    if (_mapInstance.hasLayer(m) && !set.has(k))      _mapInstance.removeLayer(m);
+    if (_mapInstance.hasLayer(m) && !set.has(k)) _mapInstance.removeLayer(m);
     else if (!_mapInstance.hasLayer(m) && set.has(k)) m.addTo(_mapInstance);
   });
 }

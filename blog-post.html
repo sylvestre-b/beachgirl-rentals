@@ -1,79 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Post — Beach Girl Property Rentals</title>
-  <meta name="description" content="A blog post from Beach Girl Property Rentals.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles/tokens.css">
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/components.css">
-  <link rel="stylesheet" href="/styles/layout.css">
-  <style>
-    .post-wrap { max-width: var(--maxw-text); margin: 0 auto; padding: 3rem 1.5rem 5rem; }
-    .post-eyebrow { font-size: var(--xs); font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: .65rem; }
-    .post-title { font-family: var(--serif); font-size: clamp(1.75rem, 4vw, 2.75rem); line-height: 1.1; margin-bottom: 1rem; }
-    .post-meta { font-size: var(--sm); color: var(--text-muted); margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--driftwood-pale); }
-    .post-content { font-size: var(--lg); line-height: 1.8; color: var(--text); }
-    .post-content p { margin-bottom: 1.25rem; }
-    .post-content h2 { font-family: var(--serif); font-size: var(--2xl); margin: 2.5rem 0 1rem; color: var(--ink); }
-    .post-content h3 { font-family: var(--serif); font-size: var(--xl); margin: 2rem 0 .85rem; }
-    .post-content blockquote { font-family: var(--serif); font-style: italic; font-size: var(--xl); border-left: 4px solid var(--accent); padding: .5rem 0 .5rem 1.5rem; color: var(--text-mid); margin: 2rem 0; }
-    .post-content a { color: var(--teal-dark); text-decoration: underline; }
-    .post-back { display: inline-block; font-size: var(--sm); color: var(--teal-dark); margin-bottom: 2rem; font-weight: 700; }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post — Beach Girl Property Rentals</title>
+    <meta name="description" content="A blog post from Beach Girl Property Rentals." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <style>
+      .post-wrap {
+        max-width: var(--maxw-text);
+        margin: 0 auto;
+        padding: 3rem 1.5rem 5rem;
+      }
+      .post-eyebrow {
+        font-size: var(--xs);
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.65rem;
+      }
+      .post-title {
+        font-family: var(--serif);
+        font-size: clamp(1.75rem, 4vw, 2.75rem);
+        line-height: 1.1;
+        margin-bottom: 1rem;
+      }
+      .post-meta {
+        font-size: var(--sm);
+        color: var(--text-muted);
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--driftwood-pale);
+      }
+      .post-content {
+        font-size: var(--lg);
+        line-height: 1.8;
+        color: var(--text);
+      }
+      .post-content p {
+        margin-bottom: 1.25rem;
+      }
+      .post-content h2 {
+        font-family: var(--serif);
+        font-size: var(--2xl);
+        margin: 2.5rem 0 1rem;
+        color: var(--ink);
+      }
+      .post-content h3 {
+        font-family: var(--serif);
+        font-size: var(--xl);
+        margin: 2rem 0 0.85rem;
+      }
+      .post-content blockquote {
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: var(--xl);
+        border-left: 4px solid var(--accent);
+        padding: 0.5rem 0 0.5rem 1.5rem;
+        color: var(--text-mid);
+        margin: 2rem 0;
+      }
+      .post-content a {
+        color: var(--teal-dark);
+        text-decoration: underline;
+      }
+      .post-back {
+        display: inline-block;
+        font-size: var(--sm);
+        color: var(--teal-dark);
+        margin-bottom: 2rem;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="logo-link">
+          <span class="logo-name">Beach Girl Property Rentals</span>
+          <span class="logo-sub">Old Orchard Beach, ME</span>
+        </a>
+        <a href="/blog" class="back-link">← Journal</a>
+      </div>
+    </header>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/" class="logo-link">
-      <span class="logo-name">Beach Girl Property Rentals</span>
-      <span class="logo-sub">Old Orchard Beach, ME</span>
-    </a>
-    <a href="/blog" class="back-link">← Journal</a>
-  </div>
-</header>
+    <main class="post-wrap">
+      <a href="/blog" class="post-back">← Back to Journal</a>
+      <div class="post-eyebrow" id="post-category">Local Guide</div>
+      <h1 class="post-title" id="post-title">Loading…</h1>
+      <div class="post-meta" id="post-meta"></div>
+      <div class="post-content" id="post-content"></div>
+    </main>
 
-<main class="post-wrap">
-  <a href="/blog" class="post-back">← Back to Journal</a>
-  <div class="post-eyebrow" id="post-category">Local Guide</div>
-  <h1 class="post-title" id="post-title">Loading…</h1>
-  <div class="post-meta" id="post-meta"></div>
-  <div class="post-content" id="post-content"></div>
-</main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-logo"><div class="logo-name">Beach Girl Property Rentals</div></div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="/">Home</a><a href="/blog">Journal</a><a href="/reviews">Reviews</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <p><a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom"><span>&copy; 2026 Affordable Property Management LLC.</span></div>
+    </footer>
 
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-logo"><div class="logo-name">Beach Girl Property Rentals</div></div>
-    <div class="footer-col"><h4>Explore</h4><a href="/">Home</a><a href="/blog">Journal</a><a href="/reviews">Reviews</a></div>
-    <div class="footer-col"><h4>Contact</h4><p><a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a></p></div>
-  </div>
-  <div class="footer-bottom"><span>&copy; 2026 Affordable Property Management LLC.</span></div>
-</footer>
+    <script type="module">
+      import { loadAll, esc } from '/js/data.js';
 
-<script type="module">
-import { loadAll, esc } from '/js/data.js';
+      const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
 
-const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
-
-(async () => {
-  const { posts } = await loadAll();
-  const p = posts.find(x => x._slug === slug);
-  if (!p) {
-    document.getElementById('post-title').textContent = 'Post not found';
-    return;
-  }
-  document.title = `${p.title} — Beach Girl Property Rentals`;
-  document.getElementById('post-category').textContent = p.category || 'Journal';
-  document.getElementById('post-title').textContent = p.title;
-  document.getElementById('post-meta').textContent = p.date || '';
-  // Body comes pre-rendered as HTML from build.js (markdown → HTML)
-  document.getElementById('post-content').innerHTML = p.bodyHTML || `<p>${esc(p.excerpt || '')}</p>`;
-})();
-</script>
-</body>
+      (async () => {
+        const { posts } = await loadAll();
+        const p = posts.find(x => x._slug === slug);
+        if (!p) {
+          document.getElementById('post-title').textContent = 'Post not found';
+          return;
+        }
+        document.title = `${p.title} — Beach Girl Property Rentals`;
+        document.getElementById('post-category').textContent = p.category || 'Journal';
+        document.getElementById('post-title').textContent = p.title;
+        document.getElementById('post-meta').textContent = p.date || '';
+        // Body comes pre-rendered as HTML from build.js (markdown → HTML)
+        document.getElementById('post-content').innerHTML =
+          p.bodyHTML || `<p>${esc(p.excerpt || '')}</p>`;
+      })();
+    </script>
+  </body>
 </html>

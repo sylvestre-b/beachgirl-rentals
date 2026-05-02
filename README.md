@@ -7,22 +7,25 @@ Warm-modern, slightly cinematic redesign + structural fixes. Drop these files in
 ## What's in this drop
 
 ### Architecture (performance items 1, 4, 6, 7)
+
 - **`styles/` (6 files)** — CSS deduplicated. Every page now reads from one set of stylesheets instead of inlining hundreds of lines per HTML file. Single source of design tokens.
 - **`js/` (10 files)** — All inline `<script>` blocks pulled out into ES modules. Zero `onclick=` attributes left. Single delegated click handler in `main.js`. Compatible with strict CSP.
 - **`scripts/optimize-images.js`** — Sharp-based image pipeline. Drop a JPEG into `photos/`, run `npm run images`, get five WebP variants (160 / 480 / 800 / 1200 / 1600). Idempotent — only rebuilds what changed.
 - **CI** (`.github/workflows/ci.yml`) — ESLint + Prettier + html-validate + build smoke test on every PR and push to main. Lighthouse CI runs on PRs (warns < 85 perf, errors < 95 a11y).
 
 ### Critical correctness fixes (P0)
-| Was | Now |
-|---|---|
-| Calendar default = available; unmarked dates appeared bookable | Default = **unavailable**. Listings must mark every available window explicitly. |
-| Mobile map button hidden by `display:none !important` | Mobile FAB (`#map-toggle`) wires up; map opens fullscreen. |
-| Inquiry form accepted submissions with no dates or guest count | Booking-type inquiries now **require** check-in, check-out, and guest count. |
-| "View & Book →" CTA — but it was an inquiry | Now reads "View & Inquire" / "Send Inquiry". Honest. |
-| No fees disclosed; flat weekly rate only | Property page has a fees block: cleaning fee, pet fee (if any), 9% Maine lodging tax callout. |
-| Demo data shown if data fetch failed in production | Demo data now **only shows on dev / preview hosts**. Production renders the empty state on a load failure. Easy to delete entirely (`js/demo-data.js`) once real listings are flowing. |
+
+| Was                                                            | Now                                                                                                                                                                                    |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Calendar default = available; unmarked dates appeared bookable | Default = **unavailable**. Listings must mark every available window explicitly.                                                                                                       |
+| Mobile map button hidden by `display:none !important`          | Mobile FAB (`#map-toggle`) wires up; map opens fullscreen.                                                                                                                             |
+| Inquiry form accepted submissions with no dates or guest count | Booking-type inquiries now **require** check-in, check-out, and guest count.                                                                                                           |
+| "View & Book →" CTA — but it was an inquiry                    | Now reads "View & Inquire" / "Send Inquiry". Honest.                                                                                                                                   |
+| No fees disclosed; flat weekly rate only                       | Property page has a fees block: cleaning fee, pet fee (if any), 9% Maine lodging tax callout.                                                                                          |
+| Demo data shown if data fetch failed in production             | Demo data now **only shows on dev / preview hosts**. Production renders the empty state on a load failure. Easy to delete entirely (`js/demo-data.js`) once real listings are flowing. |
 
 ### Stylistic redesign (all 13 items)
+
 1. **Photography placeholders** — every image position has a styled grey/sand block that fills the slot until real photos arrive. Fits the layout exactly so swapping in real photos is one Decap edit.
 2. **Hero Ken Burns + cross-fade** — `js/hero.js` runs a slow zoom on hero-1, cross-fades to hero-2 at 6.5s. Reduced-motion users see a static image.
 3. **Flat photo replaced** — old hero gradient replaced with a layered hero (Ken Burns BG + parallax FG slot for an SVG dune).
@@ -38,6 +41,7 @@ Warm-modern, slightly cinematic redesign + structural fixes. Drop these files in
 13. **Color shift** — accent warmed to `#c25e54` (sun-coral). Driftwood family added (`#8a6d5b`, `#ae9580`, `#d4c0ad`). Teal nudged greener to `#5a9aa0`. All in `styles/tokens.css`.
 
 ### Build pipeline updates
+
 - **`build.js`** — geocodes addresses at build time using Nominatim with 1.1s rate-limit and a `.geocode-cache.json` so we don't re-hit OSM. Generates per-property HTML pages at `/property/<slug>/index.html` with proper server-side `<title>` and `<meta description>`. Generates `sitemap.xml` and `robots.txt`. Pre-renders blog post markdown to HTML (post page no longer needs `marked.js` client-side).
 - **Schema.org markup** — `LodgingBusiness` on home, `VacationRental` + `Offers` + `AggregateRating` + `GeoCoordinates` on property pages.
 - **`netlify.toml`** — adds HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, and a moderately strict CSP. Cache headers added for static assets.
@@ -78,7 +82,7 @@ title: Harborview Cottage
 slug: harborview-cottage
 type: Cottage
 location: Old Orchard Beach, ME
-address: 1 Temple Ave, Old Orchard Beach, ME    # used for build-time geocode
+address: 1 Temple Ave, Old Orchard Beach, ME # used for build-time geocode
 bedrooms: 3
 bathrooms: 2
 guests: 6
@@ -86,19 +90,18 @@ price: $2,400
 cleaning_fee: 175
 pet_fee: 50
 min_nights: 7
-photo: /photos/harborview/main.jpg              # main hero image
-photos:                                         # gallery (in order)
+photo: /photos/harborview/main.jpg # main hero image
+photos: # gallery (in order)
   - /photos/harborview/main.jpg
   - /photos/harborview/porch.jpg
   - /photos/harborview/kitchen.jpg
 tags: [pet-friendly, waterfront]
 active: true
 availability:
-  - { date: "2026-07-04", status: "available" }
-  - { date: "2026-07-05", status: "available" }
+  - { date: '2026-07-04', status: 'available' }
+  - { date: '2026-07-05', status: 'available' }
   # ... explicitly mark every available night
 ---
-
 (Description goes here as the markdown body.)
 ```
 

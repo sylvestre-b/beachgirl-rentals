@@ -1,122 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reviews — Beach Girl Property Rentals</title>
-  <meta name="description" content="Reviews from guests who've stayed in our Old Orchard Beach properties.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles/tokens.css">
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/motion.css">
-  <link rel="stylesheet" href="/styles/components.css">
-  <link rel="stylesheet" href="/styles/layout.css">
-  <link rel="stylesheet" href="/styles/sections.css">
-  <style>
-    .reviews-page { max-width: var(--maxw-narrow); margin: 0 auto; padding: 3rem 2rem 5rem; }
-    .reviews-page h1 { font-family: var(--serif); font-size: var(--3xl); margin-bottom: .5rem; }
-    .reviews-page h1 em { font-style: italic; color: var(--accent); }
-    .reviews-page .lede { font-size: var(--lg); color: var(--text-mid); margin-bottom: 2rem; max-width: 56ch; }
-    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
-    .reviews-grid .review-item { background: var(--white); border: 1px solid var(--driftwood-pale); border-radius: var(--r-lg); padding: 1.5rem; border-left: 3px solid var(--accent); }
-    .leave-review-cta { background: var(--sand-pale); padding: 2rem; text-align: center; border-radius: var(--r-lg); margin-top: 3rem; }
-  </style>
-</head>
-<body>
-
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/" class="logo-link">
-      <span class="logo-name">Beach Girl Property Rentals</span>
-      <span class="logo-sub">Old Orchard Beach, ME</span>
-    </a>
-    <nav class="header-nav">
-      <a href="/blog">Journal</a>
-      <button type="button" class="btn-inquire-header" data-action="open-inquiry">Inquire</button>
-    </nav>
-  </div>
-</header>
-
-<main class="reviews-page">
-  <div data-reveal>
-    <h1>Words from <em>the porch</em></h1>
-    <p class="lede">Real reviews from guests who've stayed at our properties. We don't filter or curate — every review submitted goes through our admin and gets posted as-is.</p>
-  </div>
-
-  <div id="reviews-grid" class="reviews-grid" data-reveal-children>
-    <p style="grid-column:1/-1;color:var(--text-muted)">Loading reviews…</p>
-  </div>
-
-  <div class="leave-review-cta" data-reveal>
-    <h2 style="font-family:var(--serif);margin-bottom:.5rem">Stayed with us?</h2>
-    <p style="color:var(--text-mid);margin-bottom:1rem">We'd love to hear about it.</p>
-    <button type="button" class="btn-pill" data-action="open-review">Leave a review →</button>
-  </div>
-</main>
-
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-logo"><div class="logo-name">Beach Girl Property Rentals</div></div>
-    <div class="footer-col"><h4>Explore</h4><a href="/">Home</a><a href="/blog">Journal</a></div>
-    <div class="footer-col"><h4>Contact</h4><p><a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a></p></div>
-  </div>
-  <div class="footer-bottom"><span>&copy; 2026 Affordable Property Management LLC.</span></div>
-</footer>
-
-<!-- Review modal -->
-<div class="overlay" id="review-overlay" role="dialog" aria-modal="true">
-  <div class="modal">
-    <div class="modal-header">
-      <button type="button" class="modal-close" data-action="close-modal" data-target="review-overlay" aria-label="Close">✕</button>
-      <div class="modal-eyebrow">Share your stay</div>
-      <div class="modal-title">Leave a review</div>
-    </div>
-    <div class="modal-body" id="review-form-view">
-      <div class="field"><label for="r-property">Which property? <span class="req">*</span></label>
-        <select id="r-property"><option value="">Select…</option></select>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reviews — Beach Girl Property Rentals</title>
+    <meta
+      name="description"
+      content="Reviews from guests who've stayed in our Old Orchard Beach properties."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/motion.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/sections.css" />
+    <style>
+      .reviews-page {
+        max-width: var(--maxw-narrow);
+        margin: 0 auto;
+        padding: 3rem 2rem 5rem;
+      }
+      .reviews-page h1 {
+        font-family: var(--serif);
+        font-size: var(--3xl);
+        margin-bottom: 0.5rem;
+      }
+      .reviews-page h1 em {
+        font-style: italic;
+        color: var(--accent);
+      }
+      .reviews-page .lede {
+        font-size: var(--lg);
+        color: var(--text-mid);
+        margin-bottom: 2rem;
+        max-width: 56ch;
+      }
+      .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+      }
+      .reviews-grid .review-item {
+        background: var(--white);
+        border: 1px solid var(--driftwood-pale);
+        border-radius: var(--r-lg);
+        padding: 1.5rem;
+        border-left: 3px solid var(--accent);
+      }
+      .leave-review-cta {
+        background: var(--sand-pale);
+        padding: 2rem;
+        text-align: center;
+        border-radius: var(--r-lg);
+        margin-top: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="logo-link">
+          <span class="logo-name">Beach Girl Property Rentals</span>
+          <span class="logo-sub">Old Orchard Beach, ME</span>
+        </a>
+        <nav class="header-nav">
+          <a href="/blog">Journal</a>
+          <button type="button" class="btn-inquire-header" data-action="open-inquiry">
+            Inquire
+          </button>
+        </nav>
       </div>
-      <div class="field"><label for="r-dates">When did you stay? <span class="req">*</span></label>
-        <input type="text" id="r-dates" placeholder="e.g., July 2025">
+    </header>
+
+    <main class="reviews-page">
+      <div data-reveal>
+        <h1>Words from <em>the porch</em></h1>
+        <p class="lede">
+          Real reviews from guests who've stayed at our properties. We don't filter or curate —
+          every review submitted goes through our admin and gets posted as-is.
+        </p>
       </div>
-      <div class="field"><label for="r-name">Your name <span class="req">*</span></label>
-        <input type="text" id="r-name" placeholder="First name & last initial">
+
+      <div id="reviews-grid" class="reviews-grid" data-reveal-children>
+        <p style="grid-column: 1/-1; color: var(--text-muted)">Loading reviews…</p>
       </div>
-      <div class="field"><label>Your rating <span class="req">*</span></label>
-        <div class="star-picker" role="radiogroup" aria-label="Star rating">
-          <button type="button" class="star-btn" data-val="1" aria-label="1 star" aria-pressed="false">★</button>
-          <button type="button" class="star-btn" data-val="2" aria-label="2 stars" aria-pressed="false">★</button>
-          <button type="button" class="star-btn" data-val="3" aria-label="3 stars" aria-pressed="false">★</button>
-          <button type="button" class="star-btn" data-val="4" aria-label="4 stars" aria-pressed="false">★</button>
-          <button type="button" class="star-btn" data-val="5" aria-label="5 stars" aria-pressed="false">★</button>
+
+      <div class="leave-review-cta" data-reveal>
+        <h2 style="font-family: var(--serif); margin-bottom: 0.5rem">Stayed with us?</h2>
+        <p style="color: var(--text-mid); margin-bottom: 1rem">We'd love to hear about it.</p>
+        <button type="button" class="btn-pill" data-action="open-review">Leave a review →</button>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-logo"><div class="logo-name">Beach Girl Property Rentals</div></div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="/">Home</a><a href="/blog">Journal</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <p><a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a></p>
         </div>
       </div>
-      <div class="field"><label for="r-review">Your review <span class="req">*</span></label>
-        <textarea id="r-review" rows="5" maxlength="2000" placeholder="Tell us about your stay…"></textarea>
+      <div class="footer-bottom"><span>&copy; 2026 Affordable Property Management LLC.</span></div>
+    </footer>
+
+    <!-- Review modal -->
+    <div class="overlay" id="review-overlay" role="dialog" aria-modal="true">
+      <div class="modal">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="modal-close"
+            data-action="close-modal"
+            data-target="review-overlay"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          <div class="modal-eyebrow">Share your stay</div>
+          <div class="modal-title">Leave a review</div>
+        </div>
+        <div class="modal-body" id="review-form-view">
+          <div class="field">
+            <label for="r-property">Which property? <span class="req">*</span></label>
+            <select id="r-property">
+              <option value="">Select…</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="r-dates">When did you stay? <span class="req">*</span></label>
+            <input type="text" id="r-dates" placeholder="e.g., July 2025" />
+          </div>
+          <div class="field">
+            <label for="r-name">Your name <span class="req">*</span></label>
+            <input type="text" id="r-name" placeholder="First name & last initial" />
+          </div>
+          <div class="field">
+            <label>Your rating <span class="req">*</span></label>
+            <div class="star-picker" role="radiogroup" aria-label="Star rating">
+              <button
+                type="button"
+                class="star-btn"
+                data-val="1"
+                aria-label="1 star"
+                aria-pressed="false"
+              >
+                ★
+              </button>
+              <button
+                type="button"
+                class="star-btn"
+                data-val="2"
+                aria-label="2 stars"
+                aria-pressed="false"
+              >
+                ★
+              </button>
+              <button
+                type="button"
+                class="star-btn"
+                data-val="3"
+                aria-label="3 stars"
+                aria-pressed="false"
+              >
+                ★
+              </button>
+              <button
+                type="button"
+                class="star-btn"
+                data-val="4"
+                aria-label="4 stars"
+                aria-pressed="false"
+              >
+                ★
+              </button>
+              <button
+                type="button"
+                class="star-btn"
+                data-val="5"
+                aria-label="5 stars"
+                aria-pressed="false"
+              >
+                ★
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="r-review">Your review <span class="req">*</span></label>
+            <textarea
+              id="r-review"
+              rows="5"
+              maxlength="2000"
+              placeholder="Tell us about your stay…"
+            ></textarea>
+          </div>
+          <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
+          <button type="button" class="btn-primary" style="width: 100%" data-action="submit-review">
+            Submit Review →
+          </button>
+          <p class="form-note">Reviews are reviewed before posting.</p>
+        </div>
+        <div class="success-view" id="review-success">
+          <div class="success-icon">⭐</div>
+          <h3>Thank you!</h3>
+          <p>Your review has been submitted.</p>
+        </div>
       </div>
-      <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
-      <button type="button" class="btn-primary" style="width:100%" data-action="submit-review">Submit Review →</button>
-      <p class="form-note">Reviews are reviewed before posting.</p>
     </div>
-    <div class="success-view" id="review-success">
-      <div class="success-icon">⭐</div><h3>Thank you!</h3><p>Your review has been submitted.</p>
-    </div>
-  </div>
-</div>
 
-<script type="module">
-import { loadAll, esc, renderStars } from '/js/data.js';
-import { initForms } from '/js/forms.js';
-import { initReveal } from '/js/reveal.js';
+    <script type="module">
+      import { loadAll, esc, renderStars } from '/js/data.js';
+      import { initForms } from '/js/forms.js';
+      import { initReveal } from '/js/reveal.js';
 
-(async () => {
-  const state = await loadAll();
-  const grid = document.getElementById('reviews-grid');
-  if (!state.reviews.length) {
-    grid.innerHTML = '<p style="grid-column:1/-1;color:var(--text-muted);text-align:center;padding:3rem">No reviews yet — be the first!</p>';
-  } else {
-    grid.innerHTML = state.reviews.map(r => `
+      (async () => {
+        const state = await loadAll();
+        const grid = document.getElementById('reviews-grid');
+        if (!state.reviews.length) {
+          grid.innerHTML =
+            '<p style="grid-column:1/-1;color:var(--text-muted);text-align:center;padding:3rem">No reviews yet — be the first!</p>';
+        } else {
+          grid.innerHTML = state.reviews
+            .map(
+              r => `
       <div class="review-item">
         <div class="review-stars">${renderStars(r.rating || 5)}</div>
         <div class="review-body" style="margin:.6rem 0">"${esc(r.text)}"</div>
@@ -125,11 +240,13 @@ import { initReveal } from '/js/reveal.js';
           <div class="review-date">${esc(r.date || '')}</div>
         </div>
         <div style="font-size:var(--xs);color:var(--text-muted);margin-top:.2rem">${esc(r.property)}</div>
-      </div>`).join('');
-  }
-  initForms(state);
-  initReveal();
-})();
-</script>
-</body>
+      </div>`
+            )
+            .join('');
+        }
+        initForms(state);
+        initReveal();
+      })();
+    </script>
+  </body>
 </html>

@@ -4,8 +4,8 @@ import { initCardCalendar } from './calendar-init.js';
 
 const TAG_LABELS = {
   'pet-friendly': '🐾 Pet-Friendly',
-  'waterfront':   '🌊 Waterfront',
-  'year-round':   '📅 Year-Round',
+  waterfront: '🌊 Waterfront',
+  'year-round': '📅 Year-Round',
 };
 
 let _state = null;
@@ -32,9 +32,10 @@ function buildSrcset(photo) {
 }
 
 function cardHTML(p, allReviews) {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const hasAvail = (p.availability || []).some(d =>
-    d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const hasAvail = (p.availability || []).some(
+    d => d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
   );
 
   const tagsHTML = (p.tags || [])
@@ -133,13 +134,14 @@ function applyFilter(btn) {
   btn.setAttribute('aria-pressed', 'true');
 
   const filter = btn.dataset.filter;
-  const today = new Date(); today.setHours(0,0,0,0);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   let filtered = _state.properties;
   if (filter === 'available') {
     filtered = filtered.filter(p =>
-      (p.availability || []).some(d =>
-        d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
+      (p.availability || []).some(
+        d => d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
       )
     );
   } else if (filter !== 'all') {

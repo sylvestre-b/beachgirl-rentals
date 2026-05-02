@@ -12,17 +12,20 @@ export function initReveal() {
     return;
   }
 
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        obs.unobserve(entry.target);
-      }
-    });
-  }, {
-    rootMargin: '0px 0px -8% 0px',
-    threshold: 0.05,
-  });
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      rootMargin: '0px 0px -8% 0px',
+      threshold: 0.05,
+    }
+  );
 
   els.forEach(el => observer.observe(el));
 

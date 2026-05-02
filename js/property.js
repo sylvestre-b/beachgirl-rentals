@@ -3,7 +3,7 @@
 // Honest CTA: "Send Inquiry", not "Book Now".
 
 import { esc, renderStars, loadAll } from './data.js';
-import { initPropertyCalendar }      from './calendar-init.js';
+import { initPropertyCalendar } from './calendar-init.js';
 import { initForms, openInquiryModal, closeModal } from './forms.js';
 import { initReveal } from './reveal.js';
 
@@ -64,7 +64,12 @@ function renderProperty(p) {
     name: p.title,
     description: p.description,
     url: `https://beachgirlpropertyrentals.com/property/${p._slug}`,
-    address: { '@type': 'PostalAddress', streetAddress: p.address || '', addressRegion: 'ME', addressCountry: 'US' },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: p.address || '',
+      addressRegion: 'ME',
+      addressCountry: 'US',
+    },
     numberOfRooms: p.bedrooms,
     occupancy: { '@type': 'QuantitativeValue', maxValue: p.guests },
   };
@@ -76,7 +81,12 @@ function renderProperty(p) {
       '@type': 'Offer',
       priceCurrency: 'USD',
       price: String(p.price).replace(/[^0-9.]/g, ''),
-      priceSpecification: { '@type': 'UnitPriceSpecification', price: String(p.price).replace(/[^0-9.]/g, ''), priceCurrency: 'USD', referenceQuantity: { '@type': 'QuantitativeValue', value: 7, unitCode: 'DAY' } },
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: String(p.price).replace(/[^0-9.]/g, ''),
+        priceCurrency: 'USD',
+        referenceQuantity: { '@type': 'QuantitativeValue', value: 7, unitCode: 'DAY' },
+      },
     };
   }
   if (avg !== null) {
@@ -92,9 +102,14 @@ function renderProperty(p) {
   document.head.appendChild(s);
 
   // Gallery
-  const photos = p.photosAll && p.photosAll.length ? p.photosAll
-                : (p.photos && p.photos.length    ? p.photos
-                : (p.photo ? [p.photo] : []));
+  const photos =
+    p.photosAll && p.photosAll.length
+      ? p.photosAll
+      : p.photos && p.photos.length
+        ? p.photos
+        : p.photo
+          ? [p.photo]
+          : [];
   initGallery(photos, p.title);
 
   document.getElementById('bc-title').textContent = p.title;
@@ -115,24 +130,28 @@ function renderProperty(p) {
     ['Bathrooms', `🚿 ${p.bathrooms}`],
     ['Max Guests', `👥 ${p.guests}`],
     ['Min Stay', p.min_nights ? `${p.min_nights} nights` : '—'],
-  ].map(([l, v]) =>
-    `<div class="spec-item"><div class="spec-label">${l}</div><div class="spec-val">${esc(String(v))}</div></div>`
-  ).join('');
+  ]
+    .map(
+      ([l, v]) =>
+        `<div class="spec-item"><div class="spec-label">${l}</div><div class="spec-val">${esc(String(v))}</div></div>`
+    )
+    .join('');
 
   // Tags
   const tagLabels = {
     'pet-friendly': '🐾 Pet-Friendly',
-    'waterfront':   '🌊 Waterfront',
-    'year-round':   '📅 Year-Round',
+    waterfront: '🌊 Waterfront',
+    'year-round': '📅 Year-Round',
   };
   document.getElementById('prop-tags').innerHTML = (p.tags || [])
     .map(t => `<span class="tag-pill">${esc(tagLabels[t] || t)}</span>`)
     .join('');
 
   // Booking card — price + fees + availability
-  const today = new Date(); today.setHours(0,0,0,0);
-  const hasAvail = (p.availability || []).some(d =>
-    d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const hasAvail = (p.availability || []).some(
+    d => d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
   );
   document.getElementById('book-price').innerHTML = `${esc(p.price)} <span>/ week</span>`;
   document.getElementById('book-avail').innerHTML = hasAvail
@@ -157,7 +176,9 @@ function renderProperty(p) {
   // Reviews
   const revList = document.getElementById('prop-reviews-list');
   if (propRevs.length) {
-    revList.innerHTML = propRevs.map(r => `
+    revList.innerHTML = propRevs
+      .map(
+        r => `
       <div class="review-item">
         <div class="review-header">
           <div class="review-author-name">${esc(r.author)}</div>
@@ -165,7 +186,9 @@ function renderProperty(p) {
         </div>
         <div class="review-stars">${renderStars(r.rating || 5)}</div>
         <div class="review-body">"${esc(r.text)}"</div>
-      </div>`).join('');
+      </div>`
+      )
+      .join('');
   } else {
     const sec = document.getElementById('prop-reviews-section');
     if (sec) sec.style.display = 'none';
@@ -185,9 +208,13 @@ function initMiniMap(lat, lng, title) {
   const mapEl = document.getElementById('prop-mini-map');
   if (!mapEl || typeof L === 'undefined') return;
   mapEl.style.display = 'block';
-  const map = L.map('prop-mini-map', { zoomControl: true, scrollWheelZoom: false }).setView([lat, lng], 14);
+  const map = L.map('prop-mini-map', { zoomControl: true, scrollWheelZoom: false }).setView(
+    [lat, lng],
+    14
+  );
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>', maxZoom: 18,
+    attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 18,
   }).addTo(map);
   L.marker([lat, lng]).addTo(map).bindPopup(esc(title)).openPopup();
 }
@@ -197,7 +224,7 @@ let _galleryIndex = 0;
 let _galleryCount = 0;
 
 function initGallery(photos, title) {
-  const track  = document.getElementById('gallery-track');
+  const track = document.getElementById('gallery-track');
   const thumbs = document.getElementById('gallery-thumbs');
   if (!track || !thumbs) return;
 
@@ -210,9 +237,10 @@ function initGallery(photos, title) {
   }
 
   _galleryCount = photos.length;
-  track.innerHTML = photos.map(src => {
-    const base = src.replace(/\.(jpg|jpeg|png|webp)$/i, '');
-    return `<div class="gallery-slide">
+  track.innerHTML = photos
+    .map(src => {
+      const base = src.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+      return `<div class="gallery-slide">
       <picture>
         <source type="image/webp"
           srcset="${esc(base)}-800.webp 800w, ${esc(base)}-1200.webp 1200w, ${esc(base)}-1600.webp 1600w"
@@ -220,20 +248,27 @@ function initGallery(photos, title) {
         <img src="${esc(src)}" alt="${esc(title)}" loading="lazy" decoding="async" data-fallback="true" />
       </picture>
     </div>`;
-  }).join('');
+    })
+    .join('');
 
-  thumbs.innerHTML = photos.map((src, i) => {
-    const base = src.replace(/\.(jpg|jpeg|png|webp)$/i, '');
-    return `<button type="button" class="gallery-thumb${i === 0 ? ' active' : ''}"
-              data-action="gallery-go" data-index="${i}" aria-label="Show photo ${i+1}">
+  thumbs.innerHTML = photos
+    .map((src, i) => {
+      const base = src.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+      return `<button type="button" class="gallery-thumb${i === 0 ? ' active' : ''}"
+              data-action="gallery-go" data-index="${i}" aria-label="Show photo ${i + 1}">
       <img src="${esc(base)}-160.webp" alt="" loading="lazy" decoding="async" />
     </button>`;
-  }).join('');
+    })
+    .join('');
 
   document.getElementById('gallery-counter').textContent = `1 / ${_galleryCount}`;
 
-  document.querySelector('[data-action="gallery-prev"]')?.addEventListener('click', () => galleryGo(_galleryIndex - 1));
-  document.querySelector('[data-action="gallery-next"]')?.addEventListener('click', () => galleryGo(_galleryIndex + 1));
+  document
+    .querySelector('[data-action="gallery-prev"]')
+    ?.addEventListener('click', () => galleryGo(_galleryIndex - 1));
+  document
+    .querySelector('[data-action="gallery-next"]')
+    ?.addEventListener('click', () => galleryGo(_galleryIndex + 1));
   thumbs.querySelectorAll('[data-action="gallery-go"]').forEach(t => {
     t.addEventListener('click', () => galleryGo(parseInt(t.dataset.index, 10)));
   });
@@ -244,10 +279,11 @@ function galleryGo(i) {
   _galleryIndex = (i + _galleryCount) % _galleryCount;
   const track = document.getElementById('gallery-track');
   if (track) track.style.transform = `translateX(-${_galleryIndex * 100}%)`;
-  document.querySelectorAll('.gallery-thumb').forEach((t, idx) =>
-    t.classList.toggle('active', idx === _galleryIndex)
-  );
-  document.getElementById('gallery-counter').textContent = `${_galleryIndex + 1} / ${_galleryCount}`;
+  document
+    .querySelectorAll('.gallery-thumb')
+    .forEach((t, idx) => t.classList.toggle('active', idx === _galleryIndex));
+  document.getElementById('gallery-counter').textContent =
+    `${_galleryIndex + 1} / ${_galleryCount}`;
 }
 
 // ── MODAL GLUE ──────────────────────────────────────────────────────

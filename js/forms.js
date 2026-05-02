@@ -1,13 +1,12 @@
 // forms.js — inquiry + review form submission
 // P0 FIX: inquiry form now REQUIRES check-in, check-out, and guest count.
-// Without this, sister was getting "Not specified" emails and having to ask
+// Without this, was getting "Not specified" emails and having to ask
 // every guest the basics over again.
 
-import { esc } from './data.js';
+// (esc no longer needed — text content is set via .textContent / DOM nodes)
 import { getSelected } from './calendar-init.js';
-
 const INQUIRY_FORM_ID = 'xbdwrlgl';
-const REVIEW_FORM_ID  = 'xjglbglj';
+const REVIEW_FORM_ID = 'xjglbglj';
 
 // Holds context the inquiry modal needs about the property being asked about
 let _modalProperty = null;
@@ -42,7 +41,9 @@ function wireFormButtons() {
 
   // Overlay click closes
   document.querySelectorAll('.overlay').forEach(ov => {
-    ov.addEventListener('click', e => { if (e.target === ov) closeModal(ov.id); });
+    ov.addEventListener('click', e => {
+      if (e.target === ov) closeModal(ov.id);
+    });
   });
 }
 
@@ -52,8 +53,9 @@ export function openInquiryModal(slug) {
   const sel = slug ? getSelected(slug) : { checkIn: null, checkOut: null };
   _modalProperty = p;
 
-  document.getElementById('inquiry-title').textContent =
-    p ? `Let's chat about ${p.title}` : "Let's chat about your stay";
+  document.getElementById('inquiry-title').textContent = p
+    ? `Let's chat about ${p.title}`
+    : "Let's chat about your stay";
 
   const sum = document.getElementById('inquiry-summary');
   sum.innerHTML = '';
@@ -75,9 +77,12 @@ export function openInquiryModal(slug) {
 
   document.getElementById('inquiry-form-view').style.display = 'block';
   document.getElementById('inquiry-success').classList.remove('show');
-  ['i-first','i-last','i-email','i-phone','i-message','i-checkin','i-checkout'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '';
-  });
+  ['i-first', 'i-last', 'i-email', 'i-phone', 'i-message', 'i-checkin', 'i-checkout'].forEach(
+    id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    }
+  );
   const guestsEl = document.getElementById('i-guests');
   if (guestsEl) guestsEl.value = '';
 
@@ -110,7 +115,10 @@ export function closeModal(id) {
   if (!el) return;
   el.classList.remove('open');
   document.body.style.overflow = '';
-  if (_lastFocused) { _lastFocused.focus(); _lastFocused = null; }
+  if (_lastFocused) {
+    _lastFocused.focus();
+    _lastFocused = null;
+  }
 }
 
 function populateReviewSelect() {
@@ -140,15 +148,16 @@ function setRating(val) {
 
 // ── INQUIRY SUBMIT ────────────────────────────────────────────────────
 async function submitInquiry() {
-  const first   = document.getElementById('i-first').value.trim();
-  const last    = document.getElementById('i-last').value.trim();
-  const email   = document.getElementById('i-email').value.trim();
-  const phone   = document.getElementById('i-phone').value.trim();
-  const guests  = document.getElementById('i-guests').value;
+  const first = document.getElementById('i-first').value.trim();
+  const last = document.getElementById('i-last').value.trim();
+  const email = document.getElementById('i-email').value.trim();
+  const phone = document.getElementById('i-phone').value.trim();
+  const guests = document.getElementById('i-guests').value;
   const checkIn = document.getElementById('i-checkin').value;
-  const checkOut= document.getElementById('i-checkout').value;
+  const checkOut = document.getElementById('i-checkout').value;
   const message = document.getElementById('i-message').value.trim();
-  const inquiryType = (document.querySelector('input[name="inquiry_type"]:checked')?.value) || 'Booking Request';
+  const inquiryType =
+    document.querySelector('input[name="inquiry_type"]:checked')?.value || 'Booking Request';
 
   // Required field checks — names, email, dates, guest count
   if (!first || !last || !email) {
@@ -161,7 +170,10 @@ async function submitInquiry() {
   // General questions don't need them.
   if (inquiryType === 'Booking Request') {
     if (!checkIn || !checkOut) {
-      return showErr('inquiry', 'Please select a check-in and check-out date so we can confirm availability.');
+      return showErr(
+        'inquiry',
+        'Please select a check-in and check-out date so we can confirm availability.'
+      );
     }
     if (new Date(checkOut) <= new Date(checkIn)) {
       return showErr('inquiry', 'Check-out must be after check-in.');
@@ -177,11 +189,12 @@ async function submitInquiry() {
 
   const payload = {
     name: `${first} ${last}`,
-    email, phone,
+    email,
+    phone,
     guests: guests || 'Not specified',
     inquiry_type: inquiryType,
     property: _modalProperty?.title || 'General inquiry',
-    checkIn:  checkIn  || 'Not specified',
+    checkIn: checkIn || 'Not specified',
     checkOut: checkOut || 'Not specified',
     message,
     _subject: `${inquiryType}: ${_modalProperty?.title || 'General'}`,
@@ -190,13 +203,16 @@ async function submitInquiry() {
   try {
     const res = await fetch(`https://formspree.io/f/${INQUIRY_FORM_ID}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(payload),
     });
     if (res.ok) showSuccess('inquiry');
     else throw new Error(res.status);
   } catch (err) {
-    showErr('inquiry', 'Something went wrong. Email us at beachgirloob@gmail.com or call (207) 450-7347.');
+    showErr(
+      'inquiry',
+      'Something went wrong. Email us at beachgirloob@gmail.com or call (207) 450-7347.'
+    );
     btn.textContent = 'Send Message →';
     btn.disabled = false;
   }
@@ -204,9 +220,9 @@ async function submitInquiry() {
 
 // ── REVIEW SUBMIT ─────────────────────────────────────────────────────
 async function submitReview() {
-  const prop   = document.getElementById('r-property').value;
-  const dates  = document.getElementById('r-dates').value.trim();
-  const name   = document.getElementById('r-name').value.trim();
+  const prop = document.getElementById('r-property').value;
+  const dates = document.getElementById('r-dates').value.trim();
+  const name = document.getElementById('r-name').value.trim();
   const review = document.getElementById('r-review').value.trim();
 
   if (!prop || !dates || !name || !review || !_currentRating) {
@@ -221,15 +237,18 @@ async function submitReview() {
   btn.disabled = true;
 
   const payload = {
-    property: prop, dates, author: name,
-    rating: _currentRating, review,
+    property: prop,
+    dates,
+    author: name,
+    rating: _currentRating,
+    review,
     _subject: `Review Submission: ${prop}`,
   };
 
   try {
     const res = await fetch(`https://formspree.io/f/${REVIEW_FORM_ID}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(payload),
     });
     if (res.ok) showSuccess('review');

@@ -13,9 +13,10 @@
  * - Calls onSelect(checkInISO, checkOutISO) when a valid range is chosen
  */
 window.BeachGirlCalendar = (function () {
-
   // ── Helpers ────────────────────────────────────────────────────────
-  function isoDate(d) { return d.toISOString().slice(0, 10); }
+  function isoDate(d) {
+    return d.toISOString().slice(0, 10);
+  }
   function parseDate(str) {
     const [y, m, d] = str.split('-').map(Number);
     return new Date(y, m - 1, d);
@@ -26,29 +27,45 @@ window.BeachGirlCalendar = (function () {
     return r;
   }
   function sameDay(a, b) {
-    return a.getFullYear() === b.getFullYear()
-        && a.getMonth() === b.getMonth()
-        && a.getDate() === b.getDate();
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
   }
-  function inRange(d, start, end) { return d > start && d < end; }
+  function inRange(d, start, end) {
+    return d > start && d < end;
+  }
 
   const MONTH_NAMES = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
-  const DAY_NAMES = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+  const DAY_NAMES = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   function create(opts) {
     const { container, availability = [], onSelect, minNights = 1 } = opts;
 
     // Fast lookup: 'YYYY-MM-DD' → 'available' | 'unavailable'
     const avMap = {};
-    availability.forEach(a => { avMap[a.date] = a.status; });
+    availability.forEach(a => {
+      avMap[a.date] = a.status;
+    });
 
-    let viewYear  = new Date().getFullYear();
+    let viewYear = new Date().getFullYear();
     let viewMonth = new Date().getMonth();
-    let checkIn   = null;
-    let checkOut  = null;
+    let checkIn = null;
+    let checkOut = null;
     let hoverDate = null;
 
     /**
@@ -90,14 +107,18 @@ window.BeachGirlCalendar = (function () {
       months.className = 'cal-months';
 
       const monthCount = window.innerWidth < 640 ? 1 : 2;
-      label.textContent = monthCount === 1
-        ? `${MONTH_NAMES[viewMonth]} ${viewYear}`
-        : `${MONTH_NAMES[viewMonth]} ${viewYear} – ${MONTH_NAMES[(viewMonth+1)%12]} ${viewMonth === 11 ? viewYear+1 : viewYear}`;
+      label.textContent =
+        monthCount === 1
+          ? `${MONTH_NAMES[viewMonth]} ${viewYear}`
+          : `${MONTH_NAMES[viewMonth]} ${viewYear} – ${MONTH_NAMES[(viewMonth + 1) % 12]} ${viewMonth === 11 ? viewYear + 1 : viewYear}`;
 
       for (let mi = 0; mi < monthCount; mi++) {
         let m = viewMonth + mi;
         let y = viewYear;
-        if (m > 11) { m -= 12; y++; }
+        if (m > 11) {
+          m -= 12;
+          y++;
+        }
         months.appendChild(renderMonth(y, m));
       }
       container.appendChild(months);
@@ -120,12 +141,18 @@ window.BeachGirlCalendar = (function () {
       // Wire navigation (no inline handlers)
       container.querySelector('[data-cal-nav="prev"]').addEventListener('click', () => {
         viewMonth--;
-        if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+        if (viewMonth < 0) {
+          viewMonth = 11;
+          viewYear--;
+        }
         render();
       });
       container.querySelector('[data-cal-nav="next"]').addEventListener('click', () => {
         viewMonth++;
-        if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+        if (viewMonth > 11) {
+          viewMonth = 0;
+          viewYear++;
+        }
         render();
       });
     }
@@ -162,13 +189,13 @@ window.BeachGirlCalendar = (function () {
       }
 
       const today = new Date();
-      today.setHours(0,0,0,0);
+      today.setHours(0, 0, 0, 0);
 
       for (let d = 1; d <= daysInMonth; d++) {
         const date = new Date(year, month, d);
-        const key  = isoDate(date);
+        const key = isoDate(date);
         const avail = isAvailable(date);
-        const past  = date < today;
+        const past = date < today;
 
         const cell = document.createElement('div');
         cell.className = 'cal-day';
@@ -188,7 +215,10 @@ window.BeachGirlCalendar = (function () {
 
           cell.addEventListener('click', () => handleDayClick(date));
           cell.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleDayClick(date); }
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleDayClick(date);
+            }
           });
           cell.addEventListener('mouseenter', () => {
             hoverDate = date;
@@ -196,7 +226,7 @@ window.BeachGirlCalendar = (function () {
           });
         }
 
-        if (checkIn  && sameDay(date, checkIn))  cell.classList.add('check-in');
+        if (checkIn && sameDay(date, checkIn)) cell.classList.add('check-in');
         if (checkOut && sameDay(date, checkOut)) cell.classList.add('check-out');
         if (checkIn && checkOut && inRange(date, checkIn, checkOut)) cell.classList.add('in-range');
         if (checkIn && !checkOut && hoverDate && date > checkIn && date <= hoverDate) {
@@ -219,7 +249,7 @@ window.BeachGirlCalendar = (function () {
       if (!isAvailable(date)) return;
 
       if (!checkIn || (checkIn && checkOut)) {
-        checkIn  = date;
+        checkIn = date;
         checkOut = null;
         hoverDate = null;
       } else {
@@ -229,10 +259,10 @@ window.BeachGirlCalendar = (function () {
         } else {
           const nights = Math.round((date - checkIn) / 86400000);
           if (nights < minNights) {
-            checkIn  = date;
+            checkIn = date;
             checkOut = null;
           } else if (!rangeAllAvailable(checkIn, date)) {
-            checkIn  = date;
+            checkIn = date;
             checkOut = null;
           } else {
             checkOut = date;
@@ -273,10 +303,12 @@ window.BeachGirlCalendar = (function () {
 
     return {
       render,
-      getCheckIn:  () => checkIn  ? isoDate(checkIn)  : null,
-      getCheckOut: () => checkOut ? isoDate(checkOut) : null,
+      getCheckIn: () => (checkIn ? isoDate(checkIn) : null),
+      getCheckOut: () => (checkOut ? isoDate(checkOut) : null),
       clear() {
-        checkIn = null; checkOut = null; hoverDate = null;
+        checkIn = null;
+        checkOut = null;
+        hoverDate = null;
         render();
         if (onSelect) onSelect(null, null);
       },

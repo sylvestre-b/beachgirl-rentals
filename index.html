@@ -1,344 +1,503 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#1e3035">
-  <title>Beach Girl Property Rentals — Old Orchard Beach, Maine Vacation Homes</title>
-  <meta name="description" content="Curated vacation rentals in Old Orchard Beach, Maine. Cottages, capes, year-round homes — managed personally with care.">
-  <link rel="canonical" href="https://beachgirlpropertyrentals.com/">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#1e3035" />
+    <title>Beach Girl Property Rentals — Old Orchard Beach, Maine Vacation Homes</title>
+    <meta
+      name="description"
+      content="Curated vacation rentals in Old Orchard Beach, Maine. Cottages, capes, year-round homes — managed personally with care."
+    />
+    <link rel="canonical" href="https://beachgirlpropertyrentals.com/" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Beach Girl Property Rentals">
-  <meta property="og:description" content="Curated vacation rentals on Maine's southern coast.">
-  <meta property="og:url" content="https://beachgirlpropertyrentals.com/">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Beach Girl Property Rentals" />
+    <meta property="og:description" content="Curated vacation rentals on Maine's southern coast." />
+    <meta property="og:url" content="https://beachgirlpropertyrentals.com/" />
 
-  <!-- Fonts: single call, only weights actually used -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+    <!-- Fonts: single call, only weights actually used -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-  <!-- App stylesheets -->
-  <link rel="stylesheet" href="/styles/tokens.css">
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/motion.css">
-  <link rel="stylesheet" href="/styles/components.css">
-  <link rel="stylesheet" href="/styles/layout.css">
-  <link rel="stylesheet" href="/styles/sections.css">
-  <link rel="stylesheet" href="/calendar.css">
+    <!-- App stylesheets -->
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/motion.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/sections.css" />
+    <link rel="stylesheet" href="/calendar.css" />
 
-  <!-- Schema.org LocalBusiness -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
-    "name": "Beach Girl Property Rentals",
-    "description": "Vacation rentals in Old Orchard Beach, Maine.",
-    "url": "https://beachgirlpropertyrentals.com",
-    "address": { "@type": "PostalAddress", "addressLocality": "Old Orchard Beach", "addressRegion": "ME", "addressCountry": "US" },
-    "telephone": "+1-207-450-7347",
-    "email": "beachgirloob@gmail.com"
-  }
-  </script>
-</head>
-<body>
+    <!-- Schema.org LocalBusiness -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LodgingBusiness",
+        "name": "Beach Girl Property Rentals",
+        "description": "Vacation rentals in Old Orchard Beach, Maine.",
+        "url": "https://beachgirlpropertyrentals.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Old Orchard Beach",
+          "addressRegion": "ME",
+          "addressCountry": "US"
+        },
+        "telephone": "+1-207-450-7347",
+        "email": "beachgirloob@gmail.com"
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="logo-link" aria-label="Beach Girl Property Rentals home">
+          <span class="logo-name">Beach Girl Property Rentals</span>
+          <span class="logo-sub">Old Orchard Beach, ME</span>
+        </a>
+        <nav class="header-nav" aria-label="Primary">
+          <a href="/blog">Journal</a>
+          <a href="/reviews">Reviews</a>
+          <button type="button" class="btn-inquire-header" data-action="open-inquiry">
+            Inquire
+          </button>
+        </nav>
+      </div>
+    </header>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/" class="logo-link" aria-label="Beach Girl Property Rentals home">
-      <span class="logo-name">Beach Girl Property Rentals</span>
-      <span class="logo-sub">Old Orchard Beach, ME</span>
-    </a>
-    <nav class="header-nav" aria-label="Primary">
-      <a href="/blog">Journal</a>
-      <a href="/reviews">Reviews</a>
-      <button type="button" class="btn-inquire-header" data-action="open-inquiry">Inquire</button>
-    </nav>
-  </div>
-</header>
-
-<main>
-
-  <!-- ── HERO ─────────────────────────────────────────────────── -->
-  <section class="hero" aria-label="Welcome">
-    <div class="hero-img-stack" aria-hidden="true">
-      <!--
+    <main>
+      <!-- ── HERO ─────────────────────────────────────────────────── -->
+      <section class="hero" aria-label="Welcome">
+        <div class="hero-img-stack" aria-hidden="true">
+          <!--
         Hero photography pipeline:
         - drop hero-1.jpg, hero-2.jpg into /photos/hero/
         - run `npm run build` → produces -1200/-1600.webp
         - the <img> below will pick them up automatically once present
         Until then a sand gradient + grain shows in the gradient overlay.
       -->
-      <img class="hero-img" data-hero-img alt="" src="/photos/hero/hero-1-1600.webp"
-           onerror="this.style.display='none'" />
-      <img class="hero-img" data-hero-img alt="" src="/photos/hero/hero-2-1600.webp"
-           onerror="this.style.display='none'" />
-    </div>
-    <div class="hero-overlay" aria-hidden="true"></div>
+          <img
+            class="hero-img"
+            data-hero-img
+            alt=""
+            src="/photos/hero/hero-1-1600.webp"
+            onerror="this.style.display = 'none'"
+          />
+          <img
+            class="hero-img"
+            data-hero-img
+            alt=""
+            src="/photos/hero/hero-2-1600.webp"
+            onerror="this.style.display = 'none'"
+          />
+        </div>
+        <div class="hero-overlay" aria-hidden="true"></div>
 
-    <div class="hero-card">
-      <div class="hero-season">Summer 2026 · Now Booking</div>
-      <h1 class="hero-h1">Your <em>Maine summer</em>,<br>found.</h1>
-      <p class="hero-desc">
-        Curated vacation rentals in Old Orchard Beach. Cottages, capes, year-round homes
-        — every one managed personally, with the care a real owner brings.
-      </p>
-      <div class="hero-props" role="list">
-        <span class="hero-prop" role="listitem">3 Properties</span>
-        <span class="hero-prop" role="listitem">Pet-Friendly</span>
-        <span class="hero-prop" role="listitem">Steps from the beach</span>
+        <div class="hero-card">
+          <div class="hero-season">Summer 2026 · Now Booking</div>
+          <h1 class="hero-h1">Your <em>Maine summer</em>,<br />found.</h1>
+          <p class="hero-desc">
+            Curated vacation rentals in Old Orchard Beach. Cottages, capes, year-round homes — every
+            one managed personally, with the care a real owner brings.
+          </p>
+          <div class="hero-props" role="list">
+            <span class="hero-prop" role="listitem">3 Properties</span>
+            <span class="hero-prop" role="listitem">Pet-Friendly</span>
+            <span class="hero-prop" role="listitem">Steps from the beach</span>
+          </div>
+          <div class="hero-cta">
+            <button type="button" class="btn-pill" data-action="scroll-to-listings">
+              See what's available <span aria-hidden="true">↓</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- divider hero → owner -->
+      <div class="section-divider into-sand" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,52 C220,28 420,72 720,48 C1020,24 1220,68 1440,40 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
       </div>
-      <div class="hero-cta">
-        <button type="button" class="btn-pill" data-action="scroll-to-listings">
-          See what's available <span aria-hidden="true">↓</span>
+
+      <!-- ── OWNER MOMENT ─────────────────────────────────────────── -->
+      <section class="owner-panel" aria-label="About the owner">
+        <div class="owner-inner">
+          <div class="owner-portrait" data-reveal>
+            <span>portrait</span>
+          </div>
+          <div class="owner-text" data-reveal>
+            <div class="owner-text-eyebrow">A note from the owner</div>
+            <h2>Real homes, <em>real care</em>.</h2>
+            <p>
+              I grew up on this coast. Every property here is one I know inside and out — and one
+              I'd happily stay in myself. No call centers, no third-party hand-offs. When you book,
+              you're talking to me.
+            </p>
+            <p>Welcome. Hope to see you on the porch.</p>
+            <div class="owner-signature">— Beach Girl</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- divider owner → listings -->
+      <div class="section-divider into-cream" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,40 C260,72 480,18 740,42 C1000,68 1220,30 1440,52 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+
+      <!-- ── FILTER BAR ──────────────────────────────────────────── -->
+      <section class="filter-bar" aria-label="Filter properties">
+        <div class="filter-inner">
+          <span class="filter-label">Filter</span>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="all"
+            data-label="properties"
+            aria-pressed="true"
+          >
+            All
+          </button>
+          <button type="button" class="filter-btn" data-filter="available" data-label="available">
+            Available
+          </button>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="pet-friendly"
+            data-label="pet-friendly"
+          >
+            🐾 Pet-Friendly
+          </button>
+          <button type="button" class="filter-btn" data-filter="waterfront" data-label="waterfront">
+            🌊 Waterfront
+          </button>
+          <button type="button" class="filter-btn" data-filter="year-round" data-label="year-round">
+            📅 Year-Round
+          </button>
+          <span class="filter-count" id="filter-count">Loading…</span>
+        </div>
+      </section>
+
+      <!-- ── LISTINGS + MAP ──────────────────────────────────────── -->
+      <section id="listings" class="listings-layout">
+        <div class="listings-panel">
+          <div id="listings-grid" class="listings-grid" data-reveal-children>
+            <div class="state-msg">
+              <div class="icon" aria-hidden="true">🌊</div>
+              <p>Loading properties…</p>
+            </div>
+          </div>
+        </div>
+        <aside id="map-panel" class="map-panel" aria-label="Map of properties">
+          <div id="map" role="application" aria-label="Map showing property locations"></div>
+        </aside>
+        <button
+          type="button"
+          id="map-toggle"
+          class="map-toggle-btn"
+          aria-expanded="false"
+          aria-controls="map-panel"
+        >
+          🗺 Show Map
         </button>
+      </section>
+
+      <!-- divider listings → reviews -->
+      <div class="section-divider into-blush" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,48 C240,20 460,68 720,42 C980,16 1220,60 1440,38 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
       </div>
-    </div>
-  </section>
 
-  <!-- divider hero → owner -->
-  <div class="section-divider into-sand" aria-hidden="true">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
-      <path d="M0,52 C220,28 420,72 720,48 C1020,24 1220,68 1440,40 L1440,80 L0,80 Z" fill="currentColor"/>
-    </svg>
-  </div>
-
-  <!-- ── OWNER MOMENT ─────────────────────────────────────────── -->
-  <section class="owner-panel" aria-label="About the owner">
-    <div class="owner-inner">
-      <div class="owner-portrait" data-reveal>
-        <span>portrait</span>
-      </div>
-      <div class="owner-text" data-reveal>
-        <div class="owner-text-eyebrow">A note from the owner</div>
-        <h2>Real homes, <em>real care</em>.</h2>
-        <p>
-          I grew up on this coast. Every property here is one I know inside and out —
-          and one I'd happily stay in myself. No call centers, no third-party hand-offs.
-          When you book, you're talking to me.
-        </p>
-        <p>Welcome. Hope to see you on the porch.</p>
-        <div class="owner-signature">— Beach Girl</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- divider owner → listings -->
-  <div class="section-divider into-cream" aria-hidden="true">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
-      <path d="M0,40 C260,72 480,18 740,42 C1000,68 1220,30 1440,52 L1440,80 L0,80 Z" fill="currentColor"/>
-    </svg>
-  </div>
-
-  <!-- ── FILTER BAR ──────────────────────────────────────────── -->
-  <section class="filter-bar" aria-label="Filter properties">
-    <div class="filter-inner">
-      <span class="filter-label">Filter</span>
-      <button type="button" class="filter-btn" data-filter="all" data-label="properties" aria-pressed="true">All</button>
-      <button type="button" class="filter-btn" data-filter="available" data-label="available">Available</button>
-      <button type="button" class="filter-btn" data-filter="pet-friendly" data-label="pet-friendly">🐾 Pet-Friendly</button>
-      <button type="button" class="filter-btn" data-filter="waterfront" data-label="waterfront">🌊 Waterfront</button>
-      <button type="button" class="filter-btn" data-filter="year-round" data-label="year-round">📅 Year-Round</button>
-      <span class="filter-count" id="filter-count">Loading…</span>
-    </div>
-  </section>
-
-  <!-- ── LISTINGS + MAP ──────────────────────────────────────── -->
-  <section id="listings" class="listings-layout">
-    <div class="listings-panel">
-      <div id="listings-grid" class="listings-grid" data-reveal-children>
-        <div class="state-msg"><div class="icon" aria-hidden="true">🌊</div><p>Loading properties…</p></div>
-      </div>
-    </div>
-    <aside id="map-panel" class="map-panel" aria-label="Map of properties">
-      <div id="map" role="application" aria-label="Map showing property locations"></div>
-    </aside>
-    <button type="button" id="map-toggle" class="map-toggle-btn" aria-expanded="false" aria-controls="map-panel">
-      🗺  Show Map
-    </button>
-  </section>
-
-  <!-- divider listings → reviews -->
-  <div class="section-divider into-blush" aria-hidden="true">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
-      <path d="M0,48 C240,20 460,68 720,42 C980,16 1220,60 1440,38 L1440,80 L0,80 Z" fill="currentColor"/>
-    </svg>
-  </div>
-
-  <!-- ── REVIEWS TEASER ──────────────────────────────────────── -->
-  <section id="reviews" class="teaser-section sand-bg" aria-label="What guests are saying">
-    <div class="teaser-inner">
-      <div class="teaser-header" data-reveal>
-        <div>
-          <div class="teaser-eyebrow">Words from the porch</div>
-          <h2 class="teaser-title">What guests <em>are saying</em></h2>
+      <!-- ── REVIEWS TEASER ──────────────────────────────────────── -->
+      <section id="reviews" class="teaser-section sand-bg" aria-label="What guests are saying">
+        <div class="teaser-inner">
+          <div class="teaser-header" data-reveal>
+            <div>
+              <div class="teaser-eyebrow">Words from the porch</div>
+              <h2 class="teaser-title">What guests <em>are saying</em></h2>
+            </div>
+            <a href="/reviews" class="teaser-link">Read all reviews →</a>
+          </div>
+          <div class="reviews-carousel" data-reveal>
+            <div class="reviews-track-outer">
+              <div
+                id="reviews-track"
+                class="reviews-track"
+                role="list"
+                aria-label="Recent reviews"
+              ></div>
+            </div>
+            <div class="carousel-controls">
+              <button
+                type="button"
+                class="carousel-btn"
+                data-action="carousel-prev"
+                aria-label="Previous reviews"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                class="carousel-btn"
+                data-action="carousel-next"
+                aria-label="Next reviews"
+              >
+                ›
+              </button>
+            </div>
+          </div>
         </div>
-        <a href="/reviews" class="teaser-link">Read all reviews →</a>
+      </section>
+
+      <!-- divider reviews → blog -->
+      <div class="section-divider into-cream" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,30 C280,62 500,14 760,40 C1020,66 1240,22 1440,46 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
       </div>
-      <div class="reviews-carousel" data-reveal>
-        <div class="reviews-track-outer">
-          <div id="reviews-track" class="reviews-track" role="list" aria-label="Recent reviews"></div>
+
+      <!-- ── BLOG TEASER ─────────────────────────────────────────── -->
+      <section class="teaser-section cream-bg" aria-label="From the journal">
+        <div class="teaser-inner">
+          <div class="teaser-header" data-reveal>
+            <div>
+              <div class="teaser-eyebrow">From the journal</div>
+              <h2 class="teaser-title">Local <em>guides &amp; stories</em></h2>
+            </div>
+            <a href="/blog" class="teaser-link">All posts →</a>
+          </div>
+          <div id="blog-grid" class="blog-teaser-grid" role="list" data-reveal-children></div>
         </div>
-        <div class="carousel-controls">
-          <button type="button" class="carousel-btn" data-action="carousel-prev" aria-label="Previous reviews">‹</button>
-          <button type="button" class="carousel-btn" data-action="carousel-next" aria-label="Next reviews">›</button>
-        </div>
+      </section>
+
+      <!-- divider blog → footer (into ink) -->
+      <div class="section-divider into-ink" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,42 C220,68 440,18 720,40 C1000,62 1220,16 1440,40 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
       </div>
-    </div>
-  </section>
+    </main>
 
-  <!-- divider reviews → blog -->
-  <div class="section-divider into-cream" aria-hidden="true">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
-      <path d="M0,30 C280,62 500,14 760,40 C1020,66 1240,22 1440,46 L1440,80 L0,80 Z" fill="currentColor"/>
-    </svg>
-  </div>
-
-  <!-- ── BLOG TEASER ─────────────────────────────────────────── -->
-  <section class="teaser-section cream-bg" aria-label="From the journal">
-    <div class="teaser-inner">
-      <div class="teaser-header" data-reveal>
-        <div>
-          <div class="teaser-eyebrow">From the journal</div>
-          <h2 class="teaser-title">Local <em>guides &amp; stories</em></h2>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <div class="logo-name">Beach Girl Property Rentals</div>
+          <div class="logo-sub">Old Orchard Beach, ME</div>
+          <p class="footer-tagline">
+            Curated vacation rentals on Maine's southern coast — managed personally, with care.
+          </p>
         </div>
-        <a href="/blog" class="teaser-link">All posts →</a>
-      </div>
-      <div id="blog-grid" class="blog-teaser-grid" role="list" data-reveal-children></div>
-    </div>
-  </section>
-
-  <!-- divider blog → footer (into ink) -->
-  <div class="section-divider into-ink" aria-hidden="true">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
-      <path d="M0,42 C220,68 440,18 720,40 C1000,62 1220,16 1440,40 L1440,80 L0,80 Z" fill="currentColor"/>
-    </svg>
-  </div>
-
-</main>
-
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-logo">
-      <div class="logo-name">Beach Girl Property Rentals</div>
-      <div class="logo-sub">Old Orchard Beach, ME</div>
-      <p class="footer-tagline">Curated vacation rentals on Maine's southern coast — managed personally, with care.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Explore</h4>
-      <a href="/">Home</a>
-      <a href="/blog">Journal</a>
-      <a href="/reviews">Reviews</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <p>📍 Old Orchard Beach, Maine<br>
-         📧 <a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a><br>
-         📞 (207) 450-7347</p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2026 Affordable Property Management LLC.</span>
-    <span class="footer-legal">Maine Lodging Tax compliant.</span>
-  </div>
-</footer>
-
-<!-- ── INQUIRY MODAL ───────────────────────────────────────── -->
-<div class="overlay" id="inquiry-overlay" role="dialog" aria-modal="true" aria-labelledby="inquiry-title">
-  <div class="modal">
-    <div class="modal-header">
-      <button type="button" class="modal-close" data-action="close-modal" data-target="inquiry-overlay" aria-label="Close">✕</button>
-      <div class="modal-eyebrow">Get in touch</div>
-      <div class="modal-title" id="inquiry-title">Let's chat about your stay</div>
-    </div>
-
-    <div class="modal-body" id="inquiry-form-view">
-      <div class="inquiry-summary" id="inquiry-summary"></div>
-
-      <div class="form-row">
-        <div class="field">
-          <label for="i-first">First name <span class="req">*</span></label>
-          <input type="text" id="i-first" name="first" autocomplete="given-name" required />
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="/">Home</a>
+          <a href="/blog">Journal</a>
+          <a href="/reviews">Reviews</a>
         </div>
-        <div class="field">
-          <label for="i-last">Last name <span class="req">*</span></label>
-          <input type="text" id="i-last" name="last" autocomplete="family-name" required />
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <p>
+            📍 Old Orchard Beach, Maine<br />
+            📧 <a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a><br />
+            📞 (207) 450-7347
+          </p>
         </div>
       </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Affordable Property Management LLC.</span>
+        <span class="footer-legal">Maine Lodging Tax compliant.</span>
+      </div>
+    </footer>
 
-      <div class="form-row">
-        <div class="field">
-          <label for="i-email">Email <span class="req">*</span></label>
-          <input type="email" id="i-email" name="email" autocomplete="email" required />
+    <!-- ── INQUIRY MODAL ───────────────────────────────────────── -->
+    <div
+      class="overlay"
+      id="inquiry-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="inquiry-title"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="modal-close"
+            data-action="close-modal"
+            data-target="inquiry-overlay"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          <div class="modal-eyebrow">Get in touch</div>
+          <div class="modal-title" id="inquiry-title">Let's chat about your stay</div>
         </div>
-        <div class="field">
-          <label for="i-phone">Phone</label>
-          <input type="tel" id="i-phone" name="phone" autocomplete="tel" />
+
+        <div class="modal-body" id="inquiry-form-view">
+          <div class="inquiry-summary" id="inquiry-summary"></div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="i-first">First name <span class="req">*</span></label>
+              <input type="text" id="i-first" name="first" autocomplete="given-name" required />
+            </div>
+            <div class="field">
+              <label for="i-last">Last name <span class="req">*</span></label>
+              <input type="text" id="i-last" name="last" autocomplete="family-name" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="i-email">Email <span class="req">*</span></label>
+              <input type="email" id="i-email" name="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="i-phone">Phone</label>
+              <input type="tel" id="i-phone" name="phone" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Inquiry type <span class="req">*</span></label>
+            <div
+              style="
+                display: flex;
+                gap: 1rem;
+                font-size: var(--sm);
+                font-weight: 400;
+                text-transform: none;
+                letter-spacing: 0;
+                color: var(--text);
+                margin-top: 0.25rem;
+              "
+            >
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.4rem;
+                  font-weight: 400;
+                  text-transform: none;
+                  letter-spacing: 0;
+                "
+              >
+                <input
+                  type="radio"
+                  name="inquiry_type"
+                  value="Booking Request"
+                  checked
+                  style="width: auto"
+                />
+                Booking request
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.4rem;
+                  font-weight: 400;
+                  text-transform: none;
+                  letter-spacing: 0;
+                "
+              >
+                <input
+                  type="radio"
+                  name="inquiry_type"
+                  value="General Question"
+                  style="width: auto"
+                />
+                General question
+              </label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="i-checkin">Check-in <span class="req">*</span></label>
+              <input type="date" id="i-checkin" name="checkin" />
+            </div>
+            <div class="field">
+              <label for="i-checkout">Check-out <span class="req">*</span></label>
+              <input type="date" id="i-checkout" name="checkout" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="i-guests">Number of guests <span class="req">*</span></label>
+            <select id="i-guests" name="guests">
+              <option value="">Select…</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9+</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="i-message">Anything else we should know?</label>
+            <textarea
+              id="i-message"
+              name="message"
+              rows="4"
+              placeholder="Pet, special occasion, accessibility needs…"
+            ></textarea>
+          </div>
+
+          <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
+
+          <button
+            type="button"
+            class="btn-primary"
+            style="width: 100%; margin-top: 0.5rem"
+            data-action="submit-inquiry"
+          >
+            Send Message →
+          </button>
+          <p class="form-note">We typically reply within a few hours.</p>
+        </div>
+
+        <div class="success-view" id="inquiry-success">
+          <div class="success-icon">🌊</div>
+          <h3>Message sent!</h3>
+          <p>We'll be in touch shortly. Check your email.</p>
         </div>
       </div>
-
-      <div class="field">
-        <label>Inquiry type <span class="req">*</span></label>
-        <div style="display:flex;gap:1rem;font-size:var(--sm);font-weight:400;text-transform:none;letter-spacing:0;color:var(--text);margin-top:.25rem">
-          <label style="display:flex;align-items:center;gap:.4rem;font-weight:400;text-transform:none;letter-spacing:0">
-            <input type="radio" name="inquiry_type" value="Booking Request" checked style="width:auto"> Booking request
-          </label>
-          <label style="display:flex;align-items:center;gap:.4rem;font-weight:400;text-transform:none;letter-spacing:0">
-            <input type="radio" name="inquiry_type" value="General Question" style="width:auto"> General question
-          </label>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="field">
-          <label for="i-checkin">Check-in <span class="req">*</span></label>
-          <input type="date" id="i-checkin" name="checkin" />
-        </div>
-        <div class="field">
-          <label for="i-checkout">Check-out <span class="req">*</span></label>
-          <input type="date" id="i-checkout" name="checkout" />
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="i-guests">Number of guests <span class="req">*</span></label>
-        <select id="i-guests" name="guests">
-          <option value="">Select…</option>
-          <option>1</option><option>2</option><option>3</option><option>4</option>
-          <option>5</option><option>6</option><option>7</option><option>8</option>
-          <option>9+</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="i-message">Anything else we should know?</label>
-        <textarea id="i-message" name="message" rows="4" placeholder="Pet, special occasion, accessibility needs…"></textarea>
-      </div>
-
-      <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
-
-      <button type="button" class="btn-primary" style="width:100%;margin-top:.5rem" data-action="submit-inquiry">
-        Send Message →
-      </button>
-      <p class="form-note">We typically reply within a few hours.</p>
     </div>
 
-    <div class="success-view" id="inquiry-success">
-      <div class="success-icon">🌊</div>
-      <h3>Message sent!</h3>
-      <p>We'll be in touch shortly. Check your email.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Leaflet, Calendar, App -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
-<script src="/calendar.js" defer></script>
-<script type="module" src="/js/main.js"></script>
-
-</body>
+    <!-- Leaflet, Calendar, App -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="/calendar.js" defer></script>
+    <script type="module" src="/js/main.js"></script>
+  </body>
 </html>

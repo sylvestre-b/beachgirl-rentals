@@ -13,14 +13,16 @@
  * Run via: `npm run images` (or as part of `npm run build`).
  */
 
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 
 const SRC_DIR = path.join(__dirname, '..', 'photos');
 const SIZES = [160, 480, 800, 1200, 1600];
 
-function isImage(f) { return /\.(jpg|jpeg|png)$/i.test(f); }
+function isImage(f) {
+  return /\.(jpg|jpeg|png)$/i.test(f);
+}
 
 function walk(dir, results = []) {
   if (!fs.existsSync(dir)) return results;
@@ -51,11 +53,15 @@ function shouldRebuild(srcPath, outPath) {
   }
   console.log(`[images] found ${files.length} source images`);
 
-  let built = 0, skipped = 0;
+  let built = 0,
+    skipped = 0;
   for (const src of files) {
     for (const size of SIZES) {
       const out = variantPath(src, size);
-      if (!shouldRebuild(src, out)) { skipped++; continue; }
+      if (!shouldRebuild(src, out)) {
+        skipped++;
+        continue;
+      }
       try {
         await sharp(src)
           .resize({ width: size, withoutEnlargement: true })

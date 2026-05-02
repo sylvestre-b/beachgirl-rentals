@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /manage-listings-apm/
+Sitemap: https://beachgirlpropertyrentals.com/sitemap.xml

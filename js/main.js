@@ -2,24 +2,21 @@
 // All listeners are attached programmatically. No inline `onclick=` survives.
 
 import { loadAll, esc, renderStars } from './data.js';
-import { initListings, toggleAvail }  from './listings.js';
+import { initListings, toggleAvail } from './listings.js';
 import { initForms, openInquiryModal, closeModal } from './forms.js';
 import { initMap, updateMapHighlights } from './map.js';
 import { initReveal } from './reveal.js';
-import { initHero }   from './hero.js';
+import { initHero } from './hero.js';
 
 // Reviews carousel state
-let _reviews = [];
 let _reviewOffset = 0;
-const CARDS_VISIBLE = () => window.innerWidth < 640 ? 1
-                          : window.innerWidth < 900 ? 2 : 3;
+const CARDS_VISIBLE = () => (window.innerWidth < 640 ? 1 : window.innerWidth < 900 ? 2 : 3);
 
 (async function boot() {
   // Hero motion runs immediately so the hero feels alive even before data loads
   initHero();
 
   const state = await loadAll();
-  _reviews = state.reviews;
 
   initListings(state);
   initForms(state);
@@ -37,7 +34,11 @@ function wireGlobalEvents() {
   document.addEventListener('click', e => {
     // Avail toggle
     const tog = e.target.closest('.avail-toggle, [data-action="toggle-avail"]');
-    if (tog) { e.stopPropagation(); toggleAvail(tog); return; }
+    if (tog) {
+      e.stopPropagation();
+      toggleAvail(tog);
+      return;
+    }
 
     // Inquire button inside a card → open modal w/ the property
     const inquireBtn = e.target.closest('[data-action="card-inquire"]');
@@ -119,7 +120,9 @@ function renderReviewsTeaser(reviews) {
     </div>`;
     return;
   }
-  track.innerHTML = reviews.map(r => `
+  track.innerHTML = reviews
+    .map(
+      r => `
     <div class="review-card" role="listitem">
       <div class="review-stars" aria-label="${r.rating || 5} stars">${renderStars(r.rating || 5)}</div>
       <blockquote class="review-text">${esc(r.text)}</blockquote>
@@ -130,7 +133,9 @@ function renderReviewsTeaser(reviews) {
         </div>
         <time class="review-date">${esc(r.date || '')}</time>
       </div>
-    </div>`).join('');
+    </div>`
+    )
+    .join('');
   updateCarouselButtons();
 }
 
@@ -163,26 +168,37 @@ function updateCarouselButtons() {
 function renderBlogTeaser(posts) {
   const grid = document.getElementById('blog-grid');
   if (!grid) return;
-  if (!posts.length) { grid.style.display = 'none'; return; }
+  if (!posts.length) {
+    grid.style.display = 'none';
+    return;
+  }
   const top = posts.slice(0, 2);
-  grid.innerHTML = top.map(p => `
+  grid.innerHTML = top
+    .map(
+      p => `
     <article class="blog-card" role="listitem" tabindex="0"
              data-href="/blog/${esc(p._slug)}" aria-label="${esc(p.title)}"
              data-reveal>
       <div class="blog-card-img" aria-hidden="true">
-        ${p.photo
-          ? `<img src="${esc(p.photo)}" alt="" loading="lazy" />`
-          : `<span>${esc(p.emoji || '📝')}</span>`}
+        ${
+          p.photo
+            ? `<img src="${esc(p.photo)}" alt="" loading="lazy" />`
+            : `<span>${esc(p.emoji || '📝')}</span>`
+        }
       </div>
       <div class="blog-card-body">
         <time class="blog-card-date">${esc(p.date || '')}</time>
         <h3 class="blog-card-title">${esc(p.title)}</h3>
         <p class="blog-card-excerpt">${esc(p.excerpt || '')}</p>
       </div>
-    </article>`).join('');
+    </article>`
+    )
+    .join('');
 
   grid.querySelectorAll('.blog-card').forEach(c => {
-    c.addEventListener('click', () => { window.location.href = c.dataset.href; });
+    c.addEventListener('click', () => {
+      window.location.href = c.dataset.href;
+    });
   });
 }
 
@@ -190,7 +206,7 @@ function renderBlogTeaser(posts) {
 function wireFilterBarVisibility() {
   const filterBar = document.querySelector('.filter-bar');
   const listingsSection = document.getElementById('listings');
-  const reviewsSection  = document.getElementById('reviews');
+  const reviewsSection = document.getElementById('reviews');
   if (!filterBar || !listingsSection || !reviewsSection) return;
 
   function update() {
@@ -204,17 +220,21 @@ function wireFilterBarVisibility() {
 }
 
 // ── IMAGE FALLBACK ──────────────────────────────────────────────────
-document.addEventListener('error', e => {
-  if (e.target.tagName === 'IMG' && e.target.dataset.fallback) {
-    const ph = e.target.closest('.card-photo, .gallery-slide, .blog-card-img');
-    if (ph) {
-      const d = document.createElement('div');
-      d.className = ph.className.includes('card-photo')
-        ? 'card-photo-placeholder'
-        : 'gallery-placeholder';
-      d.setAttribute('aria-hidden', 'true');
-      d.textContent = '🏡';
-      e.target.replaceWith(d);
+document.addEventListener(
+  'error',
+  e => {
+    if (e.target.tagName === 'IMG' && e.target.dataset.fallback) {
+      const ph = e.target.closest('.card-photo, .gallery-slide, .blog-card-img');
+      if (ph) {
+        const d = document.createElement('div');
+        d.className = ph.className.includes('card-photo')
+          ? 'card-photo-placeholder'
+          : 'gallery-placeholder';
+        d.setAttribute('aria-hidden', 'true');
+        d.textContent = '🏡';
+        e.target.replaceWith(d);
+      }
     }
-  }
-}, true);
+  },
+  true
+);

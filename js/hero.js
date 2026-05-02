@@ -6,7 +6,6 @@
 // First image starts active; if a second exists, it fades in at FADE_AT.
 
 const FADE_AT     = 6500;  // ms — cross-fade kicks in
-const SECOND_DUR  = 14000; // ms — total duration of second slide before reset
 
 export function initHero() {
   const stack = document.querySelector('.hero-img-stack');

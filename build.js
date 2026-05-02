@@ -17,7 +17,7 @@
  * Run before Netlify deploy: `npm run build`.
  */
 
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
 const matter = require('gray-matter');
 const { marked } = require('marked');
@@ -29,32 +29,44 @@ const GEOCODE_CACHE_FILE = path.join(ROOT, '.geocode-cache.json');
 
 // ── Helpers ────────────────────────────────────────────────────────
 function readDirSafe(dir) {
-  try { return fs.readdirSync(dir).filter(f => f.endsWith('.md')); }
-  catch { return []; }
+  try {
+    return fs.readdirSync(dir).filter(f => f.endsWith('.md'));
+  } catch {
+    return [];
+  }
 }
 
 function readMatter(file) {
   try {
     const raw = fs.readFileSync(file, 'utf8');
     return matter(raw);
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 function slugify(filename) {
-  return filename.replace(/\.md$/, '').toLowerCase()
+  return filename
+    .replace(/\.md$/, '')
+    .toLowerCase()
     .replace(/[^a-z0-9-]/g, '-')
     .replace(/-+/g, '-');
 }
 
 function loadGeocodeCache() {
-  try { return JSON.parse(fs.readFileSync(GEOCODE_CACHE_FILE, 'utf8')); }
-  catch { return {}; }
+  try {
+    return JSON.parse(fs.readFileSync(GEOCODE_CACHE_FILE, 'utf8'));
+  } catch {
+    return {};
+  }
 }
 function saveGeocodeCache(c) {
   fs.writeFileSync(GEOCODE_CACHE_FILE, JSON.stringify(c, null, 2));
 }
 
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
 
 async function geocode(address, cache) {
   if (!address) return null;
@@ -91,10 +103,14 @@ async function buildListings() {
     const fm = m.data || {};
     const slug = fm.slug || slugify(f);
 
-    let lat = fm.lat, lng = fm.lng;
+    let lat = fm.lat,
+      lng = fm.lng;
     if ((!lat || !lng) && fm.address) {
       const g = await geocode(fm.address, cache);
-      if (g) { lat = g.lat; lng = g.lng; }
+      if (g) {
+        lat = g.lat;
+        lng = g.lng;
+      }
     }
 
     out.push({
@@ -114,7 +130,8 @@ async function buildListings() {
       photos: fm.photos || (fm.photo ? [fm.photo] : []),
       description: (m.content || '').trim(),
       tags: fm.tags || [],
-      lat, lng,
+      lat,
+      lng,
       active: fm.active !== false,
       availability: fm.availability || [],
     });
@@ -137,11 +154,11 @@ function buildReviews() {
     const fm = m.data || {};
     out.push({
       property: fm.property || '',
-      author:   fm.author   || 'Anonymous',
-      rating:   fm.rating   || 5,
-      date:     fm.date     || '',
+      author: fm.author || 'Anonymous',
+      rating: fm.rating || 5,
+      date: fm.date || '',
       approved: fm.approved === true,
-      text:     (m.content || '').trim(),
+      text: (m.content || '').trim(),
     });
   }
   fs.writeFileSync(path.join(PUBLIC_DIR, 'reviews-index.json'), JSON.stringify(out));
@@ -186,9 +203,14 @@ function generatePropertyPages(listings) {
   for (const p of listings) {
     const desc = (p.description || '').replace(/\s+/g, ' ').slice(0, 160);
     const html = tmpl
-      .replace(/<title>[^<]*<\/title>/, `<title>${esc(p.title)} — Beach Girl Property Rentals</title>`)
-      .replace(/<meta name="description" content="[^"]*"\s*\/?>/,
-               `<meta name="description" content="${escAttr(desc)}">`);
+      .replace(
+        /<title>[^<]*<\/title>/,
+        `<title>${esc(p.title)} — Beach Girl Property Rentals</title>`
+      )
+      .replace(
+        /<meta name="description" content="[^"]*"\s*\/?>/,
+        `<meta name="description" content="${escAttr(desc)}">`
+      );
     const slugDir = path.join(dir, p._slug);
     if (!fs.existsSync(slugDir)) fs.mkdirSync(slugDir, { recursive: true });
     fs.writeFileSync(path.join(slugDir, 'index.html'), html);
@@ -196,8 +218,15 @@ function generatePropertyPages(listings) {
   console.log(`[build] wrote ${listings.length} property pages`);
 }
 
-function esc(s)     { return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-function escAttr(s) { return esc(s); }
+function esc(s) {
+  return String(s).replace(
+    /[&<>"]/g,
+    c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]
+  );
+}
+function escAttr(s) {
+  return esc(s);
+}
 
 // ── SITEMAP & ROBOTS ────────────────────────────────────────────────
 function writeSitemap(listings, posts) {
@@ -234,7 +263,7 @@ function writeRobots() {
 // ── MAIN ────────────────────────────────────────────────────────────
 (async () => {
   try {
-    const [listings, reviews, posts] = await Promise.all([
+    const [listings, , posts] = await Promise.all([
       buildListings(),
       Promise.resolve(buildReviews()),
       Promise.resolve(buildPosts()),
