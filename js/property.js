@@ -11,6 +11,22 @@ const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop
 let _property = null;
 let _allReviews = [];
 
+// Pretty labels — keep in sync with listings.js TAG_LABELS.
+const TAG_LABELS = {
+  'pet-friendly': '🐾 Pet-Friendly',
+  'walk-to-beach': '🏖 Walk to beach',
+  'family-friendly': '👨‍👩‍👧 Family-friendly',
+  'central-air': '❄ Central air',
+  'second-floor': '⬆ Second floor',
+  newest: '✨ Newest',
+  waterfront: '🌊 Waterfront',
+  'year-round': '📅 Year-round',
+};
+function prettyTag(t) {
+  if (TAG_LABELS[t]) return TAG_LABELS[t];
+  return String(t).replace(/-/g, ' ').replace(/^\w/, c => c.toUpperCase());
+}
+
 (async function init() {
   const { properties, reviews } = await loadAll();
   _allReviews = reviews;
@@ -138,13 +154,8 @@ function renderProperty(p) {
     .join('');
 
   // Tags
-  const tagLabels = {
-    'pet-friendly': '🐾 Pet-Friendly',
-    waterfront: '🌊 Waterfront',
-    'year-round': '📅 Year-Round',
-  };
   document.getElementById('prop-tags').innerHTML = (p.tags || [])
-    .map(t => `<span class="tag-pill">${esc(tagLabels[t] || t)}</span>`)
+    .map(t => `<span class="tag-pill">${esc(prettyTag(t))}</span>`)
     .join('');
 
   // Booking card — price + fees + availability
@@ -154,9 +165,11 @@ function renderProperty(p) {
     d => d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
   );
   document.getElementById('book-price').innerHTML = `${esc(p.price)} <span>/ week</span>`;
+  // Honest copy: when no availability is mapped (the safe default for v1),
+  // we tell guests to inquire — not "fully booked," which is misleading.
   document.getElementById('book-avail').innerHTML = hasAvail
     ? '<strong>Dates available</strong> — pick a week from the calendar below.'
-    : 'Fully booked for this season — message us for waitlist.';
+    : '<strong>Inquire for available dates</strong> — message Jill and she\u2019ll confirm what\u2019s open.';
 
   // Fees block — explicit transparency
   const feesEl = document.getElementById('book-fees');

@@ -2,11 +2,25 @@
 import { esc, renderStars } from './data.js';
 import { initCardCalendar } from './calendar-init.js';
 
+// Pretty labels for tags shown on cards. Any tag not in this map renders
+// as Title Case from its kebab-case slug (e.g. `walk-to-beach` → `Walk to beach`).
+// Keep this in sync with the filter buttons in index.html and with property.js.
 const TAG_LABELS = {
   'pet-friendly': '🐾 Pet-Friendly',
+  'walk-to-beach': '🏖 Walk to beach',
+  'family-friendly': '👨‍👩‍👧 Family-friendly',
+  'central-air': '❄ Central air',
+  'second-floor': '⬆ Second floor',
+  newest: '✨ Newest',
   waterfront: '🌊 Waterfront',
-  'year-round': '📅 Year-Round',
+  'year-round': '📅 Year-round',
 };
+
+function prettyTag(t) {
+  if (TAG_LABELS[t]) return TAG_LABELS[t];
+  // Fallback: kebab-case → "Sentence case"
+  return String(t).replace(/-/g, ' ').replace(/^\w/, c => c.toUpperCase());
+}
 
 let _state = null;
 
@@ -39,7 +53,7 @@ function cardHTML(p, allReviews) {
   );
 
   const tagsHTML = (p.tags || [])
-    .map(t => `<span class="card-tag">${esc(TAG_LABELS[t] || t)}</span>`)
+    .map(t => `<span class="card-tag">${esc(prettyTag(t))}</span>`)
     .join('');
 
   let photoHTML;
@@ -72,7 +86,7 @@ function cardHTML(p, allReviews) {
              data-reveal>
       <div class="card-photo">${photoHTML}
         <div class="card-badge ${hasAvail ? 'open' : 'full'}">
-          ${hasAvail ? 'Dates available' : 'Fully booked'}
+          ${hasAvail ? 'Dates available' : 'Inquire for dates'}
         </div>
         <div class="card-tags">${tagsHTML}</div>
       </div>
@@ -130,8 +144,12 @@ export function renderGrid(properties) {
 }
 
 function applyFilter(btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.setAttribute('aria-pressed', 'false');
+    b.classList.remove('active');
+  });
   btn.setAttribute('aria-pressed', 'true');
+  btn.classList.add('active');
 
   const filter = btn.dataset.filter;
   const today = new Date();

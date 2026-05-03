@@ -1,33 +1,146 @@
+# Decap CMS configuration backup.
+#
+# THE INLINE CONFIG IN index.html IS AUTHORITATIVE.
+# index.html sets `load_config_file: false`, which means this YAML file
+# is NOT loaded at runtime today. It exists as:
+#   1. A human-readable reference of the same schema.
+#   2. A safety net if someone ever flips `load_config_file` to `true`.
+#
+# Keep this file in sync whenever the inline config changes, or delete it
+# entirely and rely on the inline version.
+
 backend:
   name: git-gateway
   branch: main
 
-media_folder: "photos"
-public_folder: "/photos"
+media_folder: photos
+public_folder: /photos
+site_url: https://beachgirlpropertyrentals.com
+display_url: https://beachgirlpropertyrentals.com
+logo_url: /photos/hero/hero-1.jpg
 
 collections:
-  - name: "properties"
-    label: "Properties"
-    label_singular: "Property"
-    folder: "_listings"
+  # ── PROPERTIES ─────────────────────────────────────────────────────
+  - name: properties
+    label: Properties
+    label_singular: Property
+    folder: _listings
     create: true
     delete: true
-    slug: "{{slug}}"
+    slug: '{{slug}}'
     fields:
-      - { label: "Property Name", name: "title", widget: "string", hint: "e.g. The Harborview Cottage" }
-      - { label: "Location", name: "location", widget: "string", hint: "e.g. Rockport, MA" }
-      - { label: "Property Type", name: "type", widget: "select", options: ["Cottage", "Cape", "Ranch", "Colonial", "Condo", "Apartment", "Studio"], default: "Cottage" }
-      - { label: "Bedrooms", name: "bedrooms", widget: "number", min: 0, max: 10, default: 2 }
-      - { label: "Bathrooms", name: "bathrooms", widget: "number", min: 1, max: 8, value_type: "float", step: 0.5, default: 1 }
-      - { label: "Max Guests", name: "guests", widget: "number", min: 1, max: 20, default: 4 }
-      - { label: "Price Per Week", name: "price", widget: "string", hint: "e.g. $2,400" }
-      - { label: "Cover Photo", name: "photo", widget: "image" }
-      - { label: "Description", name: "description", widget: "text", hint: "A short description renters will see on the listing tile." }
-      - label: "Weekly Availability"
-        name: "weeks"
-        widget: "list"
-        summary: "{{fields.dates}} — {{fields.status}}"
+      - { label: Property Name, name: title, widget: string,
+          hint: 'Shown to guests. e.g. "Beach Vacation Unit A".' }
+      - { label: Slug, name: slug, widget: string,
+          hint: 'URL-safe. e.g. beach-vacation-unit-a' }
+      - label: Property Type
+        name: type
+        widget: select
+        options: [Apartment, Cottage, Cape, Ranch, Colonial, Condo, Studio]
+        default: Apartment
+      - { label: Location, name: location, widget: string,
+          default: 'Old Orchard Beach, ME' }
+      - { label: 'Address (for geocoding only — NOT shown to guests until booking confirmed)',
+          name: address, widget: string, required: false }
+      - { label: Latitude, name: lat, widget: number, value_type: float, default: 43.5181,
+          hint: 'Auto-set if address is filled. Otherwise pin manually.' }
+      - { label: Longitude, name: lng, widget: number, value_type: float, default: -70.3781 }
+      - { label: Bedrooms, name: bedrooms, widget: number, min: 0, max: 10, default: 3 }
+      - { label: 'Beds (sleeping spots)', name: beds, widget: number, min: 1, max: 16, default: 4 }
+      - { label: Bathrooms, name: bathrooms, widget: number, value_type: float, step: 0.5, min: 1, max: 8, default: 1 }
+      - { label: Max Guests, name: guests, widget: number, min: 1, max: 20, default: 8 }
+      - { label: 'Square Feet (optional)', name: sqft, widget: number, required: false, min: 0 }
+      - { label: 'Price (display string)', name: price, widget: string, default: 'Inquire for rates',
+          hint: 'Shown on the listing card. e.g. "$2,400/week" or "Inquire for rates".' }
+      - { label: 'Cleaning Fee ($)', name: cleaning_fee, widget: number, default: 0, min: 0 }
+      - { label: 'Pet Fee ($)', name: pet_fee, widget: number, default: 0, min: 0 }
+      - { label: Minimum Nights, name: min_nights, widget: number, default: 3, min: 1, max: 30 }
+      - { label: Cover Photo, name: photo, widget: image,
+          hint: 'The hero image for the listing card.' }
+      - label: Photo Gallery
+        name: photos
+        widget: list
+        summary: '{{fields.image}}'
         fields:
-          - { label: "Week Dates", name: "dates", widget: "string", hint: "e.g. Jun 28 – Jul 5" }
-          - { label: "Status", name: "status", widget: "select", options: ["Available", "Booked"], default: "Available" }
-      - { label: "Active Listing", name: "active", widget: "boolean", default: true, hint: "Uncheck to hide this property without deleting it." }
+          - { label: Image, name: image, widget: image }
+        hint: 'Order matters — first photo is the gallery lead.'
+      - label: Filter Tags
+        name: tags
+        widget: list
+        hint: 'Lowercase, hyphenated. Used by homepage filters. e.g. pet-friendly, central-air, walk-to-beach.'
+        summary: '{{fields.tag}}'
+        fields:
+          - { label: Tag, name: tag, widget: string }
+      - label: Amenities
+        name: amenities
+        widget: list
+        summary: '{{fields.amenity}}'
+        fields:
+          - { label: Amenity, name: amenity, widget: string }
+      - label: Sleeping Arrangements
+        name: sleeping
+        widget: list
+        required: false
+        summary: '{{fields.line}}'
+        fields:
+          - { label: Line, name: line, widget: string,
+              hint: 'e.g. "Bedroom 1 — 1 king bed"' }
+      - { label: Check-in Time, name: check_in, widget: string, default: 'After 3:00 PM' }
+      - { label: Check-out Time, name: check_out, widget: string, default: 'Before 10:00 AM' }
+      - { label: 'Special Note (optional)', name: note, widget: string, required: false,
+          hint: 'e.g. "Second floor — must climb stairs."' }
+      - { label: 'External Listing URL (Airbnb/Vrbo, optional reference)',
+          name: external_listing, widget: string, required: false }
+      - label: 'Availability (daily entries — leave empty to default to "inquire")'
+        name: availability
+        widget: list
+        required: false
+        hint: 'SAFETY DEFAULT: dates not listed are treated as UNAVAILABLE. Leave this empty to keep all dates as "inquire only" (recommended). Add daily entries here only if you want specific dates to show as bookable on the calendar.'
+        summary: '{{fields.date}} — {{fields.status}}'
+        fields:
+          - { label: Date, name: date, widget: date, format: 'YYYY-MM-DD' }
+          - label: Status
+            name: status
+            widget: select
+            options: [available, unavailable]
+            default: available
+      - { label: Active Listing, name: active, widget: boolean, default: true,
+          hint: 'Uncheck to hide this property without deleting it.' }
+      - { label: Description, name: body, widget: markdown,
+          hint: 'Full property description shown on the property page. 2-4 paragraphs is ideal.' }
+
+  # ── REVIEWS ────────────────────────────────────────────────────────
+  - name: reviews
+    label: Reviews
+    label_singular: Review
+    folder: _reviews
+    create: true
+    delete: true
+    slug: '{{year}}-{{month}}-{{slug}}'
+    fields:
+      - { label: Property, name: property, widget: string,
+          hint: 'Match a property title exactly (e.g. "Beach Vacation Unit A").' }
+      - { label: Guest Name, name: author, widget: string,
+          hint: 'e.g. "Jane S." — first name and last initial only.' }
+      - { label: 'Rating (1-5)', name: rating, widget: number, min: 1, max: 5, default: 5 }
+      - { label: Review Text, name: text, widget: text }
+      - { label: Stay Dates, name: date, widget: string, hint: 'e.g. "July 2026"' }
+      - { label: 'Approved — show on site', name: approved, widget: boolean, default: false,
+          hint: 'Only check this after verifying the guest actually stayed. Uncheck to hide without deleting.' }
+
+  # ── BLOG / LOCAL GUIDE POSTS ───────────────────────────────────────
+  - name: posts
+    label: Blog / Local Guide
+    label_singular: Post
+    folder: _posts
+    create: true
+    delete: true
+    slug: '{{slug}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: string, hint: 'e.g. "April 2026"' }
+      - { label: Cover Photo, name: photo, widget: image, required: false }
+      - { label: 'Emoji (if no photo)', name: emoji, widget: string, required: false, default: '🏖️' }
+      - { label: Excerpt, name: excerpt, widget: text,
+          hint: 'Short teaser shown on the blog page.' }
+      - { label: Body, name: body, widget: markdown, hint: 'Full post. Use ## for headings.' }
