@@ -1,0 +1,115 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   legal.css — privacy / terms / cancellation / house-rules pages.
+   Calm, readable, slightly editorial. Long-form prose deserves space.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.legal-page {
+  background: var(--sand-pale, #fdf8ee);
+  padding: 4rem 1.5rem 6rem;
+  min-height: calc(100vh - var(--header-h, 64px));
+  position: relative;
+  z-index: 2;
+}
+.legal-article {
+  max-width: 720px;
+  margin: 0 auto;
+  color: var(--ink, #1c2528);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+.legal-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--driftwood-mid, #8a6d5b);
+  margin-bottom: 0.5rem;
+}
+.legal-title {
+  font-family: var(--serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2rem, 5vw, 2.85rem);
+  line-height: 1.1;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  color: var(--ink, #1c2528);
+}
+.legal-lede {
+  font-size: 1.1rem;
+  color: var(--text-mid, #4b5860);
+  border-left: 3px solid var(--accent, #c25e54);
+  padding-left: 1.25rem;
+  margin: 0 0 2.5rem;
+  font-style: italic;
+}
+
+.legal-article h2 {
+  font-family: var(--serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin: 2.5rem 0 0.75rem;
+  color: var(--ink, #1c2528);
+  position: relative;
+}
+.legal-article h2::after {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 2px;
+  background: var(--accent, #c25e54);
+  margin-top: 0.4rem;
+  border-radius: 2px;
+}
+
+.legal-article p,
+.legal-article ul,
+.legal-article ol {
+  margin: 0 0 1.15rem;
+}
+.legal-article ul,
+.legal-article ol {
+  padding-left: 1.5rem;
+}
+.legal-article li {
+  margin-bottom: 0.55rem;
+}
+.legal-article li::marker {
+  color: var(--driftwood-mid, #8a6d5b);
+}
+
+.legal-article a {
+  color: var(--accent-deep, #a4423a);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+.legal-article a:hover {
+  color: var(--accent, #c25e54);
+}
+
+.legal-article strong {
+  color: var(--ink, #1c2528);
+  font-weight: 700;
+}
+
+.legal-footer-note {
+  margin-top: 3rem !important;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--driftwood-pale, #d4c0ad);
+  font-size: 0.88rem;
+  color: var(--text-mid, #4b5860);
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .legal-page {
+    padding: 2.5rem 1.25rem 4rem;
+  }
+  .legal-article {
+    font-size: 1rem;
+  }
+  .legal-lede {
+    font-size: 1.02rem;
+    padding-left: 1rem;
+  }
+}

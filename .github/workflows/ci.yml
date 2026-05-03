@@ -1,0 +1,52 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier check
+        run: npm run format:check
+
+      - name: HTML validate
+        run: npm run validate:html
+
+      - name: Build smoke test
+        run: node build.js
+        env:
+          # Skip image optimization in CI (no source photos in repo); just run build.js
+          CI_SKIP_IMAGES: '1'
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: node build.js
+      - name: Lighthouse CI
+        run: npx @lhci/cli@0.13.x autorun --config=./lighthouse.config.cjs
+        continue-on-error: true
