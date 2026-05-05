@@ -1,0 +1,116 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   birthday-banner.css — TEMPORARY · Jill's birthday surprise
+   ───────────────────────────────────────────────────────────────────────── */
+/* HOW TO REMOVE EVERYTHING (3 steps):
+   1. Delete this file: styles/birthday-banner.css
+   2. Delete: js/birthday-banner.js
+   3. In index.html, remove the two lines tagged with: <!-- BIRTHDAY -->
+   That's it. No other files touched.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.birthday-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: linear-gradient(
+    100deg,
+    #c25e54 0%,
+    #d8867d 35%,
+    #ebc7c3 65%,
+    #5a9aa0 100%
+  );
+  color: #fff;
+  padding: 14px 56px 14px 24px;
+  text-align: center;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1rem, 2.4vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 20px rgba(31, 48, 53, 0.18);
+  transform: translateY(-110%);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.birthday-banner.is-open {
+  transform: translateY(0);
+}
+.birthday-banner .bday-text em {
+  font-style: italic;
+  color: #fff7e8;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+.birthday-banner .bday-emoji {
+  display: inline-block;
+  margin: 0 0.35rem;
+  animation: bday-bob 2.8s ease-in-out infinite;
+}
+.birthday-banner .bday-emoji:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.birthday-banner .bday-emoji:nth-child(3) {
+  animation-delay: 0.8s;
+}
+.birthday-banner .bday-close {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.18);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  line-height: 1;
+}
+.birthday-banner .bday-close:hover,
+.birthday-banner .bday-close:focus-visible {
+  background: rgba(255, 255, 255, 0.35);
+  outline: none;
+}
+
+/* Push the sticky site header down while banner is open */
+body.has-birthday-banner .site-header {
+  top: var(--bday-banner-h, 52px);
+  transition: top 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.has-birthday-banner .filter-bar {
+  top: calc(var(--header-h) + var(--bday-banner-h, 52px));
+}
+
+@keyframes bday-bob {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-3px) rotate(3deg); }
+}
+
+/* ── CONFETTI ───────────────────────────────────────────────────────── */
+.confetti-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .birthday-banner,
+  .birthday-banner.is-open {
+    transition: none;
+    transform: translateY(0);
+  }
+  .birthday-banner .bday-emoji {
+    animation: none;
+  }
+  /* Confetti is suppressed entirely in JS for reduced motion */
+}
+
+@media (max-width: 640px) {
+  .birthday-banner {
+    padding: 10px 44px 10px 14px;
+    font-size: 0.95rem;
+  }
+}
