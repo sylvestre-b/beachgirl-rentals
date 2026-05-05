@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -232,17 +232,9 @@
       </div>
 
       <!-- ── LISTINGS ─────────────────────────────────────────────── -->
-      <section class="filter-bar" id="filter-bar">
+            <section class="filter-bar" id="filter-bar" aria-label="Filter properties">
         <div class="filter-inner">
-          <button type="button" class="filter-btn active" data-filter="all" data-i18n="listings.filter_all">
-            All
-          </button>
-          <button type="button" class="filter-btn" data-filter="pet-friendly" data-i18n="listings.filter_pet">
-            Pet-friendly
-          </button>
-          <button type="button" class="filter-btn" data-filter="central-air" data-i18n="listings.filter_air">
-            Central air
-          </button>
+          <!-- filter buttons injected by buildFilterBar() in js/listings.js -->
         </div>
       </section>
 
