@@ -5,7 +5,7 @@
 //
 // First image starts active; if a second exists, it fades in at FADE_AT.
 
-const FADE_AT     = 6500;  // ms — cross-fade kicks in
+const FADE_AT = 6500; // ms — cross-fade kicks in
 
 export function initHero() {
   const stack = document.querySelector('.hero-img-stack');
@@ -40,8 +40,8 @@ export function initHero() {
     if (hero) {
       hero.addEventListener('mousemove', e => {
         const rect = hero.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;  // -0.5 .. 0.5
-        const offset = (x * 12).toFixed(1);  // ±6px
+        const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 .. 0.5
+        const offset = (x * 12).toFixed(1); // ±6px
         fg.style.setProperty('--fg-x', `${offset}px`);
       });
       hero.addEventListener('mouseleave', () => {

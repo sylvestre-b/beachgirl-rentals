@@ -241,7 +241,7 @@ function validateAvailability(listings) {
 
     for (let i = 0; i < entries.length; i++) {
       const entry = entries[i];
-      const tag   = `[validate] ${listing._slug} availability[${i}]`;
+      const tag = `[validate] ${listing._slug} availability[${i}]`;
       let ok = true;
 
       if (!entry || typeof entry !== 'object') {
@@ -264,7 +264,7 @@ function validateAvailability(listings) {
         } else if (!_VALID_STATUSES.has(entry.status)) {
           console.error(
             `${tag}: \`status\` must be "available" or "unavailable", ` +
-            `got ${JSON.stringify(entry.status)}`
+              `got ${JSON.stringify(entry.status)}`
           );
           ok = false;
         }

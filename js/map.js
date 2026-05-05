@@ -100,20 +100,45 @@ export function updateMapHighlights(filtered) {
   });
 }
 
-// P0 FIX: mobile map toggle now actually works
+// ── MOBILE MAP TOGGLE ─────────────────────────────────────────────────────
 function wireMobileToggle() {
   const toggleBtn = document.getElementById('map-toggle');
-  if (!toggleBtn) return;
-  toggleBtn.addEventListener('click', () => {
-    const panel = document.getElementById('map-panel');
-    if (!panel) return;
-    _mapMobileOpen = !_mapMobileOpen;
-    panel.classList.toggle('mobile-open', _mapMobileOpen);
-    toggleBtn.setAttribute('aria-expanded', String(_mapMobileOpen));
-    toggleBtn.textContent = _mapMobileOpen ? '✕ Close Map' : '🗺  Show Map';
-    if (_mapMobileOpen && _mapInstance) {
-      // Map must recompute size after layout change
-      setTimeout(() => _mapInstance.invalidateSize(), 300);
-    }
+  const closeBtn = document.getElementById('map-close');
+  const panel = document.getElementById('map-panel');
+  if (!toggleBtn || !panel) return;
+
+  function openMap() {
+    _mapMobileOpen = true;
+    panel.classList.add('mobile-open');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    toggleBtn.textContent = '✕ Close Map';
+    // Lock body scroll so the page doesn't scroll underneath the fullscreen map
+    document.body.style.overflow = 'hidden';
+    // Map must recompute size after layout change
+    if (_mapInstance) setTimeout(() => _mapInstance.invalidateSize(), 300);
+    // Move focus to the close button for keyboard/screen-reader users
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeMap() {
+    _mapMobileOpen = false;
+    panel.classList.remove('mobile-open');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.textContent = '🗺  Show Map';
+    // Restore body scroll
+    document.body.style.overflow = '';
+    // Return focus to the FAB that opened the map
+    toggleBtn.focus();
+  }
+
+  // FAB at bottom-right — existing behaviour preserved
+  toggleBtn.addEventListener('click', () => (_mapMobileOpen ? closeMap() : openMap()));
+
+  // New ✕ button at top-right of the fullscreen map
+  if (closeBtn) closeBtn.addEventListener('click', closeMap);
+
+  // ESC key closes the map from anywhere on the page
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && _mapMobileOpen) closeMap();
   });
 }

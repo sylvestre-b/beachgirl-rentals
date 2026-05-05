@@ -1,39 +1,52 @@
 ---
-title: "OOB + Portland in One Day: The Trip Most People Don't Think to Do"
-date: "December 2025"
-excerpt: "Portland is 15 miles away and has become one of the best food and culture cities in New England. Here's how to do both in a day — and why you absolutely should."
-emoji: "🚢"
-seo_keywords: ["Old Orchard Beach to Portland Maine", "day trip Portland Maine from OOB", "things to do near Old Orchard Beach", "Portland Maine food Old Port"]
+title: 'The Honest OOB Packing List (From Someone Who Forgot All These Things at Least Once)'
+date: 'August 2025'
+excerpt: "Not the generic beach checklist you've seen a hundred times. The actual stuff you need for a week at Old Orchard Beach, including a few things specific to Maine that nobody warns you about."
+emoji: '🧳'
+seo_keywords:
+  [
+    'what to pack for Old Orchard Beach Maine',
+    'OOB vacation packing list',
+    'what to bring Maine beach vacation',
+    'Old Orchard Beach trip planning',
+  ]
 ---
 
-Here's a thing I notice about people who rent from us and stay for a full week: by Wednesday or Thursday, they've done the pier, they've done Palace Playland, they've found their favorite ice cream spot, and they're ready for something different. Portland is 15 miles away. It should be on the itinerary.
+I've been packing for OOB summers my whole life. And I've forgotten things my whole life. So consider this the list I wish someone had handed me about thirty years ago.
 
-## Why Portland
+## The Maine-Specific Stuff First
 
-Portland has quietly become one of the best food cities in New England. I say this as someone who grew up here and spent years being mildly defensive about it — but now it's just objectively true. The Old Port, the waterfront, the restaurant scene on Congress Street. It punches way above its size.
+**Layers for evening.** I say this to literally every guest who books with us: Maine evenings are not Florida evenings. In July, the daytime might be 85 and gorgeous. By 8pm at the water's edge, you might be wishing you had a sweatshirt. Pack a light jacket or hoodie for every person. Non-negotiable.
 
-It's also a genuine city with real character. Good bookstores, excellent coffee, independent shops that don't feel like airport gift shops. Breweries that are actually good. A ferry terminal where you can go out to the islands.
+**Rash guard for the kids.** The Maine sun is deceptively strong because the water's cold and the breeze makes it feel less intense than it is. Kids can burn fast. A UV rash guard saves you from the 4pm realization that everyone is pink.
 
-## How to Do It
+**After-sun lotion.** Just pack it. Trust me.
 
-The drive from OOB is about 20 minutes on a non-traffic day. On a weekend in July, give yourself 35 minutes. Head up Route 1 through Scarborough and you'll hit Portland's Old Port district.
+**Cheap flip flops for the pier.** I love the OOB pier. I've also scraped my feet on the wooden boards more times than I can count. A pair of cheap flip flops that you don't mind getting wet is the right call.
 
-**Morning:** Coffee at one of the independent spots on Commercial Street. Walk the Old Port. Browse the shops.
+## What the Rental Covers (So You Don't Pack It)
 
-**Lunch:** This is the mission. Eventide Oyster Co. on Middle Street is nationally famous for a reason — the oysters, the brown butter lobster rolls. The line can be real; go before noon if you can. If oysters aren't your thing, Duckfat on Middle Street has the best fries in Maine and I will argue about this with anyone.
+Our properties come with basic kitchen supplies, linens, and towels. You don't need to bring towels unless you want beach-specific ones (I'd recommend it — sand gets into everything).
 
-**Afternoon:** Walk the Eastern Promenade — it's a park that runs along the waterfront with views back toward Casco Bay and the islands. On a clear day it's genuinely spectacular. The kids can run around while you sit and eat your Eventide leftovers.
+We also have outdoor showers at the properties that have them, so post-beach cleanup is usually easy. Check the listing for what's included; I'd rather you spend your suitcase space on something useful.
 
-**If you have extra time:** The Portland Head Light is about a 20-minute drive further. It's Maine's oldest lighthouse, it's perched on Cape Elizabeth, and the surrounding Fort Williams Park is free and stunning. The view is on every Maine postcard for a reason.
+## The Things People Always Forget
 
-**Evening:** Back to OOB for the Thursday night fireworks if you time it right. Or stay in Portland for dinner — Fore Street is excellent if you want something special.
+- **A bottle opener and a good wine opener** — the rental has basic kitchen stuff but the fancy corkscrew from your kitchen drawer is always the one you wish you'd packed
+- **A small first aid kit** — minor cuts, splinters from the pier, the usual beach stuff
+- **A good book** — this sounds obvious but I see people spend a panicked hour at CVS the first morning looking for reading material
+- **Grocery bags** — bring a few reusable ones. The OOB area has great farm stands and you'll want to stop
+- **Surge protector or power strip** — older rental properties sometimes have fewer outlets than a modern family needs
+- **A tide chart app** — free, useful, tell you exactly when the beach is at its best
 
-## The Train Option (Really, Consider It)
+## Tide Chart, One More Time
 
-If you don't want to deal with Portland parking, the Downeaster train runs from OOB to Portland in about 30 minutes in summer. Park your car at your rental, take the train in, walk around all day, come back relaxed. The Portland train station puts you right in the Old Port. This is civilized travel.
+I keep saying this because it matters more at Maine beaches than most places. A tidal difference of 8-10 feet is normal on the Maine coast. That changes how the beach looks completely. Check it before you plan your day.
 
-## Kennebunkport the Other Direction
+The [NOAA tide predictions](https://tidesandcurrents.noaa.gov/) are free and accurate. Search for "Old Orchard Beach ME" and it'll tell you exactly when to be on the sand.
 
-About 15 miles south of OOB is Kennebunkport, which is the upscale contrast to OOB's boardwalk energy. Preppy, beautiful, expensive seafood, cute shops, the Bush compound if you want to drive by it. If you have a rainy day and want somewhere pretty to browse and eat, Kennebunkport is an easy drive and a genuinely lovely afternoon.
+## One Thing to Leave Home
 
-The Maine coast is generous like that — everything is close together, and most of it is worth seeing.
+Your expectations about water temperature in June. If you're coming in late June hoping to swim, the water will probably be in the mid-to-high 50s. Beautiful for a quick dip, not conducive to a long afternoon float. August and September are better for that. Manage the expectations of anyone in your group who's used to warmer water beaches, and you'll have a much better time.
+
+The Maine coast gives you a lot. Warm tropical water just isn't on the list. Everything else more than makes up for it.

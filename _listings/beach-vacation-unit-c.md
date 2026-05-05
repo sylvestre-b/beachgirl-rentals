@@ -41,6 +41,7 @@ active: true
 availability: []
 external_listing: 'https://www.airbnb.com/rooms/25740199'
 ---
+
 A spacious, modern three-bedroom unit with central air conditioning — two king beds and a queen, set up for couples and small groups who don't want to compromise on a real night's sleep. Direct beach access at the end of the street, walking distance to the pier and amusement park.
 
 Full kitchen, cable, WiFi, linens and towels included. Free parking in our beach-house driveway during your stay. Amtrak station, grocery store, and restaurants are all within a mile, and the turnpike is a five-minute drive when you want to explore the rest of Maine.

@@ -36,27 +36,16 @@
     "signature": "— Jill"
   },
   "listings": {
-    "filter_pet": "Animaux acceptés",
-    "filter_air": "Climatisation centrale",
     "section_eyebrow": "Réservations ouvertes",
     "section_title": "Où vous séjournerez",
-    "filter_label": "Filtrer",
     "filter_all": "Tous",
-    "filter_available": "Disponible",
-    "filter_pet_friendly": "🐾 Animaux acceptés",
-    "filter_walk_to_beach": "🏖 À pied vers la plage",
-    "filter_family_friendly": "👨‍👩‍👧 Familles bienvenues",
-    "filter_central_air": "❄ Climatisation centrale",
-    "filter_second_floor": "⬆ Deuxième étage",
-    "filter_newest": "✨ Nouveauté",
-    "filter_waterfront": "🌊 Bord de mer",
-    "filter_year_round": "📅 Ouvert à l'année",
+    "filter_pet": "Animaux acceptés",
+    "filter_air": "Climatisation centrale",
     "available_label": "Dates disponibles",
     "starting_label": "À partir de",
     "inquire_btn": "Voir et demander",
-    "no_match": "Aucun logement ne correspond à ces filtres",
-    "reset_filters": "Réinitialiser les filtres",
-    "error": "Nous n'avons pas pu charger les logements. Veuillez rafraîchir la page ou appeler le (207) 450-7347."
+    "no_match": "Aucun logement ne correspond à ces filtres.",
+    "reset_filters": "Réinitialiser les filtres"
   },
   "reviews": {
     "section_eyebrow": "Ce que disent les invités",
@@ -67,29 +56,28 @@
   "journal": {
     "section_eyebrow": "Guide local",
     "section_title": "Notes de la côte",
-    "see_all": "Lire plus",
-    "empty": "Aucune publication pour l'instant — revenez bientôt."
+    "see_all": "Lire plus"
   },
   "inquiry": {
     "title": "Envoyer un message à Jill",
     "subtitle": "Réponse en moins d'une heure, souvent plus vite.",
     "property_label": "Quel logement?",
     "property_placeholder": "— Choisir un logement —",
-    "property_any": "N'importe lequel / pas encore décidé",
+    "property_any": "Peu importe / pas encore décidé",
     "name": "Votre nom",
     "email": "Courriel",
     "phone": "Téléphone (facultatif)",
     "checkin": "Arrivée",
     "checkout": "Départ",
-    "guests": "Voyageurs",
-    "message": "Autre chose à nous dire?",
+    "guests": "Invités",
+    "message": "Autre chose à savoir?",
     "send": "Envoyer la demande",
     "sending": "Envoi…",
     "success_title": "Message envoyé.",
-    "success_body": "Jill vous répondra dans l'heure. Si vous ne voyez pas de réponse, vérifiez vos courriels indésirables ou appelez le (207) 450-7347.",
-    "error": "Une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer ou appeler le (207) 450-7347.",
+    "success_body": "Jill répondra en moins d'une heure. Si vous ne voyez pas de réponse, vérifiez vos courriels indésirables ou appelez le (207) 450-7347.",
+    "error": "Une erreur est survenue. Veuillez réessayer, ou appelez le (207) 450-7347.",
     "required": "Obligatoire",
-    "consent": "En soumettant, vous acceptez nos",
+    "consent": "En envoyant, vous acceptez nos",
     "consent_link_terms": "Conditions",
     "and": "et notre",
     "consent_link_privacy": "Politique de confidentialité"
@@ -105,12 +93,12 @@
     "terms": "Conditions d'utilisation",
     "cancellation": "Politique d'annulation",
     "house_rules": "Règlement intérieur",
-    "tagline": "Locations de vacances gérées par la propriétaire, les pieds dans le sable.",
+    "tagline": "Locations de vacances gérées par la propriétaire, sur le sable.",
     "copyright": "© 2026 Affordable Property Management LLC. Old Orchard Beach, Maine."
   },
   "cookie": {
-    "message": "Nous utilisons des témoins minimaux pour mémoriser votre préférence de langue et charger les polices et les cartes. Nous n'affichons pas de publicités ni de traceurs.",
-    "accept": "OK, compris",
+    "message": "Nous utilisons un minimum de témoins (cookies) pour mémoriser votre langue et charger les polices et la carte. Aucune publicité, aucun traceur.",
+    "accept": "Compris",
     "learn": "Politique de confidentialité"
   },
   "lang_toggle": {

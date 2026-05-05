@@ -1,9 +1,15 @@
 ---
 title: "Palace Playland: What to Know Before You Go (From Someone Who's Been Going Since 1978)"
-date: "February 2026"
+date: 'February 2026'
 excerpt: "The oldest continuously operating beachside amusement park in New England. Here's the real talk on rides, strategy, and why the Ferris wheel at sunset is genuinely unmissable."
-emoji: "🎡"
-seo_keywords: ["Palace Playland Old Orchard Beach", "OOB amusement park", "Palace Playland rides", "things to do Old Orchard Beach with kids"]
+emoji: '🎡'
+seo_keywords:
+  [
+    'Palace Playland Old Orchard Beach',
+    'OOB amusement park',
+    'Palace Playland rides',
+    'things to do Old Orchard Beach with kids',
+  ]
 ---
 
 I rode the Galaxi coaster with my father when I was six years old. My kids rode it with me. My nieces rode it last summer. That's what Palace Playland is — it's not just an amusement park, it's a place that connects generations of summer memories in a way that's getting genuinely rare in this country.

@@ -50,13 +50,13 @@ export async function loadAll() {
   const prod = isProd();
 
   const props = propsResult.data;
-  const revs  = revsResult.data;
+  const revs = revsResult.data;
   const posts = postsResult.data;
 
   return {
-    properties:        props.length ? props.filter(p => p.active !== false) : prod ? [] : DEMO_PROPS,
-    reviews:           revs.length  ? revs.filter(r => r.approved === true) : prod ? [] : DEMO_REVIEWS,
-    posts:             posts.length ? posts : prod ? [] : DEMO_POSTS,
+    properties: props.length ? props.filter(p => p.active !== false) : prod ? [] : DEMO_PROPS,
+    reviews: revs.length ? revs.filter(r => r.approved === true) : prod ? [] : DEMO_REVIEWS,
+    posts: posts.length ? posts : prod ? [] : DEMO_POSTS,
     // true only when the fetch hard-failed (network error / bad HTTP / parse error)
     // AND we are in production (so we know it isn't just "no listings yet")
     listingsLoadError: propsResult.failed && prod,

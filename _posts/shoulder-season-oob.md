@@ -1,45 +1,43 @@
 ---
-title: "Why September at OOB Is Better Than July (I Said What I Said)"
-date: "November 2025"
-excerpt: "The crowds are gone, the water is actually warm, the prices are lower, and the local spots finally have room. Here's the case for shoulder season."
-emoji: "🍂"
-seo_keywords: ["Old Orchard Beach September", "OOB off season", "best time to visit Old Orchard Beach", "Old Orchard Beach fall vacation rental"]
+title: 'Bringing Your Dog to OOB: The Complete Real-Talk Guide'
+date: 'January 2026'
+excerpt: 'Dog-friendly beaches, the leash rules nobody explains clearly, the best off-leash windows, and where to find actual dog-welcoming spots to eat and stay.'
+emoji: '🐾'
+seo_keywords:
+  [
+    'Old Orchard Beach dogs',
+    'dog-friendly beaches Maine',
+    'pet-friendly vacation rental Old Orchard Beach',
+    'dogs allowed OOB beach',
+  ]
 ---
 
-I'm going to make a claim that's going to get me in trouble with the July loyalists: September at Old Orchard Beach is better than July. Not different — better.
+Every summer I get some version of this question: can I bring my dog to Old Orchard Beach? And the answer is yes, but with a bunch of asterisks that nobody puts in one place. So here's the complete picture.
 
-I've been saying this for years and people look at me like I've lost my mind. Then they come in September and they text me saying I was right.
+## Main Beach: Seasonal Rules
 
-Here's why.
+Dogs are **not allowed on the main OOB beach** from approximately April 1 through September 30. This is the high-season rule and it is enforced. If you show up in July expecting to take your golden retriever for a morning swim by the pier, you will be disappointed and fined.
 
-## The Ocean Is Actually Warm in September
+Outside of those dates — fall, winter, early spring — dogs are welcome and the off-season beach walks are honestly some of the best. Crisp air, almost nobody there, and your dog gets to have the full 7-mile stretch largely to themselves.
 
-This is the thing people don't realize. The Gulf of Maine is cold in June. It warms up through July and peaks in — you guessed it — August and September. By mid-September the water temperatures are some of the best of the whole year. You get warm water AND no crowds.
+## Where to Go With Dogs During the Season
 
-In June and early July you might be dealing with 58-degree water. In September you might get 68 or even 70. It's a different swim entirely.
+**Pine Point Beach** (Scarborough) — leash required during piping plover nesting season (April 1 – September 30), but dogs are welcome on leash. It's worth it. Beautiful beach, quieter than the main strip.
 
-## The Beach Is Back
+**Bayview Beach** (Saco) — same leash rules apply in season, but dog-friendly and usually not overwhelmingly crowded.
 
-Peak season the main beach is genuinely packed. You're negotiating for real estate with a thousand strangers. In September the beach goes back to being a beach. You can spread out. You can hear the waves. You can actually see the sand.
+**Camp Ellis** — at the southern end of the stretch, this one has a different feel entirely — fishing village vibe, breakwater walks, local community. Dogs on leash, manageable crowds.
 
-The seven-mile stretch in late September feels almost like a secret you get to keep.
+## The Early Morning Window
 
-## The Restaurants Breathe
+Here's a local trick: at many Maine beaches, the rules are more relaxed at the crack of dawn before the crowds arrive. Get there at 6 or 7am, enjoy the beach with your dog, be out before the day really starts. I've done this for years. Nobody bothers you, the light is incredible, and your dog will never love you more.
 
-In July every good spot has a line. The staff is exhausted, the kitchen is backed up, the menu is sometimes simplified because they're just trying to survive the volume. In September the same restaurants slow down, the staff is still there, and you get better service and better food. Places like Joseph's by the Sea in shoulder season are actually relaxed.
+## Pet-Friendly Rentals
 
-## The Prices
+Our rentals that accept pets are marked clearly in our listings. Not all of them do — some of our properties have no-pet rules from the owners — but several are genuinely dog-welcoming, with yards, easy beach access, and outdoor shower access for post-beach rinsing.
 
-Rental rates in September are meaningfully lower than peak summer. If budget is any consideration at all, shoulder season is the obvious answer. You get more for less, in every category.
+If traveling with a dog is a non-negotiable for you (and I completely understand — mine is a non-negotiable too), just reach out before booking and I'll tell you exactly which properties work and which don't. I'd rather spend 5 minutes on that conversation than have you show up with your dog to a property that doesn't work.
 
-## What's Actually Closed?
+## One More Tip
 
-I want to be honest: Palace Playland typically closes after Labor Day. Some of the boardwalk shops and snack stands close up. The full carnival atmosphere of August is not September.
-
-But most of the restaurants stay open. Joseph's is open year-round. The beach is free and gorgeous. Portland is right there. The Eastern Trail is beautiful in early fall. The light is different — softer, golden, more forgiving — and honestly, for photography, September is the best month on the Maine coast.
-
-## Year-Round Rentals
-
-Some of our properties are available year-round — not just summer. If you're a remote worker, or someone who just wants to spend October at the beach, we have options. The off-season rate is different from the summer rate and the experience is genuinely special in its own way.
-
-Come in September. Just once. You'll understand.
+The Saco Bay Trails system has 11+ miles of hiking trails through forests, marshes, and along the coast. Dogs are welcome on most of them. If your dog needs a real run and a real adventure, Saco Bay Trails is worth knowing about. It's genuinely beautiful and it almost never gets mentioned in the OOB tourist stuff.

@@ -17,14 +17,14 @@ import { t } from './i18n.js';
 //
 // Keep this in sync with property.js.
 export const TAG_LABELS = {
-  'pet-friendly':    '🐾 Pet-Friendly',
-  'walk-to-beach':   '🏖 Walk to beach',
+  'pet-friendly': '🐾 Pet-Friendly',
+  'walk-to-beach': '🏖 Walk to beach',
   'family-friendly': '👨‍👩‍👧 Family-friendly',
-  'central-air':     '❄ Central air',
-  'second-floor':    '⬆ Second floor',
-  newest:            '✨ Newest',
-  waterfront:        '🌊 Waterfront',
-  'year-round':      '📅 Year-round',
+  'central-air': '❄ Central air',
+  'second-floor': '⬆ Second floor',
+  newest: '✨ Newest',
+  waterfront: '🌊 Waterfront',
+  'year-round': '📅 Year-round',
 };
 
 // ── i18n key for a content tag ─────────────────────────────────────────
@@ -40,12 +40,14 @@ function tagI18nKey(slug) {
 function prettyTag(tag) {
   if (TAG_LABELS[tag]) return TAG_LABELS[tag];
   // Fallback: kebab-case → "Sentence case"
-  return String(tag).replace(/-/g, ' ').replace(/^\w/, c => c.toUpperCase());
+  return String(tag)
+    .replace(/-/g, ' ')
+    .replace(/^\w/, c => c.toUpperCase());
 }
 
 // ── Label for a filter button (prefers i18n, falls back to TAG_LABELS) ─
 function filterLabel(slug) {
-  if (slug === 'all')       return t('listings.filter_all')       || 'All';
+  if (slug === 'all') return t('listings.filter_all') || 'All';
   if (slug === 'available') return t('listings.filter_available') || 'Available';
   const i18nVal = t(tagI18nKey(slug));
   // t() returns the key string itself when the key is missing, so check that
@@ -68,11 +70,11 @@ function buildFilterBar(properties) {
 
   // Build button list: static specials first, then content tags
   const slots = [
-    { filter: 'all',       label: filterLabel('all'),       pressed: true  },
-    { filter: 'available', label: filterLabel('available'),  pressed: false },
+    { filter: 'all', label: filterLabel('all'), pressed: true },
+    { filter: 'available', label: filterLabel('available'), pressed: false },
     ...contentTags.map(tag => ({
-      filter:  tag,
-      label:   filterLabel(tag),
+      filter: tag,
+      label: filterLabel(tag),
       pressed: false,
     })),
   ];
@@ -90,7 +92,7 @@ function buildFilterBar(properties) {
     btn.type = 'button';
     btn.className = 'filter-btn';
     btn.dataset.filter = slot.filter;
-    btn.dataset.label  = slot.filter;
+    btn.dataset.label = slot.filter;
     btn.setAttribute('aria-pressed', slot.pressed ? 'true' : 'false');
     if (slot.pressed) btn.classList.add('active');
     btn.textContent = slot.label;
@@ -133,7 +135,7 @@ function buildSrcset(photo) {
   if (!photo) return null;
   const base = photo.replace(/\.(jpg|jpeg|png|webp)$/i, '');
   return {
-    webp:     `${base}-480.webp 480w, ${base}-800.webp 800w, ${base}-1200.webp 1200w`,
+    webp: `${base}-480.webp 480w, ${base}-800.webp 800w, ${base}-1200.webp 1200w`,
     fallback: photo,
   };
 }
@@ -246,7 +248,7 @@ function applyFilter(btn) {
   btn.classList.add('active');
 
   const filter = btn.dataset.filter;
-  const today  = new Date();
+  const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   let filtered = _state.properties;
@@ -275,7 +277,7 @@ function updateCount(n, label) {
 // Open availability panel + lazy-init calendar on first open
 export function toggleAvail(togBtn) {
   const panelId = togBtn.getAttribute('aria-controls');
-  const panel   = document.getElementById(panelId);
+  const panel = document.getElementById(panelId);
   if (!panel) return;
   const isOpen = panel.classList.contains('open');
 

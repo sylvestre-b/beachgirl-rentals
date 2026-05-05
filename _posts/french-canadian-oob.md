@@ -1,35 +1,43 @@
 ---
-title: "OOB's Best-Kept Secret: Why It's Been a French-Canadian Summer Destination for Over a Century"
-date: "September 2025"
-excerpt: "Old Orchard Beach has a French-Canadian connection that goes back generations — and it shapes the food, the vibe, and the whole feel of the place in ways most visitors don't realize."
-emoji: "🌊"
-seo_keywords: ["Old Orchard Beach French Canadian", "OOB Quebec families", "Old Orchard Beach history", "Maine beach vacation French Canadian"]
+title: 'Thursday Fireworks at OOB: Everything You Need to Know (and Where to Actually Watch From)'
+date: 'October 2025'
+excerpt: "Every Thursday night all summer long, OOB lights up the sky. Here's how to watch without fighting the crowd — and why the view from the water is completely different."
+emoji: '🎆'
+seo_keywords:
+  [
+    'Old Orchard Beach fireworks Thursday',
+    'OOB fireworks 2026',
+    'summer fireworks Maine beach',
+    'Old Orchard Beach summer events',
+  ]
 ---
 
-There's something you notice pretty quickly at Old Orchard Beach if you're paying attention: a lot of the conversations around you are in French.
+Every Thursday night from late June through August, Old Orchard Beach puts on fireworks. Not a big deal once a year — every. single. Thursday. This is one of those things about OOB that visitors discover and then come back for, every summer, for the rest of their lives.
 
-Not tourist French. Fluent, fast, Québécois French. Families who've been coming to this beach for three or four generations. People who've been making the drive from Montreal, Quebec City, and all over the province since their grandparents did it.
+I grew up watching these from a beach towel with my whole family. We'd have dinner, walk down to the water, and just sit there while the sky lit up over the ocean. That's still what I do.
 
-This is one of OOB's most distinctive features, and most American visitors have no idea it's even a thing.
+Here's how to do it right.
 
-## How It Started
+## Where to Watch
 
-The connection goes back to the late 1800s. When rail lines were extended through southern Maine, it opened up the coast to travelers who previously couldn't get here easily. Québécois families discovered Old Orchard Beach — the longest sandy beach in New England, an amusement park, warm summer weather — and it became a tradition.
+**The Beach** — the obvious answer, and it's right. Set up a few hundred feet from the pier, the angle is perfect. Bring a blanket. Get there by 8:30pm in peak season to claim your spot.
 
-Over generations, word spread. By the mid-20th century, OOB had essentially become a shared cultural institution between Maine and Quebec. There are families who've been coming to the same stretch of beach, staying in the same cottages, for 60 or 70 years.
+**The Pier** — if you can get a spot on the pier itself, especially toward the far end, the view is genuinely different. The fireworks go up and you're watching from the water. It's spectacular. It's also crowded; arrive early.
 
-## What This Means for the Experience
+**From a Rental with Ocean Access** — this is one of the quiet advantages of a well-placed rental. We have properties where guests watch Thursday fireworks from their porch or yard without fighting for a patch of sand. If this matters to you, mention it when you reach out — I can tell you which properties have the view.
 
-Canada Day — July 1 — is genuinely celebrated here. The beach is packed with Canadian flags, there's music, there's an atmosphere that's distinct from any other beach town I know of in New England.
+## The Practical Stuff
 
-The local restaurants and shops have adapted over generations to serve French-speaking visitors. Don't be surprised if you walk into a place on the main strip and find menus in French or staff who switch languages mid-sentence.
+Fireworks start around 9:30pm in summer, give or take sunset timing. The whole show runs about 20-25 minutes. Traffic and parking after the show are a legitimate challenge — if you're staying locally, plan to walk or wait it out. The chaos clears relatively quickly once you get a few blocks from the beach.
 
-## The Feel of the Place
+## Canada Day and Fourth of July
 
-This history is part of why OOB has a different energy than, say, Cape Cod or the Hamptons. It's not trying to be exclusive or precious. It's a working-class, family-oriented, come-as-you-are beach town that has served diverse communities for well over a century.
+July 1 (Canada Day) and July 4 are extra-special at OOB. The town has a historically large French-Canadian following — OOB has been a Quebec family vacation destination for generations — and Canada Day brings out a real celebration atmosphere. The Fourth is the American counterpart.
 
-That's a history worth knowing. And honestly, it makes the lobster rolls taste better when you understand the context.
+If you're here for either of those weekends, the beach is at maximum capacity and the fireworks are extended. It's chaotic and wonderful if you embrace it. If you want a quieter experience, the regular Thursday shows in late June or August are your better bet.
 
-## For Our French-Canadian Guests
+## One Thing Worth Knowing
 
-A quick note: we've had many wonderful guests from Quebec over the years, and we're always happy to coordinate in French if that makes things easier. Don't hesitate to reach out in either language. We want your stay to be easy from the first message.
+The Thursday fireworks have been a tradition here for decades. They're part of why people come back to OOB every year — it's not just an attraction, it's a ritual. If you're debating whether to spend your summer week here, this is one of those things you can't quite replicate anywhere else.
+
+Some things about OOB don't change. The Thursday fireworks are one of them. That's kind of the whole point.

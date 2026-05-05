@@ -41,6 +41,7 @@ active: true
 availability: []
 external_listing: 'https://www.airbnb.com/rooms/33992095'
 ---
+
 The newest of our four units. Three bedrooms, central air, and the same easy walk to the beach — finished and furnished to feel current without losing the easygoing summer-rental warmth.
 
 Two king beds and a queen sleep up to eight. Full kitchen, cable, WiFi, linens and towels included. Free parking at our beach house, direct beach access at the end of the street, and the pier and amusement park are a short walk downtown.

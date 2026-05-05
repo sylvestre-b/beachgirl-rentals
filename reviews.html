@@ -76,7 +76,12 @@
             <button type="button" data-lang-btn="en" aria-pressed="true" data-i18n="lang_toggle.en">
               EN
             </button>
-            <button type="button" data-lang-btn="fr" aria-pressed="false" data-i18n="lang_toggle.fr">
+            <button
+              type="button"
+              data-lang-btn="fr"
+              aria-pressed="false"
+              data-i18n="lang_toggle.fr"
+            >
               FR
             </button>
           </div>
@@ -288,12 +293,12 @@
         initReveal();
       })();
     </script>
-        <script type="module">
+    <script type="module">
       import { loadAll, esc, renderStars } from '/js/data.js';
       import { initForms } from '/js/forms.js';
       import { initReveal } from '/js/reveal.js';
       import { t } from '/js/i18n.js';
- 
+
       (async () => {
         const state = await loadAll();
         const grid = document.getElementById('reviews-grid');
@@ -321,6 +326,6 @@
         initReveal();
       })();
     </script>
-    <script type="module" src="/js/extras-init.js"></script>    
+    <script type="module" src="/js/extras-init.js"></script>
   </body>
 </html>

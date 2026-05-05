@@ -47,7 +47,10 @@ function render() {
   wrap.id = 'cookie-banner';
   wrap.className = 'cookie-banner';
   wrap.setAttribute('role', 'region');
-  wrap.setAttribute('aria-label', currentLang() === 'fr' ? 'Avis sur les témoins' : 'Cookie notice');
+  wrap.setAttribute(
+    'aria-label',
+    currentLang() === 'fr' ? 'Avis sur les témoins' : 'Cookie notice'
+  );
 
   wrap.innerHTML = `
     <p class="cookie-msg" data-i18n="cookie.message">${t('cookie.message')}</p>

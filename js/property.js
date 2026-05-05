@@ -24,7 +24,9 @@ const TAG_LABELS = {
 };
 function prettyTag(t) {
   if (TAG_LABELS[t]) return TAG_LABELS[t];
-  return String(t).replace(/-/g, ' ').replace(/^\w/, c => c.toUpperCase());
+  return String(t)
+    .replace(/-/g, ' ')
+    .replace(/^\w/, c => c.toUpperCase());
 }
 
 (async function init() {

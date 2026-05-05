@@ -1,43 +1,46 @@
 ---
-title: "Wait, There Are NINE Beaches? A Local's Guide to the 7-Mile Stretch"
-date: "March 2026"
-excerpt: "Most visitors only know the main beach. Here's the full picture — which one to pick based on whether you have kids, dogs, or just want to actually hear yourself think."
-emoji: "🏖️"
-seo_keywords: ["Old Orchard Beach beaches", "Pine Point Beach Maine", "Ferry Beach Saco", "quiet beaches near Old Orchard Beach", "dog-friendly beaches Maine"]
+title: 'The Parking Situation in OOB (And How to Actually Win It)'
+date: 'May 2026'
+excerpt: "Everybody warns you about OOB parking. Here's what nobody tells you — the Milliken Street lot, the Amtrak trick, and why we always leave by 9am."
+emoji: '🚗'
+seo_keywords:
+  [
+    'Old Orchard Beach parking',
+    'OOB parking tips',
+    'where to park Old Orchard Beach',
+    'free parking Old Orchard Beach Maine',
+  ]
 ---
 
-Here's something that surprises almost everyone: Old Orchard Beach isn't one beach. It's a seven-mile stretch of sand running through five different communities, made up of nine distinct beaches. The pier and Palace Playland sit in the middle of this stretch, which is why everyone ends up there — but depending on what kind of day you're looking for, you might be happier somewhere else entirely.
+Let me just say it upfront: parking in Old Orchard Beach in July is a sport. I've been doing this my whole life and I still have a ritual. So let me save you the 45-minute loop of shame I watched my cousins do on the Fourth of July.
 
-Let me break it down.
+## The Secret Nobody Puts in the Guidebooks
 
-## The Main Beach (Right by the Pier)
+The **Milliken Street lot** is your best friend. It's not directly on the pier strip, but it's maybe a ten-minute walk — and the beach you land on is way less packed than the madness right by Palace Playland. You're still close enough to walk to food, the pier, everything. But you've got actual room for your towel.
 
-This is the postcard. The amusement park, the pier, the smell of fried dough at 11am, kids everywhere, music from somewhere, the whole beautiful chaotic thing. It's loud and it's fun and it's packed in July. If that's your scene, you're in the right place.
+The lots right by the pier? They fill up before 9am on a hot Saturday in August. I watched a minivan circle for so long the kids inside looked genuinely defeated. Don't be that minivan.
 
-High tide makes it feel tight. Low tide opens it up dramatically — the sand feels like it goes forever. Check the tide chart before you pick your time to be there.
+## The Amtrak Move
 
-## Pine Point (Scarborough, North End)
+This one I love. The Downeaster — Amtrak's Boston-to-Portland train — stops right in Old Orchard Beach during the summer. If you're coming from Boston, it's about two hours and drops you _blocks_ from the beach. No parking fee, no sweaty lot search, no traffic on Route 1. The stop is seasonal (typically late May through early September), so check the schedule, but for a day trip? Absolute no-brainer.
 
-This is my personal favorite when I want to actually hear the ocean. It's the northernmost beach on the stretch, in Scarborough, and it is genuinely quieter. Beautiful walk, dogs welcome on leash outside nesting season, and the view back toward OOB at sunset is one of the best on the Maine coast.
+From Portland it's about 30 minutes. Park in Portland, take the train in, skip the whole mess.
 
-It was voted Best Beach in Maine by Portland Press Herald readers back in 2011 and that reputation has mostly held. Just be aware of occasional red algae blooms — check local conditions before swimming.
+## If You Must Drive: Practical Reality
 
-## Ferry Beach (Saco)
+- **Before 9am** — you can still find metered spots on residential streets without too much trouble
+- **Weekdays** — dramatically easier than weekends, especially in July
+- **Private driveways** — locals rent their driveways. It's a whole thing here. Keep your eyes open for the handwritten signs as you roll in
+- **Paid lots near the fire station** — usually have availability when everything closer is jammed
 
-This one is underrated. Ferry Beach State Park in Saco has a sandbar that appears at low tide that you can actually walk out to, which my kids have thought was the greatest thing in the world since they were small. The park has changing rooms, a nature center, and nature trails — and a genuine calm about it that the pier area never has.
+## The Low Tide Trick
 
-It's $15/car in season. Worth it.
+This isn't parking advice exactly, but it's worth knowing: at low tide, the beach almost doubles in width. More room for everyone. Check the tide chart before you go — there are free apps and websites that'll tell you exactly when to show up for maximum sand.
 
-## Ocean Park
+We always check tides before we plan our beach day. The difference is genuinely remarkable.
 
-South of the main beach, Ocean Park is its own little world — a Victorian-era summer community with a different energy than the rest of OOB. Quieter, woodsy, charming. There's a beautiful octagonal church (the only one in Maine) and a schedule of summer lectures and events that's been running since 1881. It's the kind of place people return to for generations.
+## One More Thing
 
-## The Short Answer
+If you're staying in one of our rentals, this is all mostly irrelevant — you've got a base, you can walk, and you can time your beach trips to avoid the worst of it. That's honestly one of the underrated advantages of a rental over a hotel. You live here for a week. You figure out the rhythms.
 
-- **Want the full circus?** Main beach, weekday if possible.
-- **Want quiet and beautiful?** Pine Point.
-- **Have small kids?** Ferry Beach — the sandbar is magic.
-- **Have dogs?** Pine Point or Bayview Beach in Saco (leash required in season).
-- **Want a local vibe?** Ocean Park.
-
-The beach you choose sets the whole tone for your week. We're happy to give you the current local intel when you book — just ask.
+But if you're day-tripping, the Milliken lot and the Amtrak are your moves. Spread the word.

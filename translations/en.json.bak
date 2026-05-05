@@ -1,52 +1,51 @@
 {
   "meta": {
-    "title": "Beach Girl Property Rentals — Old Orchard Beach, Maine",
-    "description": "Owner-managed vacation rentals steps from the beach in Old Orchard Beach, Maine. Direct booking with Jill — no middleman."
+    "lang": "en",
+    "title": "Beach Girl Property Rentals — Old Orchard Beach, ME",
+    "description": "Owner-managed vacation rentals in Old Orchard Beach, Maine. Cottages and apartments steps from the sand. No hidden booking fees — just a quick message to Jill."
   },
   "nav": {
     "journal": "Journal",
     "reviews": "Reviews",
-    "inquire": "Inquire"
+    "inquire": "Inquire",
+    "home": "Home"
   },
   "hero": {
-    "headline_1": "Maine",
-    "headline_2": "summer",
-    "headline_3": "starts",
-    "headline_4": "here.",
-    "subhead": "Four units, one quiet street, five minutes from the sand.",
+    "season": "Summer 2026 · Now Booking",
+    "title_pre": "Your",
+    "title_em": "Maine summer",
+    "title_post": ", no hidden fees attached.",
+    "desc": "Owner-managed rentals near the beach in Old Orchard Beach. Skip the Airbnb and Vrbo fees — message Jill directly and you're one step closer to having your toes in the sand.",
+    "props_units": "4 units",
+    "props_steps": "Steps from the beach",
+    "props_pets": "Pet-friendly options",
     "cta": "See what's available"
   },
+  "trust": {
+    "replies": "Replies within the hour",
+    "decade": "Hosting for over a decade",
+    "insured": "Fully insured",
+    "no_fees": "No booking fees"
+  },
   "owner": {
-    "eyebrow": "About Jill",
-    "title": "Owner-managed means",
-    "title_em": "you deal with me.",
-    "p1": "Four units in the same building means I can host couples, big families, and reunions of up to sixteen — all on the same quiet street, all five minutes' walk from seven miles of sand.",
+    "eyebrow": "Meet your host",
+    "title": "I'm Jill.",
+    "p1": "I've been welcoming families to Old Orchard Beach for over a decade. Four units in the same building means I can host couples, big families, and reunions of up to sixteen — all on the same quiet street, all five minutes' walk from seven miles of sand.",
     "p2": "When you message me, you're talking to me. I usually reply within the hour, and I'm the one handing you the keypad code on arrival. No app middleman, no support ticket queue.",
     "p3": "If something's not right during your stay, I want to hear about it — and I want to fix it.",
     "signature": "— Jill"
   },
   "listings": {
+    "section_eyebrow": "Now booking",
+    "section_title": "Where you'll stay",
+    "filter_all": "All",
     "filter_pet": "Pet-friendly",
     "filter_air": "Central air",
-    "section_eyebrow": "Bookings open",
-    "section_title": "Where you'll stay",
-    "filter_label": "Filter",
-    "filter_all": "All",
-    "filter_available": "Available",
-    "filter_pet_friendly": "🐾 Pet-Friendly",
-    "filter_walk_to_beach": "🏖 Walk to beach",
-    "filter_family_friendly": "👨‍👩‍👧 Family-friendly",
-    "filter_central_air": "❄ Central air",
-    "filter_second_floor": "⬆ Second floor",
-    "filter_newest": "✨ Newest",
-    "filter_waterfront": "🌊 Waterfront",
-    "filter_year_round": "📅 Year-round",
     "available_label": "Dates available",
     "starting_label": "Starting at",
-    "inquire_btn": "View & Inquire",
-    "no_match": "No properties match your filters yet",
-    "reset_filters": "show all",
-    "error": "We had trouble loading properties. Please refresh the page or call (207) 450-7347."
+    "inquire_btn": "View & inquire",
+    "no_match": "No properties match those filters.",
+    "reset_filters": "Reset filters"
   },
   "reviews": {
     "section_eyebrow": "What guests say",
@@ -57,8 +56,7 @@
   "journal": {
     "section_eyebrow": "Local guide",
     "section_title": "Notes from the coast",
-    "see_all": "Read more",
-    "empty": "No posts yet — check back soon."
+    "see_all": "Read more"
   },
   "inquiry": {
     "title": "Send Jill a message",

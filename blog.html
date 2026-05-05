@@ -57,7 +57,12 @@
             <button type="button" data-lang-btn="en" aria-pressed="true" data-i18n="lang_toggle.en">
               EN
             </button>
-            <button type="button" data-lang-btn="fr" aria-pressed="false" data-i18n="lang_toggle.fr">
+            <button
+              type="button"
+              data-lang-btn="fr"
+              aria-pressed="false"
+              data-i18n="lang_toggle.fr"
+            >
               FR
             </button>
           </div>
@@ -160,11 +165,11 @@
         initReveal();
       })();
     </script>
-        <script type="module">
+    <script type="module">
       import { loadAll, esc } from '/js/data.js';
       import { initReveal } from '/js/reveal.js';
       import { t } from '/js/i18n.js';
- 
+
       (async () => {
         const { posts } = await loadAll();
         const list = document.getElementById('blog-list');
@@ -178,9 +183,11 @@
               p => `
       <article class="blog-card" tabindex="0" data-href="/blog/${esc(p._slug)}">
         <div class="blog-card-img">
-          ${p.photo
-            ? `<img src="${esc(p.photo)}" alt="" loading="lazy" />`
-            : `<span>${esc(p.emoji || '📝')}</span>`}
+          ${
+            p.photo
+              ? `<img src="${esc(p.photo)}" alt="" loading="lazy" />`
+              : `<span>${esc(p.emoji || '📝')}</span>`
+          }
         </div>
         <div class="blog-card-body">
           <time class="blog-card-date">${esc(p.date || '')}</time>
@@ -194,6 +201,6 @@
         initReveal();
       })();
     </script>
-    <script type="module" src="/js/extras-init.js"></script>    
+    <script type="module" src="/js/extras-init.js"></script>
   </body>
 </html>

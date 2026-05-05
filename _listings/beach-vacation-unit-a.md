@@ -52,6 +52,7 @@ availability: []
 # External (Airbnb) reference — for photo import only:
 external_listing: 'https://www.airbnb.com/rooms/18827661'
 ---
+
 A large, light-filled three-bedroom unit just a five-minute walk to seven miles of white sandy beach. 1,300 square feet of room to spread out — air conditioning, a full kitchen, washer and dryer, and linens and towels already on the beds when you arrive.
 
 Park free in our beach-house driveway and skip the walk to the public access at the end of our street. The yard has a picnic table and grill for cookouts, and the trolley pickup near the unit gets you to the pier and amusement park in minutes (or it's a ten-minute walk downtown).

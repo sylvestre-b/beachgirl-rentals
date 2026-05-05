@@ -39,6 +39,7 @@ active: true
 availability: []
 external_listing: 'https://www.airbnb.com/rooms/18829373'
 ---
+
 A bright, modern three-bedroom unit on a quiet residential street, walking distance to the beach, the pier, the amusement park, and downtown. Direct beach access at the end of the street; the Amtrak station, grocery store, and restaurants are all within a mile.
 
 Air conditioning, a full kitchen, washer and dryer, cable, WiFi — linens and towels included so you can show up and start your vacation. Parking is free in our beach-house driveway during your stay.

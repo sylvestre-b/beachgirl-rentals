@@ -22,14 +22,14 @@
 
 'use strict';
 
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
 const matter = require('gray-matter');
 
 // ── Config ─────────────────────────────────────────────────────────────────
 const LISTINGS_DIR = path.join(__dirname, '..', '_listings');
-const DRY_RUN      = process.argv.includes('--dry-run');
-const ISO_RE       = /^\d{4}-\d{2}-\d{2}$/;
+const DRY_RUN = process.argv.includes('--dry-run');
+const ISO_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -41,9 +41,9 @@ function parseISO(str) {
 
 /** Format a Date as YYYY-MM-DD. */
 function toISO(date) {
-  const y  = date.getFullYear();
-  const m  = String(date.getMonth() + 1).padStart(2, '0');
-  const d  = String(date.getDate()).padStart(2, '0');
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
 }
 
@@ -91,7 +91,7 @@ function expandRange(entry, index) {
   }
 
   const start = entry.start;
-  const end   = entry.end;
+  const end = entry.end;
 
   if (!isValidISO(start)) {
     throw new Error(
@@ -99,18 +99,14 @@ function expandRange(entry, index) {
     );
   }
   if (!isValidISO(end)) {
-    throw new Error(
-      `${tag}: \`end\` is not a valid YYYY-MM-DD date, got: ${JSON.stringify(end)}`
-    );
+    throw new Error(`${tag}: \`end\` is not a valid YYYY-MM-DD date, got: ${JSON.stringify(end)}`);
   }
 
   const startDate = parseISO(start);
-  const endDate   = parseISO(end);
+  const endDate = parseISO(end);
 
   if (endDate < startDate) {
-    throw new Error(
-      `${tag}: \`end\` (${end}) is before \`start\` (${start})`
-    );
+    throw new Error(`${tag}: \`end\` (${end}) is before \`start\` (${start})`);
   }
 
   const days = [];
@@ -134,7 +130,7 @@ function serialise(parsed) {
 
 function processFile(filePath) {
   const filename = path.basename(filePath);
-  const result   = { file: filename, status: null, expanded: 0, dropped: 0, errors: [] };
+  const result = { file: filename, status: null, expanded: 0, dropped: 0, errors: [] };
 
   let raw;
   try {
@@ -168,7 +164,7 @@ function processFile(filePath) {
     result.status = 'error';
     result.errors.push(
       'Availability array contains a mix of daily-shape and range-shape entries. ' +
-      'Inspect and fix manually before re-running.'
+        'Inspect and fix manually before re-running.'
     );
     return result;
   }
@@ -253,11 +249,7 @@ function processFile(filePath) {
   const col = (s, w) => String(s).padEnd(w);
 
   console.log(
-    col('File', 36) +
-    col('Result', 12) +
-    col('Expanded', 10) +
-    col('Dropped', 9) +
-    'Notes'
+    col('File', 36) + col('Result', 12) + col('Expanded', 10) + col('Dropped', 9) + 'Notes'
   );
   console.log('─'.repeat(90));
 
@@ -267,13 +259,17 @@ function processFile(filePath) {
     const notes = r.errors.length ? r.errors.join('; ') : '';
     console.log(
       col(r.file, 36) +
-      col(r.status, 12) +
-      col(r.status === 'migrated' || r.status === 'dry-run' ? r.expanded : '—', 10) +
-      col(r.status === 'migrated' || r.status === 'dry-run' ? r.dropped : '—', 9) +
-      notes
+        col(r.status, 12) +
+        col(r.status === 'migrated' || r.status === 'dry-run' ? r.expanded : '—', 10) +
+        col(r.status === 'migrated' || r.status === 'dry-run' ? r.dropped : '—', 9) +
+        notes
     );
-    if (r.status === 'error' || r.status === 'read-error' ||
-        r.status === 'parse-error' || r.status === 'write-error') {
+    if (
+      r.status === 'error' ||
+      r.status === 'read-error' ||
+      r.status === 'parse-error' ||
+      r.status === 'write-error'
+    ) {
       hasErrors = true;
     }
   }

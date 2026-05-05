@@ -1,37 +1,45 @@
 ---
-title: "Bringing Your Dog to OOB: The Complete Real-Talk Guide"
-date: "January 2026"
-excerpt: "Dog-friendly beaches, the leash rules nobody explains clearly, the best off-leash windows, and where to find actual dog-welcoming spots to eat and stay."
-emoji: "🐾"
-seo_keywords: ["Old Orchard Beach dogs", "dog-friendly beaches Maine", "pet-friendly vacation rental Old Orchard Beach", "dogs allowed OOB beach"]
+title: 'The Lobster Roll Situation in OOB: My Completely Honest Rankings'
+date: 'April 2026'
+excerpt: "I've had a lot of lobster rolls. A lot. Here's what's actually worth your money on and around the OOB pier — and what to skip."
+emoji: '🦞'
+seo_keywords:
+  [
+    'best lobster roll Old Orchard Beach',
+    'where to eat Old Orchard Beach Maine',
+    'OOB seafood',
+    'Old Orchard Beach restaurants',
+  ]
 ---
 
-Every summer I get some version of this question: can I bring my dog to Old Orchard Beach? And the answer is yes, but with a bunch of asterisks that nobody puts in one place. So here's the complete picture.
+I want to be upfront: I have opinions about lobster rolls. Strong ones. And I've been forming them since before most of the people writing travel listicles about Maine were born. So take this for what it is — one woman's entirely subjective, deeply felt assessment.
 
-## Main Beach: Seasonal Rules
+## What Makes a Good Maine Lobster Roll
 
-Dogs are **not allowed on the main OOB beach** from approximately April 1 through September 30. This is the high-season rule and it is enforced. If you show up in July expecting to take your golden retriever for a morning swim by the pier, you will be disappointed and fined.
+First, a quick baseline. A proper Maine lobster roll is cold, lightly dressed in mayo, served in a split-top bun that's been grilled in butter. That's it. The lobster should be the point. It should not be swimming in celery or hiding under something. If you're getting a warm roll with drawn butter, that's Connecticut-style and it's also delicious, but we're in Maine, so.
 
-Outside of those dates — fall, winter, early spring — dogs are welcome and the off-season beach walks are honestly some of the best. Crisp air, almost nobody there, and your dog gets to have the full 7-mile stretch largely to themselves.
+## The Pier Area Picks
 
-## Where to Go With Dogs During the Season
+**Bill's Pizza** — yes, I know, it's a pizza place. But locals know the lobster roll situation there is solid and the price is better than anywhere fancier. Grab a slice and a roll and eat on the bench by the pier walkway. Honestly one of my favorite OOB afternoons every summer.
 
-**Pine Point Beach** (Scarborough) — leash required during piping plover nesting season (April 1 – September 30), but dogs are welcome on leash. It's worth it. Beautiful beach, quieter than the main strip.
+**The pier restaurants** — they vary. Some years they're great, some years the turnover is rough and the quality dips. My honest advice: look for whatever place has actual locals eating at it, not the one with the biggest sign.
 
-**Bayview Beach** (Saco) — same leash rules apply in season, but dog-friendly and usually not overwhelmingly crowded.
+**Joseph's by the Sea** — this is OOB's nicest restaurant. The rooftop bar at sunset is genuinely gorgeous. The food is good, it's pricier, and it's the place you bring people who are skeptical about OOB being "worth a trip." It usually converts them.
 
-**Camp Ellis** — at the southern end of the stretch, this one has a different feel entirely — fishing village vibe, breakwater walks, local community. Dogs on leash, manageable crowds.
+## Go a Little Further for This One
 
-## The Early Morning Window
+**Pine Point area** — a short drive or bike ride north puts you in a quieter stretch with some excellent seafood spots that don't have the tourist premium baked in. Worth it for lunch.
 
-Here's a local trick: at many Maine beaches, the rules are more relaxed at the crack of dawn before the crowds arrive. Get there at 6 or 7am, enjoy the beach with your dog, be out before the day really starts. I've done this for years. Nobody bothers you, the light is incredible, and your dog will never love you more.
+**The farm stands on Route 1** — not lobster rolls, but the local produce is exceptional. We always hit one on the way in for the week's groceries. Fresh corn, tomatoes, blueberries. Don't skip it.
 
-## Pet-Friendly Rentals
+## What to Skip
 
-Our rentals that accept pets are marked clearly in our listings. Not all of them do — some of our properties have no-pet rules from the owners — but several are genuinely dog-welcoming, with yards, easy beach access, and outdoor shower access for post-beach rinsing.
+I'm not going to name names but: anything with a massive sign in three languages and a laminated photo menu with stock art lobsters is probably not where you want to drop $28 on a roll. Walk past it.
 
-If traveling with a dog is a non-negotiable for you (and I completely understand — mine is a non-negotiable too), just reach out before booking and I'll tell you exactly which properties work and which don't. I'd rather spend 5 minutes on that conversation than have you show up with your dog to a property that doesn't work.
+The tourist-facing spots right on the main drag charge a premium and the quality is inconsistent. The places that have been there for twenty years with no Instagram presence are often the ones where the locals go.
 
-## One More Tip
+## The Real Move
 
-The Saco Bay Trails system has 11+ miles of hiking trails through forests, marshes, and along the coast. Dogs are welcome on most of them. If your dog needs a real run and a real adventure, Saco Bay Trails is worth knowing about. It's genuinely beautiful and it almost never gets mentioned in the OOB tourist stuff.
+Ask whoever owns or manages where you're staying. Seriously. We have opinions. We've been here forever. We'll tell you exactly where to go and what to order.
+
+That's the thing about renting from someone local — you get the guidebook that doesn't exist anywhere online.

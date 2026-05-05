@@ -1,40 +1,47 @@
 ---
-title: "The Parking Situation in OOB (And How to Actually Win It)"
-date: "May 2026"
-excerpt: "Everybody warns you about OOB parking. Here's what nobody tells you — the Milliken Street lot, the Amtrak trick, and why we always leave by 9am."
-emoji: "🚗"
-seo_keywords: ["Old Orchard Beach parking", "OOB parking tips", "where to park Old Orchard Beach", "free parking Old Orchard Beach Maine"]
+title: "Palace Playland: What to Know Before You Go (From Someone Who's Been Going Since 1978)"
+date: 'February 2026'
+excerpt: "The oldest continuously operating beachside amusement park in New England. Here's the real talk on rides, strategy, and why the Ferris wheel at sunset is genuinely unmissable."
+emoji: '🎡'
+seo_keywords:
+  [
+    'Palace Playland Old Orchard Beach',
+    'OOB amusement park',
+    'Palace Playland rides',
+    'things to do Old Orchard Beach with kids',
+  ]
 ---
 
-Let me just say it upfront: parking in Old Orchard Beach in July is a sport. I've been doing this my whole life and I still have a ritual. So let me save you the 45-minute loop of shame I watched my cousins do on the Fourth of July.
+I rode the Galaxi coaster with my father when I was six years old. My kids rode it with me. My nieces rode it last summer. That's what Palace Playland is — it's not just an amusement park, it's a place that connects generations of summer memories in a way that's getting genuinely rare in this country.
 
-## The Secret Nobody Puts in the Guidebooks
+So here's what you need to know, from someone who's been showing up since before some of their current staff was born.
 
-The **Milliken Street lot** is your best friend. It's not directly on the pier strip, but it's maybe a ten-minute walk — and the beach you land on is way less packed than the madness right by Palace Playland. You're still close enough to walk to food, the pier, everything. But you've got actual room for your towel.
+## The Basics
 
-The lots right by the pier? They fill up before 9am on a hot Saturday in August. I watched a minivan circle for so long the kids inside looked genuinely defeated. Don't be that minivan.
+Palace Playland has been operating since 1902. It's the only beachside amusement park left in all of New England — there used to be many more, and they've all closed or moved inland. The fact that this one is still here, still running its coaster with the beach literally right there, is worth appreciating.
 
-## The Amtrak Move
+General admission is free — you pay per ride or get a wristband for unlimited rides. The wristband is the better deal if you have kids who are going to want to go on everything three times.
 
-This one I love. The Downeaster — Amtrak's Boston-to-Portland train — stops right in Old Orchard Beach during the summer. If you're coming from Boston, it's about two hours and drops you *blocks* from the beach. No parking fee, no sweaty lot search, no traffic on Route 1. The stop is seasonal (typically late May through early September), so check the schedule, but for a day trip? Absolute no-brainer.
+## The Ferris Wheel at Sunset
 
-From Portland it's about 30 minutes. Park in Portland, take the train in, skip the whole mess.
+I cannot stress this enough. Get on the Ferris wheel at sunset. You'll see the full sweep of the beach stretching out in both directions, the pier, the ocean going gold, and on clear days you can see out to the Isles of Shoals. Even people who are too cool for amusement parks are not too cool for this view.
 
-## If You Must Drive: Practical Reality
+This is non-negotiable. Do it.
 
-- **Before 9am** — you can still find metered spots on residential streets without too much trouble
-- **Weekdays** — dramatically easier than weekends, especially in July
-- **Private driveways** — locals rent their driveways. It's a whole thing here. Keep your eyes open for the handwritten signs as you roll in
-- **Paid lots near the fire station** — usually have availability when everything closer is jammed
+## The Galaxi Coaster
 
-## The Low Tide Trick
+It's a classic wooden coaster. It's not the tallest or fastest ride you've ever been on. It's charming as hell and it rattles exactly the right amount and riding it still gives me a little thrill because I've been doing it for 45 years. Bring your kids.
 
-This isn't parking advice exactly, but it's worth knowing: at low tide, the beach almost doubles in width. More room for everyone. Check the tide chart before you go — there are free apps and websites that'll tell you exactly when to show up for maximum sand.
+## Timing Tips
 
-We always check tides before we plan our beach day. The difference is genuinely remarkable.
+- **Weekday mornings** — shortest lines, coolest part of the day
+- **Thursday nights** — there are weekly fireworks all summer. The park is packed but the fireworks from the beach are spectacular. Get there early.
+- **August** — busiest month. If you're going on a hot weekend, the lines will be real. Go in the morning or evening.
+
+## The Pier Walk
+
+After you've done the rides, walk to the end of the pier. It's about 500 feet out over the water and at the far end you can look back at the entire beach — Palace Playland, the hotels, the whole panorama — or look out to open Atlantic. The floorboards have gaps you can see the water through. Don't panic; it's part of the experience. It's been this way for as long as I can remember.
 
 ## One More Thing
 
-If you're staying in one of our rentals, this is all mostly irrelevant — you've got a base, you can walk, and you can time your beach trips to avoid the worst of it. That's honestly one of the underrated advantages of a rental over a hotel. You live here for a week. You figure out the rhythms.
-
-But if you're day-tripping, the Milliken lot and the Amtrak are your moves. Spread the word.
+Somewhere near the pier walkway there is usually a local Elvis impersonator making the rounds. This is not something I can explain. It's just a thing that happens at OOB. Accept it. It's wonderful.

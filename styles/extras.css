@@ -32,8 +32,11 @@
   color: var(--ink, #1c2528);
   white-space: nowrap;
 }
+/* CHANGED: emoji pill replaced by SVG glyphs.
+   font-size:0 hides any stray characters; background/border-radius removed;
+   the inline SVG inherits currentColor from the accent-deep token. */
 .trust-icon {
-  font-size: 1rem;
+  font-size: 0;
   line-height: 1;
   color: var(--accent-deep, #a4423a);
   display: inline-flex;
@@ -41,9 +44,15 @@
   height: 22px;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 50%;
+  background: none;
+  border-radius: 0;
   flex-shrink: 0;
+}
+.trust-icon svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+  overflow: visible;
 }
 
 @media (max-width: 720px) {

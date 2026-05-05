@@ -1,39 +1,50 @@
 ---
-title: "The Lobster Roll Situation in OOB: My Completely Honest Rankings"
-date: "April 2026"
-excerpt: "I've had a lot of lobster rolls. A lot. Here's what's actually worth your money on and around the OOB pier — and what to skip."
-emoji: "🦞"
-seo_keywords: ["best lobster roll Old Orchard Beach", "where to eat Old Orchard Beach Maine", "OOB seafood", "Old Orchard Beach restaurants"]
+title: "Wait, There Are NINE Beaches? A Local's Guide to the 7-Mile Stretch"
+date: 'March 2026'
+excerpt: "Most visitors only know the main beach. Here's the full picture — which one to pick based on whether you have kids, dogs, or just want to actually hear yourself think."
+emoji: '🏖️'
+seo_keywords:
+  [
+    'Old Orchard Beach beaches',
+    'Pine Point Beach Maine',
+    'Ferry Beach Saco',
+    'quiet beaches near Old Orchard Beach',
+    'dog-friendly beaches Maine',
+  ]
 ---
 
-I want to be upfront: I have opinions about lobster rolls. Strong ones. And I've been forming them since before most of the people writing travel listicles about Maine were born. So take this for what it is — one woman's entirely subjective, deeply felt assessment.
+Here's something that surprises almost everyone: Old Orchard Beach isn't one beach. It's a seven-mile stretch of sand running through five different communities, made up of nine distinct beaches. The pier and Palace Playland sit in the middle of this stretch, which is why everyone ends up there — but depending on what kind of day you're looking for, you might be happier somewhere else entirely.
 
-## What Makes a Good Maine Lobster Roll
+Let me break it down.
 
-First, a quick baseline. A proper Maine lobster roll is cold, lightly dressed in mayo, served in a split-top bun that's been grilled in butter. That's it. The lobster should be the point. It should not be swimming in celery or hiding under something. If you're getting a warm roll with drawn butter, that's Connecticut-style and it's also delicious, but we're in Maine, so.
+## The Main Beach (Right by the Pier)
 
-## The Pier Area Picks
+This is the postcard. The amusement park, the pier, the smell of fried dough at 11am, kids everywhere, music from somewhere, the whole beautiful chaotic thing. It's loud and it's fun and it's packed in July. If that's your scene, you're in the right place.
 
-**Bill's Pizza** — yes, I know, it's a pizza place. But locals know the lobster roll situation there is solid and the price is better than anywhere fancier. Grab a slice and a roll and eat on the bench by the pier walkway. Honestly one of my favorite OOB afternoons every summer.
+High tide makes it feel tight. Low tide opens it up dramatically — the sand feels like it goes forever. Check the tide chart before you pick your time to be there.
 
-**The pier restaurants** — they vary. Some years they're great, some years the turnover is rough and the quality dips. My honest advice: look for whatever place has actual locals eating at it, not the one with the biggest sign.
+## Pine Point (Scarborough, North End)
 
-**Joseph's by the Sea** — this is OOB's nicest restaurant. The rooftop bar at sunset is genuinely gorgeous. The food is good, it's pricier, and it's the place you bring people who are skeptical about OOB being "worth a trip." It usually converts them.
+This is my personal favorite when I want to actually hear the ocean. It's the northernmost beach on the stretch, in Scarborough, and it is genuinely quieter. Beautiful walk, dogs welcome on leash outside nesting season, and the view back toward OOB at sunset is one of the best on the Maine coast.
 
-## Go a Little Further for This One
+It was voted Best Beach in Maine by Portland Press Herald readers back in 2011 and that reputation has mostly held. Just be aware of occasional red algae blooms — check local conditions before swimming.
 
-**Pine Point area** — a short drive or bike ride north puts you in a quieter stretch with some excellent seafood spots that don't have the tourist premium baked in. Worth it for lunch.
+## Ferry Beach (Saco)
 
-**The farm stands on Route 1** — not lobster rolls, but the local produce is exceptional. We always hit one on the way in for the week's groceries. Fresh corn, tomatoes, blueberries. Don't skip it.
+This one is underrated. Ferry Beach State Park in Saco has a sandbar that appears at low tide that you can actually walk out to, which my kids have thought was the greatest thing in the world since they were small. The park has changing rooms, a nature center, and nature trails — and a genuine calm about it that the pier area never has.
 
-## What to Skip
+It's $15/car in season. Worth it.
 
-I'm not going to name names but: anything with a massive sign in three languages and a laminated photo menu with stock art lobsters is probably not where you want to drop $28 on a roll. Walk past it.
+## Ocean Park
 
-The tourist-facing spots right on the main drag charge a premium and the quality is inconsistent. The places that have been there for twenty years with no Instagram presence are often the ones where the locals go.
+South of the main beach, Ocean Park is its own little world — a Victorian-era summer community with a different energy than the rest of OOB. Quieter, woodsy, charming. There's a beautiful octagonal church (the only one in Maine) and a schedule of summer lectures and events that's been running since 1881. It's the kind of place people return to for generations.
 
-## The Real Move
+## The Short Answer
 
-Ask whoever owns or manages where you're staying. Seriously. We have opinions. We've been here forever. We'll tell you exactly where to go and what to order.
+- **Want the full circus?** Main beach, weekday if possible.
+- **Want quiet and beautiful?** Pine Point.
+- **Have small kids?** Ferry Beach — the sandbar is magic.
+- **Have dogs?** Pine Point or Bayview Beach in Saco (leash required in season).
+- **Want a local vibe?** Ocean Park.
 
-That's the thing about renting from someone local — you get the guidebook that doesn't exist anywhere online.
+The beach you choose sets the whole tone for your week. We're happy to give you the current local intel when you book — just ask.
