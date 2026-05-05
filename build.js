@@ -228,6 +228,62 @@ function escAttr(s) {
   return esc(s);
 }
 
+// ── AVAILABILITY VALIDATION ─────────────────────────────────────────
+const _ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const _VALID_STATUSES = new Set(['available', 'unavailable']);
+
+function validateAvailability(listings) {
+  let allOk = true;
+
+  for (const listing of listings) {
+    const entries = listing.availability;
+    if (!Array.isArray(entries) || entries.length === 0) continue;
+
+    for (let i = 0; i < entries.length; i++) {
+      const entry = entries[i];
+      const tag   = `[validate] ${listing._slug} availability[${i}]`;
+      let ok = true;
+
+      if (!entry || typeof entry !== 'object') {
+        console.error(`${tag}: entry is not an object — got ${JSON.stringify(entry)}`);
+        ok = false;
+      } else {
+        if (!('date' in entry)) {
+          console.error(`${tag}: missing required field \`date\``);
+          ok = false;
+        } else if (typeof entry.date !== 'string' || !_ISO_DATE_RE.test(entry.date)) {
+          console.error(
+            `${tag}: \`date\` must be a YYYY-MM-DD string, got ${JSON.stringify(entry.date)}`
+          );
+          ok = false;
+        }
+
+        if (!('status' in entry)) {
+          console.error(`${tag}: missing required field \`status\``);
+          ok = false;
+        } else if (!_VALID_STATUSES.has(entry.status)) {
+          console.error(
+            `${tag}: \`status\` must be "available" or "unavailable", ` +
+            `got ${JSON.stringify(entry.status)}`
+          );
+          ok = false;
+        }
+      }
+
+      if (!ok) allOk = false;
+    }
+  }
+
+  if (!allOk) {
+    console.error(
+      '\n[validate] ✗ Availability validation failed — fix the errors above and re-run build.'
+    );
+    process.exit(1);
+  }
+
+  console.log('[validate] ✓ availability entries OK');
+}
+
 // ── SITEMAP & ROBOTS ────────────────────────────────────────────────
 function writeSitemap(listings, posts) {
   const today = new Date().toISOString().slice(0, 10);
@@ -269,6 +325,7 @@ function writeRobots() {
       Promise.resolve(buildPosts()),
     ]);
     generatePropertyPages(listings);
+    validateAvailability(listings);
     writeSitemap(listings, posts);
     writeRobots();
     console.log('[build] ✓ done');
