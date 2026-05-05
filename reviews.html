@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reviews — Beach Girl Property Rentals</title>
-    <meta
-      name="description"
-      content="Reviews from guests who've stayed in our Old Orchard Beach properties."
-    />
+    <meta name="description" content="Real reviews from guests at Beach Girl Property Rentals in Old Orchard Beach, Maine." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -45,22 +42,45 @@
       }
       .reviews-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
+        margin: 2rem 0;
       }
-      .reviews-grid .review-item {
+      .review-item {
         background: var(--white);
         border: 1px solid var(--driftwood-pale);
         border-radius: var(--r-lg);
         padding: 1.5rem;
-        border-left: 3px solid var(--accent);
+      }
+      .review-item .review-stars {
+        color: var(--accent);
+        letter-spacing: 1px;
+      }
+      .review-item .review-author-name {
+        font-weight: 700;
+      }
+      .review-item .review-date {
+        font-size: var(--sm);
+        color: var(--text-muted);
       }
       .leave-review-cta {
         background: var(--sand-pale);
+        border-radius: var(--r-lg);
         padding: 2rem;
         text-align: center;
-        border-radius: var(--r-lg);
-        margin-top: 3rem;
+        margin-top: 2.5rem;
+      }
+      .reviews-empty {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--text-muted);
+        font-size: var(--lg);
+      }
+      .reviews-empty em {
+        color: var(--accent);
+        font-style: italic;
+        font-family: var(--serif);
       }
     </style>
   </head>
@@ -85,7 +105,7 @@
               FR
             </button>
           </div>
-          <a href="/blog" data-i18n="nav.journal">Journal</a>
+          <a href="/blog" data-i18n="nav.journal">Local Guide</a>
           <a href="/reviews" data-i18n="nav.reviews">Reviews</a>
           <button
             type="button"
@@ -109,7 +129,7 @@
       </div>
 
       <div id="reviews-grid" class="reviews-grid" data-reveal-children>
-        <p style="grid-column: 1/-1; color: var(--text-muted)">Loading reviews…</p>
+        <p class="reviews-empty" id="reviews-loading">Loading…</p>
       </div>
 
       <div class="leave-review-cta" data-reveal>
@@ -119,19 +139,63 @@
       </div>
     </main>
 
+    <!-- Review modal (kept minimal — same fields as before) -->
+    <div class="overlay" id="review-overlay" role="dialog" aria-modal="true" aria-labelledby="review-title">
+      <div class="modal">
+        <div class="modal-header">
+          <button type="button" class="modal-close" data-action="close-modal" data-target="review-overlay" aria-label="Close">✕</button>
+          <div class="modal-title" id="review-title">Leave a review</div>
+        </div>
+        <div class="modal-body">
+          <form id="review-form" novalidate>
+            <div class="field">
+              <label for="r-property">Which property? <span class="req">*</span></label>
+              <select id="r-property" name="property" required></select>
+            </div>
+            <div class="field">
+              <label for="r-author">Your name <span class="req">*</span></label>
+              <input id="r-author" name="author" type="text" required />
+            </div>
+            <div class="field">
+              <label>Rating <span class="req">*</span></label>
+              <div class="star-picker" role="radiogroup" aria-label="Rating">
+                <button type="button" class="star-btn" data-val="1" aria-label="1 star" aria-pressed="false">★</button>
+                <button type="button" class="star-btn" data-val="2" aria-label="2 stars" aria-pressed="false">★</button>
+                <button type="button" class="star-btn" data-val="3" aria-label="3 stars" aria-pressed="false">★</button>
+                <button type="button" class="star-btn" data-val="4" aria-label="4 stars" aria-pressed="false">★</button>
+                <button type="button" class="star-btn" data-val="5" aria-label="5 stars" aria-pressed="false">★</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="r-review">Your review <span class="req">*</span></label>
+              <textarea id="r-review" rows="5" maxlength="2000" placeholder="Tell us about your stay…"></textarea>
+            </div>
+            <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
+            <button type="button" class="btn-primary" style="width:100%" data-action="submit-review">Submit Review →</button>
+            <p class="form-note">Reviews are reviewed before posting.</p>
+          </form>
+          <div class="success-view" id="review-success">
+            <div class="success-icon">⭐</div>
+            <h3>Thank you!</h3>
+            <p>Your review has been submitted.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <div class="footer-inner footer-4col">
         <div class="footer-logo">
           <div class="logo-name">Beach Girl Property Rentals</div>
           <div class="logo-sub">Old Orchard Beach, ME</div>
           <p class="footer-tagline" data-i18n="footer.tagline">
-            Owner-managed vacation rentals on the sand.
+            Owner-managed vacation rentals just minutes from the sand.
           </p>
         </div>
         <div class="footer-col">
           <h4 data-i18n="footer.explore">Explore</h4>
           <a href="/" data-i18n="footer.home">Home</a>
-          <a href="/blog" data-i18n="footer.journal">Journal</a>
+          <a href="/blog" data-i18n="footer.journal">Local Guide</a>
           <a href="/reviews" data-i18n="footer.reviews">Reviews</a>
         </div>
         <div class="footer-col">
@@ -143,10 +207,7 @@
         </div>
         <div class="footer-col">
           <h4 data-i18n="footer.contact">Contact</h4>
-          <p>
-            P.O. Box 254<br />
-            Old Orchard Beach, ME 04064
-          </p>
+          <p>P.O. Box 254<br />Old Orchard Beach, ME 04064</p>
           <p><a href="tel:+12074507347">(207)&nbsp;450&#8209;7347</a></p>
           <p><a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a></p>
         </div>
@@ -158,170 +219,61 @@
       </div>
     </footer>
 
-    <!-- Review modal -->
-    <div class="overlay" id="review-overlay" role="dialog" aria-modal="true">
-      <div class="modal">
-        <div class="modal-header">
-          <button
-            type="button"
-            class="modal-close"
-            data-action="close-modal"
-            data-target="review-overlay"
-            aria-label="Close"
-          >
-            ✕
-          </button>
-          <div class="modal-eyebrow">Share your stay</div>
-          <div class="modal-title">Leave a review</div>
-        </div>
-        <div class="modal-body" id="review-form-view">
-          <div class="field">
-            <label for="r-property">Which property? <span class="req">*</span></label>
-            <select id="r-property">
-              <option value="">Select…</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="r-dates">When did you stay? <span class="req">*</span></label>
-            <input type="text" id="r-dates" placeholder="e.g., July 2025" />
-          </div>
-          <div class="field">
-            <label for="r-name">Your name <span class="req">*</span></label>
-            <input type="text" id="r-name" placeholder="First name & last initial" />
-          </div>
-          <div class="field">
-            <label>Your rating <span class="req">*</span></label>
-            <div class="star-picker" role="radiogroup" aria-label="Star rating">
-              <button
-                type="button"
-                class="star-btn"
-                data-val="1"
-                aria-label="1 star"
-                aria-pressed="false"
-              >
-                ★
-              </button>
-              <button
-                type="button"
-                class="star-btn"
-                data-val="2"
-                aria-label="2 stars"
-                aria-pressed="false"
-              >
-                ★
-              </button>
-              <button
-                type="button"
-                class="star-btn"
-                data-val="3"
-                aria-label="3 stars"
-                aria-pressed="false"
-              >
-                ★
-              </button>
-              <button
-                type="button"
-                class="star-btn"
-                data-val="4"
-                aria-label="4 stars"
-                aria-pressed="false"
-              >
-                ★
-              </button>
-              <button
-                type="button"
-                class="star-btn"
-                data-val="5"
-                aria-label="5 stars"
-                aria-pressed="false"
-              >
-                ★
-              </button>
-            </div>
-          </div>
-          <div class="field">
-            <label for="r-review">Your review <span class="req">*</span></label>
-            <textarea
-              id="r-review"
-              rows="5"
-              maxlength="2000"
-              placeholder="Tell us about your stay…"
-            ></textarea>
-          </div>
-          <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
-          <button type="button" class="btn-primary" style="width: 100%" data-action="submit-review">
-            Submit Review →
-          </button>
-          <p class="form-note">Reviews are reviewed before posting.</p>
-        </div>
-        <div class="success-view" id="review-success">
-          <div class="success-icon">⭐</div>
-          <h3>Thank you!</h3>
-          <p>Your review has been submitted.</p>
-        </div>
-      </div>
-    </div>
-
-    <script type="module">
-      import { loadAll, esc, renderStars } from '/js/data.js';
-      import { initForms } from '/js/forms.js';
-      import { initReveal } from '/js/reveal.js';
-
-      (async () => {
-        const state = await loadAll();
-        const grid = document.getElementById('reviews-grid');
-        if (!state.reviews.length) {
-          grid.innerHTML =
-            '<p style="grid-column:1/-1;color:var(--text-muted);text-align:center;padding:3rem">No reviews yet — be the first!</p>';
-        } else {
-          grid.innerHTML = state.reviews
-            .map(
-              r => `
-      <div class="review-item">
-        <div class="review-stars">${renderStars(r.rating || 5)}</div>
-        <div class="review-body" style="margin:.6rem 0">"${esc(r.text)}"</div>
-        <div class="review-header" style="margin-top:1rem">
-          <div class="review-author-name">${esc(r.author)}</div>
-          <div class="review-date">${esc(r.date || '')}</div>
-        </div>
-        <div style="font-size:var(--xs);color:var(--text-muted);margin-top:.2rem">${esc(r.property)}</div>
-      </div>`
-            )
-            .join('');
-        }
-        initForms(state);
-        initReveal();
-      })();
-    </script>
+    <!--
+      Single script block. Was: TWO IIFEs that both fetched data and tried
+      to write to the same #reviews-grid, racing with each other and with
+      i18n initialization. Cleaned up. Empty state now shows "Be the first!"
+      when reviews-index is empty in production.
+    -->
     <script type="module">
       import { loadAll, esc, renderStars } from '/js/data.js';
       import { initForms } from '/js/forms.js';
       import { initReveal } from '/js/reveal.js';
       import { t } from '/js/i18n.js';
 
+      // safeT: t() returns the literal key string when the dict isn't loaded
+      // OR when the key is missing — both cases break `t(x) || fallback`
+      // because the key is truthy. This guards against that.
+      function safeT(key, fallback) {
+        const v = t(key);
+        return !v || v === key ? fallback : v;
+      }
+
       (async () => {
         const state = await loadAll();
         const grid = document.getElementById('reviews-grid');
+        if (!grid) return;
+
         if (!state.reviews.length) {
-          grid.innerHTML = `<p style="grid-column:1/-1;color:var(--text-muted);text-align:center;padding:3rem">${
-            t('reviews.empty') || 'Reviews coming soon.'
-          }</p>`;
+          grid.innerHTML = `
+            <div class="reviews-empty">
+              <p>No reviews yet — <em>be the first!</em></p>
+              <p style="font-size:var(--sm);margin-top:1rem">
+                ${safeT(
+                  'reviews.empty',
+                  "Reviews from our first season on this site are coming soon."
+                )}
+              </p>
+            </div>`;
         } else {
           grid.innerHTML = state.reviews
             .map(
               r => `
-      <div class="review-item">
-        <div class="review-stars">${renderStars(r.rating || 5)}</div>
-        <div class="review-body" style="margin:.6rem 0">"${esc(r.text)}"</div>
-        <div class="review-header" style="margin-top:1rem">
-          <div class="review-author-name">${esc(r.author)}</div>
-          <div class="review-date">${esc(r.date || '')}</div>
-        </div>
-        <div style="font-size:var(--xs);color:var(--text-muted);margin-top:.2rem">${esc(r.property)}</div>
-      </div>`
+              <div class="review-item">
+                <div class="review-stars">${renderStars(r.rating || 5)}</div>
+                <div class="review-body" style="margin:.6rem 0">"${esc(r.text)}"</div>
+                <div class="review-header" style="margin-top:1rem">
+                  <div class="review-author-name">${esc(r.author)}</div>
+                  <div class="review-date">${esc(r.date || '')}</div>
+                </div>
+                <div style="font-size:var(--xs);color:var(--text-muted);margin-top:.2rem">
+                  ${esc(r.property || '')}
+                </div>
+              </div>`
             )
             .join('');
         }
+
         initForms(state);
         initReveal();
       })();

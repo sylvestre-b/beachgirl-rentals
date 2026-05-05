@@ -1,19 +1,34 @@
-# Netlify build configuration
 [build]
   publish = "."
   command = "npm install && npm run build"
 
-# ── Pretty URLs ──────────────────────────────────────────────────────
-# /property/<slug> → /property/<slug>/index.html (handled by build.js
-# generating real folders, no redirect needed)
-
-# ── 404 ──────────────────────────────────────────────────────────────
+# ────────────────────────────────────────────────────────────────────
+# Redirects / rewrites
+# ────────────────────────────────────────────────────────────────────
+# /blog/:slug/ and /blog/:slug → serve the dynamic blog-post.html (the
+# JS reads the slug from location.pathname). Without this, links from
+# the home Local Guide teaser and the /blog index 404'd in production.
 [[redirects]]
-  from = "/*"
-  to   = "/404.html"
-  status = 404
+  from = "/blog/:slug/"
+  to = "/blog-post.html"
+  status = 200
 
-# ── SECURITY HEADERS (apply globally) ────────────────────────────────
+[[redirects]]
+  from = "/blog/:slug"
+  to = "/blog-post.html"
+  status = 200
+
+# Lock down the admin path from search engine indexing. The endpoint
+# still requires a github auth token to commit, but it should not be
+# publicly discoverable.
+[[headers]]
+  for = "/manage-listings-apm/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+# ────────────────────────────────────────────────────────────────────
+# Security headers (kept from prior drop, minor tightening)
+# ────────────────────────────────────────────────────────────────────
 [[headers]]
   for = "/*"
   [headers.values]
@@ -21,57 +36,15 @@
     X-Content-Type-Options    = "nosniff"
     X-Frame-Options           = "DENY"
     Referrer-Policy           = "strict-origin-when-cross-origin"
-    Permissions-Policy        = "geolocation=(), camera=(), microphone=(), payment=()"
-    # X-XSS-Protection intentionally omitted — deprecated, can cause issues in
-    # modern browsers, and a proper CSP makes it redundant.
-    Content-Security-Policy = """
-      default-src 'self';
-      script-src  'self' https://unpkg.com https://identity.netlify.com https://cdn.jsdelivr.net;
-      style-src   'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com;
-      img-src     'self' data: blob:
-                  https://*.tile.openstreetmap.org
-                  https://*.basemaps.cartocdn.com
-                  https://unpkg.com
-                  https://identity.netlify.com;
-      font-src    'self' https://fonts.gstatic.com;
-      connect-src 'self'
-                  https://formspree.io
-                  https://api.netlify.com
-                  https://identity.netlify.com
-                  https://*.tile.openstreetmap.org;
-      frame-ancestors 'none';
-      base-uri    'self';
-      form-action 'self' https://formspree.io;
-    """
+    Permissions-Policy        = "camera=(), microphone=(), geolocation=(), payment=()"
+    # CSP — script-src includes unpkg for Leaflet, fonts.googleapis for css,
+    # and 'self' for our modules. Inline event handlers are now removed
+    # (see js/main.js's delegated error listener), so 'unsafe-inline' is
+    # no longer needed for scripts. Style-src keeps 'unsafe-inline' until
+    # we move all <style> blocks out of *.html.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self' https://nominatim.openstreetmap.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
 
-# ── DECAP CMS override — scoped to script-src + style-src only ───────
-# unsafe-inline + unsafe-eval are required by Decap's widget renderer.
-# Explicitly NOT touching default-src, img-src, connect-src, etc.
-[[headers]]
-  for = "/manage-listings-apm/*"
-  [headers.values]
-    Content-Security-Policy = """
-      default-src 'self';
-      script-src  'self' 'unsafe-inline' 'unsafe-eval'
-                  https://unpkg.com https://identity.netlify.com https://cdn.jsdelivr.net;
-      style-src   'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com;
-      img-src     'self' data: blob:
-                  https://*.tile.openstreetmap.org
-                  https://*.basemaps.cartocdn.com
-                  https://unpkg.com
-                  https://identity.netlify.com;
-      font-src    'self' https://fonts.gstatic.com;
-      connect-src 'self'
-                  https://formspree.io
-                  https://api.netlify.com
-                  https://identity.netlify.com
-                  https://*.tile.openstreetmap.org;
-      frame-ancestors 'none';
-      base-uri    'self';
-      form-action 'self' https://formspree.io;
-    """
-
-# ── CACHE: hashed assets and images get long cache, HTML doesn't ─────
+# Cache static assets
 [[headers]]
   for = "/photos/*"
   [headers.values]
@@ -80,14 +53,14 @@
 [[headers]]
   for = "/styles/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=86400, must-revalidate"
 
 [[headers]]
   for = "/js/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=86400, must-revalidate"
 
 [[headers]]
-  for = "/*.html"
+  for = "/translations/*"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "public, max-age=86400, must-revalidate"

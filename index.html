@@ -3,49 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n="meta.title">Beach Girl Property Rentals — Old Orchard Beach, ME</title>
+    <title data-i18n="meta.title">Beach Girl Property Rentals — Old Orchard Beach, Maine</title>
     <meta
       name="description"
-      content="Owner-managed vacation rentals in Old Orchard Beach, Maine. Cottages and apartments steps from the sand. No hidden booking fees — just a quick message to Jill."
       data-i18n-attr="content:meta.description"
+      content="Owner-managed vacation rentals near the beach in Old Orchard Beach, Maine. Direct booking with Jill — no platform fees."
     />
-    <link rel="canonical" href="https://beachgirlpropertyrentals.com/" />
+    <link rel="icon" href="/favicon.ico" />
 
-    <!-- Open Graph (uses the new hero image) -->
-    <meta property="og:title" content="Beach Girl Property Rentals — Old Orchard Beach, ME" />
-    <meta
-      property="og:description"
-      content="Owner-managed vacation rentals on Maine's southern coast. Steps from seven miles of sand."
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap"
+      rel="stylesheet"
     />
-    <meta property="og:image" content="/photos/hero/hero-1-1600.webp" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://beachgirlpropertyrentals.com/" />
 
-    <!-- Preconnect for map tiles only (fonts now self-hosted via styles/) -->
-    <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
+    <!-- Leaflet -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
 
-    <!-- Existing v2.0 stylesheets (unchanged) -->
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/base.css" />
     <link rel="stylesheet" href="/styles/motion.css" />
     <link rel="stylesheet" href="/styles/components.css" />
     <link rel="stylesheet" href="/styles/layout.css" />
     <link rel="stylesheet" href="/styles/sections.css" />
-    <link rel="stylesheet" href="/calendar.css" />
-    <!-- New: language toggle, cookie banner, owner trust strip -->
     <link rel="stylesheet" href="/styles/i18n-cookie.css" />
     <link rel="stylesheet" href="/styles/extras.css" />
-
-    <!-- Leaflet CSS for map -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin
-    />
-
-    <link rel="stylesheet" href="/styles/birthday-banner.css" />
-    <!-- BIRTHDAY -->
+    <link rel="stylesheet" href="/calendar.css" />
 
     <!-- Schema.org -->
     <script type="application/ld+json">
@@ -53,11 +44,11 @@
         "@context": "https://schema.org",
         "@type": "LodgingBusiness",
         "name": "Beach Girl Property Rentals",
-        "alternateName": "Affordable Property Management LLC",
+        "description": "Owner-managed vacation rentals near the beach in Old Orchard Beach, Maine.",
         "url": "https://beachgirlpropertyrentals.com",
         "address": {
           "@type": "PostalAddress",
-          "postOfficeBoxNumber": "P.O. Box 254",
+          "streetAddress": "P.O. Box 254",
           "addressLocality": "Old Orchard Beach",
           "addressRegion": "ME",
           "postalCode": "04064",
@@ -77,7 +68,6 @@
           <span class="logo-sub">Old Orchard Beach, ME</span>
         </a>
         <nav class="header-nav" aria-label="Primary">
-          <!-- Language toggle -->
           <div class="lang-toggle" role="group" aria-label="Language">
             <button type="button" data-lang-btn="en" aria-pressed="true" data-i18n="lang_toggle.en">
               EN
@@ -91,7 +81,7 @@
               FR
             </button>
           </div>
-          <a href="/blog" data-i18n="nav.journal">Journal</a>
+          <a href="/blog" data-i18n="nav.journal">Local Guide</a>
           <a href="/reviews" data-i18n="nav.reviews">Reviews</a>
           <button
             type="button"
@@ -109,41 +99,70 @@
       <!-- ── HERO ─────────────────────────────────────────────────── -->
       <section class="hero" aria-label="Welcome">
         <div class="hero-img-stack" aria-hidden="true">
+          <!--
+            Hero photography pipeline:
+            - drop hero-1.jpg, hero-2.jpg into /photos/hero/
+            - run `npm run images` → produces -1200/-1600.webp
+            - the <img> below picks them up automatically once present
+            data-fallback="hero" tells main.js's image-error handler to remove
+            the broken img instead of leaving a blank box (replaces inline onerror).
+          -->
           <img
             class="hero-img"
             data-hero-img
+            data-fallback="hero"
             alt=""
             src="/photos/hero/hero-1-1600.webp"
-            onerror="this.style.display = 'none'"
           />
           <img
             class="hero-img"
             data-hero-img
+            data-fallback="hero"
             alt=""
             src="/photos/hero/hero-2-1600.webp"
-            onerror="this.style.display = 'none'"
           />
         </div>
+
+        <!-- Foreground SVG dune (depth without parallax). Picks up var(--sand). -->
+        <svg
+          class="hero-fg"
+          viewBox="0 0 1440 180"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M0,140 C220,108 380,160 640,128 C900,96 1080,148 1440,118 L1440,180 L0,180 Z"
+            fill="var(--sand-pale)"
+            opacity="0.92"
+          />
+        </svg>
+
+        <!-- Bottom scrim so the trust strip never visually slams the hero card -->
+        <div class="hero-scrim" aria-hidden="true"></div>
         <div class="hero-overlay" aria-hidden="true"></div>
 
         <div class="hero-card">
           <div class="hero-season" data-i18n="hero.season">Summer 2026 · Now Booking</div>
           <h1 class="hero-h1">
             <span data-i18n="hero.title_pre">Your</span>
-            <em data-i18n="hero.title_em">Maine summer</em
-            ><span data-i18n="hero.title_post">, no hidden fees attached.</span>
+            <em data-i18n="hero.title_em">Maine summer</em><span data-i18n="hero.title_post">, no booking fees attached.</span>
           </h1>
           <p class="hero-desc" data-i18n="hero.desc">
             Owner-managed rentals near the beach in Old Orchard Beach. Skip the Airbnb and Vrbo fees
             — message Jill directly and you're one step closer to having your toes in the sand.
           </p>
           <div class="hero-props" role="list">
-            <span class="hero-prop" role="listitem" data-i18n="hero.props_units">4 units</span>
+            <span class="hero-prop" role="listitem" data-i18n="hero.props_units"
+              >Multiple Units Available</span
+            >
             <span class="hero-prop" role="listitem" data-i18n="hero.props_steps"
-              >Steps from the beach</span
+              >Minutes from Shore</span
             >
             <span class="hero-prop" role="listitem" data-i18n="hero.props_pets"
-              >Pet-friendly options</span
+              >Pet-friendly Options</span
+            >
+            <span class="hero-prop" role="listitem" data-i18n="hero.props_owner"
+              >Book with Owner</span
             >
           </div>
           <div class="hero-cta">
@@ -155,15 +174,12 @@
         </div>
       </section>
 
-      <!-- ── TRUST STRIP ──────────────────────────────────────────────
-           SVG sprite: /icons/trust-icons.svg (inline <use> pattern).
-           The hidden sprite is inlined once at the top of <body> (see
-           below); each .trust-icon references it by fragment ID.
-           ─────────────────────────────────────────────────────────── -->
+      <!-- ── TRUST STRIP ────────────────────────────────────────── -->
       <section class="trust-strip" aria-label="Why book with Jill">
         <div class="trust-inner">
           <div class="trust-item">
             <span class="trust-icon" aria-hidden="true">
+              <!-- bolt: fast reply -->
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M13.2 2.8 L7.1 13.3 L11.4 13.1 L10.6 21.4 L17.1 10.6 L12.7 10.9 Z"
@@ -174,58 +190,37 @@
                 />
               </svg>
             </span>
-            <span data-i18n="trust.replies">Replies within the hour</span>
+            <span data-i18n="trust.replies">Usually replies within the hour</span>
           </div>
           <div class="trust-item">
-            <span class="trust-icon" aria-hidden="true">
+            <span class="trust-icon trust-icon--decade" aria-hidden="true">
+              <!-- "10+" decade glyph: replaces anchor (which reads as nautical, not longevity) -->
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="5.5" r="2.1" stroke="currentColor" stroke-width="1.6" />
-                <line
-                  x1="12"
-                  y1="7.6"
-                  x2="12"
-                  y2="20.2"
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="9.6"
                   stroke="currentColor"
                   stroke-width="1.6"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M6.2 12.8 C6.2 17.2 17.8 17.2 17.8 12.8"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
                   fill="none"
                 />
-                <line
-                  x1="6.2"
-                  y1="12.8"
-                  x2="4.1"
-                  y2="12.8"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                />
-                <line
-                  x1="17.8"
-                  y1="12.8"
-                  x2="19.9"
-                  y2="12.8"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M8.5 4.9 L15.5 4.9"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                />
+                <text
+                  x="12"
+                  y="15.4"
+                  text-anchor="middle"
+                  font-family="Playfair Display, Georgia, serif"
+                  font-style="italic"
+                  font-weight="700"
+                  font-size="9.5"
+                  fill="currentColor"
+                >10+</text>
               </svg>
             </span>
             <span data-i18n="trust.decade">Hosting for over a decade</span>
           </div>
           <div class="trust-item">
             <span class="trust-icon" aria-hidden="true">
+              <!-- shield: insured -->
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M12 2.6 C12 2.6 5.4 5.1 4.8 5.3 L4.8 12.4 C4.8 16.6 8.2 19.9 12 21.5 C15.8 19.9 19.2 16.6 19.2 12.4 L19.2 5.3 C18.6 5.1 12 2.6 12 2.6 Z"
@@ -247,6 +242,7 @@
           </div>
           <div class="trust-item">
             <span class="trust-icon" aria-hidden="true">
+              <!-- check: no booking fees -->
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M4.5 13.1 L9.3 18.2 L19.7 6.1"
@@ -276,25 +272,21 @@
       <section class="owner-panel" aria-label="About the owner">
         <div class="owner-inner">
           <div class="owner-portrait" data-reveal>
-            <!-- When Jill's photo is uploaded to /photos/owner/jill.jpg, the img
-                 below will display. Until then, the polaroid frame shows. -->
             <img
               src="/photos/owner/jill.jpg"
               alt="Jill, the owner of Beach Girl Property Rentals"
-              onerror="
-                this.style.display = 'none';
-                this.nextElementSibling.style.display = 'flex';
-              "
+              data-fallback="owner-portrait"
             />
-            <span class="owner-portrait-fallback" style="display: none">A photo of Jill</span>
+            <span class="owner-portrait-fallback">A photo of Jill</span>
           </div>
           <div class="owner-text" data-reveal>
             <div class="owner-text-eyebrow" data-i18n="owner.eyebrow">Meet your host</div>
-            <h2 data-i18n="owner.title">I'm Jill.</h2>
+            <h2 data-i18n-html="owner.title">I'm <em>Jill</em>.</h2>
             <p data-i18n="owner.p1">
-              I've been welcoming families to Old Orchard Beach for over a decade. Four units in the
-              same building means I can host couples, big families, and reunions of up to sixteen —
-              all on the same quiet street, all five minutes' walk from seven miles of sand.
+              I have been welcoming families to Old Orchard Beach for more than a decade. Multiple
+              units in nearby buildings means we are ready to host anyone from couples, to big
+              families, and to reunions up to 16. All nearby and only a 5-minute walk from 7 miles
+              of open sandy beaches.
             </p>
             <p data-i18n="owner.p2">
               When you message me, you're talking to me. I usually reply within the hour, and I'm
@@ -320,13 +312,16 @@
         </svg>
       </div>
 
-      <!-- ── LISTINGS ─────────────────────────────────────────────── -->
+      <!-- ── FILTER BAR ──────────────────────────────────────────── -->
       <section class="filter-bar" id="filter-bar" aria-label="Filter properties">
         <div class="filter-inner">
+          <span class="filter-label" data-i18n="listings.filter_label">Filter</span>
           <!-- filter buttons injected by buildFilterBar() in js/listings.js -->
+          <span class="filter-count" id="filter-count" aria-live="polite"></span>
         </div>
       </section>
 
+      <!-- ── LISTINGS ─────────────────────────────────────────────── -->
       <section id="listings" class="listings-layout" aria-label="Properties">
         <div class="listings-panel">
           <div id="listings-grid" class="listings-grid"></div>
@@ -356,7 +351,7 @@
           aria-expanded="false"
           aria-controls="map-panel"
         >
-          🗺 Show Map
+          🗺&nbsp;&nbsp;Show Map
         </button>
       </section>
 
@@ -364,14 +359,14 @@
       <div class="section-divider into-blush" aria-hidden="true">
         <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
           <path
-            d="M0,48 C240,20 460,68 720,42 C980,16 1220,60 1440,38 L1440,80 L0,80 Z"
+            d="M0,42 C220,68 440,18 720,40 C1000,62 1220,16 1440,40 L1440,80 L0,80 Z"
             fill="currentColor"
           />
         </svg>
       </div>
 
-      <!-- ── REVIEWS TEASER ──────────────────────────────────────── -->
-      <section id="reviews" class="teaser-section sand-bg" aria-label="What guests are saying">
+      <!-- ── REVIEWS TEASER ─────────────────────────────────────── -->
+      <section id="reviews" class="teaser-section sand-bg" aria-label="Reviews">
         <div class="teaser-inner">
           <div class="teaser-header" data-reveal>
             <div>
@@ -380,18 +375,13 @@
                 <span data-i18n="reviews.section_title">Real stays, real words</span>
               </h2>
             </div>
-            <a href="/reviews" class="teaser-link" data-i18n="reviews.see_all">
-              See all reviews →
-            </a>
+            <a href="/reviews" class="teaser-link" data-i18n="reviews.see_all"
+              >See all reviews →</a
+            >
           </div>
-          <div class="reviews-carousel" data-reveal>
+          <div class="reviews-carousel">
             <div class="reviews-track-outer">
-              <div
-                id="reviews-track"
-                class="reviews-track"
-                role="list"
-                aria-label="Recent reviews"
-              ></div>
+              <div id="reviews-track" class="reviews-track" role="list"></div>
             </div>
             <div class="carousel-controls">
               <button
@@ -425,8 +415,8 @@
         </svg>
       </div>
 
-      <!-- ── BLOG TEASER ─────────────────────────────────────────── -->
-      <section class="teaser-section cream-bg" aria-label="From the journal">
+      <!-- ── LOCAL GUIDE TEASER ─────────────────────────────────── -->
+      <section class="teaser-section cream-bg" aria-label="From the local guide">
         <div class="teaser-inner">
           <div class="teaser-header" data-reveal>
             <div>
@@ -441,7 +431,7 @@
         </div>
       </section>
 
-      <!-- divider blog → footer (into ink) -->
+      <!-- divider blog → footer -->
       <div class="section-divider into-ink" aria-hidden="true">
         <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
           <path
@@ -458,13 +448,13 @@
           <div class="logo-name">Beach Girl Property Rentals</div>
           <div class="logo-sub">Old Orchard Beach, ME</div>
           <p class="footer-tagline" data-i18n="footer.tagline">
-            Owner-managed vacation rentals on the sand.
+            Owner-managed vacation rentals just minutes from the sand.
           </p>
         </div>
         <div class="footer-col">
           <h4 data-i18n="footer.explore">Explore</h4>
           <a href="/" data-i18n="footer.home">Home</a>
-          <a href="/blog" data-i18n="footer.journal">Journal</a>
+          <a href="/blog" data-i18n="footer.journal">Local Guide</a>
           <a href="/reviews" data-i18n="footer.reviews">Reviews</a>
         </div>
         <div class="footer-col">
@@ -491,7 +481,7 @@
       </div>
     </footer>
 
-    <!-- ── INQUIRY MODAL (preserved structure; key labels translated) ── -->
+    <!-- ── INQUIRY MODAL ── -->
     <div
       class="overlay"
       id="inquiry-overlay"
@@ -515,134 +505,59 @@
             Send Jill a message
           </div>
           <p class="modal-subtitle" data-i18n="inquiry.subtitle">
-            Replies within the hour, usually faster.
+            Usually replies within the hour.
           </p>
         </div>
-
-        <div class="modal-body" id="inquiry-form-view">
-          <div class="inquiry-summary" id="inquiry-summary"></div>
-
-          <div class="form-row">
+        <div class="modal-body">
+          <form id="inquiry-form" novalidate>
             <div class="field">
-              <label for="i-first">
-                <span data-i18n="inquiry.name">Your name</span>
-                <span class="req">*</span>
-              </label>
-              <input type="text" id="i-first" name="first" autocomplete="given-name" required />
+              <label for="iq-property" data-i18n="inquiry.property_label">Which property?</label>
+              <select id="iq-property" name="property" required></select>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="iq-checkin" data-i18n="inquiry.checkin_label">Check-in</label>
+                <input id="iq-checkin" name="checkin" type="date" />
+              </div>
+              <div class="field">
+                <label for="iq-checkout" data-i18n="inquiry.checkout_label">Check-out</label>
+                <input id="iq-checkout" name="checkout" type="date" />
+              </div>
             </div>
             <div class="field">
-              <label for="i-last">
-                <span>Last name</span>
-                <span class="req">*</span>
-              </label>
-              <input type="text" id="i-last" name="last" autocomplete="family-name" required />
+              <label for="iq-guests" data-i18n="inquiry.guests_label">Guests</label>
+              <input id="iq-guests" name="guests" type="number" min="1" max="20" />
             </div>
+            <div class="field">
+              <label for="iq-name" data-i18n="inquiry.name_label">Your name <span class="req">*</span></label>
+              <input id="iq-name" name="name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="iq-email" data-i18n="inquiry.email_label">Email <span class="req">*</span></label>
+              <input id="iq-email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="iq-message" data-i18n="inquiry.message_label">Message <span class="req">*</span></label>
+              <textarea id="iq-message" name="message" rows="4" required></textarea>
+            </div>
+            <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
+            <button type="button" class="btn-primary" style="width: 100%" data-action="submit-inquiry">
+              Send Inquiry →
+            </button>
+            <p class="form-note" data-i18n="inquiry.note">No commitment — just a conversation.</p>
+          </form>
+          <div class="success-view" id="inquiry-success">
+            <div class="success-icon">✉️</div>
+            <h3 data-i18n="inquiry.success_title">Thanks!</h3>
+            <p data-i18n="inquiry.success_body">Your message is on its way. Jill will reply soon.</p>
           </div>
-
-          <div class="form-row">
-            <div class="field">
-              <label for="i-email">
-                <span data-i18n="inquiry.email">Email</span>
-                <span class="req">*</span>
-              </label>
-              <input type="email" id="i-email" name="email" autocomplete="email" required />
-            </div>
-            <div class="field">
-              <label for="i-phone" data-i18n="inquiry.phone">Phone (optional)</label>
-              <input type="tel" id="i-phone" name="phone" autocomplete="tel" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="field">
-              <label for="i-checkin">
-                <span data-i18n="inquiry.checkin">Check-in</span>
-                <span class="req">*</span>
-              </label>
-              <input type="date" id="i-checkin" name="checkin" />
-            </div>
-            <div class="field">
-              <label for="i-checkout">
-                <span data-i18n="inquiry.checkout">Check-out</span>
-                <span class="req">*</span>
-              </label>
-              <input type="date" id="i-checkout" name="checkout" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="i-guests">
-              <span data-i18n="inquiry.guests">Guests</span>
-              <span class="req">*</span>
-            </label>
-            <select id="i-guests" name="guests">
-              <option value="">Select…</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9+</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="i-message" data-i18n="inquiry.message">
-              Anything else we should know?
-            </label>
-            <textarea
-              id="i-message"
-              name="message"
-              rows="4"
-              placeholder="Pets, special occasion, accessibility needs…"
-            ></textarea>
-          </div>
-
-          <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
-
-          <button
-            type="button"
-            class="btn-primary"
-            style="width: 100%; margin-top: 0.5rem"
-            data-action="submit-inquiry"
-            data-i18n="inquiry.send"
-          >
-            Send Inquiry
-          </button>
-          <p class="form-note">
-            <span data-i18n="inquiry.consent">By submitting, you agree to our</span>
-            <a href="/legal/terms.html" data-i18n="inquiry.consent_link_terms">Terms</a>
-            <span data-i18n="inquiry.and">and</span>
-            <a href="/legal/privacy.html" data-i18n="inquiry.consent_link_privacy">Privacy Policy</a
-            >.
-          </p>
-        </div>
-
-        <div class="success-view" id="inquiry-success">
-          <div class="success-icon">🌊</div>
-          <h3 data-i18n="inquiry.success_title">Message sent.</h3>
-          <p data-i18n="inquiry.success_body">
-            Jill will reply within the hour. If you don't see a response, check your spam folder or
-            call (207)&nbsp;450&#8209;7347.
-          </p>
         </div>
       </div>
     </div>
 
-    <!-- Leaflet, Calendar, App, then Extras (i18n + cookies) -->
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin
-      defer
-    ></script>
-    <script src="/calendar.js" defer></script>
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script type="module" src="/js/main.js"></script>
     <script type="module" src="/js/extras-init.js"></script>
-    <script src="/js/birthday-banner.js" defer></script>
-    <!-- BIRTHDAY -->
   </body>
 </html>

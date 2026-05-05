@@ -5,20 +5,25 @@
     "description": "Locations de vacances gérées par la propriétaire à Old Orchard Beach, Maine. Logements à deux pas de la plage. Aucuns frais cachés — un simple message à Jill."
   },
   "nav": {
-    "journal": "Journal",
+    "journal": "Guide local",
     "reviews": "Avis",
     "inquire": "Demander",
     "home": "Accueil"
+  },
+  "lang_toggle": {
+    "en": "EN",
+    "fr": "FR"
   },
   "hero": {
     "season": "Été 2026 · Réservations ouvertes",
     "title_pre": "Votre",
     "title_em": "été dans le Maine",
-    "title_post": ", sans frais cachés.",
+    "title_post": ", sans frais de réservation.",
     "desc": "Logements gérés par la propriétaire, à deux pas de la plage à Old Orchard Beach. Évitez les frais d'Airbnb et de Vrbo — écrivez directement à Jill et vous êtes un pas de plus vers les pieds dans le sable.",
-    "props_units": "4 logements",
-    "props_steps": "À deux pas de la plage",
+    "props_units": "Plusieurs logements",
+    "props_steps": "À quelques minutes de la plage",
     "props_pets": "Animaux acceptés",
+    "props_owner": "Réservez avec la propriétaire",
     "cta": "Voir les disponibilités"
   },
   "trust": {
@@ -29,15 +34,13 @@
   },
   "owner": {
     "eyebrow": "Votre hôte",
-    "title": "Je suis Jill.",
-    "p1": "J'accueille les familles à Old Orchard Beach depuis plus de dix ans. Quatre logements dans le même immeuble : couples, grandes familles et retrouvailles jusqu'à seize personnes, tous sur la même rue tranquille, à cinq minutes de marche de sept milles de sable blanc.",
+    "title": "Je suis <em>Jill</em>.",
+    "p1": "J'accueille les familles à Old Orchard Beach depuis plus de dix ans. Plusieurs logements situés dans des immeubles voisins nous permettent d'accueillir aussi bien les couples que les grandes familles ou les retrouvailles jusqu'à 16 personnes. Tout est à proximité, à seulement 5 minutes de marche de 11 km de plage de sable ouvert.",
     "p2": "Quand vous m'écrivez, c'est à moi que vous parlez. Je réponds habituellement en moins d'une heure, et c'est moi qui vous donne le code d'entrée à l'arrivée. Pas d'application intermédiaire, pas de file d'attente.",
     "p3": "Si quelque chose ne va pas pendant votre séjour, je veux le savoir — et je veux le régler.",
     "signature": "— Jill"
   },
   "listings": {
-    "filter_pet": "Animaux acceptés",
-    "filter_air": "Climatisation centrale",
     "section_eyebrow": "Réservations ouvertes",
     "section_title": "Où vous séjournerez",
     "filter_label": "Filtrer",
@@ -59,63 +62,48 @@
     "error": "Nous n'avons pas pu charger les logements. Veuillez rafraîchir la page ou appeler le (207) 450-7347."
   },
   "reviews": {
-    "section_eyebrow": "Ce que disent les invités",
-    "section_title": "De vrais séjours, de vrais mots",
+    "section_eyebrow": "Ce que disent les clients",
+    "section_title": "Vrais séjours, vrais mots",
     "see_all": "Voir tous les avis",
-    "empty": "Les avis de notre première saison sur ce site arrivent bientôt. En attendant, vous pouvez lire les avis de plus d'une décennie d'invités sur Airbnb."
+    "empty": "Aucun avis pour le moment — soyez le premier!"
   },
   "journal": {
     "section_eyebrow": "Guide local",
     "section_title": "Notes de la côte",
     "see_all": "Lire plus",
-    "empty": "Aucune publication pour l'instant — revenez bientôt."
+    "empty": "Aucun article pour le moment — revenez bientôt."
   },
   "inquiry": {
     "title": "Envoyer un message à Jill",
-    "subtitle": "Réponse en moins d'une heure, souvent plus vite.",
+    "subtitle": "Réponse en moins d'une heure, généralement plus vite.",
     "property_label": "Quel logement?",
-    "property_placeholder": "— Choisir un logement —",
-    "property_any": "N'importe lequel / pas encore décidé",
-    "name": "Votre nom",
-    "email": "Courriel",
-    "phone": "Téléphone (facultatif)",
-    "checkin": "Arrivée",
-    "checkout": "Départ",
-    "guests": "Voyageurs",
-    "message": "Autre chose à nous dire?",
-    "send": "Envoyer la demande",
-    "sending": "Envoi…",
-    "success_title": "Message envoyé.",
-    "success_body": "Jill vous répondra dans l'heure. Si vous ne voyez pas de réponse, vérifiez vos courriels indésirables ou appelez le (207) 450-7347.",
-    "error": "Une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer ou appeler le (207) 450-7347.",
-    "required": "Obligatoire",
-    "consent": "En soumettant, vous acceptez nos",
-    "consent_link_terms": "Conditions",
-    "and": "et notre",
-    "consent_link_privacy": "Politique de confidentialité"
+    "checkin_label": "Arrivée",
+    "checkout_label": "Départ",
+    "guests_label": "Invités",
+    "name_label": "Votre nom",
+    "email_label": "Courriel",
+    "message_label": "Message",
+    "note": "Aucun engagement — juste une conversation.",
+    "success_title": "Merci!",
+    "success_body": "Votre message est en route. Jill vous répondra bientôt."
   },
   "footer": {
+    "tagline": "Locations de vacances gérées par la propriétaire, à quelques minutes de la plage.",
     "explore": "Explorer",
     "home": "Accueil",
-    "journal": "Journal",
+    "journal": "Guide local",
     "reviews": "Avis",
-    "contact": "Contact",
     "policies": "Politiques",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
     "cancellation": "Politique d'annulation",
-    "house_rules": "Règlement intérieur",
-    "tagline": "Locations de vacances gérées par la propriétaire, les pieds dans le sable.",
+    "house_rules": "Règles de la maison",
+    "contact": "Contact",
     "copyright": "© 2026 Affordable Property Management LLC. Old Orchard Beach, Maine."
   },
   "cookie": {
-    "message": "Nous utilisons des témoins minimaux pour mémoriser votre préférence de langue et charger les polices et les cartes. Nous n'affichons pas de publicités ni de traceurs.",
-    "accept": "OK, compris",
-    "learn": "Politique de confidentialité"
-  },
-  "lang_toggle": {
-    "label": "Langue",
-    "en": "EN",
-    "fr": "FR"
+    "message": "Nous utilisons un seul témoin pour mémoriser votre langue. Aucun suivi, aucune analyse, aucune publicité.",
+    "learn": "En savoir plus",
+    "accept": "Compris"
   }
 }

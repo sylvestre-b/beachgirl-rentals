@@ -1,12 +1,23 @@
 // map.js — Leaflet map with custom thumbnail pins
-// NOTE: Geocoding is now done at BUILD time (build.js). The browser no longer
-// hits Nominatim. Properties without lat/lng are simply skipped on the map.
+//
+// Changes in this revision (2026-05):
+//   • Desktop: clicking a property card flies the map to that pin and opens
+//     its popup. Hovering a card also pans-and-highlights (debounced).
+//   • Desktop: the floating ✕ close button is no longer rendered (it was
+//     ghosting outside the panel because .map-panel is position:sticky and
+//     the absolutely-positioned ✕ had no offset parent at desktop widths).
+//   • Mobile: ✕ enlarged to a 44x44 hit target; FAB toggles "Show Map" /
+//     "✕ Close Map" cleanly. The FAB visibility (show only inside the
+//     listings range) is wired in main.js's wireMapToggleVisibility().
+//   • Cards expose .selected state when clicked outside link/button areas,
+//     making "selector-first" UX possible without a separate mode toggle.
 
 import { esc } from './data.js';
 
 let _mapInstance = null;
 const _mapMarkers = {};
 let _mapMobileOpen = false;
+let _hoverDebounce = null;
 
 export function initMap(properties) {
   if (_mapInstance || typeof L === 'undefined') return;
@@ -46,10 +57,10 @@ export function initMap(properties) {
     popupEl.innerHTML = `
       <div class="map-popup-title">${esc(p.title)}</div>
       <div class="map-popup-loc">📍 ${esc(p.location)}</div>
-      <div class="map-popup-price">${esc(p.price)}/week</div>
+      <div class="map-popup-price">${esc(p.price || 'Inquire for rates')}/week</div>
       <button type="button" class="map-popup-btn">View property →</button>`;
     popupEl.querySelector('.map-popup-btn').addEventListener('click', () => {
-      window.location.href = `/property/${encodeURIComponent(p._slug)}`;
+      window.location.href = `/property/${encodeURIComponent(p._slug)}/`;
     });
 
     const marker = L.marker([p.lat, p.lng], { icon, title: p.title })
@@ -64,11 +75,11 @@ export function initMap(properties) {
   else if (bounds.length === 1) _mapInstance.setView(bounds[0], 14);
 
   wireMobileToggle();
+  wireCardSelection();
 }
 
 function pinHTML(p, avail) {
   const photo = p.photo && p.photo.length ? p.photo : null;
-  // optimize-images.js produces -160.webp variants for thumbs
   const thumbBase = photo ? photo.replace(/\.(jpg|jpeg|png|webp)$/i, '') : null;
   const thumbUrl = thumbBase ? `${thumbBase}-160.webp` : null;
 
@@ -77,18 +88,42 @@ function pinHTML(p, avail) {
                  style="background-image:url('${esc(thumbUrl)}')"
                  aria-hidden="true"></div>`;
   }
-  // Fallback: initial in Playfair italic on driftwood disc
   const letter = (p.title.charAt(0) || '?').toUpperCase();
   return `<div class="bg-pin ${avail ? '' : 'full'}" aria-hidden="true">${esc(letter)}</div>`;
 }
 
+// Highlight a card on the page and (on desktop only) scroll it into view.
 function highlightCard(slug) {
-  document.querySelectorAll('.card').forEach(c => c.classList.remove('highlighted'));
-  const c = document.getElementById(`card-${slug}`);
+  document
+    .querySelectorAll('.property-card, .card')
+    .forEach(c => c.classList.remove('highlighted'));
+  const c = document.querySelector(`.property-card[data-slug="${slug}"]`);
   if (c) {
     c.classList.add('highlighted');
-    c.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (window.matchMedia('(min-width: 1025px)').matches) {
+      c.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   }
+}
+
+// Mark a card as "selected" (selector-first UX).
+function setSelectedCard(slug) {
+  document
+    .querySelectorAll('.property-card, .card')
+    .forEach(c => c.classList.remove('selected'));
+  const c = document.querySelector(`.property-card[data-slug="${slug}"]`);
+  if (c) c.classList.add('selected');
+}
+
+// Pan + zoom the map onto a specific listing and open its popup.
+export function focusMapOn(slug) {
+  if (!_mapInstance) return;
+  const marker = _mapMarkers[slug];
+  if (!marker) return;
+  const latlng = marker.getLatLng();
+  // 16 is close enough to see surroundings without losing context
+  _mapInstance.flyTo(latlng, 16, { duration: 0.7 });
+  marker.openPopup();
 }
 
 export function updateMapHighlights(filtered) {
@@ -98,6 +133,69 @@ export function updateMapHighlights(filtered) {
     if (_mapInstance.hasLayer(m) && !set.has(k)) _mapInstance.removeLayer(m);
     else if (!_mapInstance.hasLayer(m) && set.has(k)) m.addTo(_mapInstance);
   });
+}
+
+// ── CARD SELECTION (selector-first) ───────────────────────────────────────
+// Click on a card body (not the photo, the avail-toggle, or the View &
+// Inquire button) selects that card. On desktop this also flies the map
+// to it. On mobile, we change the FAB label so the next "Show Map" tap
+// opens the map already focused on that listing.
+function wireCardSelection() {
+  document.addEventListener('click', e => {
+    const card = e.target.closest('.property-card');
+    if (!card) return;
+    // Ignore clicks on inner links / buttons / images — those have their
+    // own behaviour (navigate, toggle availability, etc.).
+    if (
+      e.target.closest('a, button, .card-photo, .card-photo-link, .avail-section, .avail-panel')
+    ) {
+      return;
+    }
+    e.preventDefault();
+    const slug = card.dataset.slug;
+    if (!slug) return;
+    setSelectedCard(slug);
+
+    // Desktop: fly the map to it.
+    if (window.matchMedia('(min-width: 1025px)').matches) {
+      focusMapOn(slug);
+    } else {
+      // Mobile: stash the focus target so opening the map zooms in.
+      const toggle = document.getElementById('map-toggle');
+      if (toggle) {
+        toggle.dataset.focusSlug = slug;
+        const lbl = toggle.querySelector('.map-toggle-label') || toggle;
+        // Re-label so user knows the next tap brings them to *this* unit.
+        if (toggle.querySelector('.map-toggle-label')) {
+          toggle.querySelector('.map-toggle-label').textContent = 'Show on Map';
+        } else {
+          toggle.textContent = '🗺  Show on Map';
+        }
+      }
+    }
+  });
+
+  // Hover-to-focus on desktop (debounced 220ms so the map doesn't jump
+  // while the user is moving the mouse across the grid).
+  document.addEventListener(
+    'mouseenter',
+    e => {
+      if (!window.matchMedia('(min-width: 1025px) and (hover: hover)').matches) return;
+      const card = e.target.closest && e.target.closest('.property-card');
+      if (!card) return;
+      const slug = card.dataset.slug;
+      if (!slug) return;
+      clearTimeout(_hoverDebounce);
+      _hoverDebounce = setTimeout(() => {
+        // Only pan, don't zoom — full fly-to is reserved for explicit click.
+        const marker = _mapMarkers[slug];
+        if (marker && _mapInstance) {
+          _mapInstance.panTo(marker.getLatLng(), { animate: true, duration: 0.45 });
+        }
+      }, 220);
+    },
+    true
+  );
 }
 
 // ── MOBILE MAP TOGGLE ─────────────────────────────────────────────────────
@@ -111,12 +209,19 @@ function wireMobileToggle() {
     _mapMobileOpen = true;
     panel.classList.add('mobile-open');
     toggleBtn.setAttribute('aria-expanded', 'true');
-    toggleBtn.textContent = '✕ Close Map';
-    // Lock body scroll so the page doesn't scroll underneath the fullscreen map
+    toggleBtn.textContent = '✕  Close Map';
     document.body.style.overflow = 'hidden';
-    // Map must recompute size after layout change
-    if (_mapInstance) setTimeout(() => _mapInstance.invalidateSize(), 300);
-    // Move focus to the close button for keyboard/screen-reader users
+    if (_mapInstance) {
+      setTimeout(() => {
+        _mapInstance.invalidateSize();
+        // If a card was selected before opening the map, fly to it.
+        const focusSlug = toggleBtn.dataset.focusSlug;
+        if (focusSlug) {
+          focusMapOn(focusSlug);
+          delete toggleBtn.dataset.focusSlug;
+        }
+      }, 220);
+    }
     if (closeBtn) closeBtn.focus();
   }
 
@@ -124,20 +229,16 @@ function wireMobileToggle() {
     _mapMobileOpen = false;
     panel.classList.remove('mobile-open');
     toggleBtn.setAttribute('aria-expanded', 'false');
-    toggleBtn.textContent = '🗺  Show Map';
-    // Restore body scroll
+    // Restore label based on selection state
+    const hasSelected = !!document.querySelector('.property-card.selected');
+    toggleBtn.textContent = hasSelected ? '🗺  Show on Map' : '🗺  Show Map';
     document.body.style.overflow = '';
-    // Return focus to the FAB that opened the map
     toggleBtn.focus();
   }
 
-  // FAB at bottom-right — existing behaviour preserved
   toggleBtn.addEventListener('click', () => (_mapMobileOpen ? closeMap() : openMap()));
-
-  // New ✕ button at top-right of the fullscreen map
   if (closeBtn) closeBtn.addEventListener('click', closeMap);
 
-  // ESC key closes the map from anywhere on the page
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && _mapMobileOpen) closeMap();
   });
