@@ -12,7 +12,8 @@
     "format:check": "prettier --check \"**/*.{js,css,html,json,md}\"",
     "validate:html": "html-validate \"*.html\"",
     "lhci": "lhci autorun --config=./lighthouse.config.cjs",
-    "test": "npm run lint && npm run format:check && npm run validate:html"
+    "test": "npm run lint && npm run format:check && npm run validate:html",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -20,10 +21,13 @@
   },
   "devDependencies": {
     "@lhci/cli": "^0.13.0",
+    "@playwright/test": "^1.44.0",
     "eslint": "^8.57.0",
     "html-validate": "^8.18.0",
+    "http-server": "^14.1.1",
     "prettier": "^3.2.5",
-    "sharp": "^0.33.4"
+    "sharp": "^0.33.4",
+    "wait-on": "^7.2.0"
   },
   "engines": {
     "node": ">=18"
