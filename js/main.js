@@ -7,6 +7,7 @@ import { initForms, openInquiryModal, closeModal } from './forms.js';
 import { initMap, updateMapHighlights } from './map.js';
 import { initReveal } from './reveal.js';
 import { initHero } from './hero.js';
+import { t } from './i18n.js';
 
 // Reviews carousel state
 let _reviewOffset = 0;
@@ -17,6 +18,23 @@ const CARDS_VISIBLE = () => (window.innerWidth < 640 ? 1 : window.innerWidth < 9
   initHero();
 
   const state = await loadAll();
+
+  // If listings-index.json hard-failed in production, show the error state
+  // before handing off to initListings (which would just render nothing).
+  if (state.listingsLoadError) {
+    const grid = document.getElementById('listings-grid');
+    const empty = document.getElementById('listings-empty');
+    if (grid) grid.innerHTML = '';
+    if (empty) {
+      // Swap the no_match paragraph for the error message
+      const p = empty.querySelector('[data-i18n="listings.no_match"]');
+      if (p) p.setAttribute('data-i18n', 'listings.error');
+      // Hide the reset button — it won't help for a load error
+      const btn = empty.querySelector('[data-action="reset-filters"]');
+      if (btn) btn.hidden = true;
+      empty.hidden = false;
+    }
+  }
 
   initListings(state);
   initForms(state);
@@ -115,9 +133,11 @@ function renderReviewsTeaser(reviews) {
   const track = document.getElementById('reviews-track');
   if (!track) return;
   if (!reviews.length) {
-    track.innerHTML = `<div style="padding:2rem;color:var(--text-muted)">
-      No reviews yet — be the first!
-    </div>`;
+    // Use the i18n key so the message translates with the page language.
+    // t() is safe to call here — i18n loads before boot() resolves.
+    track.innerHTML = `<p style="padding:2rem;color:var(--text-muted)">${
+      t('reviews.empty') || 'Reviews coming soon.'
+    }</p>`;
     return;
   }
   track.innerHTML = reviews

@@ -25,18 +25,21 @@ function fetchSafe(url, ms = 8000) {
     });
 }
 
+// Returns { data: [], failed: false } — failed=true means network/parse error,
+// not an intentionally empty list.
 async function fetchJson(url) {
   const r = await fetchSafe(url);
-  if (!r || !r.ok) return [];
+  if (!r || !r.ok) return { data: [], failed: true };
   try {
-    return await r.json();
+    const data = await r.json();
+    return { data, failed: false };
   } catch {
-    return [];
+    return { data: [], failed: true };
   }
 }
 
 export async function loadAll() {
-  const [props, revs, posts] = await Promise.all([
+  const [propsResult, revsResult, postsResult] = await Promise.all([
     fetchJson('/listings-index.json'),
     fetchJson('/reviews-index.json'),
     fetchJson('/posts-index.json'),
@@ -46,10 +49,17 @@ export async function loadAll() {
   // In dev/preview, demo data fills in so the layout can be inspected.
   const prod = isProd();
 
+  const props = propsResult.data;
+  const revs  = revsResult.data;
+  const posts = postsResult.data;
+
   return {
-    properties: props.length ? props.filter(p => p.active !== false) : prod ? [] : DEMO_PROPS,
-    reviews: revs.length ? revs.filter(r => r.approved === true) : prod ? [] : DEMO_REVIEWS,
-    posts: posts.length ? posts : prod ? [] : DEMO_POSTS,
+    properties:        props.length ? props.filter(p => p.active !== false) : prod ? [] : DEMO_PROPS,
+    reviews:           revs.length  ? revs.filter(r => r.approved === true) : prod ? [] : DEMO_REVIEWS,
+    posts:             posts.length ? posts : prod ? [] : DEMO_POSTS,
+    // true only when the fetch hard-failed (network error / bad HTTP / parse error)
+    // AND we are in production (so we know it isn't just "no listings yet")
+    listingsLoadError: propsResult.failed && prod,
   };
 }
 

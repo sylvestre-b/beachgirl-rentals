@@ -1,45 +1,35 @@
-﻿{
+{
     "meta":  {
-                 "lang":  "en",
-                 "title":  "Beach Girl Property Rentals — Old Orchard Beach, ME",
-                 "description":  "Owner-managed vacation rentals in Old Orchard Beach, Maine. Cottages and apartments steps from the sand. No hidden booking fees — just a quick message to Jill."
+                 "title":  "Beach Girl Property Rentals — Old Orchard Beach, Maine",
+                 "description":  "Owner-managed vacation rentals steps from the beach in Old Orchard Beach, Maine. Direct booking with Jill — no middleman."
              },
     "nav":  {
                 "journal":  "Journal",
                 "reviews":  "Reviews",
-                "inquire":  "Inquire",
-                "home":  "Home"
+                "inquire":  "Inquire"
             },
     "hero":  {
-                 "season":  "Summer 2026 · Now Booking",
-                 "title_pre":  "Your",
-                 "title_em":  "Maine summer",
-                 "title_post":  ", no hidden fees attached.",
-                 "desc":  "Owner-managed rentals near the beach in Old Orchard Beach. Skip the Airbnb and Vrbo fees — message Jill directly and you\u0027re one step closer to having your toes in the sand.",
-                 "props_units":  "4 units",
-                 "props_steps":  "Steps from the beach",
-                 "props_pets":  "Pet-friendly options",
-                 "cta":  "See what\u0027s available"
+                 "headline_1":  "Maine",
+                 "headline_2":  "summer",
+                 "headline_3":  "starts",
+                 "headline_4":  "here.",
+                 "subhead":  "Four units, one quiet street, five minutes from the sand.",
+                 "cta":  "See what's available"
              },
-    "trust":  {
-                  "replies":  "Replies within the hour",
-                  "decade":  "Hosting for over a decade",
-                  "insured":  "Fully insured",
-                  "no_fees":  "No booking fees"
-              },
     "owner":  {
-                  "eyebrow":  "Meet your host",
-                  "title":  "I\u0027m Jill.",
-                  "p1":  "I\u0027ve been welcoming families to Old Orchard Beach for over a decade. Four units in the same building means I can host couples, big families, and reunions of up to sixteen — all on the same quiet street, all five minutes\u0027 walk from seven miles of sand.",
-                  "p2":  "When you message me, you\u0027re talking to me. I usually reply within the hour, and I\u0027m the one handing you the keypad code on arrival. No app middleman, no support ticket queue.",
-                  "p3":  "If something\u0027s not right during your stay, I want to hear about it — and I want to fix it.",
+                  "eyebrow":  "About Jill",
+                  "title":  "Owner-managed means",
+                  "title_em":  "you deal with me.",
+                  "p1":  "Four units in the same building means I can host couples, big families, and reunions of up to sixteen — all on the same quiet street, all five minutes' walk from seven miles of sand.",
+                  "p2":  "When you message me, you're talking to me. I usually reply within the hour, and I'm the one handing you the keypad code on arrival. No app middleman, no support ticket queue.",
+                  "p3":  "If something's not right during your stay, I want to hear about it — and I want to fix it.",
                   "signature":  "— Jill"
               },
     "listings":  {
                      "filter_pet":  "Pet-friendly",
                      "filter_air":  "Central air",
                      "section_eyebrow":  "Bookings open",
-                     "section_title":  "Where you\u0027ll stay",
+                     "section_title":  "Where you'll stay",
                      "filter_label":  "Filter",
                      "filter_all":  "All",
                      "filter_available":  "Available",
@@ -53,9 +43,10 @@
                      "filter_year_round":  "📅 Year-round",
                      "available_label":  "Dates available",
                      "starting_label":  "Starting at",
-                     "inquire_btn":  "View \u0026 Inquire",
+                     "inquire_btn":  "View & Inquire",
                      "no_match":  "No properties match your filters yet",
-                     "reset_filters":  "show all"
+                     "reset_filters":  "show all",
+                     "error":  "We had trouble loading properties. Please refresh the page or call (207) 450-7347."
                  },
     "reviews":  {
                     "section_eyebrow":  "What guests say",
@@ -66,7 +57,8 @@
     "journal":  {
                     "section_eyebrow":  "Local guide",
                     "section_title":  "Notes from the coast",
-                    "see_all":  "Read more"
+                    "see_all":  "Read more",
+                    "empty":  "No posts yet — check back soon."
                 },
     "inquiry":  {
                     "title":  "Send Jill a message",
@@ -84,7 +76,7 @@
                     "send":  "Send Inquiry",
                     "sending":  "Sending…",
                     "success_title":  "Message sent.",
-                    "success_body":  "Jill will reply within the hour. If you don\u0027t see a response, check your spam folder or call (207) 450-7347.",
+                    "success_body":  "Jill will reply within the hour. If you don't see a response, check your spam folder or call (207) 450-7347.",
                     "error":  "Something went wrong sending your message. Please try again, or call (207) 450-7347.",
                     "required":  "Required",
                     "consent":  "By submitting, you agree to our",
@@ -107,7 +99,7 @@
                    "copyright":  "© 2026 Affordable Property Management LLC. Old Orchard Beach, Maine."
                },
     "cookie":  {
-                   "message":  "We use minimal cookies to remember your language preference and to load fonts and maps. We don\u0027t run ads or trackers.",
+                   "message":  "We use minimal cookies to remember your language preference and to load fonts and maps. We don't run ads or trackers.",
                    "accept":  "OK, got it",
                    "learn":  "Privacy Policy"
                },
