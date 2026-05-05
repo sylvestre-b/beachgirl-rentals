@@ -61,7 +61,7 @@ function consentGiven() {
 // ── lookup helper: get('hero.title_em') → "Maine summer" ───────────────
 function lookup(key) {
   if (!_dict) return key;
-  return key.split('.').reduce((obj, k) => (obj && obj[k] != null ? obj[k] : null), _dict) || key;
+  return key.split('.').reduce((obj, k) => (obj && obj[k] !== null && obj[k] !== undefined ? obj[k] : null), _dict) || key;
 }
 
 // ── DOM apply ──────────────────────────────────────────────────────────

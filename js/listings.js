@@ -77,11 +77,10 @@ function buildFilterBar(properties) {
     })),
   ];
 
-  // Keep the existing filter-label span and filter-count span; replace buttons only
-  const labelSpan = bar.querySelector('.filter-label');
+  // Keep the existing filter-count span; replace buttons only
   const countSpan = bar.querySelector('.filter-count');
 
-  // Remove old buttons (everything between labelSpan and countSpan)
+  // Remove old buttons
   bar.querySelectorAll('.filter-btn').forEach(b => b.remove());
 
   // Insert new buttons before the count span

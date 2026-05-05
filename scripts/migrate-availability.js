@@ -114,7 +114,7 @@ function expandRange(entry, index) {
   }
 
   const days = [];
-  let cur = new Date(startDate);
+  const cur = new Date(startDate);
   while (cur <= endDate) {
     days.push({ date: toISO(cur), status });
     cur.setDate(cur.getDate() + 1);
