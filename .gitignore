@@ -22,3 +22,20 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Backup files
+*.bak
+
+# Test results
+test-results/
+playwright-report/
+
+# Build artifacts (these get regenerated)
+photos/*-160.webp
+photos/*-480.webp
+photos/*-800.webp
+photos/*-1200.webp
+photos/*-1600.webp
+
+# Geocode cache (regenerates on build)
+.geocode-cache.json
