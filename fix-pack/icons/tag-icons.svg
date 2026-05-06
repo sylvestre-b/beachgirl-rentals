@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!--
+    tag-icons.svg — sketchy line icons for the listing tags and filters.
+    Match the existing trust-icons.svg aesthetic: stroke-only, currentColor,
+    rounded caps/joins, slight irregularity for a hand-drawn feel.
+    Reference with: <svg><use href="/icons/tag-icons.svg#tag-pet"/></svg>
+  -->
+
+  <symbol id="tag-pet" viewBox="0 0 14 14" fill="none">
+    <ellipse cx="7" cy="9.5" rx="2.6" ry="2.2" stroke="currentColor" stroke-width="1.4"/>
+    <ellipse cx="3" cy="5.4" rx="1" ry="1.3" stroke="currentColor" stroke-width="1.3"/>
+    <ellipse cx="11" cy="5.4" rx="1" ry="1.3" stroke="currentColor" stroke-width="1.3"/>
+    <ellipse cx="5" cy="3" rx="0.9" ry="1.2" stroke="currentColor" stroke-width="1.3"/>
+    <ellipse cx="9" cy="3" rx="0.9" ry="1.2" stroke="currentColor" stroke-width="1.3"/>
+  </symbol>
+
+  <symbol id="tag-beach" viewBox="0 0 14 14" fill="none">
+    <path d="M7 2 V7 M2 7 H12 M2 7 Q4 5.5 7 7 T12 7"
+          stroke="currentColor" stroke-width="1.4"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="7" cy="2" r="0.5" fill="currentColor"/>
+  </symbol>
+
+  <symbol id="tag-family" viewBox="0 0 14 14" fill="none">
+    <path d="M2 11.5 L7 4 L12 11.5 Z" stroke="currentColor" stroke-width="1.4"
+          stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M5.5 11.5 V8.5 H8.5 V11.5" stroke="currentColor" stroke-width="1.4"
+          stroke-linejoin="round" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="tag-air" viewBox="0 0 14 14" fill="none">
+    <path d="M7 2 V12 M2 7 H12 M3.5 3.5 L10.5 10.5 M10.5 3.5 L3.5 10.5"
+          stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="tag-newest" viewBox="0 0 14 14" fill="none">
+    <path d="M7 2 L8.2 5.6 L12 5.8 L9.1 8.1 L10 11.7 L7 9.7 L4 11.7 L4.9 8.1 L2 5.8 L5.8 5.6 Z"
+          stroke="currentColor" stroke-width="1.4"
+          stroke-linejoin="round" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="tag-waterfront" viewBox="0 0 14 14" fill="none">
+    <path d="M2 5 Q4 3.5 6 5 T10 5 T13 5"
+          stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M2 8.5 Q4 7 6 8.5 T10 8.5 T13 8.5"
+          stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M2 11.5 Q4 10 6 11.5 T10 11.5 T13 11.5"
+          stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="tag-yearround" viewBox="0 0 14 14" fill="none">
+    <rect x="2" y="3" width="10" height="9" rx="1.2"
+          stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M2 6 H12 M5 1.5 V4 M9 1.5 V4"
+          stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="tag-dates" viewBox="0 0 14 14" fill="none">
+    <rect x="2" y="3" width="10" height="9" rx="1.2"
+          stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M2 6 H12 M5 1.5 V4 M9 1.5 V4"
+          stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="5" cy="9" r="0.7" fill="currentColor"/>
+  </symbol>
+
+</svg>
