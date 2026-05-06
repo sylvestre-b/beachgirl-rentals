@@ -1,12 +1,13 @@
 {
   "meta": {
-    "title": "Beach Girl Property Rentals — Old Orchard Beach, Maine",
-    "description": "Locations de vacances gérées par la propriétaire à Old Orchard Beach, Maine. Réservation directe avec la propriétaire — sans frais de plateforme."
+    "lang": "fr",
+    "title": "Beach Girl Property Rentals — Old Orchard Beach, ME",
+    "description": "Locations de vacances gérées par la propriétaire à Old Orchard Beach, Maine. Logements à deux pas de la plage. Aucuns frais cachés — un simple message à Jill."
   },
   "nav": {
     "journal": "Guide local",
     "reviews": "Avis",
-    "inquire": "Contact",
+    "inquire": "Demander",
     "home": "Accueil"
   },
   "lang_toggle": {
@@ -17,26 +18,26 @@
     "season": "Été 2026 · Réservations ouvertes",
     "title_pre": "Votre",
     "title_em": "été dans le Maine",
-    "title_post": ", sans frais cachés.",
-    "desc": "Locations gérées par la propriétaire près de la plage à Old Orchard Beach. Évitez les frais d'Airbnb et Vrbo — écrivez directement à la propriétaire et vous serez à un pas de poser les pieds dans le sable.",
-    "props_units": "Plusieurs unités disponibles",
+    "title_post": ", sans frais de réservation.",
+    "desc": "Logements gérés par la propriétaire, à deux pas de la plage à Old Orchard Beach. Évitez les frais d'Airbnb et de Vrbo — écrivez directement à Jill et vous êtes un pas de plus vers les pieds dans le sable.",
+    "props_units": "Plusieurs logements",
     "props_steps": "À quelques minutes de la plage",
-    "props_pets": "Options acceptant les animaux",
+    "props_pets": "Animaux acceptés",
     "props_owner": "Réservez avec la propriétaire",
     "cta": "Voir les disponibilités"
   },
   "trust": {
-    "replies": "Répond habituellement en moins d'une heure",
-    "decade": "Plus d'une décennie d'expérience",
-    "insured": "Gestion locale",
+    "replies": "Réponse en moins d'une heure",
+    "decade": "Plus de 10 ans d'expérience",
+    "insured": "Entièrement assurée",
     "no_fees": "Aucuns frais de réservation"
   },
   "owner": {
-    "eyebrow": "Rencontrez votre hôtesse",
+    "eyebrow": "Votre hôte",
     "title": "Je suis <em>Jill</em>.",
-    "p1": "J'accueille des familles à Old Orchard Beach depuis plus d'une décennie. Plusieurs unités dans des bâtiments voisins nous permettent de recevoir aussi bien des couples que des grandes familles et des retrouvailles jusqu'à 16 personnes — toutes à 5 minutes de marche de 11 km de plages ouvertes de sable fin.",
-    "p2": "Quand vous m'écrivez, vous me parlez à moi. Je réponds habituellement en moins d'une heure, et c'est moi qui vous transmets le code d'accès à l'arrivée. Pas d'application intermédiaire, pas de file d'attente d'assistance.",
-    "p3": "Si quelque chose ne va pas pendant votre séjour, je veux le savoir — et je veux y remédier.",
+    "p1": "J'accueille les familles à Old Orchard Beach depuis plus de dix ans. Plusieurs logements situés dans des immeubles voisins nous permettent d'accueillir aussi bien les couples que les grandes familles ou les retrouvailles jusqu'à 16 personnes. Tout est à proximité, à seulement 5 minutes de marche de 11 km de plage de sable ouvert.",
+    "p2": "Quand vous m'écrivez, c'est à moi que vous parlez. Je réponds habituellement en moins d'une heure, et c'est moi qui vous donne le code d'entrée à l'arrivée. Pas d'application intermédiaire, pas de file d'attente.",
+    "p3": "Si quelque chose ne va pas pendant votre séjour, je veux le savoir — et je veux le régler.",
     "signature": "— Jill"
   },
   "listings": {
@@ -44,55 +45,50 @@
     "section_title": "Où vous séjournerez",
     "filter_label": "Filtrer",
     "filter_all": "Tous",
-    "filter_available": "Disponibles",
-    "filter_dates": "Dates",
-    "filter_pet_friendly": "Animaux acceptés",
-    "filter_walk_to_beach": "À pied de la plage",
-    "filter_family_friendly": "Familial",
-    "filter_central_air": "Climatisation",
-    "filter_newest": "Nouveau",
-    "filter_waterfront": "Bord de l'eau",
-    "filter_year_round": "Toute l'année",
+    "filter_available": "Disponible",
+    "filter_pet_friendly": "🐾 Animaux acceptés",
+    "filter_walk_to_beach": "🏖 À pied vers la plage",
+    "filter_family_friendly": "👨‍👩‍👧 Familles bienvenues",
+    "filter_central_air": "❄ Climatisation centrale",
+    "filter_second_floor": "⬆ Deuxième étage",
+    "filter_newest": "✨ Nouveauté",
+    "filter_waterfront": "🌊 Bord de mer",
+    "filter_year_round": "📅 Ouvert à l'année",
     "available_label": "Dates disponibles",
     "starting_label": "À partir de",
-    "inquire_btn": "Voir & Contacter",
-    "no_match": "Aucune propriété ne correspond à vos filtres",
-    "reset_filters": "tout afficher",
-    "error": "Erreur lors du chargement. Veuillez rafraîchir la page ou appeler le (207) 450-7347."
+    "inquire_btn": "Voir et demander",
+    "no_match": "Aucun logement ne correspond à ces filtres",
+    "reset_filters": "Réinitialiser les filtres",
+    "error": "Nous n'avons pas pu charger les logements. Veuillez rafraîchir la page ou appeler le (207) 450-7347."
   },
   "reviews": {
-    "section_eyebrow": "Ce que disent les invités",
+    "section_eyebrow": "Ce que disent les clients",
     "section_title": "Vrais séjours, vrais mots",
     "see_all": "Voir tous les avis",
-    "empty": "Pas encore d'avis — soyez le premier !"
+    "empty": "Aucun avis pour le moment — soyez le premier!"
   },
   "journal": {
     "section_eyebrow": "Guide local",
-    "section_title": "Notes du quartier",
+    "section_title": "Notes de la côte",
     "see_all": "Lire plus",
-    "empty": "Pas encore de billets — revenez bientôt."
+    "empty": "Aucun article pour le moment — revenez bientôt."
   },
   "inquiry": {
-    "title": "Parlons de votre séjour",
-    "property_label": "Quelle propriété ?",
+    "title": "Envoyer un message à Jill",
+    "subtitle": "Réponse en moins d'une heure, généralement plus vite.",
+    "property_label": "Quel logement?",
     "checkin_label": "Arrivée",
     "checkout_label": "Départ",
     "guests_label": "Invités",
     "name_label": "Votre nom",
     "email_label": "Courriel",
     "message_label": "Message",
-    "note": "Sans engagement — juste une conversation.",
-    "success_title": "Message envoyé.",
-    "success_body": "La propriétaire répondra dans l'heure. Si vous ne voyez pas de réponse, vérifiez votre dossier spam ou appelez le (207) 450-7347."
-  },
-  "property_page": {
-    "inquire_box_title": "Demande de tarifs",
-    "inquire_box_per_week": "/ semaine",
-    "inquire_for_dates": "Demande de dates disponibles",
-    "inquire_for_dates_body": "— écrivez directement à la propriétaire et nous confirmerons ce qui est libre."
+    "note": "Aucun engagement — juste une conversation.",
+    "success_title": "Merci!",
+    "success_body": "Votre message est en route. Jill vous répondra bientôt."
   },
   "footer": {
-    "tagline": "Locations gérées par la propriétaire à quelques minutes du sable.",
+    "tagline": "Locations de vacances gérées par la propriétaire, à quelques minutes de la plage.",
     "explore": "Explorer",
     "home": "Accueil",
     "journal": "Guide local",
@@ -101,8 +97,13 @@
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
     "cancellation": "Politique d'annulation",
-    "house_rules": "Règlement de la maison",
+    "house_rules": "Règles de la maison",
     "contact": "Contact",
     "copyright": "© 2026 Affordable Property Management LLC. Old Orchard Beach, Maine."
+  },
+  "cookie": {
+    "message": "Nous utilisons un seul témoin pour mémoriser votre langue. Aucun suivi, aucune analyse, aucune publicité.",
+    "learn": "En savoir plus",
+    "accept": "Compris"
   }
 }

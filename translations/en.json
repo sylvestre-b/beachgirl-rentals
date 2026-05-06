@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Beach Girl Property Rentals — Old Orchard Beach, Maine",
-    "description": "Owner-managed vacation rentals near the beach in Old Orchard Beach, Maine. Direct booking with the owner — no platform fees."
+    "description": "Owner-managed vacation rentals near the beach in Old Orchard Beach, Maine. Direct booking with Jill — no platform fees."
   },
   "nav": {
     "journal": "Local Guide",
@@ -17,8 +17,8 @@
     "season": "Summer 2026 · Now Booking",
     "title_pre": "Your",
     "title_em": "Maine summer",
-    "title_post": ", no hidden fees attached.",
-    "desc": "Owner-managed rentals near the beach in Old Orchard Beach. Skip the Airbnb and Vrbo fees — message the owner directly and you're one step closer to having your toes in the sand.",
+    "title_post": ", no booking fees attached.",
+    "desc": "Owner-managed rentals near the beach in Old Orchard Beach. Skip the Airbnb and Vrbo fees — message Jill directly and you're one step closer to having your toes in the sand.",
     "props_units": "Multiple Units Available",
     "props_steps": "Minutes from Shore",
     "props_pets": "Pet-friendly Options",
@@ -28,7 +28,7 @@
   "trust": {
     "replies": "Usually replies within the hour",
     "decade": "Hosting for over a decade",
-    "insured": "Locally managed",
+    "insured": "Fully insured",
     "no_fees": "No booking fees"
   },
   "owner": {
@@ -45,14 +45,14 @@
     "filter_label": "Filter",
     "filter_all": "All",
     "filter_available": "Available",
-    "filter_dates": "Any dates",
-    "filter_pet_friendly": "Pet-friendly",
-    "filter_walk_to_beach": "Walk to beach",
-    "filter_family_friendly": "Family-friendly",
-    "filter_central_air": "Central air",
-    "filter_newest": "Newest",
-    "filter_waterfront": "Waterfront",
-    "filter_year_round": "Year-round",
+    "filter_pet_friendly": "🐾 Pet-friendly",
+    "filter_walk_to_beach": "🏖 Walk to beach",
+    "filter_family_friendly": "👨‍👩‍👧 Family-friendly",
+    "filter_central_air": "❄ Central air",
+    "filter_second_floor": "⬆ Second floor",
+    "filter_newest": "✨ Newest",
+    "filter_waterfront": "🌊 Waterfront",
+    "filter_year_round": "📅 Year-round",
     "available_label": "Dates available",
     "starting_label": "Starting at",
     "inquire_btn": "View & Inquire",
@@ -67,13 +67,14 @@
     "empty": "No reviews yet — be the first!"
   },
   "journal": {
-    "section_eyebrow": "Local Guide",
-    "section_title": "From around the neighborhood",
+    "section_eyebrow": "Local guide",
+    "section_title": "Notes from the coast",
     "see_all": "Read more",
     "empty": "No posts yet — check back soon."
   },
   "inquiry": {
-    "title": "Let's chat about your stay",
+    "title": "Send Jill a message",
+    "subtitle": "Usually replies within the hour.",
     "property_label": "Which property?",
     "checkin_label": "Check-in",
     "checkout_label": "Check-out",
@@ -82,14 +83,8 @@
     "email_label": "Email",
     "message_label": "Message",
     "note": "No commitment — just a conversation.",
-    "success_title": "Message sent.",
-    "success_body": "The owner will reply within the hour. If you don't see a response, check your spam folder or call (207) 450-7347."
-  },
-  "property_page": {
-    "inquire_box_title": "Inquire for rates",
-    "inquire_box_per_week": "/ week",
-    "inquire_for_dates": "Inquire for available dates",
-    "inquire_for_dates_body": "— message the owner directly and we'll confirm what's open."
+    "success_title": "Thanks!",
+    "success_body": "Your message is on its way. Jill will reply soon."
   },
   "footer": {
     "tagline": "Owner-managed vacation rentals just minutes from the sand.",
@@ -104,5 +99,10 @@
     "house_rules": "House Rules",
     "contact": "Contact",
     "copyright": "© 2026 Affordable Property Management LLC. Old Orchard Beach, Maine."
+  },
+  "cookie": {
+    "message": "We use a single cookie to remember your language. No tracking, no analytics, no ads.",
+    "learn": "Learn more",
+    "accept": "Got it"
   }
 }
