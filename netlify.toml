@@ -25,6 +25,13 @@
   for = "/manage-listings-apm/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+    # Decap CMS needs a relaxed CSP that the public site does not:
+    #   - 'unsafe-inline'  : the CMS init <script> in index.html
+    #   - 'unsafe-eval'    : Decap compiles JSON schemas with new Function()
+    #   - identity.netlify.com : netlify-identity-widget.js auth
+    #   - api.github.com   : git-gateway commits
+    # This applies ONLY to the CMS path. The global CSP below stays strict.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://identity.netlify.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.githubusercontent.com https://avatars.githubusercontent.com; connect-src 'self' https://api.github.com https://identity.netlify.com; frame-ancestors 'none'; base-uri 'self';"
 
 # ────────────────────────────────────────────────────────────────────
 # Security headers (kept from prior drop, minor tightening)
@@ -42,7 +49,7 @@
     # (see js/main.js's delegated error listener), so 'unsafe-inline' is
     # no longer needed for scripts. Style-src keeps 'unsafe-inline' until
     # we move all <style> blocks out of *.html.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self' https://nominatim.openstreetmap.org https://unpkg.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self' https://formspree.io https://unpkg.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
 
 # Cache static assets
 [[headers]]

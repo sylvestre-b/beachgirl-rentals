@@ -413,3 +413,15 @@
     transform: translateY(0);
   }
 }
+
+/* ── JILL "J" SWASH FIX ─────────────────────────────────────────────────
+   Playfair Display's italic capital J ships with a discretionary swash
+   that visually reads as "F", so "Jill" looks like "Fill". Suppress the
+   OpenType swash/alternate features for the italic Playfair contexts
+   that include the name. */
+.owner-text h2 em,
+.owner-signature,
+.birthday-banner .bday-text em {
+  font-feature-settings: 'liga' 0, 'dlig' 0, 'salt' 0, 'swsh' 0;
+  font-variant-ligatures: no-discretionary-ligatures;
+}
