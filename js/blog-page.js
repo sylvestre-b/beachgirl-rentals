@@ -7,6 +7,10 @@
 import { loadAll, esc } from '/js/data.js';
 import { initReveal } from '/js/reveal.js';
 import { t } from '/js/i18n.js';
+// Import forms.js for its module-level Inquire click delegation. The blog
+// page now contains the inquiry modal markup, so the click handler — which
+// no-ops if no #inquiry-overlay is on the page — actually opens it.
+import { initForms } from '/js/forms.js';
 
 function safeT(key, fallback) {
   const v = t(key);
@@ -18,7 +22,8 @@ function safeT(key, fallback) {
   if (!list) return;
 
   try {
-    const { posts } = await loadAll();
+    const state = await loadAll();
+    const { posts } = state;
 
     if (!posts || !posts.length) {
       list.innerHTML = `<p class="blog-empty">${safeT(
@@ -63,6 +68,13 @@ function safeT(key, fallback) {
       initReveal();
     } catch (e) {
       console.warn('[blog] initReveal failed', e);
+    }
+    try {
+      // wire form buttons (Send Inquiry, close, etc.) and populate the
+      // property select dropdown from listings data
+      initForms(state);
+    } catch (e) {
+      console.warn('[blog] initForms failed', e);
     }
   } catch (e) {
     console.error('[blog] page init failed', e);

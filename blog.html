@@ -56,19 +56,6 @@
           <span class="logo-sub">Old Orchard Beach, ME</span>
         </a>
         <nav class="header-nav" aria-label="Primary">
-          <div class="lang-toggle" role="group" aria-label="Language">
-            <button type="button" data-lang-btn="en" aria-pressed="true" data-i18n="lang_toggle.en">
-              EN
-            </button>
-            <button
-              type="button"
-              data-lang-btn="fr"
-              aria-pressed="false"
-              data-i18n="lang_toggle.fr"
-            >
-              FR
-            </button>
-          </div>
           <a href="/blog" data-i18n="nav.journal">Local Guide</a>
           <a href="/reviews" data-i18n="nav.reviews">Reviews</a>
           <button
@@ -131,6 +118,80 @@
         </span>
       </div>
     </footer>
+
+    <!-- ── INQUIRY MODAL ── -->
+    <div
+      class="overlay"
+      id="inquiry-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="inquiry-title"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="modal-close"
+            data-action="close-modal"
+            data-target="inquiry-overlay"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          <div class="modal-eyebrow" data-i18n="nav.inquire">Inquire</div>
+          <div class="modal-title" id="inquiry-title" data-i18n="inquiry.title">
+            Send Jill a message
+          </div>
+          <p class="modal-subtitle" data-i18n="inquiry.subtitle">
+            Usually replies within the hour.
+          </p>
+        </div>
+        <div class="modal-body">
+          <form id="inquiry-form" novalidate>
+            <div class="field">
+              <label for="iq-property" data-i18n="inquiry.property_label">Which property?</label>
+              <select id="iq-property" name="property" required></select>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="iq-checkin" data-i18n="inquiry.checkin_label">Check-in</label>
+                <input id="iq-checkin" name="checkin" type="date" />
+              </div>
+              <div class="field">
+                <label for="iq-checkout" data-i18n="inquiry.checkout_label">Check-out</label>
+                <input id="iq-checkout" name="checkout" type="date" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="iq-guests" data-i18n="inquiry.guests_label">Guests</label>
+              <input id="iq-guests" name="guests" type="number" min="1" max="20" />
+            </div>
+            <div class="field">
+              <label for="iq-name" data-i18n="inquiry.name_label">Your name <span class="req">*</span></label>
+              <input id="iq-name" name="name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="iq-email" data-i18n="inquiry.email_label">Email <span class="req">*</span></label>
+              <input id="iq-email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="iq-message" data-i18n="inquiry.message_label">Message <span class="req">*</span></label>
+              <textarea id="iq-message" name="message" rows="4" required></textarea>
+            </div>
+            <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
+            <button type="button" class="btn-primary" style="width: 100%" data-action="submit-inquiry">
+              Send Inquiry →
+            </button>
+            <p class="form-note" data-i18n="inquiry.note">No commitment — just a conversation.</p>
+          </form>
+          <div class="success-view" id="inquiry-success">
+            <div class="success-icon">✉️</div>
+            <h3 data-i18n="inquiry.success_title">Thanks!</h3>
+            <p data-i18n="inquiry.success_body">Your message is on its way. Jill will reply soon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Page logic moved to external file (CSP blocks inline modules). -->
     <script type="module" src="/js/blog-page.js"></script>

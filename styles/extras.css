@@ -226,7 +226,7 @@
   display: inline-flex;
   align-items: center;
 }
-.hero-prop + .hero-prop::before {
+.hero-prop::before {
   content: '·';
   margin-right: 0.85rem;
   color: var(--accent, #c25e54);
@@ -268,7 +268,7 @@
     font-size: 0.72rem;
     gap: 0 0.55rem;
   }
-  .hero-prop + .hero-prop::before {
+  .hero-prop::before {
     margin-right: 0.55rem;
   }
 }
@@ -617,4 +617,23 @@
      can't force the track wider than the available space. This is the
      classic "grid item overflows parent" fix. */
   grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   FILTER BAR — STATIC POSITIONING
+   Was sticky and toggled visible by main.js (wireFilterBarVisibility)
+   only when the listings section reached the top of the viewport. This
+   was confusing — it appeared mid-scroll without warning. Make it
+   static so it sits inline above the listings grid and never moves.
+   The JS still toggles a .hidden class but these overrides neutralize it.
+   ───────────────────────────────────────────────────────────────────── */
+.filter-bar {
+  position: static;
+  transform: none;
+}
+.filter-bar.hidden {
+  /* override the slide-up-and-hide; keep visible always */
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
 }

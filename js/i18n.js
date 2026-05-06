@@ -14,7 +14,7 @@
 //
 // No dependencies. Vanilla JS. Loads in <14kb of network for both files.
 
-const SUPPORTED = ['en', 'fr'];
+const SUPPORTED = ['en'];
 const DEFAULT_LANG = 'en';
 const STORAGE_KEY = 'bg_lang';
 
