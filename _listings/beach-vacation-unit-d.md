@@ -11,7 +11,7 @@ title: Beach Vacation Unit D
 type: Apartment
 active: true
 location: Old Orchard Beach, ME
-address: 105 Union Ave, Old Orchard Beach, ME 04064
+address: 101 Union Ave, Old Orchard Beach, ME 04064
 bedrooms: 3
 beds: 3
 bathrooms: 1
