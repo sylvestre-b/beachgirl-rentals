@@ -60,10 +60,15 @@
     </div>
 
     <!-- Decap CMS bundle (locally hosted v3.12.2 — same-origin) -->
+    <script>
+      // CRITICAL: must be set BEFORE decap-cms.js loads. Without this,
+      // Decap auto-fetches config.yml on script load AND we manually
+      // init below — the conflict causes the "Failed to load config.yml
+      // (404)" error which then crashes React with the removeChild error.
+      window.CMS_MANUAL_INIT = true;
+    </script>
     <script src="/manage-listings-apm/vendor/decap-cms.js"></script>
 
-    <!-- Custom address autocomplete widget -->
-    <script src="/manage-listings-apm/widgets/address-autocomplete.js"></script>
 
     <script>
       // ── Identity widget integration ───────────────────────────────────
@@ -175,9 +180,9 @@
                   {
                     label: 'Street Address',
                     name: 'address',
-                    widget: 'address-autocomplete',
+                    widget: 'string',
                     required: false,
-                    hint: 'Start typing — pick the right one from the list. Used to pin the map. NOT shown to guests until booking is confirmed.',
+                    hint: 'Used to pin the property on the public map. Format: "123 Beach St, Old Orchard Beach, ME 04064". The map pin updates automatically on the next site rebuild.',
                   },
                   // Map coordinates: hidden inside a collapsed group so
                   // the form doesn't intimidate. They are auto-set by the
