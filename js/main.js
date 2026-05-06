@@ -112,9 +112,10 @@ function renderReviewsTeaser(reviews) {
   const track = document.getElementById('reviews-track');
   if (!track) return;
   if (!reviews.length) {
-    track.innerHTML = `<p style="padding:2rem;color:var(--text-muted);text-align:center;width:100%">${
-      safeT('reviews.empty', 'No reviews yet — be the first!')
-    }</p>`;
+    track.innerHTML = `<p style="padding:2rem;color:var(--text-muted);text-align:center;width:100%">${safeT(
+      'reviews.empty',
+      'No reviews yet — be the first!'
+    )}</p>`;
     return;
   }
   track.innerHTML = reviews
@@ -166,9 +167,10 @@ function renderBlogTeaser(posts) {
   const grid = document.getElementById('blog-grid');
   if (!grid) return;
   if (!posts.length) {
-    grid.innerHTML = `<p style="grid-column:1/-1;color:var(--text-muted);text-align:center;padding:2rem">${
-      safeT('journal.empty', 'No posts yet — check back soon.')
-    }</p>`;
+    grid.innerHTML = `<p style="grid-column:1/-1;color:var(--text-muted);text-align:center;padding:2rem">${safeT(
+      'journal.empty',
+      'No posts yet — check back soon.'
+    )}</p>`;
     return;
   }
   const top = posts.slice(0, HOME_GUIDE_POSTS);
@@ -246,10 +248,7 @@ function wireMapToggleVisibility() {
       : Number.POSITIVE_INFINITY;
     // Show when listings has scrolled to within 200px of the top of the
     // viewport AND the reviews section bottom is still on/below the screen.
-    const visible =
-      lr.top <= window.innerHeight - 100 &&
-      lr.bottom > 0 &&
-      reviewsBottom > 0;
+    const visible = lr.top <= window.innerHeight - 100 && lr.bottom > 0 && reviewsBottom > 0;
     // If the fullscreen mobile map is open we never hide the FAB —
     // it becomes the close button.
     const mapOpen = document.getElementById('map-panel')?.classList.contains('mobile-open');

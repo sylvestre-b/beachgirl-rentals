@@ -99,6 +99,7 @@
           <section class="prop-section" data-reveal>
             <h2>The basics</h2>
             <div class="prop-specs-grid" id="prop-specs"></div>
+            <p class="prop-note" id="prop-note" style="display: none"></p>
           </section>
 
           <section class="prop-section" id="prop-reviews-section" data-reveal>
@@ -324,6 +325,38 @@
           </p>
         </div>
       </div>
+    </div>
+
+    <!-- ── LIGHTBOX (full-size photo viewer) ── -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+      <button
+        type="button"
+        class="lightbox-close"
+        data-action="lightbox-close"
+        aria-label="Close photo viewer"
+      >
+        ✕
+      </button>
+      <button
+        type="button"
+        class="lightbox-btn lightbox-prev"
+        data-action="lightbox-prev"
+        aria-label="Previous photo"
+      >
+        ‹
+      </button>
+      <button
+        type="button"
+        class="lightbox-btn lightbox-next"
+        data-action="lightbox-next"
+        aria-label="Next photo"
+      >
+        ›
+      </button>
+      <div class="lightbox-stage">
+        <img id="lightbox-img" src="" alt="" />
+      </div>
+      <div class="lightbox-counter" id="lightbox-counter">— / —</div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>

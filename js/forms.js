@@ -1,15 +1,11 @@
 // forms.js — inquiry + review form submission
 // 2026-05 fix-pass:
-//   - The "Inquire" button in the header now works even if loadAll() is
-//     still pending. Previously, wireFormButtons() ran inside initForms()
-//     which only fires AFTER loadAll() resolves. If a user clicked early
-//     (or if the data fetch was slow / blocked), the button did nothing.
-//     Solution: a parallel module-level event delegation pass attaches as
-//     soon as forms.js is parsed.
-//   - openInquiryModal() is now null-safe on every DOM access. If a key
-//     element is missing on a page, it logs and returns instead of
-//     throwing. (e.g., it should never throw if called from a page that
-//     happens not to contain the modal markup.)
+//   - Header "Inquire" button works even if loadAll() is still pending
+//     (module-level delegated click handler, attached as soon as file is parsed).
+//   - openInquiryModal() is null-safe on every DOM access.
+//   - Both forms now populate their property selects from real data:
+//       • Review form  → r-property
+//       • Inquiry form → iq-property  (was empty before — bug fix)
 
 import { getSelected } from './calendar-init.js';
 
@@ -21,10 +17,7 @@ let _allProperties = [];
 let _lastFocused = null;
 let _currentRating = 0;
 
-// ── Module-level delegated listener (works without initForms running) ─
-// This attaches as soon as forms.js is imported. Safe to also attach the
-// per-button listeners later in initForms — clicks fire both, but
-// openInquiryModal is idempotent.
+// ── Module-level delegated listener ──────────────────────────────────
 document.addEventListener('click', e => {
   const open = e.target.closest('[data-action="open-inquiry"]');
   if (open) {
@@ -42,6 +35,7 @@ document.addEventListener('click', e => {
 
 export function initForms(state) {
   _allProperties = state.properties || [];
+  populateInquirySelect();
   populateReviewSelect();
   wireStarPicker();
   wireFormButtons();
@@ -107,14 +101,35 @@ export function openInquiryModal(slug) {
   const successView = document.getElementById('inquiry-success');
   if (successView) successView.classList.remove('show');
 
-  // Reset fields if they exist (tolerate either i-* or iq-* naming).
-  ['i-first', 'i-last', 'i-email', 'i-phone', 'i-message', 'i-checkin', 'i-checkout',
-   'iq-name', 'iq-email', 'iq-message', 'iq-checkin', 'iq-checkout', 'iq-guests'].forEach(id => {
+  // Reset fields (tolerate either i-* or iq-* naming).
+  [
+    'i-first',
+    'i-last',
+    'i-email',
+    'i-phone',
+    'i-message',
+    'i-checkin',
+    'i-checkout',
+    'iq-name',
+    'iq-email',
+    'iq-message',
+    'iq-checkin',
+    'iq-checkout',
+    'iq-guests',
+  ].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
   const guestsEl = document.getElementById('i-guests');
   if (guestsEl) guestsEl.value = '';
+
+  // Pre-select the property in the dropdown if we have one
+  const propSelect = document.getElementById('iq-property');
+  if (propSelect && p) {
+    propSelect.value = p.title;
+  } else if (propSelect) {
+    propSelect.value = '';
+  }
 
   if (p && sel.checkIn && sel.checkOut) {
     const ci = document.getElementById('i-checkin') || document.getElementById('iq-checkin');
@@ -149,16 +164,36 @@ export function closeModal(id) {
   el.classList.remove('open');
   document.body.style.overflow = '';
   if (_lastFocused) {
-    try { _lastFocused.focus(); } catch (_) { /* noop */ }
+    try {
+      _lastFocused.focus();
+    } catch (_) {
+      /* noop */
+    }
     _lastFocused = null;
   }
+}
+
+// ── Populate inquiry property dropdown (FIX: was empty before) ───────
+function populateInquirySelect() {
+  const sel = document.getElementById('iq-property');
+  if (!sel) return;
+  sel.innerHTML =
+    '<option value="">— Select a property —</option>' +
+    '<option value="General inquiry">General inquiry (no specific property)</option>';
+  _allProperties.forEach(p => {
+    const o = document.createElement('option');
+    o.value = p.title;
+    o.textContent = p.title;
+    sel.appendChild(o);
+  });
 }
 
 function populateReviewSelect() {
   const sel = document.getElementById('r-property');
   if (!sel) return;
-  // Clear any existing options first to avoid duplicates on re-init.
-  sel.innerHTML = '<option value="">Select…</option>';
+  sel.innerHTML =
+    '<option value="">Select…</option>' +
+    '<option value="General">General (not about a specific property)</option>';
   _allProperties.forEach(p => {
     const o = document.createElement('option');
     o.value = p.title;
@@ -183,28 +218,31 @@ function setRating(val) {
 
 // ── INQUIRY SUBMIT ────────────────────────────────────────────────────
 async function submitInquiry() {
-  // Tolerate either form-field naming convention (i-first/i-last vs iq-name).
   const firstEl = document.getElementById('i-first');
   const lastEl = document.getElementById('i-last');
-  const nameEl = document.getElementById('iq-name'); // single-name form
+  const nameEl = document.getElementById('iq-name');
 
   let name;
   if (firstEl && lastEl) {
-    const f = firstEl.value.trim();
-    const l = lastEl.value.trim();
-    name = `${f} ${l}`.trim();
+    name = `${firstEl.value.trim()} ${lastEl.value.trim()}`.trim();
   } else if (nameEl) {
     name = nameEl.value.trim();
   } else {
     name = '';
   }
 
-  const email = (document.getElementById('i-email') || document.getElementById('iq-email'))?.value.trim() || '';
+  const email =
+    (document.getElementById('i-email') || document.getElementById('iq-email'))?.value.trim() || '';
   const phone = document.getElementById('i-phone')?.value.trim() || '';
-  const guests = (document.getElementById('i-guests') || document.getElementById('iq-guests'))?.value || '';
-  const checkIn = (document.getElementById('i-checkin') || document.getElementById('iq-checkin'))?.value || '';
-  const checkOut = (document.getElementById('i-checkout') || document.getElementById('iq-checkout'))?.value || '';
-  const message = (document.getElementById('i-message') || document.getElementById('iq-message'))?.value.trim() || '';
+  const guests =
+    (document.getElementById('i-guests') || document.getElementById('iq-guests'))?.value || '';
+  const checkIn =
+    (document.getElementById('i-checkin') || document.getElementById('iq-checkin'))?.value || '';
+  const checkOut =
+    (document.getElementById('i-checkout') || document.getElementById('iq-checkout'))?.value || '';
+  const message =
+    (document.getElementById('i-message') || document.getElementById('iq-message'))?.value.trim() ||
+    '';
   const propertySelect = document.getElementById('iq-property');
   const propertyOverride = propertySelect ? propertySelect.value : '';
 
@@ -253,7 +291,10 @@ async function submitInquiry() {
     if (res.ok) showSuccess('inquiry');
     else throw new Error(res.status);
   } catch (err) {
-    showErr('inquiry', 'Something went wrong. Email us at beachgirloob@gmail.com or call (207) 450-7347.');
+    showErr(
+      'inquiry',
+      'Something went wrong. Email us at beachgirloob@gmail.com or call (207) 450-7347.'
+    );
     if (btn) {
       btn.textContent = originalLabel || 'Send Message →';
       btn.disabled = false;
@@ -316,7 +357,8 @@ async function submitReview() {
 function showErr(type, msg) {
   const v = document.getElementById(`${type}-form-view`);
   if (!v) {
-    console.warn(`[forms] missing ${type}-form-view`); return;
+    console.warn(`[forms] missing ${type}-form-view`);
+    return;
   }
   let e = v.querySelector('.form-err');
   if (!e) {

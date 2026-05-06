@@ -299,9 +299,13 @@ function initGallery(photos, title) {
 
   // Swipe support
   let touchStart = null;
-  track.addEventListener('touchstart', e => {
-    touchStart = e.touches[0].clientX;
-  }, { passive: true });
+  track.addEventListener(
+    'touchstart',
+    e => {
+      touchStart = e.touches[0].clientX;
+    },
+    { passive: true }
+  );
   track.addEventListener('touchend', e => {
     if (touchStart == null) return;
     const dx = e.changedTouches[0].clientX - touchStart;

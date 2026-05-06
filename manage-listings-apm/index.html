@@ -3,390 +3,119 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage Listings — Beach Girl Property Rentals</title>
+    <title>Manage — Beach Girl Property Rentals</title>
     <meta name="robots" content="noindex" />
-    <!--
-      Decap CMS admin panel.
-      Access: https://beachgirlpropertyrentals.com/manage-listings-apm/
-      Auth:   Netlify Identity (only Jill should be invited).
-
-      The path includes "-apm" to avoid bot scanners hitting the obvious
-      /admin/ path. The real protection is Netlify Identity, not the URL.
-    -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23a4423a'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-style='italic' font-weight='700' font-size='20' text-anchor='middle' fill='%23faf5ee'%3EB%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/manage-listings-apm/dashboard.css" />
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <style>
-      body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@^3.1.10/dist/decap-cms.js"></script>
-    <script>
-      window.addEventListener('load', () => {
-        CMS.init({
-          config: {
-            backend: {
-              name: 'git-gateway',
-              branch: 'main',
-            },
-            media_folder: 'photos',
-            public_folder: '/photos',
-            load_config_file: false,
-            site_url: 'https://beachgirlpropertyrentals.com',
-            display_url: 'https://beachgirlpropertyrentals.com',
-            logo_url: '/photos/hero/hero-1.jpg',
-            collections: [
-              // ── PROPERTIES ─────────────────────────────────────────────
-              {
-                name: 'properties',
-                label: 'Properties',
-                label_singular: 'Property',
-                folder: '_listings',
-                create: true,
-                delete: true,
-                slug: '{{slug}}',
-                fields: [
-                  {
-                    label: 'Property Name',
-                    name: 'title',
-                    widget: 'string',
-                    hint: 'Shown to guests. e.g. "Beach Vacation Unit A".',
-                  },
-                  {
-                    label: 'Slug',
-                    name: 'slug',
-                    widget: 'string',
-                    hint: 'URL-safe. e.g. beach-vacation-unit-a',
-                  },
-                  {
-                    label: 'Property Type',
-                    name: 'type',
-                    widget: 'select',
-                    options: [
-                      'Apartment',
-                      'Cottage',
-                      'Cape',
-                      'Ranch',
-                      'Colonial',
-                      'Condo',
-                      'Studio',
-                    ],
-                    default: 'Apartment',
-                  },
-                  {
-                    label: 'Location',
-                    name: 'location',
-                    widget: 'string',
-                    default: 'Old Orchard Beach, ME',
-                  },
-                  {
-                    label:
-                      'Address (for geocoding only — NOT shown to guests until booking confirmed)',
-                    name: 'address',
-                    widget: 'string',
-                    required: false,
-                  },
-                  {
-                    label: 'Latitude',
-                    name: 'lat',
-                    widget: 'number',
-                    value_type: 'float',
-                    default: 43.5181,
-                    hint: 'Auto-set if address is filled. Otherwise pin manually.',
-                  },
-                  {
-                    label: 'Longitude',
-                    name: 'lng',
-                    widget: 'number',
-                    value_type: 'float',
-                    default: -70.3781,
-                  },
+    <header class="dash-header">
+      <div class="dash-header-inner">
+        <div class="dash-brand">
+          <span class="dash-brand-name">Beach Girl Rentals</span>
+          <span class="dash-brand-sub">Admin</span>
+        </div>
+        <div class="dash-header-right">
+          <a href="/" class="dash-link" target="_blank" rel="noopener">View site →</a>
+          <span class="dash-user" id="dash-user"></span>
+          <button type="button" class="dash-logout" id="dash-logout" hidden>Log out</button>
+        </div>
+      </div>
+    </header>
 
-                  {
-                    label: 'Bedrooms',
-                    name: 'bedrooms',
-                    widget: 'number',
-                    min: 0,
-                    max: 10,
-                    default: 3,
-                  },
-                  {
-                    label: 'Beds (sleeping spots)',
-                    name: 'beds',
-                    widget: 'number',
-                    min: 1,
-                    max: 16,
-                    default: 4,
-                  },
-                  {
-                    label: 'Bathrooms',
-                    name: 'bathrooms',
-                    widget: 'number',
-                    value_type: 'float',
-                    step: 0.5,
-                    min: 1,
-                    max: 8,
-                    default: 1,
-                  },
-                  {
-                    label: 'Max Guests',
-                    name: 'guests',
-                    widget: 'number',
-                    min: 1,
-                    max: 20,
-                    default: 8,
-                  },
-                  {
-                    label: 'Square Feet (optional)',
-                    name: 'sqft',
-                    widget: 'number',
-                    required: false,
-                    min: 0,
-                  },
+    <main class="dash-main">
+      <!-- Login state -->
+      <section class="dash-login" id="dash-login" hidden>
+        <div class="dash-login-card">
+          <div class="dash-emoji">🔒</div>
+          <h1>Welcome back, Jill</h1>
+          <p>You'll need to log in to manage your listings.</p>
+          <button type="button" class="dash-btn dash-btn-primary" id="dash-login-btn">
+            Log In
+          </button>
+          <p class="dash-help-text">
+            First time? Look for the invite email from Netlify and click the link to set your
+            password.
+          </p>
+        </div>
+      </section>
 
-                  {
-                    label: 'Price (display string)',
-                    name: 'price',
-                    widget: 'string',
-                    default: 'Inquire for rates',
-                    hint: 'Shown on the listing card. e.g. "$2,400/week" or "Inquire for rates".',
-                  },
-                  {
-                    label: 'Cleaning Fee ($)',
-                    name: 'cleaning_fee',
-                    widget: 'number',
-                    default: 0,
-                    min: 0,
-                  },
-                  {
-                    label: 'Pet Fee ($)',
-                    name: 'pet_fee',
-                    widget: 'number',
-                    default: 0,
-                    min: 0,
-                  },
-                  {
-                    label: 'Minimum Nights',
-                    name: 'min_nights',
-                    widget: 'number',
-                    default: 3,
-                    min: 1,
-                    max: 30,
-                  },
+      <!-- Authenticated state -->
+      <section class="dash-content" id="dash-content" hidden>
+        <div class="dash-greeting">
+          <h1 id="dash-greeting-name">Hi <em>Jill</em> 👋</h1>
+          <p>What would you like to do today?</p>
+        </div>
 
-                  {
-                    label: 'Cover Photo',
-                    name: 'photo',
-                    widget: 'image',
-                    hint: 'The hero image for the listing card.',
-                  },
-                  {
-                    label: 'Photo Gallery',
-                    name: 'photos',
-                    widget: 'list',
-                    summary: '{{fields.image}}',
-                    fields: [{ label: 'Image', name: 'image', widget: 'image' }],
-                    hint: 'Order matters — first photo is the gallery lead.',
-                  },
-                  {
-                    label: 'Filter Tags',
-                    name: 'tags',
-                    widget: 'list',
-                    hint: 'Lowercase, hyphenated. Used by homepage filters. e.g. pet-friendly, central-air, walk-to-beach.',
-                    summary: '{{fields.tag}}',
-                    fields: [{ label: 'Tag', name: 'tag', widget: 'string' }],
-                  },
-                  {
-                    label: 'Amenities',
-                    name: 'amenities',
-                    widget: 'list',
-                    summary: '{{fields.amenity}}',
-                    fields: [{ label: 'Amenity', name: 'amenity', widget: 'string' }],
-                  },
-                  {
-                    label: 'Sleeping Arrangements',
-                    name: 'sleeping',
-                    widget: 'list',
-                    required: false,
-                    summary: '{{fields.line}}',
-                    fields: [
-                      {
-                        label: 'Line',
-                        name: 'line',
-                        widget: 'string',
-                        hint: 'e.g. "Bedroom 1 — 1 king bed"',
-                      },
-                    ],
-                  },
+        <div class="dash-tiles">
+          <a class="dash-tile" href="/manage-listings-apm/edit/#/collections/properties">
+            <div class="dash-tile-icon">🏠</div>
+            <h2>Manage Listings</h2>
+            <p>Edit prices, photos, descriptions, and availability for your properties.</p>
+            <span class="dash-tile-cta">Open →</span>
+          </a>
 
-                  {
-                    label: 'Check-in Time',
-                    name: 'check_in',
-                    widget: 'string',
-                    default: 'After 3:00 PM',
-                  },
-                  {
-                    label: 'Check-out Time',
-                    name: 'check_out',
-                    widget: 'string',
-                    default: 'Before 10:00 AM',
-                  },
+          <a class="dash-tile" href="/manage-listings-apm/edit/#/collections/properties/new">
+            <div class="dash-tile-icon">➕</div>
+            <h2>Add a New Listing</h2>
+            <p>List a new vacation rental — like adding one to Vrbo or Airbnb.</p>
+            <span class="dash-tile-cta">Start →</span>
+          </a>
 
-                  {
-                    label: 'Special Note (optional)',
-                    name: 'note',
-                    widget: 'string',
-                    required: false,
-                    hint: 'e.g. "Second floor — must climb stairs."',
-                  },
-                  {
-                    label: 'External Listing URL (Airbnb/Vrbo, optional reference)',
-                    name: 'external_listing',
-                    widget: 'string',
-                    required: false,
-                  },
+          <a class="dash-tile" href="/manage-listings-apm/edit/#/collections/reviews">
+            <div class="dash-tile-icon">⭐</div>
+            <h2>Reviews</h2>
+            <p>Add a guest review or approve one for the public site.</p>
+            <span class="dash-tile-cta">Open →</span>
+          </a>
 
-                  {
-                    label: 'Availability (daily entries — leave empty to default to "inquire")',
-                    name: 'availability',
-                    widget: 'list',
-                    required: false,
-                    hint: 'SAFETY DEFAULT: dates not listed are treated as UNAVAILABLE. Leave this empty to keep all dates as "inquire only" (recommended). Add daily entries here only if you want specific dates to show as bookable on the calendar.',
-                    summary: '{{fields.date}} — {{fields.status}}',
-                    fields: [
-                      {
-                        label: 'Date',
-                        name: 'date',
-                        widget: 'date',
-                        format: 'YYYY-MM-DD',
-                      },
-                      {
-                        label: 'Status',
-                        name: 'status',
-                        widget: 'select',
-                        options: ['available', 'unavailable'],
-                        default: 'available',
-                      },
-                    ],
-                  },
+          <a class="dash-tile" href="/manage-listings-apm/edit/#/collections/posts">
+            <div class="dash-tile-icon">📝</div>
+            <h2>Local Guide Posts</h2>
+            <p>Write or edit blog posts for the Local Guide section.</p>
+            <span class="dash-tile-cta">Open →</span>
+          </a>
+        </div>
 
-                  {
-                    label: 'Active Listing',
-                    name: 'active',
-                    widget: 'boolean',
-                    default: true,
-                    hint: 'Uncheck to hide this property without deleting it.',
-                  },
-                  {
-                    label: 'Description',
-                    name: 'body',
-                    widget: 'markdown',
-                    hint: 'Full property description shown on the property page. 2-4 paragraphs is ideal.',
-                  },
-                ],
-              },
+        <details class="dash-tips">
+          <summary>Tips & how things work</summary>
+          <ul>
+            <li>
+              <strong>Saving changes is the same as publishing.</strong> When you click
+              <em>Publish → Publish now</em>, your change goes live within 1–2 minutes.
+            </li>
+            <li>
+              <strong>Photos:</strong> drag photos straight from your computer or phone into the
+              upload area. Bigger photos (1200×800 or larger) look better.
+            </li>
+            <li>
+              <strong>Address autocomplete:</strong> start typing the address and pick from the list
+              — the map pin will be set automatically on the next site rebuild.
+            </li>
+            <li>
+              <strong>Availability calendar:</strong> dates you don't add explicitly default to
+              "inquire only" (safe). Add dates as <em>available</em> to mark them bookable.
+            </li>
+            <li>
+              <strong>Stuck?</strong> Refresh the page or log out and back in. If something looks
+              broken, text Brad — don't close the tab without saving.
+            </li>
+          </ul>
+        </details>
+      </section>
+    </main>
 
-              // ── REVIEWS ────────────────────────────────────────────────
-              {
-                name: 'reviews',
-                label: 'Reviews',
-                label_singular: 'Review',
-                folder: '_reviews',
-                create: true,
-                delete: true,
-                slug: '{{year}}-{{month}}-{{slug}}',
-                fields: [
-                  {
-                    label: 'Property',
-                    name: 'property',
-                    widget: 'string',
-                    hint: 'Match a property title exactly (e.g. "Beach Vacation Unit A").',
-                  },
-                  {
-                    label: 'Guest Name',
-                    name: 'author',
-                    widget: 'string',
-                    hint: 'e.g. "Jane S." — first name and last initial only.',
-                  },
-                  {
-                    label: 'Rating (1-5)',
-                    name: 'rating',
-                    widget: 'number',
-                    min: 1,
-                    max: 5,
-                    default: 5,
-                  },
-                  {
-                    label: 'Review Text',
-                    name: 'text',
-                    widget: 'text',
-                  },
-                  {
-                    label: 'Stay Dates',
-                    name: 'date',
-                    widget: 'string',
-                    hint: 'e.g. "July 2026"',
-                  },
-                  {
-                    label: 'Approved — show on site',
-                    name: 'approved',
-                    widget: 'boolean',
-                    default: false,
-                    hint: 'Only check this after verifying the guest actually stayed. Uncheck to hide without deleting.',
-                  },
-                ],
-              },
-
-              // ── BLOG / LOCAL GUIDE POSTS ───────────────────────────────
-              {
-                name: 'posts',
-                label: 'Blog / Local Guide',
-                label_singular: 'Post',
-                folder: '_posts',
-                create: true,
-                delete: true,
-                slug: '{{slug}}',
-                fields: [
-                  { label: 'Title', name: 'title', widget: 'string' },
-                  {
-                    label: 'Date',
-                    name: 'date',
-                    widget: 'string',
-                    hint: 'e.g. "April 2026"',
-                  },
-                  {
-                    label: 'Cover Photo',
-                    name: 'photo',
-                    widget: 'image',
-                    required: false,
-                  },
-                  {
-                    label: 'Emoji (if no photo)',
-                    name: 'emoji',
-                    widget: 'string',
-                    required: false,
-                    default: '\ud83c\udfd6\ufe0f',
-                  },
-                  {
-                    label: 'Excerpt',
-                    name: 'excerpt',
-                    widget: 'text',
-                    hint: 'Short teaser shown on the blog page.',
-                  },
-                  {
-                    label: 'Body',
-                    name: 'body',
-                    widget: 'markdown',
-                    hint: 'Full post. Use ## for headings.',
-                  },
-                ],
-              },
-            ],
-          },
-        });
-      });
-    </script>
+    <script src="/manage-listings-apm/dashboard.js" defer></script>
   </body>
 </html>

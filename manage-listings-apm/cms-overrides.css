@@ -1,0 +1,101 @@
+/* cms-overrides.css — visual tweaks for Decap CMS to make it more
+   approachable for non-technical users like Jill.
+   These selectors are defensive — Decap occasionally changes class names
+   between versions; if any of these stop working, the underlying widget
+   still works, just less polished. */
+
+/* Sticky preview pane — keep editor scrollable. */
+[class*='PreviewPaneFrame'] {
+  position: sticky;
+  top: 0;
+}
+
+/* Header: keep it from drifting into the middle of the page on scroll
+   (Bradley reported it traveled mid-page). Force pin to top. */
+[class*='AppHeader'],
+nav[class*='AppHeader'] {
+  position: sticky !important;
+  top: 0;
+  z-index: 100;
+}
+
+/* Hint text: bigger, friendlier, more readable. */
+[class*='ControlHint'],
+[class*='Hint__'] {
+  font-size: 0.85rem !important;
+  color: #6b7a80 !important;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* Required asterisk: use red dot instead of generic "*". */
+[class*='Required'] {
+  color: #c25e54;
+}
+
+/* Field labels: make them bolder so the form has clearer structure. */
+[class*='ControlLabel'] {
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+}
+
+/* List widgets (photo gallery, tags, amenities): make the X (delete)
+   button more obvious and tap-friendly. */
+[class*='ListItem'] button[class*='Remove'],
+button[aria-label='Remove'],
+button[aria-label='Delete'] {
+  opacity: 1 !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background: #f7f3ec !important;
+  border: 1px solid #e5dfd1 !important;
+  color: #c25e54 !important;
+  font-weight: 700 !important;
+}
+[class*='ListItem'] button[class*='Remove']:hover,
+button[aria-label='Remove']:hover {
+  background: #c25e54 !important;
+  color: #fff !important;
+  border-color: #c25e54 !important;
+}
+
+/* Publish button: warmer, more obviously a save action. */
+button[class*='Publish'],
+button[class*='SaveButton'] {
+  background: #c25e54 !important;
+  font-weight: 700 !important;
+}
+button[class*='Publish']:hover,
+button[class*='SaveButton']:hover {
+  background: #a4423a !important;
+}
+
+/* Tile cards on the collection list — more breathing room. */
+[class*='Card__'] {
+  padding: 1rem !important;
+}
+
+/* Mobile: stack everything, larger tap targets. */
+@media (max-width: 768px) {
+  [class*='Sidebar'] {
+    display: none !important;
+  }
+  [class*='ContentFrame'] {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  input[type='text'],
+  input[type='number'],
+  input[type='email'],
+  input[type='date'],
+  input[type='datetime-local'],
+  textarea,
+  select {
+    font-size: 16px !important; /* prevents iOS zoom on focus */
+    padding: 0.6rem 0.8rem !important;
+  }
+  button {
+    min-height: 40px;
+  }
+}

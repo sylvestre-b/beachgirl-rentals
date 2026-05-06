@@ -20,17 +20,12 @@
   'use strict';
 
   const STORAGE_KEY = 'bday-jill-2026';
-  const BANNER_TEXT_HTML =
-    '<span class="bday-emoji" aria-hidden="true">🎉</span>' +
-    '<span class="bday-text">Happy Birthday, <em>Jill!</em></span>' +
-    '<span class="bday-emoji" aria-hidden="true">🎂</span>' +
-    '<span class="bday-emoji" aria-hidden="true">🎈</span>';
 
   // Bail if already dismissed
   try {
     if (localStorage.getItem(STORAGE_KEY) === 'dismissed') return;
   } catch (e) {
-    /* localStorage blocked — show anyway, will show every visit until allowed */
+    /* localStorage blocked — show anyway */
   }
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -40,32 +35,40 @@
   banner.className = 'birthday-banner';
   banner.setAttribute('role', 'status');
   banner.setAttribute('aria-live', 'polite');
-  banner.innerHTML =
-    BANNER_TEXT_HTML +
-    '<button type="button" class="bday-close" aria-label="Dismiss birthday message">✕</button>';
 
-  // Insert at the very top of <body>
+  // Two-line layout, centered:
+  //   Line 1 (big):    🎉 Happy Birthday, Jill! 🎂
+  //   Line 2 (small):  Love, Brad, Simon, and Shea
+  banner.innerHTML = `
+    <div class="bday-inner">
+      <div class="bday-line-main">
+        <span class="bday-emoji" aria-hidden="true">🎉</span>
+        <span class="bday-headline">Happy Birthday, <em>Jill!</em></span>
+        <span class="bday-emoji" aria-hidden="true">🎂</span>
+      </div>
+      <div class="bday-line-sub">Love, Brad, Simon, and Shea</div>
+    </div>
+    <button type="button" class="bday-close" aria-label="Dismiss birthday message">✕</button>
+  `;
+
   document.body.insertBefore(banner, document.body.firstChild);
   document.body.classList.add('has-birthday-banner');
 
-  // Measure & expose its height as a CSS var so the sticky header sits below it
   requestAnimationFrame(() => {
-    const h = banner.offsetHeight;
-    document.documentElement.style.setProperty('--bday-banner-h', h + 'px');
+    document.documentElement.style.setProperty('--bday-banner-h', banner.offsetHeight + 'px');
     banner.classList.add('is-open');
   });
 
-  // Recompute on resize (text may wrap on narrow viewports)
   window.addEventListener('resize', () => {
     document.documentElement.style.setProperty('--bday-banner-h', banner.offsetHeight + 'px');
   });
 
-  // Dismiss handler
   banner.querySelector('.bday-close').addEventListener('click', dismiss);
 
   function dismiss() {
     banner.classList.remove('is-open');
     document.body.classList.remove('has-birthday-banner');
+    document.documentElement.style.setProperty('--bday-banner-h', '0px');
     try {
       localStorage.setItem(STORAGE_KEY, 'dismissed');
     } catch (e) {
@@ -73,7 +76,6 @@
     }
     setTimeout(() => banner.remove(), 800);
     if (canvas) {
-      // fade out remaining confetti
       canvas.style.transition = 'opacity 0.6s ease';
       canvas.style.opacity = '0';
       setTimeout(() => canvas.remove(), 700);
@@ -108,11 +110,9 @@
     window.addEventListener('resize', resize);
 
     function makeParticle(burst) {
-      const x = burst ? Math.random() * window.innerWidth : Math.random() * window.innerWidth;
-      const y = burst ? -10 - Math.random() * 40 : -10;
       return {
-        x,
-        y,
+        x: Math.random() * window.innerWidth,
+        y: burst ? -10 - Math.random() * 40 : -10,
         w: 6 + Math.random() * 6,
         h: 8 + Math.random() * 10,
         vx: (Math.random() - 0.5) * (burst ? 4 : 1.2),
@@ -125,10 +125,8 @@
       };
     }
 
-    // Initial burst
-    for (let i = 0; i < 90; i++) particles.push(makeParticle(true));
+    for (let i = 0; i < 120; i++) particles.push(makeParticle(true));
 
-    // Soft trickle for 6 seconds
     const trickleEnd = performance.now() + 6000;
     const trickle = setInterval(() => {
       if (performance.now() > trickleEnd || !running) {
@@ -144,8 +142,8 @@
       particles = particles.filter(p => p.life < p.maxLife && p.y < window.innerHeight + 30);
       for (const p of particles) {
         p.life++;
-        p.vy += 0.05; // gravity
-        p.vx *= 0.995; // air drag
+        p.vy += 0.05;
+        p.vx *= 0.995;
         p.x += p.vx;
         p.y += p.vy;
         p.rot += p.vrot;
@@ -159,7 +157,6 @@
       }
       if (particles.length === 0 && performance.now() > trickleEnd) {
         running = false;
-        // Auto-remove canvas once all confetti settled (banner stays)
         cnv.style.transition = 'opacity 0.8s ease';
         cnv.style.opacity = '0';
         setTimeout(() => cnv.remove(), 900);
@@ -169,7 +166,6 @@
     }
     rafId = requestAnimationFrame(frame);
 
-    // Stop animation if banner is dismissed
     banner.addEventListener('bday:dismiss', () => {
       running = false;
       if (rafId) cancelAnimationFrame(rafId);

@@ -22,7 +22,7 @@ photos:
   - /photos/unit-b/bedroom-2.jpg
   - /photos/unit-b/bedroom-3.jpg
   - /photos/unit-b/bath.jpg
-tags: [walk-to-beach, family-friendly, second-floor]
+tags: [walk-to-beach, family-friendly]
 amenities:
   - Free parking at owner's beach house
   - Air conditioning

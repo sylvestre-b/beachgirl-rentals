@@ -4,88 +4,55 @@ import { initCardCalendar } from './calendar-init.js';
 import { t } from './i18n.js';
 
 // ── TAG_LABELS: single source of truth ────────────────────────────────
-// This map drives:
-//   1. Pretty labels on property cards (prettyTag helper below)
-//   2. Which filter buttons appear in the filter bar (buildFilterBar)
-//   3. The order of content-tag filter buttons (TAG_LABELS insertion order)
-//
-// To add a new tag:
-//   a) Add it here.
-//   b) Add listings.filter_<tag-slug-underscored> to translations/en.json + fr.json
-//      (optional — if missing, TAG_LABELS value is used as the fallback label).
-//   c) Tag one or more properties with the kebab-case slug in their markdown.
-//
-// Keep this in sync with property.js.
+// 'second-floor' removed — was only on one unit and not useful as a filter.
 export const TAG_LABELS = {
   'pet-friendly': '🐾 Pet-Friendly',
   'walk-to-beach': '🏖 Walk to beach',
   'family-friendly': '👨‍👩‍👧 Family-friendly',
   'central-air': '❄ Central air',
-  'second-floor': '⬆ Second floor',
   newest: '✨ Newest',
   waterfront: '🌊 Waterfront',
   'year-round': '📅 Year-round',
 };
 
-// ── i18n key for a content tag ─────────────────────────────────────────
-// Converts kebab-case slug → translations key, e.g.:
-//   'pet-friendly' → 'listings.filter_pet_friendly'
-//   'year-round'   → 'listings.filter_year_round'
-//   'newest'       → 'listings.filter_newest'
 function tagI18nKey(slug) {
   return 'listings.filter_' + slug.replace(/-/g, '_');
 }
 
-// ── Pretty label for a tag (used on cards) ────────────────────────────
 function prettyTag(tag) {
   if (TAG_LABELS[tag]) return TAG_LABELS[tag];
-  // Fallback: kebab-case → "Sentence case"
   return String(tag)
     .replace(/-/g, ' ')
     .replace(/^\w/, c => c.toUpperCase());
 }
 
-// ── Label for a filter button (prefers i18n, falls back to TAG_LABELS) ─
 function filterLabel(slug) {
   if (slug === 'all') return t('listings.filter_all') || 'All';
   if (slug === 'available') return t('listings.filter_available') || 'Available';
   const i18nVal = t(tagI18nKey(slug));
-  // t() returns the key string itself when the key is missing, so check that
   if (i18nVal && i18nVal !== tagI18nKey(slug)) return i18nVal;
   return TAG_LABELS[slug] || prettyTag(slug);
 }
 
 let _state = null;
+let _dateRange = { from: null, to: null }; // YYYY-MM-DD strings
 
-// ── Build the filter bar dynamically ──────────────────────────────────
-// Called once after properties are loaded.
-// Order: "All", "Available", then content tags in TAG_LABELS insertion order.
 function buildFilterBar(properties) {
   const bar = document.querySelector('.filter-inner');
   if (!bar) return;
 
-  // Collect tags used by at least one active property, intersect with TAG_LABELS
   const usedTags = new Set(properties.flatMap(p => p.tags || []));
   const contentTags = Object.keys(TAG_LABELS).filter(tag => usedTags.has(tag));
 
-  // Build button list: static specials first, then content tags
   const slots = [
     { filter: 'all', label: filterLabel('all'), pressed: true },
     { filter: 'available', label: filterLabel('available'), pressed: false },
-    ...contentTags.map(tag => ({
-      filter: tag,
-      label: filterLabel(tag),
-      pressed: false,
-    })),
+    ...contentTags.map(tag => ({ filter: tag, label: filterLabel(tag), pressed: false })),
   ];
 
-  // Keep the existing filter-count span; replace buttons only
   const countSpan = bar.querySelector('.filter-count');
-
-  // Remove old buttons
   bar.querySelectorAll('.filter-btn').forEach(b => b.remove());
 
-  // Insert new buttons before the count span
   const fragment = document.createDocumentFragment();
   for (const slot of slots) {
     const btn = document.createElement('button');
@@ -96,42 +63,88 @@ function buildFilterBar(properties) {
     btn.setAttribute('aria-pressed', slot.pressed ? 'true' : 'false');
     if (slot.pressed) btn.classList.add('active');
     btn.textContent = slot.label;
-    // Wire click handler
     btn.addEventListener('click', () => applyFilter(btn));
     fragment.appendChild(btn);
   }
 
-  if (countSpan) {
-    bar.insertBefore(fragment, countSpan);
-  } else {
-    bar.appendChild(fragment);
-  }
+  if (countSpan) bar.insertBefore(fragment, countSpan);
+  else bar.appendChild(fragment);
 }
 
-// ── Re-translate filter buttons when language changes ─────────────────
-// Listens for i18n:changed so button text updates without a page reload.
 function reTranslateFilterBar() {
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.textContent = filterLabel(btn.dataset.filter);
   });
 }
 
+// ── Date-range filter ─────────────────────────────────────────────────
+// Wires the two date inputs (#date-from / #date-to) inside .filter-bar.
+// Re-applies the active tag/availability filter whenever dates change.
+function wireDateRangeFilter() {
+  const fromEl = document.getElementById('date-from');
+  const toEl = document.getElementById('date-to');
+  const clearBtn = document.getElementById('date-clear');
+  if (!fromEl || !toEl) return;
+
+  const today = new Date().toISOString().slice(0, 10);
+  fromEl.min = today;
+  toEl.min = today;
+
+  const onChange = () => {
+    _dateRange.from = fromEl.value || null;
+    _dateRange.to = toEl.value || null;
+    if (_dateRange.from && _dateRange.to && _dateRange.to < _dateRange.from) {
+      toEl.value = '';
+      _dateRange.to = null;
+    }
+    if (toEl.value) toEl.min = fromEl.value || today;
+    reapplyActiveFilter();
+  };
+
+  fromEl.addEventListener('change', onChange);
+  toEl.addEventListener('change', onChange);
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      fromEl.value = '';
+      toEl.value = '';
+      _dateRange = { from: null, to: null };
+      reapplyActiveFilter();
+    });
+  }
+}
+
+function reapplyActiveFilter() {
+  const active =
+    document.querySelector('.filter-btn.active') || document.querySelector('[data-filter="all"]');
+  if (active) applyFilter(active);
+}
+
+// Count number of available nights between [from, to) inclusive of from, exclusive of to.
+function countAvailableNights(p, from, to) {
+  if (!from || !to) return null;
+  const avail = (p.availability || []).filter(d => d.status === 'available');
+  if (!avail.length) return 0;
+  const set = new Set(avail.map(d => d.date));
+  let n = 0;
+  const cur = new Date(from + 'T00:00:00');
+  const end = new Date(to + 'T00:00:00');
+  while (cur < end) {
+    if (set.has(cur.toISOString().slice(0, 10))) n++;
+    cur.setDate(cur.getDate() + 1);
+  }
+  return n;
+}
+
 export function initListings(state) {
   _state = state;
-
-  // Build filter buttons from real data
   buildFilterBar(state.properties);
-
-  // Render initial grid
+  wireDateRangeFilter();
   renderGrid(state.properties);
-
-  // Re-translate buttons when language switches
   document.addEventListener('i18n:changed', reTranslateFilterBar);
 }
 
 function buildSrcset(photo) {
-  // Build a responsive srcset if we know the file naming convention.
-  // optimize-images.js produces -480.webp / -800.webp / -1200.webp variants.
   if (!photo) return null;
   const base = photo.replace(/\.(jpg|jpeg|png|webp)$/i, '');
   return {
@@ -148,6 +161,7 @@ function cardHTML(p, allReviews) {
   );
 
   const tagsHTML = (p.tags || [])
+    .filter(t => t !== 'second-floor') // hide leftover tag if present
     .map(t => `<span class="card-tag">${esc(prettyTag(t))}</span>`)
     .join('');
 
@@ -175,9 +189,18 @@ function cardHTML(p, allReviews) {
        </div>`
     : '';
 
-  const availBadge = hasAvail
-    ? `<span class="card-badge avail-badge">${esc(t('listings.available_label') || 'Dates available')}</span>`
-    : '';
+  // Date-range badge: when user has picked dates, show how many nights match
+  let dateBadge = '';
+  if (_dateRange.from && _dateRange.to) {
+    const nights = countAvailableNights(p, _dateRange.from, _dateRange.to);
+    if (nights > 0) {
+      dateBadge = `<span class="card-badge avail-badge">${nights} night${nights === 1 ? '' : 's'} available</span>`;
+    } else {
+      dateBadge = `<span class="card-badge inquire-badge">Inquire to confirm</span>`;
+    }
+  } else if (hasAvail) {
+    dateBadge = `<span class="card-badge avail-badge">${esc(t('listings.available_label') || 'Dates available')}</span>`;
+  }
 
   const price = p.price_per_night
     ? `<div class="card-price">
@@ -192,7 +215,7 @@ function cardHTML(p, allReviews) {
         <div class="card-photo">${photoHTML}</div>
       </a>
       <div class="card-body">
-        ${availBadge}
+        ${dateBadge}
         <div class="card-tags">${tagsHTML}</div>
         <h3 class="card-title">
           <a href="/property/${esc(p._slug)}/">${esc(p.title)}</a>
@@ -262,10 +285,17 @@ function applyFilter(btn) {
     filtered = filtered.filter(p => (p.tags || []).includes(filter));
   }
 
+  // Apply date range on top of the tag filter.
+  if (_dateRange.from && _dateRange.to) {
+    filtered = filtered
+      .map(p => ({ p, n: countAvailableNights(p, _dateRange.from, _dateRange.to) }))
+      .sort((a, b) => b.n - a.n)
+      .map(x => x.p);
+  }
+
   renderGrid(filtered);
   updateCount(filtered.length, btn.dataset.label || 'properties');
 
-  // Map highlights are coordinated by main.js
   document.dispatchEvent(new CustomEvent('listings:filtered', { detail: { filtered } }));
 }
 
@@ -274,7 +304,6 @@ function updateCount(n, label) {
   if (el) el.textContent = `${n} ${label}`;
 }
 
-// Open availability panel + lazy-init calendar on first open
 export function toggleAvail(togBtn) {
   const panelId = togBtn.getAttribute('aria-controls');
   const panel = document.getElementById(panelId);

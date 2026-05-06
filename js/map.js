@@ -108,9 +108,7 @@ function highlightCard(slug) {
 
 // Mark a card as "selected" (selector-first UX).
 function setSelectedCard(slug) {
-  document
-    .querySelectorAll('.property-card, .card')
-    .forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.property-card, .card').forEach(c => c.classList.remove('selected'));
   const c = document.querySelector(`.property-card[data-slug="${slug}"]`);
   if (c) c.classList.add('selected');
 }

@@ -144,7 +144,10 @@
   /* Disable any small-caps / discretionary ligatures that were breaking
      the J descender. */
   font-variant: normal;
-  font-feature-settings: 'liga' 0, 'dlig' 0, 'salt' 0;
+  font-feature-settings:
+    'liga' 0,
+    'dlig' 0,
+    'salt' 0;
   letter-spacing: 0;
   /* Force a clean italic shape, not a swash variant. */
   font-synthesis: style;
@@ -156,7 +159,10 @@
   font-weight: 500;
   font-size: 1.35rem;
   color: var(--accent-deep, #9e453d);
-  font-feature-settings: 'liga' 0, 'dlig' 0, 'salt' 0;
+  font-feature-settings:
+    'liga' 0,
+    'dlig' 0,
+    'salt' 0;
 }
 
 /* ============================================================
@@ -168,7 +174,7 @@
   border: 1.5px solid var(--driftwood-pale, #d4c0ad);
   box-shadow:
     0 1px 0 rgba(0, 0, 0, 0.02),
-    0 4px 14px rgba(138, 109, 91, 0.10);
+    0 4px 14px rgba(138, 109, 91, 0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -180,8 +186,7 @@
 .property-card:hover,
 .property-card:focus-within {
   border-color: var(--driftwood, #8a6d5b);
-  box-shadow:
-    0 6px 24px rgba(31, 48, 53, 0.12);
+  box-shadow: 0 6px 24px rgba(31, 48, 53, 0.12);
 }
 
 /*

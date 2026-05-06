@@ -1,6 +1,5 @@
 // property.js — single property page
 // Reads slug from URL, fetches listings + reviews, renders the page.
-// Honest CTA: "Send Inquiry", not "Book Now".
 
 import { esc, renderStars, loadAll } from './data.js';
 import { initPropertyCalendar } from './calendar-init.js';
@@ -10,14 +9,15 @@ import { initReveal } from './reveal.js';
 const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
 let _property = null;
 let _allReviews = [];
+let _photos = [];
 
 // Pretty labels — keep in sync with listings.js TAG_LABELS.
+// 'second-floor' removed.
 const TAG_LABELS = {
   'pet-friendly': '🐾 Pet-Friendly',
   'walk-to-beach': '🏖 Walk to beach',
   'family-friendly': '👨‍👩‍👧 Family-friendly',
   'central-air': '❄ Central air',
-  'second-floor': '⬆ Second floor',
   newest: '✨ Newest',
   waterfront: '🌊 Waterfront',
   'year-round': '📅 Year-round',
@@ -44,15 +44,14 @@ function prettyTag(t) {
   initForms({ properties, reviews });
   initReveal();
   wireGalleryAndModalGlue();
+  wireLightbox();
 
-  // Show selected dates preview when calendar fires
   initPropertyCalendar(_property, (ci, co) => {
     const prev = document.getElementById('selected-preview');
     if (!prev) return;
     if (ci && co) {
       prev.classList.add('show');
       prev.textContent = `✓ ${ci} → ${co}`;
-      // Pre-fill the inquiry form fields too
       const ciIn = document.getElementById('i-checkin');
       const coIn = document.getElementById('i-checkout');
       if (ciIn) ciIn.value = ci;
@@ -66,11 +65,10 @@ function prettyTag(t) {
 function renderProperty(p) {
   document.title = `${p.title} — Beach Girl Property Rentals`;
 
-  // Update meta description for SEO
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc && p.description) metaDesc.setAttribute('content', p.description);
 
-  // Schema.org VacationRental + Offers + AggregateRating (when reviews exist)
+  // Schema.org
   const propRevs = _allReviews.filter(r => r.property === p.title);
   const avg = propRevs.length
     ? propRevs.reduce((s, r) => s + (r.rating || 5), 0) / propRevs.length
@@ -120,7 +118,7 @@ function renderProperty(p) {
   document.head.appendChild(s);
 
   // Gallery
-  const photos =
+  _photos =
     p.photosAll && p.photosAll.length
       ? p.photosAll
       : p.photos && p.photos.length
@@ -128,7 +126,7 @@ function renderProperty(p) {
         : p.photo
           ? [p.photo]
           : [];
-  initGallery(photos, p.title);
+  initGallery(_photos, p.title);
 
   document.getElementById('bc-title').textContent = p.title;
   document.getElementById('prop-type').textContent = p.type || 'Property';
@@ -142,46 +140,63 @@ function renderProperty(p) {
       <span class="rating-txt">${avg.toFixed(1)} · ${propRevs.length} review${propRevs.length > 1 ? 's' : ''}</span>`;
   }
 
-  // Specs
-  document.getElementById('prop-specs').innerHTML = [
-    ['Bedrooms', `🛏 ${p.bedrooms}`],
-    ['Bathrooms', `🚿 ${p.bathrooms}`],
-    ['Max Guests', `👥 ${p.guests}`],
-    ['Min Stay', p.min_nights ? `${p.min_nights} nights` : '—'],
-  ]
+  // Specs — only show ones that have a value
+  const specs = [];
+  if (p.bedrooms) specs.push(['Bedrooms', `🛏 ${p.bedrooms}`]);
+  if (p.bathrooms) specs.push(['Bathrooms', `🚿 ${p.bathrooms}`]);
+  if (p.guests) specs.push(['Max Guests', `👥 ${p.guests}`]);
+  if (p.min_nights) specs.push(['Min Stay', `${p.min_nights} nights`]);
+  if (p.sqft) specs.push(['Sq. Feet', `📐 ${p.sqft}`]);
+  if (p.check_in) specs.push(['Check-in', p.check_in]);
+  if (p.check_out) specs.push(['Check-out', p.check_out]);
+  document.getElementById('prop-specs').innerHTML = specs
     .map(
       ([l, v]) =>
         `<div class="spec-item"><div class="spec-label">${l}</div><div class="spec-val">${esc(String(v))}</div></div>`
     )
     .join('');
 
-  // Tags
+  // Tags — filter out second-floor if present
   document.getElementById('prop-tags').innerHTML = (p.tags || [])
+    .filter(t => t !== 'second-floor')
     .map(t => `<span class="tag-pill">${esc(prettyTag(t))}</span>`)
     .join('');
 
-  // Booking card — price + fees + availability
+  // Optional special note
+  const noteEl = document.getElementById('prop-note');
+  if (noteEl) {
+    if (p.note) {
+      noteEl.textContent = p.note;
+      noteEl.style.display = 'block';
+    } else {
+      noteEl.style.display = 'none';
+    }
+  }
+
+  // Booking card
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const hasAvail = (p.availability || []).some(
     d => d.status === 'available' && new Date(d.date + 'T00:00:00') >= today
   );
   document.getElementById('book-price').innerHTML = `${esc(p.price)} <span>/ week</span>`;
-  // Honest copy: when no availability is mapped (the safe default for v1),
-  // we tell guests to inquire — not "fully booked," which is misleading.
   document.getElementById('book-avail').innerHTML = hasAvail
     ? '<strong>Dates available</strong> — pick a week from the calendar below.'
     : '<strong>Inquire for available dates</strong> — message Jill and she\u2019ll confirm what\u2019s open.';
 
-  // Fees block — explicit transparency
+  // Fees block — only show pet fee if non-zero, only show cleaning if defined
   const feesEl = document.getElementById('book-fees');
   if (feesEl) {
+    const lines = [];
+    if (p.cleaning_fee !== undefined && p.cleaning_fee !== null) {
+      lines.push(
+        `<dt>Cleaning fee</dt><dd>${p.cleaning_fee ? `$${p.cleaning_fee}` : 'Included'}</dd>`
+      );
+    }
+    if (p.pet_fee) lines.push(`<dt>Pet fee</dt><dd>$${p.pet_fee}</dd>`);
+    lines.push('<dt>Maine lodging tax</dt><dd>9%*</dd>');
     feesEl.innerHTML = `
-      <dl>
-        <dt>Cleaning fee</dt>      <dd>${p.cleaning_fee ? `$${p.cleaning_fee}` : 'Included'}</dd>
-        ${p.pet_fee ? `<dt>Pet fee</dt><dd>$${p.pet_fee}</dd>` : ''}
-        <dt>Maine lodging tax</dt> <dd>9%*</dd>
-      </dl>
+      <dl>${lines.join('')}</dl>
       <p class="fees-note">
         *Verify current Maine short-term rental tax rate at booking.
         Security deposit and minimum stay vary — message us for an exact total.
@@ -209,7 +224,6 @@ function renderProperty(p) {
     if (sec) sec.style.display = 'none';
   }
 
-  // Mini-map (no in-browser geocoding — uses lat/lng baked at build time)
   if (p.lat && p.lng) initMiniMap(p.lat, p.lng, p.title);
   else {
     const ml = document.getElementById('map-loading');
@@ -253,15 +267,16 @@ function initGallery(photos, title) {
 
   _galleryCount = photos.length;
   track.innerHTML = photos
-    .map(src => {
+    .map((src, i) => {
       const base = src.replace(/\.(jpg|jpeg|png|webp)$/i, '');
-      return `<div class="gallery-slide">
+      return `<div class="gallery-slide" data-action="open-lightbox" data-index="${i}" role="button" tabindex="0" aria-label="Enlarge photo ${i + 1}">
       <picture>
         <source type="image/webp"
           srcset="${esc(base)}-800.webp 800w, ${esc(base)}-1200.webp 1200w, ${esc(base)}-1600.webp 1600w"
           sizes="(max-width: 900px) 100vw, 900px">
-        <img src="${esc(src)}" alt="${esc(title)}" loading="lazy" decoding="async" data-fallback="true" />
+        <img src="${esc(src)}" alt="${esc(title)} — photo ${i + 1}" loading="lazy" decoding="async" data-fallback="true" />
       </picture>
+      <div class="gallery-zoom-hint" aria-hidden="true">🔍 Click to enlarge</div>
     </div>`;
     })
     .join('');
@@ -287,6 +302,39 @@ function initGallery(photos, title) {
   thumbs.querySelectorAll('[data-action="gallery-go"]').forEach(t => {
     t.addEventListener('click', () => galleryGo(parseInt(t.dataset.index, 10)));
   });
+
+  // Touch swipe for mobile
+  let touchStartX = 0;
+  track.addEventListener(
+    'touchstart',
+    e => {
+      touchStartX = e.touches[0].clientX;
+    },
+    { passive: true }
+  );
+  track.addEventListener(
+    'touchend',
+    e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) galleryGo(_galleryIndex + (dx < 0 ? 1 : -1));
+    },
+    { passive: true }
+  );
+
+  // Click on a slide opens lightbox (event delegation)
+  track.addEventListener('click', e => {
+    const slide = e.target.closest('[data-action="open-lightbox"]');
+    if (slide) openLightbox(parseInt(slide.dataset.index, 10));
+  });
+  track.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const slide = e.target.closest('[data-action="open-lightbox"]');
+      if (slide) {
+        e.preventDefault();
+        openLightbox(parseInt(slide.dataset.index, 10));
+      }
+    }
+  });
 }
 
 function galleryGo(i) {
@@ -299,6 +347,87 @@ function galleryGo(i) {
     .forEach((t, idx) => t.classList.toggle('active', idx === _galleryIndex));
   document.getElementById('gallery-counter').textContent =
     `${_galleryIndex + 1} / ${_galleryCount}`;
+}
+
+// ── LIGHTBOX ────────────────────────────────────────────────────────
+let _lightboxIndex = 0;
+
+function wireLightbox() {
+  const lb = document.getElementById('lightbox');
+  if (!lb) return;
+
+  lb.addEventListener('click', e => {
+    if (e.target === lb || e.target.closest('[data-action="lightbox-close"]')) {
+      closeLightbox();
+    }
+  });
+  document.querySelector('[data-action="lightbox-prev"]')?.addEventListener('click', () => {
+    lightboxGo(_lightboxIndex - 1);
+  });
+  document.querySelector('[data-action="lightbox-next"]')?.addEventListener('click', () => {
+    lightboxGo(_lightboxIndex + 1);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lightboxGo(_lightboxIndex - 1);
+    if (e.key === 'ArrowRight') lightboxGo(_lightboxIndex + 1);
+  });
+
+  // Touch swipe inside lightbox
+  let lbStartX = 0;
+  lb.addEventListener(
+    'touchstart',
+    e => {
+      lbStartX = e.touches[0].clientX;
+    },
+    { passive: true }
+  );
+  lb.addEventListener(
+    'touchend',
+    e => {
+      const dx = e.changedTouches[0].clientX - lbStartX;
+      if (Math.abs(dx) > 50) lightboxGo(_lightboxIndex + (dx < 0 ? 1 : -1));
+    },
+    { passive: true }
+  );
+}
+
+function openLightbox(i) {
+  if (!_photos.length) return;
+  _lightboxIndex = i;
+  const lb = document.getElementById('lightbox');
+  if (!lb) return;
+  renderLightboxImage();
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  if (!lb) return;
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function lightboxGo(i) {
+  _lightboxIndex = (i + _photos.length) % _photos.length;
+  renderLightboxImage();
+  // Also sync the inline gallery
+  galleryGo(_lightboxIndex);
+}
+
+function renderLightboxImage() {
+  const img = document.getElementById('lightbox-img');
+  const counter = document.getElementById('lightbox-counter');
+  if (!img) return;
+  const src = _photos[_lightboxIndex];
+  const base = src.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+  img.srcset = `${base}-1200.webp 1200w, ${base}-1600.webp 1600w`;
+  img.src = src;
+  img.alt = `Photo ${_lightboxIndex + 1} of ${_photos.length}`;
+  if (counter) counter.textContent = `${_lightboxIndex + 1} / ${_photos.length}`;
 }
 
 // ── MODAL GLUE ──────────────────────────────────────────────────────

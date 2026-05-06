@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit — Beach Girl Property Rentals</title>
+    <meta name="robots" content="noindex" />
+    <!--
+      Decap CMS — content editor for Jill.
+      Access via the dashboard at /manage-listings-apm/.
+
+      Auth: Netlify Identity + Git Gateway.
+      Both must be enabled in Netlify dashboard for saving to work.
+    -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <link rel="stylesheet" href="/manage-listings-apm/cms-overrides.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      /* Loading screen while Decap initialises */
+      .cms-loading {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+        background: #f7f3ec;
+        color: #1c2528;
+        z-index: 0;
+      }
+      .cms-loading-spinner {
+        width: 36px;
+        height: 36px;
+        border: 3px solid #e5dfd1;
+        border-top-color: #c25e54;
+        border-radius: 50%;
+        animation: cms-spin 0.9s linear infinite;
+      }
+      @keyframes cms-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cms-loading" id="cms-loading">
+      <div class="cms-loading-spinner"></div>
+      <div>Loading editor…</div>
+    </div>
+
+    <!-- Decap CMS bundle (latest 3.x) -->
+    <script src="https://unpkg.com/decap-cms@3.7.4/dist/decap-cms.js"></script>
+
+    <!-- Custom address autocomplete widget -->
+    <script src="/manage-listings-apm/widgets/address-autocomplete.js"></script>
+
+    <script>
+      // ── Identity widget integration ───────────────────────────────────
+      // Pattern from Netlify docs: redirect to /admin after login so Decap
+      // sees the Identity token and finishes auth properly. Without this,
+      // login appears to succeed but Decap remains in a half-authenticated
+      // state (the "Logged in" message that won't go away that you saw).
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on('init', user => {
+          if (!user) {
+            window.netlifyIdentity.on('login', () => {
+              document.location.href = '/manage-listings-apm/edit/';
+            });
+          }
+        });
+      }
+
+      window.addEventListener('load', () => {
+        // Hide the loading screen once CMS takes over the DOM
+        setTimeout(() => {
+          const ld = document.getElementById('cms-loading');
+          if (ld) ld.style.display = 'none';
+        }, 1500);
+
+        CMS.init({
+          config: {
+            backend: {
+              name: 'git-gateway',
+              branch: 'main',
+              // Friendlier commit messages in the git history
+              commit_messages: {
+                create: 'CMS: Add {{collection}} "{{slug}}"',
+                update: 'CMS: Update {{collection}} "{{slug}}"',
+                delete: 'CMS: Delete {{collection}} "{{slug}}"',
+                uploadMedia: 'CMS: Upload "{{path}}"',
+                deleteMedia: 'CMS: Delete "{{path}}"',
+              },
+            },
+            // Default media folder — used when a collection doesn't override it.
+            media_folder: 'photos',
+            public_folder: '/photos',
+            load_config_file: false,
+            site_url: 'https://beachgirlpropertyrentals.com',
+            display_url: 'https://beachgirlpropertyrentals.com',
+            logo_url: '/photos/hero/hero-1.jpg',
+            // Disable editorial workflow so "Publish" commits directly.
+            // This matches what Jill expects: Save = Live.
+            publish_mode: 'simple',
+            collections: [
+              // ── PROPERTIES ─────────────────────────────────────────────
+              {
+                name: 'properties',
+                label: 'Properties',
+                label_singular: 'Property',
+                description: 'Your vacation rentals — what guests see.',
+                folder: '_listings',
+                create: true,
+                delete: true,
+                // Filename auto-generated from title — no manual slug field.
+                slug: '{{slug}}',
+                // Per-collection media: photos for THIS property go to a
+                // dedicated subfolder. Keeps the media library scoped so
+                // Jill only sees relevant photos when uploading.
+                media_folder: '/photos/{{slug}}',
+                public_folder: '/photos/{{slug}}',
+                // Card preview in the list view
+                summary: '{{title}} — {{bedrooms}} bed, sleeps {{guests}}',
+                sortable_fields: ['title', 'bedrooms'],
+                fields: [
+                  // ── BASICS ─────────────────────────────────────────
+                  {
+                    label: 'Property Name',
+                    name: 'title',
+                    widget: 'string',
+                    hint: 'What guests see at the top of the listing. Example: "Beach Vacation Unit A"',
+                  },
+                  {
+                    label: 'Property Type',
+                    name: 'type',
+                    widget: 'select',
+                    options: [
+                      'Apartment',
+                      'Cottage',
+                      'Cape',
+                      'Ranch',
+                      'Colonial',
+                      'Condo',
+                      'Studio',
+                      'House',
+                    ],
+                    default: 'Apartment',
+                  },
+                  {
+                    label: 'Active — show on the public site',
+                    name: 'active',
+                    widget: 'boolean',
+                    default: true,
+                    hint: 'Uncheck to hide this listing without deleting it.',
+                  },
+
+                  // ── LOCATION ───────────────────────────────────────
+                  {
+                    label: 'City / Region',
+                    name: 'location',
+                    widget: 'string',
+                    default: 'Old Orchard Beach, ME',
+                    hint: 'What guests see on the listing card. Example: "Old Orchard Beach, ME"',
+                  },
+                  {
+                    label: 'Street Address',
+                    name: 'address',
+                    widget: 'address-autocomplete',
+                    required: false,
+                    hint: 'Start typing — pick the right one from the list. Used to pin the map. NOT shown to guests until booking is confirmed.',
+                  },
+                  // Map coordinates: hidden inside a collapsed group so
+                  // the form doesn't intimidate. They are auto-set by the
+                  // build step from the Address field above. Only edit
+                  // these if the auto-pin is wrong.
+                  {
+                    label: 'Map Pin (advanced — usually auto-set from address)',
+                    name: 'map_pin',
+                    widget: 'object',
+                    collapsed: true,
+                    required: false,
+                    hint: 'Only change these if the map pin appears in the wrong place after publishing.',
+                    fields: [
+                      {
+                        label: 'Latitude',
+                        name: 'lat',
+                        widget: 'number',
+                        value_type: 'float',
+                        default: 43.5181,
+                        required: false,
+                      },
+                      {
+                        label: 'Longitude',
+                        name: 'lng',
+                        widget: 'number',
+                        value_type: 'float',
+                        default: -70.3781,
+                        required: false,
+                      },
+                    ],
+                  },
+
+                  // ── SIZE ───────────────────────────────────────────
+                  {
+                    label: 'Bedrooms',
+                    name: 'bedrooms',
+                    widget: 'number',
+                    min: 0,
+                    max: 10,
+                    default: 3,
+                  },
+                  {
+                    label: 'Beds (sleeping spots)',
+                    name: 'beds',
+                    widget: 'number',
+                    min: 1,
+                    max: 16,
+                    default: 4,
+                    hint: 'Total number of beds, not bedrooms. A pull-out couch counts.',
+                  },
+                  {
+                    label: 'Bathrooms',
+                    name: 'bathrooms',
+                    widget: 'number',
+                    value_type: 'float',
+                    step: 0.5,
+                    min: 1,
+                    max: 8,
+                    default: 1,
+                  },
+                  {
+                    label: 'Max Guests',
+                    name: 'guests',
+                    widget: 'number',
+                    min: 1,
+                    max: 20,
+                    default: 8,
+                  },
+                  {
+                    label: 'Square Feet',
+                    name: 'sqft',
+                    widget: 'number',
+                    required: false,
+                    min: 0,
+                    hint: 'Leave blank if you don\u2019t know.',
+                  },
+
+                  // ── PRICING ────────────────────────────────────────
+                  {
+                    label: 'Price (display only)',
+                    name: 'price',
+                    widget: 'string',
+                    default: 'Inquire for rates',
+                    hint: 'Shown on the listing card. Examples: "$2,400/week" or "Inquire for rates".',
+                  },
+                  {
+                    label: 'Cleaning Fee ($)',
+                    name: 'cleaning_fee',
+                    widget: 'number',
+                    default: 0,
+                    min: 0,
+                    hint: 'Set to 0 to display "Included".',
+                  },
+                  {
+                    label: 'Pet Fee ($)',
+                    name: 'pet_fee',
+                    widget: 'number',
+                    default: 0,
+                    min: 0,
+                    hint: 'Leave at 0 if pets aren\u2019t allowed or there\u2019s no fee.',
+                  },
+                  {
+                    label: 'Minimum Nights',
+                    name: 'min_nights',
+                    widget: 'number',
+                    default: 3,
+                    min: 1,
+                    max: 30,
+                  },
+
+                  // ── PHOTOS ─────────────────────────────────────────
+                  {
+                    label: 'Cover Photo',
+                    name: 'photo',
+                    widget: 'image',
+                    hint: 'The main photo on the listing card. Choose the best, most representative shot. Drag-and-drop or tap to upload.',
+                  },
+                  // FIX: changed from `fields:` (plural) to `field:` (singular)
+                  // — this writes a flat list of strings instead of nested
+                  // objects, which matches the existing data files and avoids
+                  // the broken "X" buttons in the photo gallery widget.
+                  {
+                    label: 'Photo Gallery',
+                    name: 'photos',
+                    widget: 'list',
+                    required: false,
+                    field: { label: 'Photo', name: 'image', widget: 'image' },
+                    hint: 'Add as many photos as you like. The first photo is the gallery lead. Drag rows to reorder.',
+                  },
+
+                  // ── DESCRIPTION ────────────────────────────────────
+                  {
+                    label: 'Description',
+                    name: 'body',
+                    widget: 'markdown',
+                    hint: 'The full description shown on the property page. 2–4 paragraphs is ideal.',
+                    minimal: true,
+                    buttons: ['bold', 'italic', 'link', 'heading-two', 'bulleted-list'],
+                  },
+
+                  // ── TAGS / FILTERS ─────────────────────────────────
+                  // FIX: switched to `field:` (singular) so this writes
+                  // [pet-friendly, walk-to-beach] not [{tag: ...}, ...].
+                  {
+                    label: 'Filter Tags',
+                    name: 'tags',
+                    widget: 'list',
+                    required: false,
+                    field: { label: 'Tag', name: 'tag', widget: 'string' },
+                    hint: 'Used by the homepage filters. Lowercase + hyphens. Examples: pet-friendly, walk-to-beach, family-friendly, central-air, waterfront, year-round.',
+                  },
+                  {
+                    label: 'Amenities',
+                    name: 'amenities',
+                    widget: 'list',
+                    required: false,
+                    field: { label: 'Amenity', name: 'amenity', widget: 'string' },
+                    hint: 'One per line. Examples: WiFi, Air conditioning, Washer/dryer, Free parking.',
+                  },
+                  {
+                    label: 'Sleeping Arrangements',
+                    name: 'sleeping',
+                    widget: 'list',
+                    required: false,
+                    field: { label: 'Line', name: 'line', widget: 'string' },
+                    hint: 'One line per bedroom. Example: "Bedroom 1 — 1 king bed".',
+                  },
+
+                  // ── CHECK-IN / OUT ─────────────────────────────────
+                  {
+                    label: 'Check-in Time',
+                    name: 'check_in',
+                    widget: 'string',
+                    required: false,
+                    default: 'After 3:00 PM',
+                  },
+                  {
+                    label: 'Check-out Time',
+                    name: 'check_out',
+                    widget: 'string',
+                    required: false,
+                    default: 'Before 10:00 AM',
+                  },
+
+                  // ── EXTRAS ─────────────────────────────────────────
+                  {
+                    label: 'Special Note (optional)',
+                    name: 'note',
+                    widget: 'string',
+                    required: false,
+                    hint: 'A short note shown under "The basics". Example: "Second floor — must climb stairs."',
+                  },
+                  {
+                    label: 'External Listing URL (Airbnb / Vrbo, optional)',
+                    name: 'external_listing',
+                    widget: 'string',
+                    required: false,
+                    hint: 'Just for your reference. Not shown on the public site.',
+                  },
+
+                  // ── AVAILABILITY ───────────────────────────────────
+                  // FIX: 'date' widget was deprecated in Decap 3.x and shows
+                  // "No control for widget 'date'". Use 'datetime' with
+                  // time_format: false for a date-only picker.
+                  {
+                    label: 'Availability — bookable nights',
+                    name: 'availability',
+                    widget: 'list',
+                    required: false,
+                    hint: 'Dates NOT listed here are treated as "inquire only" by default. Add a row for each available night, or leave empty to show no specific availability.',
+                    summary: '{{fields.date}} — {{fields.status}}',
+                    fields: [
+                      {
+                        label: 'Date',
+                        name: 'date',
+                        widget: 'datetime',
+                        date_format: 'YYYY-MM-DD',
+                        time_format: false,
+                        format: 'YYYY-MM-DD',
+                        picker_utc: true,
+                      },
+                      {
+                        label: 'Status',
+                        name: 'status',
+                        widget: 'select',
+                        options: ['available', 'unavailable'],
+                        default: 'available',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ── REVIEWS ────────────────────────────────────────────────
+              {
+                name: 'reviews',
+                label: 'Reviews',
+                label_singular: 'Review',
+                description: 'Guest reviews — moderated before they go live.',
+                folder: '_reviews',
+                create: true,
+                delete: true,
+                slug: '{{year}}-{{month}}-{{slug}}',
+                summary: '{{author}} · {{property}} · {{rating}}★',
+                fields: [
+                  // FIX: `relation` widget pulls properties dynamically from
+                  // the properties collection, with "General" as a fallback.
+                  // Was a free-text string before — error-prone.
+                  {
+                    label: 'About which property?',
+                    name: 'property',
+                    widget: 'relation',
+                    collection: 'properties',
+                    search_fields: ['title'],
+                    value_field: 'title',
+                    display_fields: ['title'],
+                    required: false,
+                    hint: 'Pick the property the review is about — or leave blank for a general review of Jill\u2019s service.',
+                  },
+                  {
+                    label: 'Guest Name',
+                    name: 'author',
+                    widget: 'string',
+                    hint: 'First name + last initial only. Example: "Jane S."',
+                  },
+                  {
+                    label: 'Rating (1–5 stars)',
+                    name: 'rating',
+                    widget: 'number',
+                    min: 1,
+                    max: 5,
+                    default: 5,
+                  },
+                  {
+                    label: 'Review',
+                    name: 'text',
+                    widget: 'text',
+                    hint: 'The review content. 2–4 sentences is ideal.',
+                  },
+                  {
+                    label: 'Stay Dates',
+                    name: 'date',
+                    widget: 'string',
+                    required: false,
+                    hint: 'Free text — example: "July 2026". Helps guests see how recent the review is.',
+                  },
+                  {
+                    label: 'Approved — show on the public site',
+                    name: 'approved',
+                    widget: 'boolean',
+                    default: false,
+                    hint: 'Only check this AFTER you\u2019ve verified the guest actually stayed.',
+                  },
+                ],
+              },
+
+              // ── BLOG / LOCAL GUIDE POSTS ───────────────────────────────
+              {
+                name: 'posts',
+                label: 'Local Guide',
+                label_singular: 'Post',
+                description: 'Blog posts shown in the "Local Guide" section.',
+                folder: '_posts',
+                create: true,
+                delete: true,
+                slug: '{{slug}}',
+                summary: '{{title}} ({{date}})',
+                media_folder: '/photos/blog',
+                public_folder: '/photos/blog',
+                fields: [
+                  { label: 'Title', name: 'title', widget: 'string' },
+                  {
+                    label: 'Date',
+                    name: 'date',
+                    widget: 'string',
+                    hint: 'Free text. Example: "April 2026".',
+                  },
+                  {
+                    label: 'Cover Photo',
+                    name: 'photo',
+                    widget: 'image',
+                    required: false,
+                    hint: 'Optional. Used for the blog card. Drag-and-drop or tap to upload.',
+                  },
+                  {
+                    label: 'Emoji (used if no photo)',
+                    name: 'emoji',
+                    widget: 'string',
+                    required: false,
+                    default: '\ud83c\udfd6\ufe0f',
+                    hint: 'Optional. Shown on the card if there\u2019s no cover photo.',
+                  },
+                  {
+                    label: 'Excerpt',
+                    name: 'excerpt',
+                    widget: 'text',
+                    hint: 'Short teaser shown on the blog index. 1–2 sentences.',
+                  },
+                  {
+                    label: 'Body',
+                    name: 'body',
+                    widget: 'markdown',
+                    hint: 'The full post. Use ## for section headings.',
+                  },
+                ],
+              },
+            ],
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

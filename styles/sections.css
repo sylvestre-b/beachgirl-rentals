@@ -37,8 +37,7 @@
 
 /* ── OWNER MOMENT PANEL ─────────────────────────────────────────────── */
 .owner-panel {
-  background:
-    radial-gradient(ellipse at top right, rgba(214, 196, 164, 0.4), transparent 60%),
+  background: radial-gradient(ellipse at top right, rgba(214, 196, 164, 0.4), transparent 60%),
     var(--sand-pale);
   padding: 5rem 2rem;
   position: relative;

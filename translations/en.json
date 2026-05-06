@@ -49,7 +49,6 @@
     "filter_walk_to_beach": "🏖 Walk to beach",
     "filter_family_friendly": "👨‍👩‍👧 Family-friendly",
     "filter_central_air": "❄ Central air",
-    "filter_second_floor": "⬆ Second floor",
     "filter_newest": "✨ Newest",
     "filter_waterfront": "🌊 Waterfront",
     "filter_year_round": "📅 Year-round",
@@ -58,7 +57,10 @@
     "inquire_btn": "View & Inquire",
     "no_match": "No properties match your filters yet",
     "reset_filters": "show all",
-    "error": "We had trouble loading properties. Please refresh the page or call (207) 450-7347."
+    "error": "We had trouble loading properties. Please refresh the page or call (207) 450-7347.",
+    "date_from_label": "Check-in",
+    "date_to_label": "Check-out",
+    "date_clear": "Clear dates"
   },
   "reviews": {
     "section_eyebrow": "What guests say",

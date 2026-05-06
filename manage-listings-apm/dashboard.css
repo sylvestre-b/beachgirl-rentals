@@ -1,0 +1,312 @@
+/* dashboard.css — admin landing page styles */
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #f7f3ec;
+  --card: #ffffff;
+  --ink: #1c2528;
+  --muted: #6b7a80;
+  --border: #e5dfd1;
+  --accent: #c25e54;
+  --accent-deep: #a4423a;
+  --teal: #5a9aa0;
+  --shadow-sm: 0 1px 3px rgba(28, 37, 40, 0.06);
+  --shadow-md: 0 4px 16px rgba(28, 37, 40, 0.08);
+  --shadow-lg: 0 12px 32px rgba(28, 37, 40, 0.12);
+}
+
+body {
+  margin: 0;
+  font-family:
+    'DM Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ───────────────────────────────────────────────────────── */
+.dash-header {
+  background: var(--ink);
+  color: #fff;
+  padding: 0.85rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.dash-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.dash-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.dash-brand-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.dash-brand-sub {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+.dash-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.dash-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+.dash-link:hover {
+  opacity: 1;
+}
+.dash-user {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+.dash-logout {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+.dash-logout:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ── MAIN ─────────────────────────────────────────────────────────── */
+.dash-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── LOGIN VIEW ───────────────────────────────────────────────────── */
+.dash-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+.dash-login-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: var(--shadow-md);
+}
+.dash-login-card h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  margin: 0.5rem 0;
+  font-size: 1.6rem;
+}
+.dash-login-card p {
+  color: var(--muted);
+  margin: 0.5rem 0 1.25rem;
+}
+.dash-emoji {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.dash-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+.dash-btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.dash-btn-primary:hover {
+  background: var(--accent-deep);
+  transform: translateY(-1px);
+}
+.dash-help-text {
+  font-size: 0.8rem !important;
+  color: var(--muted);
+  margin-top: 1.5rem !important;
+}
+
+/* ── AUTHENTICATED CONTENT ───────────────────────────────────────── */
+.dash-greeting {
+  margin-bottom: 2rem;
+}
+.dash-greeting h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
+  margin: 0;
+}
+.dash-greeting h1 em {
+  /* Georgia italic — Playfair italic capital J reads as "F" */
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  color: var(--accent-deep);
+}
+.dash-greeting p {
+  color: var(--muted);
+  margin: 0.5rem 0 0;
+  font-size: 1.05rem;
+}
+
+/* ── TILES ────────────────────────────────────────────────────────── */
+.dash-tiles {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-bottom: 2rem;
+}
+.dash-tile {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+.dash-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
+}
+.dash-tile-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+.dash-tile h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+.dash-tile p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  flex: 1;
+}
+.dash-tile-cta {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* ── TIPS ─────────────────────────────────────────────────────────── */
+.dash-tips {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-top: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+.dash-tips summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 0.5rem 0;
+  list-style: none;
+}
+.dash-tips summary::-webkit-details-marker {
+  display: none;
+}
+.dash-tips summary::before {
+  content: '💡';
+  margin-right: 0.5rem;
+}
+.dash-tips[open] summary::after {
+  content: ' ▲';
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.dash-tips:not([open]) summary::after {
+  content: ' ▼';
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.dash-tips ul {
+  margin: 0.75rem 0 0.5rem;
+  padding-left: 1.4rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.dash-tips li {
+  margin-bottom: 0.5rem;
+}
+.dash-tips strong {
+  color: var(--ink);
+}
+
+/* ── MOBILE ───────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .dash-main {
+    padding: 1.25rem 1rem 3rem;
+  }
+  .dash-header {
+    padding: 0.7rem 1rem;
+  }
+  .dash-header-right {
+    gap: 0.6rem;
+  }
+  .dash-link {
+    display: none;
+  }
+  .dash-user {
+    font-size: 0.75rem;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .dash-tile {
+    padding: 1.25rem;
+  }
+}

@@ -108,8 +108,21 @@ export function openInquiryModal(slug) {
   if (successView) successView.classList.remove('show');
 
   // Reset fields if they exist (tolerate either i-* or iq-* naming).
-  ['i-first', 'i-last', 'i-email', 'i-phone', 'i-message', 'i-checkin', 'i-checkout',
-   'iq-name', 'iq-email', 'iq-message', 'iq-checkin', 'iq-checkout', 'iq-guests'].forEach(id => {
+  [
+    'i-first',
+    'i-last',
+    'i-email',
+    'i-phone',
+    'i-message',
+    'i-checkin',
+    'i-checkout',
+    'iq-name',
+    'iq-email',
+    'iq-message',
+    'iq-checkin',
+    'iq-checkout',
+    'iq-guests',
+  ].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
@@ -149,7 +162,11 @@ export function closeModal(id) {
   el.classList.remove('open');
   document.body.style.overflow = '';
   if (_lastFocused) {
-    try { _lastFocused.focus(); } catch (_) { /* noop */ }
+    try {
+      _lastFocused.focus();
+    } catch (_) {
+      /* noop */
+    }
     _lastFocused = null;
   }
 }
@@ -199,12 +216,18 @@ async function submitInquiry() {
     name = '';
   }
 
-  const email = (document.getElementById('i-email') || document.getElementById('iq-email'))?.value.trim() || '';
+  const email =
+    (document.getElementById('i-email') || document.getElementById('iq-email'))?.value.trim() || '';
   const phone = document.getElementById('i-phone')?.value.trim() || '';
-  const guests = (document.getElementById('i-guests') || document.getElementById('iq-guests'))?.value || '';
-  const checkIn = (document.getElementById('i-checkin') || document.getElementById('iq-checkin'))?.value || '';
-  const checkOut = (document.getElementById('i-checkout') || document.getElementById('iq-checkout'))?.value || '';
-  const message = (document.getElementById('i-message') || document.getElementById('iq-message'))?.value.trim() || '';
+  const guests =
+    (document.getElementById('i-guests') || document.getElementById('iq-guests'))?.value || '';
+  const checkIn =
+    (document.getElementById('i-checkin') || document.getElementById('iq-checkin'))?.value || '';
+  const checkOut =
+    (document.getElementById('i-checkout') || document.getElementById('iq-checkout'))?.value || '';
+  const message =
+    (document.getElementById('i-message') || document.getElementById('iq-message'))?.value.trim() ||
+    '';
   const propertySelect = document.getElementById('iq-property');
   const propertyOverride = propertySelect ? propertySelect.value : '';
 
@@ -253,7 +276,10 @@ async function submitInquiry() {
     if (res.ok) showSuccess('inquiry');
     else throw new Error(res.status);
   } catch (err) {
-    showErr('inquiry', 'Something went wrong. Email us at beachgirloob@gmail.com or call (207) 450-7347.');
+    showErr(
+      'inquiry',
+      'Something went wrong. Email us at beachgirloob@gmail.com or call (207) 450-7347.'
+    );
     if (btn) {
       btn.textContent = originalLabel || 'Send Message →';
       btn.disabled = false;
@@ -316,7 +342,8 @@ async function submitReview() {
 function showErr(type, msg) {
   const v = document.getElementById(`${type}-form-view`);
   if (!v) {
-    console.warn(`[forms] missing ${type}-form-view`); return;
+    console.warn(`[forms] missing ${type}-form-view`);
+    return;
   }
   let e = v.querySelector('.form-err');
   if (!e) {
