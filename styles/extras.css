@@ -414,14 +414,207 @@
   }
 }
 
-/* ── JILL "J" SWASH FIX ─────────────────────────────────────────────────
-   Playfair Display's italic capital J ships with a discretionary swash
-   that visually reads as "F", so "Jill" looks like "Fill". Suppress the
-   OpenType swash/alternate features for the italic Playfair contexts
-   that include the name. */
+/* ── JILL "J" GLYPH FIX ─────────────────────────────────────────────────
+   Playfair Display's italic capital J has a long descender that visually
+   reads as "F" — so "Jill" looks like "Fill". font-feature-settings to
+   suppress swash/alternates didn't help: the default italic J in this
+   weight is itself the offending shape.
+   Fix: keep italic styling but swap the font family for the few "Jill"
+   contexts. Georgia's italic J is a regular-shaped J on every system. */
 .owner-text h2 em,
 .owner-signature,
 .birthday-banner .bday-text em {
-  font-feature-settings: 'liga' 0, 'dlig' 0, 'salt' 0, 'swsh' 0;
-  font-variant-ligatures: no-discretionary-ligatures;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   PROPERTY CARDS (homepage listings grid)
+   listings.js renders <article class="property-card"> — but the existing
+   .card rules in components.css are NOT applied to that classname, so
+   the cards rendered with no border, no padding, and tags overlapping
+   the action button. Provide a self-contained card style here.
+   ───────────────────────────────────────────────────────────────────── */
+.property-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--white, #fff);
+  border: 1px solid var(--driftwood-pale, #d4c0ad);
+  border-radius: var(--r-lg, 14px);
+  overflow: hidden;
+  box-shadow: var(--sh-card, 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04));
+  transition:
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    transform 0.22s ease;
+}
+.property-card:hover,
+.property-card:focus-within {
+  border-color: var(--driftwood, #8a6d5b);
+  box-shadow: var(--sh-md, 0 4px 14px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.06));
+  transform: translateY(-2px);
+}
+
+/* Photo region */
+.property-card .card-photo-link {
+  display: block;
+  text-decoration: none;
+}
+.property-card .card-photo {
+  position: relative;
+  height: 215px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--driftwood-pale, #d4c0ad), var(--sand, #e9d8b4));
+}
+.property-card .card-photo img,
+.property-card .card-photo picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.property-card .card-body {
+  padding: 1.15rem 1.35rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Tags row — explicitly NOT absolute (override the .card-tags rule in
+   components.css that positioned them inside .card-photo on the old
+   markup). They sit inline above the title. */
+.property-card .card-tags {
+  position: static;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0 0 0.55rem;
+}
+.property-card .card-tag {
+  font-size: var(--xs, 0.72rem);
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: var(--r-pill, 999px);
+  background: var(--accent-pale, #f6e7e3);
+  color: var(--accent-deep, #9e453d);
+}
+
+.property-card .card-title {
+  font-family: var(--serif, 'Playfair Display', Georgia, serif);
+  font-size: var(--xl, 1.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 0.35rem;
+  color: var(--ink, #1c2528);
+}
+.property-card .card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.property-card .card-title a:hover {
+  color: var(--accent-deep, #9e453d);
+}
+.property-card .card-desc {
+  font-size: var(--sm, 0.86rem);
+  line-height: 1.55;
+  color: var(--text-mid, #4a5256);
+  margin: 0.25rem 0 0.75rem;
+}
+
+/* Actions row — column layout so the toggle and the View & Inquire
+   button stack neatly and don't visually crowd each other. */
+.property-card .card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--sand, #e9d8b4);
+}
+
+/* "View & Inquire" pill — toned-down, sand-colored instead of the
+   accent orange/red that read as alarm-button. Keeps the pill shape,
+   loses the saturated background. */
+.property-card .btn-pill.btn-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 9px 18px;
+  font-size: var(--xs, 0.72rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--r-pill, 999px);
+  background: var(--sand, #e9d8b4);
+  color: var(--ink, #1c2528);
+  text-decoration: none;
+  border: 1px solid var(--driftwood-pale, #d4c0ad);
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+  /* override .btn-pill's transform-on-hover */
+  transform: none;
+}
+.property-card .btn-pill.btn-sm:hover {
+  background: var(--driftwood-pale, #d4c0ad);
+  border-color: var(--driftwood, #8a6d5b);
+  color: var(--ink, #1c2528);
+  transform: none;
+}
+.property-card .btn-pill.btn-sm .card-cta {
+  color: inherit;
+  font-weight: 700;
+}
+
+/* The avail-toggle inside .property-card — keep its existing look from
+   components.css; just ensure full width so it lines up with the pill. */
+.property-card .avail-toggle {
+  width: 100%;
+}
+
+/* The avail-panel (calendar dropdown) sits inside .property-card */
+.property-card .avail-panel {
+  margin-top: 0.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   PROPERTY PAGE — CALENDAR CONTAINMENT (booking-card sidebar)
+   The two-month calendar tries to fit 2 months across ~280px of content
+   width inside the 340px booking-card. Day numbers and the Su/Mo/Tu/We
+   header row spill outside the card. Two fixes:
+     1. Stack the months vertically inside the booking-card.
+     2. Tighten cell padding / fonts so day numbers can't overflow.
+   The home-page calendar (full-width) is unaffected.
+   ───────────────────────────────────────────────────────────────────── */
+.booking-card .cal-wrap {
+  /* prevent any inner element from forcing the wrap wider than its parent */
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.booking-card .cal-months {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+.booking-card .cal-dow {
+  font-size: 0.62rem;
+  padding: 3px 0;
+  min-width: 0;
+}
+.booking-card .cal-day {
+  font-size: 0.72rem;
+  padding: 6px 1px;
+  min-width: 0;
+  /* hard guard: never exceed the column width */
+  max-width: 100%;
+}
+.booking-card .cal-grid,
+.booking-card .cal-dow-row {
+  /* CSS grid columns are 1fr — explicitly use minmax(0,1fr) so children
+     can't force the track wider than the available space. This is the
+     classic "grid item overflows parent" fix. */
+  grid-template-columns: repeat(7, minmax(0, 1fr));
 }

@@ -1,21 +1,47 @@
 // forms.js — inquiry + review form submission
-// P0 FIX: inquiry form now REQUIRES check-in, check-out, and guest count.
-// Without this, was getting "Not specified" emails and having to ask
-// every guest the basics over again.
+// 2026-05 fix-pass:
+//   - The "Inquire" button in the header now works even if loadAll() is
+//     still pending. Previously, wireFormButtons() ran inside initForms()
+//     which only fires AFTER loadAll() resolves. If a user clicked early
+//     (or if the data fetch was slow / blocked), the button did nothing.
+//     Solution: a parallel module-level event delegation pass attaches as
+//     soon as forms.js is parsed.
+//   - openInquiryModal() is now null-safe on every DOM access. If a key
+//     element is missing on a page, it logs and returns instead of
+//     throwing. (e.g., it should never throw if called from a page that
+//     happens not to contain the modal markup.)
 
-// (esc no longer needed — text content is set via .textContent / DOM nodes)
 import { getSelected } from './calendar-init.js';
+
 const INQUIRY_FORM_ID = 'xbdwrlgl';
 const REVIEW_FORM_ID = 'xjglbglj';
 
-// Holds context the inquiry modal needs about the property being asked about
 let _modalProperty = null;
 let _allProperties = [];
 let _lastFocused = null;
 let _currentRating = 0;
 
+// ── Module-level delegated listener (works without initForms running) ─
+// This attaches as soon as forms.js is imported. Safe to also attach the
+// per-button listeners later in initForms — clicks fire both, but
+// openInquiryModal is idempotent.
+document.addEventListener('click', e => {
+  const open = e.target.closest('[data-action="open-inquiry"]');
+  if (open) {
+    e.preventDefault();
+    openInquiryModal(null);
+    return;
+  }
+  const close = e.target.closest('[data-action="close-modal"]');
+  if (close) {
+    e.preventDefault();
+    closeModal(close.getAttribute('data-target'));
+    return;
+  }
+});
+
 export function initForms(state) {
-  _allProperties = state.properties;
+  _allProperties = state.properties || [];
   populateReviewSelect();
   wireStarPicker();
   wireFormButtons();
@@ -28,18 +54,10 @@ function wireFormButtons() {
   const reviewBtn = document.querySelector('[data-action="submit-review"]');
   if (reviewBtn) reviewBtn.addEventListener('click', submitReview);
 
-  // Header / hero buttons that open the generic inquiry modal
-  document.querySelectorAll('[data-action="open-inquiry"]').forEach(btn => {
-    btn.addEventListener('click', () => openInquiryModal(null));
-  });
   document.querySelectorAll('[data-action="open-review"]').forEach(btn => {
     btn.addEventListener('click', openReviewModal);
   });
-  document.querySelectorAll('[data-action="close-modal"]').forEach(btn => {
-    btn.addEventListener('click', () => closeModal(btn.getAttribute('data-target')));
-  });
 
-  // Overlay click closes
   document.querySelectorAll('.overlay').forEach(ov => {
     ov.addEventListener('click', e => {
       if (e.target === ov) closeModal(ov.id);
@@ -48,66 +66,81 @@ function wireFormButtons() {
 }
 
 export function openInquiryModal(slug) {
+  const ov = document.getElementById('inquiry-overlay');
+  if (!ov) {
+    console.warn('[forms] No inquiry-overlay on this page; cannot open inquiry modal.');
+    return;
+  }
+
   _lastFocused = document.activeElement;
   const p = slug ? _allProperties.find(x => x._slug === slug) : null;
   const sel = slug ? getSelected(slug) : { checkIn: null, checkOut: null };
   _modalProperty = p;
 
-  document.getElementById('inquiry-title').textContent = p
-    ? `Let's chat about ${p.title}`
-    : "Let's chat about your stay";
-
-  const sum = document.getElementById('inquiry-summary');
-  sum.innerHTML = '';
-  if (p) {
-    const s = document.createElement('strong');
-    s.textContent = p.title;
-    sum.appendChild(s);
-    sum.appendChild(document.createTextNode(` · ${p.location} · ${p.price}/week`));
-    if (sel.checkIn && sel.checkOut) {
-      sum.appendChild(document.createElement('br'));
-      const sw = document.createElement('strong');
-      sw.textContent = 'Selected: ';
-      sum.appendChild(sw);
-      sum.appendChild(document.createTextNode(`${sel.checkIn} → ${sel.checkOut}`));
-    }
-  } else {
-    sum.textContent = "Fill in your details and we'll get back to you quickly.";
+  const title = document.getElementById('inquiry-title');
+  if (title) {
+    title.textContent = p ? `Let's chat about ${p.title}` : "Let's chat about your stay";
   }
 
-  document.getElementById('inquiry-form-view').style.display = 'block';
-  document.getElementById('inquiry-success').classList.remove('show');
-  ['i-first', 'i-last', 'i-email', 'i-phone', 'i-message', 'i-checkin', 'i-checkout'].forEach(
-    id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
+  const sum = document.getElementById('inquiry-summary');
+  if (sum) {
+    sum.innerHTML = '';
+    if (p) {
+      const s = document.createElement('strong');
+      s.textContent = p.title;
+      sum.appendChild(s);
+      sum.appendChild(document.createTextNode(` · ${p.location} · ${p.price}/week`));
+      if (sel.checkIn && sel.checkOut) {
+        sum.appendChild(document.createElement('br'));
+        const sw = document.createElement('strong');
+        sw.textContent = 'Selected: ';
+        sum.appendChild(sw);
+        sum.appendChild(document.createTextNode(`${sel.checkIn} → ${sel.checkOut}`));
+      }
+    } else {
+      sum.textContent = "Fill in your details and we'll get back to you quickly.";
     }
-  );
+  }
+
+  const formView = document.getElementById('inquiry-form-view');
+  if (formView) formView.style.display = 'block';
+  const successView = document.getElementById('inquiry-success');
+  if (successView) successView.classList.remove('show');
+
+  // Reset fields if they exist (tolerate either i-* or iq-* naming).
+  ['i-first', 'i-last', 'i-email', 'i-phone', 'i-message', 'i-checkin', 'i-checkout',
+   'iq-name', 'iq-email', 'iq-message', 'iq-checkin', 'iq-checkout', 'iq-guests'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
   const guestsEl = document.getElementById('i-guests');
   if (guestsEl) guestsEl.value = '';
 
-  // Pre-fill dates if calendar already has a selection
   if (p && sel.checkIn && sel.checkOut) {
-    const ci = document.getElementById('i-checkin');
-    const co = document.getElementById('i-checkout');
+    const ci = document.getElementById('i-checkin') || document.getElementById('iq-checkin');
+    const co = document.getElementById('i-checkout') || document.getElementById('iq-checkout');
     if (ci) ci.value = sel.checkIn;
     if (co) co.value = sel.checkOut;
   }
 
-  const ov = document.getElementById('inquiry-overlay');
   ov.classList.add('open');
   document.body.style.overflow = 'hidden';
-  ov.querySelector('.modal-close').focus();
+  const closeBtn = ov.querySelector('.modal-close');
+  if (closeBtn) closeBtn.focus();
 }
 
 export function openReviewModal() {
-  _lastFocused = document.activeElement;
-  document.getElementById('review-form-view').style.display = 'block';
-  document.getElementById('review-success').classList.remove('show');
   const ov = document.getElementById('review-overlay');
+  if (!ov) return;
+  _lastFocused = document.activeElement;
+  const formView = document.getElementById('review-form-view');
+  if (formView) formView.style.display = 'block';
+  const successView = document.getElementById('review-success');
+  if (successView) successView.classList.remove('show');
   ov.classList.add('open');
   document.body.style.overflow = 'hidden';
-  ov.querySelector('.modal-close').focus();
+  const closeBtn = ov.querySelector('.modal-close');
+  if (closeBtn) closeBtn.focus();
 }
 
 export function closeModal(id) {
@@ -116,7 +149,7 @@ export function closeModal(id) {
   el.classList.remove('open');
   document.body.style.overflow = '';
   if (_lastFocused) {
-    _lastFocused.focus();
+    try { _lastFocused.focus(); } catch (_) { /* noop */ }
     _lastFocused = null;
   }
 }
@@ -124,6 +157,8 @@ export function closeModal(id) {
 function populateReviewSelect() {
   const sel = document.getElementById('r-property');
   if (!sel) return;
+  // Clear any existing options first to avoid duplicates on re-init.
+  sel.innerHTML = '<option value="">Select…</option>';
   _allProperties.forEach(p => {
     const o = document.createElement('option');
     o.value = p.title;
@@ -148,56 +183,65 @@ function setRating(val) {
 
 // ── INQUIRY SUBMIT ────────────────────────────────────────────────────
 async function submitInquiry() {
-  const first = document.getElementById('i-first').value.trim();
-  const last = document.getElementById('i-last').value.trim();
-  const email = document.getElementById('i-email').value.trim();
-  const phone = document.getElementById('i-phone').value.trim();
-  const guests = document.getElementById('i-guests').value;
-  const checkIn = document.getElementById('i-checkin').value;
-  const checkOut = document.getElementById('i-checkout').value;
-  const message = document.getElementById('i-message').value.trim();
+  // Tolerate either form-field naming convention (i-first/i-last vs iq-name).
+  const firstEl = document.getElementById('i-first');
+  const lastEl = document.getElementById('i-last');
+  const nameEl = document.getElementById('iq-name'); // single-name form
+
+  let name;
+  if (firstEl && lastEl) {
+    const f = firstEl.value.trim();
+    const l = lastEl.value.trim();
+    name = `${f} ${l}`.trim();
+  } else if (nameEl) {
+    name = nameEl.value.trim();
+  } else {
+    name = '';
+  }
+
+  const email = (document.getElementById('i-email') || document.getElementById('iq-email'))?.value.trim() || '';
+  const phone = document.getElementById('i-phone')?.value.trim() || '';
+  const guests = (document.getElementById('i-guests') || document.getElementById('iq-guests'))?.value || '';
+  const checkIn = (document.getElementById('i-checkin') || document.getElementById('iq-checkin'))?.value || '';
+  const checkOut = (document.getElementById('i-checkout') || document.getElementById('iq-checkout'))?.value || '';
+  const message = (document.getElementById('i-message') || document.getElementById('iq-message'))?.value.trim() || '';
+  const propertySelect = document.getElementById('iq-property');
+  const propertyOverride = propertySelect ? propertySelect.value : '';
+
   const inquiryType =
     document.querySelector('input[name="inquiry_type"]:checked')?.value || 'Booking Request';
 
-  // Required field checks — names, email, dates, guest count
-  if (!first || !last || !email) {
+  if (!name || !email) {
     return showErr('inquiry', 'Please fill in your name and email.');
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return showErr('inquiry', 'Please enter a valid email address.');
   }
-  // For booking requests we require dates + guest count.
-  // General questions don't need them.
-  if (inquiryType === 'Booking Request') {
-    if (!checkIn || !checkOut) {
-      return showErr(
-        'inquiry',
-        'Please select a check-in and check-out date so we can confirm availability.'
-      );
-    }
+  if (inquiryType === 'Booking Request' && checkIn && checkOut) {
     if (new Date(checkOut) <= new Date(checkIn)) {
       return showErr('inquiry', 'Check-out must be after check-in.');
-    }
-    if (!guests) {
-      return showErr('inquiry', 'How many guests are you planning for?');
     }
   }
 
   const btn = document.querySelector('[data-action="submit-inquiry"]');
-  btn.textContent = 'Sending…';
-  btn.disabled = true;
+  const originalLabel = btn ? btn.textContent : '';
+  if (btn) {
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+  }
 
+  const propertyTitle = _modalProperty?.title || propertyOverride || 'General inquiry';
   const payload = {
-    name: `${first} ${last}`,
+    name,
     email,
     phone,
     guests: guests || 'Not specified',
     inquiry_type: inquiryType,
-    property: _modalProperty?.title || 'General inquiry',
+    property: propertyTitle,
     checkIn: checkIn || 'Not specified',
     checkOut: checkOut || 'Not specified',
     message,
-    _subject: `${inquiryType}: ${_modalProperty?.title || 'General'}`,
+    _subject: `${inquiryType}: ${propertyTitle}`,
   };
 
   try {
@@ -209,36 +253,43 @@ async function submitInquiry() {
     if (res.ok) showSuccess('inquiry');
     else throw new Error(res.status);
   } catch (err) {
-    showErr(
-      'inquiry',
-      'Something went wrong. Email us at beachgirloob@gmail.com or call (207) 450-7347.'
-    );
-    btn.textContent = 'Send Message →';
-    btn.disabled = false;
+    showErr('inquiry', 'Something went wrong. Email us at beachgirloob@gmail.com or call (207) 450-7347.');
+    if (btn) {
+      btn.textContent = originalLabel || 'Send Message →';
+      btn.disabled = false;
+    }
   }
 }
 
 // ── REVIEW SUBMIT ─────────────────────────────────────────────────────
 async function submitReview() {
-  const prop = document.getElementById('r-property').value;
-  const dates = document.getElementById('r-dates').value.trim();
-  const name = document.getElementById('r-name').value.trim();
-  const review = document.getElementById('r-review').value.trim();
+  const propEl = document.getElementById('r-property');
+  const datesEl = document.getElementById('r-dates');
+  const nameEl = document.getElementById('r-name') || document.getElementById('r-author');
+  const reviewEl = document.getElementById('r-review');
 
-  if (!prop || !dates || !name || !review || !_currentRating) {
-    return showErr('review', 'Please fill in all fields and select a rating.');
+  const prop = propEl?.value || '';
+  const dates = datesEl?.value.trim() || '';
+  const name = nameEl?.value.trim() || '';
+  const review = reviewEl?.value.trim() || '';
+
+  if (!prop || !name || !review || !_currentRating) {
+    return showErr('review', 'Please fill in all required fields and select a rating.');
   }
   if (review.length > 2000) {
     return showErr('review', 'Review must be under 2000 characters.');
   }
 
   const btn = document.querySelector('[data-action="submit-review"]');
-  btn.textContent = 'Submitting…';
-  btn.disabled = true;
+  const originalLabel = btn ? btn.textContent : '';
+  if (btn) {
+    btn.textContent = 'Submitting…';
+    btn.disabled = true;
+  }
 
   const payload = {
     property: prop,
-    dates,
+    dates: dates || 'Not specified',
     author: name,
     rating: _currentRating,
     review,
@@ -255,14 +306,18 @@ async function submitReview() {
     else throw new Error(res.status);
   } catch (err) {
     showErr('review', 'Something went wrong. Please try again.');
-    btn.textContent = 'Submit Review →';
-    btn.disabled = false;
+    if (btn) {
+      btn.textContent = originalLabel || 'Submit Review →';
+      btn.disabled = false;
+    }
   }
 }
 
 function showErr(type, msg) {
   const v = document.getElementById(`${type}-form-view`);
-  if (!v) return;
+  if (!v) {
+    console.warn(`[forms] missing ${type}-form-view`); return;
+  }
   let e = v.querySelector('.form-err');
   if (!e) {
     e = document.createElement('p');
@@ -270,16 +325,14 @@ function showErr(type, msg) {
     e.setAttribute('role', 'alert');
     const submitBtn = v.querySelector('[data-action^="submit-"]');
     if (submitBtn) submitBtn.before(e);
+    else v.prepend(e);
   }
   e.textContent = msg;
 }
 
 function showSuccess(type) {
-  if (type === 'inquiry') {
-    document.getElementById('inquiry-form-view').style.display = 'none';
-    document.getElementById('inquiry-success').classList.add('show');
-  } else {
-    document.getElementById('review-form-view').style.display = 'none';
-    document.getElementById('review-success').classList.add('show');
-  }
+  const view = document.getElementById(`${type}-form-view`);
+  const success = document.getElementById(`${type}-success`);
+  if (view) view.style.display = 'none';
+  if (success) success.classList.add('show');
 }

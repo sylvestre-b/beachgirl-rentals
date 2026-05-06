@@ -219,65 +219,8 @@
       </div>
     </footer>
 
-    <!--
-      Single script block. Was: TWO IIFEs that both fetched data and tried
-      to write to the same #reviews-grid, racing with each other and with
-      i18n initialization. Cleaned up. Empty state now shows "Be the first!"
-      when reviews-index is empty in production.
-    -->
-    <script type="module">
-      import { loadAll, esc, renderStars } from '/js/data.js';
-      import { initForms } from '/js/forms.js';
-      import { initReveal } from '/js/reveal.js';
-      import { t } from '/js/i18n.js';
-
-      // safeT: t() returns the literal key string when the dict isn't loaded
-      // OR when the key is missing — both cases break `t(x) || fallback`
-      // because the key is truthy. This guards against that.
-      function safeT(key, fallback) {
-        const v = t(key);
-        return !v || v === key ? fallback : v;
-      }
-
-      (async () => {
-        const state = await loadAll();
-        const grid = document.getElementById('reviews-grid');
-        if (!grid) return;
-
-        if (!state.reviews.length) {
-          grid.innerHTML = `
-            <div class="reviews-empty">
-              <p>No reviews yet — <em>be the first!</em></p>
-              <p style="font-size:var(--sm);margin-top:1rem">
-                ${safeT(
-                  'reviews.empty',
-                  "Reviews from our first season on this site are coming soon."
-                )}
-              </p>
-            </div>`;
-        } else {
-          grid.innerHTML = state.reviews
-            .map(
-              r => `
-              <div class="review-item">
-                <div class="review-stars">${renderStars(r.rating || 5)}</div>
-                <div class="review-body" style="margin:.6rem 0">"${esc(r.text)}"</div>
-                <div class="review-header" style="margin-top:1rem">
-                  <div class="review-author-name">${esc(r.author)}</div>
-                  <div class="review-date">${esc(r.date || '')}</div>
-                </div>
-                <div style="font-size:var(--xs);color:var(--text-muted);margin-top:.2rem">
-                  ${esc(r.property || '')}
-                </div>
-              </div>`
-            )
-            .join('');
-        }
-
-        initForms(state);
-        initReveal();
-      })();
-    </script>
+    <!-- Page logic moved to external file (CSP blocks inline modules). -->
+    <script type="module" src="/js/reviews-page.js"></script>
     <script type="module" src="/js/extras-init.js"></script>
   </body>
 </html>

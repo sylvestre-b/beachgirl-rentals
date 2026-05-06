@@ -132,68 +132,8 @@
       </div>
     </footer>
 
-    <!--
-      Single script. Was TWO IIFEs that both rendered into #blog-list.
-      Removed the duplicate; safeT guards against the t() raw-key bug.
-    -->
-    <script type="module">
-      import { loadAll, esc } from '/js/data.js';
-      import { initReveal } from '/js/reveal.js';
-      import { t } from '/js/i18n.js';
-
-      function safeT(key, fallback) {
-        const v = t(key);
-        return !v || v === key ? fallback : v;
-      }
-
-      (async () => {
-        const { posts } = await loadAll();
-        const list = document.getElementById('blog-list');
-        if (!list) return;
-
-        if (!posts.length) {
-          list.innerHTML = `<p class="blog-empty">${safeT(
-            'journal.empty',
-            'No posts yet — check back soon.'
-          )}</p>`;
-        } else {
-          list.innerHTML = posts
-            .map(
-              p => `
-              <article class="blog-card" tabindex="0" data-href="/blog/${esc(p._slug)}/">
-                <div class="blog-card-img">
-                  ${
-                    p.photo
-                      ? `<img src="${esc(p.photo)}" alt="" loading="lazy" data-fallback="blog" />`
-                      : `<span>${esc(p.emoji || '📝')}</span>`
-                  }
-                </div>
-                <div class="blog-card-body">
-                  <time class="blog-card-date">${esc(p.date || '')}</time>
-                  <h3 class="blog-card-title">${esc(p.title)}</h3>
-                  <p class="blog-card-excerpt">${esc(p.excerpt || '')}</p>
-                </div>
-              </article>`
-            )
-            .join('');
-          list.querySelectorAll('.blog-card').forEach(c =>
-            c.addEventListener('click', () => {
-              window.location.href = c.dataset.href;
-            })
-          );
-          list.querySelectorAll('.blog-card').forEach(c =>
-            c.addEventListener('keydown', e => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                window.location.href = c.dataset.href;
-              }
-            })
-          );
-        }
-
-        initReveal();
-      })();
-    </script>
+    <!-- Page logic moved to external file (CSP blocks inline modules). -->
+    <script type="module" src="/js/blog-page.js"></script>
     <script type="module" src="/js/extras-init.js"></script>
   </body>
 </html>
