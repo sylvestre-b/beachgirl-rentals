@@ -1,28 +1,28 @@
 ---
-title: Beach Vacation Unit B
-slug: beach-vacation-unit-b
-type: Apartment
-location: Old Orchard Beach, ME
-lat: 43.5181
-lng: -70.3781
-bedrooms: 3
-bathrooms: 1
-beds: 4
-guests: 8
-price: Inquire for rates
 cleaning_fee: 0
-pet_fee: 0
-min_nights: 3
-photo: /photos/unit-b/main.jpg
 photos:
   - /photos/unit-b/main.jpg
   - /photos/unit-b/living.jpg
   - /photos/unit-b/kitchen.jpg
   - /photos/unit-b/bedroom-1.jpg
   - /photos/unit-b/bedroom-2.jpg
-  - /photos/unit-b/bedroom-3.jpg
-  - /photos/unit-b/bath.jpg
-tags: [walk-to-beach, family-friendly]
+lng: -70.3781
+title: Beach Vacation Unit B
+type: Apartment
+active: true
+location: Old Orchard Beach, ME
+bedrooms: 3
+beds: 4
+bathrooms: 1
+guests: 8
+price: Inquire for rates
+pet_fee: 0
+min_nights: 3
+slug: beach-vacation-unit-b
+photo: /photos/unit-b/main.jpg
+tags:
+  - walk-to-beach
+  - family-friendly
 amenities:
   - Free parking at owner's beach house
   - Air conditioning
@@ -32,12 +32,12 @@ amenities:
   - Washer & dryer
   - Linens & towels included
   - Keyless self check-in
-note: 'Second floor — must climb stairs.'
-check_in: 'After 3:00 PM'
-check_out: 'Before 10:00 AM'
-active: true
+check_in: After 3:00 PM
+check_out: Before 10:00 AM
+note: Second floor — must climb stairs.
+external_listing: https://www.airbnb.com/rooms/18829373
 availability: []
-external_listing: 'https://www.airbnb.com/rooms/18829373'
+lat: 43.5181
 ---
 
 A bright, modern three-bedroom unit on a quiet residential street, walking distance to the beach, the pier, the amusement park, and downtown. Direct beach access at the end of the street; the Amtrak station, grocery store, and restaurants are all within a mile.
