@@ -42,7 +42,7 @@
     # (see js/main.js's delegated error listener), so 'unsafe-inline' is
     # no longer needed for scripts. Style-src keeps 'unsafe-inline' until
     # we move all <style> blocks out of *.html.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self' https://nominatim.openstreetmap.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self' https://nominatim.openstreetmap.org https://unpkg.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
 
 # Cache static assets
 [[headers]]
