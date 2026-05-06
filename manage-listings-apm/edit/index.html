@@ -11,8 +11,14 @@
 
       Auth: Netlify Identity + Git Gateway.
       Both must be enabled in Netlify dashboard for saving to work.
+
+      Identity widget + Decap bundle are served from /vendor/ (same-origin)
+      to defeat Edge / Brave / Firefox tracking-prevention, which blocks
+      third-party scripts (unpkg, identity.netlify.com) from accessing
+      localStorage. Without same-origin hosting, login appears to succeed
+      but Decap can't read the auth token from storage.
     -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="/manage-listings-apm/vendor/netlify-identity-widget.js"></script>
     <link rel="stylesheet" href="/manage-listings-apm/cms-overrides.css" />
     <style>
       body {
@@ -53,8 +59,8 @@
       <div>Loading editor…</div>
     </div>
 
-    <!-- Decap CMS bundle (latest 3.x) -->
-    <script src="https://unpkg.com/decap-cms@3.7.4/dist/decap-cms.js"></script>
+    <!-- Decap CMS bundle (locally hosted v3.12.2 — same-origin) -->
+    <script src="/manage-listings-apm/vendor/decap-cms.js"></script>
 
     <!-- Custom address autocomplete widget -->
     <script src="/manage-listings-apm/widgets/address-autocomplete.js"></script>
@@ -328,7 +334,11 @@
                     name: 'amenities',
                     widget: 'list',
                     required: false,
-                    field: { label: 'Amenity', name: 'amenity', widget: 'string' },
+                    field: {
+                      label: 'Amenity',
+                      name: 'amenity',
+                      widget: 'string',
+                    },
                     hint: 'One per line. Examples: WiFi, Air conditioning, Washer/dryer, Free parking.',
                   },
                   {

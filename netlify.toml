@@ -48,12 +48,12 @@
   for = "/manage-listings-apm/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
-    # 'unsafe-inline' : the CMS init <script> in edit/index.html
-    # 'unsafe-eval'   : Decap compiles JSON schemas with new Function()
-    # identity.netlify.com   : netlify-identity-widget.js auth
-    # api.github.com         : git-gateway commits
-    # photon.komoot.io       : address autocomplete widget
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://identity.netlify.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.githubusercontent.com https://avatars.githubusercontent.com; connect-src 'self' https://api.github.com https://identity.netlify.com https://photon.komoot.io; frame-ancestors 'none'; base-uri 'self';"
+    # Decap + netlify-identity-widget are bundled locally at
+    # /manage-listings-apm/vendor/ (same-origin avoids tracking-prevention
+    # blocking storage access). identity.netlify.com is still needed for
+    # the OAuth flow to git-gateway. photon.komoot.io is for the address
+    # autocomplete widget.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.githubusercontent.com https://avatars.githubusercontent.com; connect-src 'self' https://api.github.com https://identity.netlify.com https://photon.komoot.io; frame-ancestors 'none'; base-uri 'self';"
 
 # Cache static assets
 [[headers]]
@@ -75,3 +75,10 @@
   for = "/translations/*"
   [headers.values]
     Cache-Control = "public, max-age=86400, must-revalidate"
+
+# Vendor bundles for the CMS (Decap + Identity widget) — versioned via
+# git, never change once deployed. Cache aggressively.
+[[headers]]
+  for = "/manage-listings-apm/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
