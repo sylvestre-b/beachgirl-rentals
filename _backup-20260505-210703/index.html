@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="meta.title">Beach Girl Property Rentals — Old Orchard Beach, Maine</title>
+    <meta
+      name="description"
+      data-i18n-attr="content:meta.description"
+      content="Owner-managed vacation rentals near the beach in Old Orchard Beach, Maine. Direct booking with Jill — no platform fees."
+    />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Leaflet -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/motion.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/sections.css" />
+    <link rel="stylesheet" href="/styles/i18n-cookie.css" />
+    <link rel="stylesheet" href="/styles/extras.css" />
+    <link rel="stylesheet" href="/calendar.css" />
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LodgingBusiness",
+        "name": "Beach Girl Property Rentals",
+        "description": "Owner-managed vacation rentals near the beach in Old Orchard Beach, Maine.",
+        "url": "https://beachgirlpropertyrentals.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "P.O. Box 254",
+          "addressLocality": "Old Orchard Beach",
+          "addressRegion": "ME",
+          "postalCode": "04064",
+          "addressCountry": "US"
+        },
+        "telephone": "+1-207-450-7347",
+        "email": "beachgirloob@gmail.com",
+        "priceRange": "$$"
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="logo-link" aria-label="Beach Girl Property Rentals home">
+          <span class="logo-name">Beach Girl Property Rentals</span>
+          <span class="logo-sub">Old Orchard Beach, ME</span>
+        </a>
+        <nav class="header-nav" aria-label="Primary">
+          <div class="lang-toggle" role="group" aria-label="Language">
+            <button type="button" data-lang-btn="en" aria-pressed="true" data-i18n="lang_toggle.en">
+              EN
+            </button>
+            <button
+              type="button"
+              data-lang-btn="fr"
+              aria-pressed="false"
+              data-i18n="lang_toggle.fr"
+            >
+              FR
+            </button>
+          </div>
+          <a href="/blog" data-i18n="nav.journal">Local Guide</a>
+          <a href="/reviews" data-i18n="nav.reviews">Reviews</a>
+          <button
+            type="button"
+            class="btn-inquire-header"
+            data-action="open-inquiry"
+            data-i18n="nav.inquire"
+          >
+            Inquire
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ── HERO ─────────────────────────────────────────────────── -->
+      <section class="hero" aria-label="Welcome">
+        <div class="hero-img-stack" aria-hidden="true">
+          <!--
+            Hero photography pipeline:
+            - drop hero-1.jpg, hero-2.jpg into /photos/hero/
+            - run `npm run images` → produces -1200/-1600.webp
+            - the <img> below picks them up automatically once present
+            data-fallback="hero" tells main.js's image-error handler to remove
+            the broken img instead of leaving a blank box (replaces inline onerror).
+          -->
+          <img
+            class="hero-img"
+            data-hero-img
+            data-fallback="hero"
+            alt=""
+            src="/photos/hero/hero-1-1600.webp"
+          />
+          <img
+            class="hero-img"
+            data-hero-img
+            data-fallback="hero"
+            alt=""
+            src="/photos/hero/hero-2-1600.webp"
+          />
+        </div>
+
+        <!-- Foreground SVG dune (depth without parallax). Picks up var(--sand). -->
+        <svg
+          class="hero-fg"
+          viewBox="0 0 1440 180"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M0,140 C220,108 380,160 640,128 C900,96 1080,148 1440,118 L1440,180 L0,180 Z"
+            fill="var(--sand-pale)"
+            opacity="0.92"
+          />
+        </svg>
+
+        <!-- Bottom scrim so the trust strip never visually slams the hero card -->
+        <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="hero-overlay" aria-hidden="true"></div>
+
+        <div class="hero-card">
+          <div class="hero-season" data-i18n="hero.season">Summer 2026 · Now Booking</div>
+          <h1 class="hero-h1">
+            <span data-i18n="hero.title_pre">Your</span>
+            <em data-i18n="hero.title_em" style="white-space:nowrap">Maine summer</em><span data-i18n="hero.title_post">, no hidden fees attached.</span>
+          </h1>
+          <p class="hero-desc" data-i18n="hero.desc">
+            Owner-managed rentals near the beach in Old Orchard Beach. Skip the Airbnb and Vrbo fees
+            — message the owner directly and you're one step closer to having your toes in the sand.
+          </p>
+          <div class="hero-props" role="list">
+            <span class="hero-prop" role="listitem" data-i18n="hero.props_units"
+              >Multiple Units Available</span
+            >
+            <span class="hero-prop" role="listitem" data-i18n="hero.props_steps"
+              >Minutes from Shore</span
+            >
+            <span class="hero-prop" role="listitem" data-i18n="hero.props_pets"
+              >Pet-friendly Options</span
+            >
+            <span class="hero-prop" role="listitem" data-i18n="hero.props_owner"
+              >Book with Owner</span
+            >
+          </div>
+          <div class="hero-cta">
+            <button type="button" class="btn-pill" data-action="scroll-to-listings">
+              <span data-i18n="hero.cta">See what's available</span>
+              <span aria-hidden="true">↓</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── TRUST STRIP ────────────────────────────────────────── -->
+      <section class="trust-strip" aria-label="Why book with Jill">
+        <div class="trust-inner">
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">
+              <!-- bolt: fast reply -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M13.2 2.8 L7.1 13.3 L11.4 13.1 L10.6 21.4 L17.1 10.6 L12.7 10.9 Z"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span data-i18n="trust.replies">Usually replies within the hour</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon trust-icon--decade" aria-hidden="true">
+              <!-- "10+" decade glyph: replaces anchor (which reads as nautical, not longevity) -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="9.6"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  fill="none"
+                />
+                <text
+                  x="12"
+                  y="15.4"
+                  text-anchor="middle"
+                  font-family="Playfair Display, Georgia, serif"
+                  font-style="italic"
+                  font-weight="700"
+                  font-size="9.5"
+                  fill="currentColor"
+                >10+</text>
+              </svg>
+            </span>
+            <span data-i18n="trust.decade">Hosting for over a decade</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">
+              <!-- shield: insured -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 2.6 C12 2.6 5.4 5.1 4.8 5.3 L4.8 12.4 C4.8 16.6 8.2 19.9 12 21.5 C15.8 19.9 19.2 16.6 19.2 12.4 L19.2 5.3 C18.6 5.1 12 2.6 12 2.6 Z"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <polyline
+                  points="9,12.2 11.1,14.4 15.3,9.8"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span data-i18n="trust.insured">Fully insured</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">
+              <!-- check: no booking fees -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M4.5 13.1 L9.3 18.2 L19.7 6.1"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span data-i18n="trust.no_fees">No booking fees</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- divider hero → owner -->
+      <div class="section-divider into-sand" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,52 C220,28 420,72 720,48 C1020,24 1220,68 1440,40 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+
+      <!-- ── OWNER MOMENT ─────────────────────────────────────────── -->
+      <section class="owner-panel" aria-label="About the owner">
+        <div class="owner-inner">
+          <div class="owner-portrait" data-reveal>
+            <img
+              src="/photos/owner/jill.jpg"
+              alt="Jill, the owner of Beach Girl Property Rentals"
+              data-fallback="owner-portrait"
+            />
+            <span class="owner-portrait-fallback">A photo of Jill</span>
+          </div>
+          <div class="owner-text" data-reveal>
+            <div class="owner-text-eyebrow" data-i18n="owner.eyebrow">Meet your host</div>
+            <h2 data-i18n-html="owner.title">I'm <em>Jill</em>.</h2>
+            <p data-i18n="owner.p1">
+              I have been welcoming families to Old Orchard Beach for more than a decade. Multiple
+              units in nearby buildings means we are ready to host anyone from couples, to big
+              families, and to reunions up to 16. All nearby and only a 5-minute walk from 7 miles
+              of open sandy beaches.
+            </p>
+            <p data-i18n="owner.p2">
+              When you message me, you're talking to me. I usually reply within the hour, and I'm
+              the one handing you the keypad code on arrival. No app middleman, no support ticket
+              queue.
+            </p>
+            <p data-i18n="owner.p3">
+              If something's not right during your stay, I want to hear about it — and I want to fix
+              it.
+            </p>
+            <div class="owner-signature" data-i18n="owner.signature">— Jill</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- divider owner → listings -->
+      <div class="section-divider into-cream" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,30 C280,62 500,14 760,40 C1020,66 1240,22 1440,46 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+
+      <!-- ── FILTER BAR ──────────────────────────────────────────── -->
+      <section class="filter-bar" id="filter-bar" aria-label="Filter properties">
+        <div class="filter-inner">
+          <span class="filter-label" data-i18n="listings.filter_label">Filter</span>
+          <!-- filter buttons injected by buildFilterBar() in js/listings.js -->
+          <span class="filter-count" id="filter-count" aria-live="polite"></span>
+        </div>
+      </section>
+
+      <!-- ── LISTINGS ─────────────────────────────────────────────── -->
+      <section id="listings" class="listings-layout" aria-label="Properties">
+        <div class="listings-panel">
+          <div id="listings-grid" class="listings-grid"></div>
+          <div id="listings-empty" class="empty-state" hidden>
+            <div class="empty-icon" aria-hidden="true">🌊</div>
+            <p data-i18n="listings.no_match">No properties match those filters.</p>
+            <button
+              type="button"
+              class="text-btn"
+              data-action="reset-filters"
+              data-i18n="listings.reset_filters"
+            >
+              Reset filters
+            </button>
+          </div>
+        </div>
+        <aside id="map-panel" class="map-panel" aria-label="Map of properties">
+          <button type="button" id="map-close" class="map-close-btn" aria-label="Close map">
+            ✕
+          </button>
+          <div id="map" role="application" aria-label="Map showing property locations"></div>
+        </aside>
+        <button
+          type="button"
+          id="map-toggle"
+          class="map-toggle-btn"
+          aria-expanded="false"
+          aria-controls="map-panel"
+        >
+          🗺&nbsp;&nbsp;Show Map
+        </button>
+      </section>
+
+      <!-- divider listings → reviews -->
+      <div class="section-divider into-blush" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,42 C220,68 440,18 720,40 C1000,62 1220,16 1440,40 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+
+      <!-- ── REVIEWS TEASER ─────────────────────────────────────── -->
+      <section id="reviews" class="teaser-section sand-bg" aria-label="Reviews">
+        <div class="teaser-inner">
+          <div class="teaser-header" data-reveal>
+            <div>
+              <div class="teaser-eyebrow" data-i18n="reviews.section_eyebrow">What guests say</div>
+              <h2 class="teaser-title">
+                <span data-i18n="reviews.section_title">Real stays, real words</span>
+              </h2>
+            </div>
+            <a href="/reviews" class="teaser-link" data-i18n="reviews.see_all"
+              >See all reviews →</a
+            >
+          </div>
+          <div class="reviews-carousel">
+            <div class="reviews-track-outer">
+              <div id="reviews-track" class="reviews-track" role="list"></div>
+            </div>
+            <div class="carousel-controls">
+              <button
+                type="button"
+                class="carousel-btn"
+                data-action="carousel-prev"
+                aria-label="Previous reviews"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                class="carousel-btn"
+                data-action="carousel-next"
+                aria-label="Next reviews"
+              >
+                ›
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- divider reviews → blog -->
+      <div class="section-divider into-cream" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,30 C280,62 500,14 760,40 C1020,66 1240,22 1440,46 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+
+      <!-- ── LOCAL GUIDE TEASER ─────────────────────────────────── -->
+      <section class="teaser-section cream-bg" aria-label="From the local guide">
+        <div class="teaser-inner">
+          <div class="teaser-header" data-reveal>
+            <div>
+              <div class="teaser-eyebrow" data-i18n="journal.section_eyebrow">Local guide</div>
+              <h2 class="teaser-title">
+                <span data-i18n="journal.section_title">Notes from the coast</span>
+              </h2>
+            </div>
+            <a href="/blog" class="teaser-link" data-i18n="journal.see_all">All posts →</a>
+          </div>
+          <div id="blog-grid" class="blog-teaser-grid" role="list" data-reveal-children></div>
+        </div>
+      </section>
+
+      <!-- divider blog → footer -->
+      <div class="section-divider into-ink" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path
+            d="M0,42 C220,68 440,18 720,40 C1000,62 1220,16 1440,40 L1440,80 L0,80 Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner footer-4col">
+        <div class="footer-logo">
+          <div class="logo-name">Beach Girl Property Rentals</div>
+          <div class="logo-sub">Old Orchard Beach, ME</div>
+          <p class="footer-tagline" data-i18n="footer.tagline">
+            Owner-managed vacation rentals just minutes from the sand.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.explore">Explore</h4>
+          <a href="/" data-i18n="footer.home">Home</a>
+          <a href="/blog" data-i18n="footer.journal">Local Guide</a>
+          <a href="/reviews" data-i18n="footer.reviews">Reviews</a>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.policies">Policies</h4>
+          <a href="/legal/privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms.html" data-i18n="footer.terms">Terms of Use</a>
+          <a href="/legal/cancellation.html" data-i18n="footer.cancellation">Cancellation Policy</a>
+          <a href="/legal/house-rules.html" data-i18n="footer.house_rules">House Rules</a>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.contact">Contact</h4>
+          <p>
+            P.O. Box 254<br />
+            Old Orchard Beach, ME 04064
+          </p>
+          <p><a href="tel:+12074507347">(207)&nbsp;450&#8209;7347</a></p>
+          <p><a href="mailto:beachgirloob@gmail.com">beachgirloob@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-i18n="footer.copyright">
+          © 2026 Affordable Property Management LLC. Old Orchard Beach, Maine.
+        </span>
+      </div>
+    </footer>
+
+    <!-- ── INQUIRY MODAL ── -->
+    <div
+      class="overlay"
+      id="inquiry-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="inquiry-title"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="modal-close"
+            data-action="close-modal"
+            data-target="inquiry-overlay"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          <div class="modal-eyebrow" data-i18n="nav.inquire">Inquire</div>
+          <div class="modal-title" id="inquiry-title" data-i18n="inquiry.title">
+            Send Jill a message
+          </div>
+          <p class="modal-subtitle" data-i18n="inquiry.subtitle">
+            Usually replies within the hour.
+          </p>
+        </div>
+        <div class="modal-body">
+          <form id="inquiry-form" novalidate>
+            <div class="field">
+              <label for="iq-property" data-i18n="inquiry.property_label">Which property?</label>
+              <select id="iq-property" name="property" required></select>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="iq-checkin" data-i18n="inquiry.checkin_label">Check-in</label>
+                <input id="iq-checkin" name="checkin" type="date" />
+              </div>
+              <div class="field">
+                <label for="iq-checkout" data-i18n="inquiry.checkout_label">Check-out</label>
+                <input id="iq-checkout" name="checkout" type="date" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="iq-guests" data-i18n="inquiry.guests_label">Guests</label>
+              <input id="iq-guests" name="guests" type="number" min="1" max="20" />
+            </div>
+            <div class="field">
+              <label for="iq-name" data-i18n="inquiry.name_label">Your name <span class="req">*</span></label>
+              <input id="iq-name" name="name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="iq-email" data-i18n="inquiry.email_label">Email <span class="req">*</span></label>
+              <input id="iq-email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="iq-message" data-i18n="inquiry.message_label">Message <span class="req">*</span></label>
+              <textarea id="iq-message" name="message" rows="4" required></textarea>
+            </div>
+            <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
+            <button type="button" class="btn-primary" style="width: 100%" data-action="submit-inquiry">
+              Send Inquiry →
+            </button>
+            <p class="form-note" data-i18n="inquiry.note">No commitment — just a conversation.</p>
+          </form>
+          <div class="success-view" id="inquiry-success">
+            <div class="success-icon">✉️</div>
+            <h3 data-i18n="inquiry.success_title">Thanks!</h3>
+            <p data-i18n="inquiry.success_body">Your message is on its way. Jill will reply soon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/extras-init.js"></script>
+  </body>
+</html>
